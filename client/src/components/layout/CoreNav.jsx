@@ -225,7 +225,7 @@ const CoreNav = ({ toggleSidebar, toggleRightSidebar, currentTheme, onThemeChang
                 </div>
             ) : (
                 <>
-                    {/* Left Section: Menu Toggle, Logo, Launchpad Button */}
+                    {/* Left Section: Menu Toggle & Merged Brand Travel Hub */}
                     <div className="nav-left">
                         <button
                             className="nav-btn nav-hamburger-btn"
@@ -237,19 +237,15 @@ const CoreNav = ({ toggleSidebar, toggleRightSidebar, currentTheme, onThemeChang
                         </button>
 
                         <div className="nav-logo">
-                            <Logo size="medium" showText={true} onClick={handleLogoClick} />
+                            <Logo
+                                size="medium"
+                                showText={true}
+                                showHub={true}
+                                isHubOpen={isModuleSwitcherOpen}
+                                onHubClick={() => toggleModuleSwitcher()}
+                                onClick={handleLogoClick}
+                            />
                         </div>
-
-                        <button
-                            className={`nav-btn nomad-start-btn ${isModuleSwitcherOpen ? 'active' : ''}`}
-                            onClick={() => toggleModuleSwitcher()}
-                            aria-label="Open Travel Hub & Trip Launcher"
-                            title="Open Seenomad Travel Hub"
-                        >
-                            <Compass size={17} className="start-icon" />
-                            <span className="start-label">Travel Hub</span>
-                            <span className="start-badge">All</span>
-                        </button>
                     </div>
 
                     {/* Center Section: Search Bar with Perfectly Positioned Icon & Autocomplete */}

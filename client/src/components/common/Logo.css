@@ -1,7 +1,59 @@
-.seenomad-logo {
-    display: flex;
+/* Seenomad Logo & Merged Travel Hub Styles */
+
+.seenomad-brand-group {
+    display: inline-flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0;
+    position: relative;
+    user-select: none;
+}
+
+/* Merged Container styling */
+.seenomad-brand-group.with-hub {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 14px;
+    padding: 2px 6px 2px 3px;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+:root:not(.dark) .seenomad-brand-group.with-hub {
+    background: rgba(0, 0, 0, 0.03);
+    border-color: rgba(0, 0, 0, 0.08);
+}
+
+.seenomad-brand-group.with-hub:hover {
+    background: rgba(255, 255, 255, 0.07);
+    border-color: rgba(59, 130, 246, 0.35);
+    box-shadow: 0 4px 14px rgba(59, 130, 246, 0.15);
+}
+
+:root:not(.dark) .seenomad-brand-group.with-hub:hover {
+    background: #ffffff;
+    border-color: rgba(59, 130, 246, 0.3);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+}
+
+/* Logo Base */
+.seenomad-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    cursor: pointer;
+    padding: 2px 6px 2px 2px;
+    border-radius: 10px;
+    transition: all 0.15s ease;
+}
+
+.seenomad-brand-group .seenomad-logo:hover {
+    opacity: 0.92;
+}
+
+.logo-image-wrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .logo-image {
@@ -23,8 +75,8 @@
 }
 
 .logo-medium .logo-image {
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
 }
 
 .logo-large .logo-image {
@@ -36,25 +88,26 @@
 .logo-text {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.4rem;
 }
 
 .logo-name {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     color: var(--color-text-primary);
     font-weight: 700;
     font-family: var(--font-heading);
+    letter-spacing: -0.01em;
 }
 
 .logo-badge {
-    font-size: 0.75rem;
+    font-size: 0.68rem;
     background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
     color: white;
-    padding: 2px 8px;
+    padding: 1px 6px;
     border-radius: 4px;
     font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.05em;
     box-shadow: 0 2px 8px rgba(59, 130, 246, 0.4);
 }
 
@@ -64,8 +117,8 @@
 }
 
 .logo-small .logo-badge {
-    font-size: 0.625rem;
-    padding: 1px 6px;
+    font-size: 0.6rem;
+    padding: 1px 5px;
 }
 
 /* Large variant text */
@@ -78,14 +131,146 @@
     padding: 3px 10px;
 }
 
-/* Mobile / Small Screen Responsiveness: Just show Seenomad logo icon in place of full name */
+/* ==========================================================================
+   Merged Travel Hub Button & Divider
+   ========================================================================== */
+.brand-hub-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    background: transparent;
+    border: none;
+    color: #94a3b8;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 4px 6px;
+    border-radius: 8px;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    white-space: nowrap;
+}
+
+:root:not(.dark) .brand-hub-btn {
+    color: #475569;
+}
+
+.brand-hub-divider {
+    width: 1px;
+    height: 16px;
+    background: rgba(255, 255, 255, 0.12);
+    margin: 0 0.2rem 0 0.1rem;
+}
+
+:root:not(.dark) .brand-hub-divider {
+    background: rgba(0, 0, 0, 0.12);
+}
+
+.brand-hub-icon {
+    color: #60a5fa;
+    transition: transform 0.25s ease;
+}
+
+:root:not(.dark) .brand-hub-icon {
+    color: #2563eb;
+}
+
+.brand-hub-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+}
+
+.brand-hub-chevron {
+    color: #94a3b8;
+    transition: transform 0.25s ease;
+}
+
+:root:not(.dark) .brand-hub-chevron {
+    color: #64748b;
+}
+
+.brand-hub-chevron.open {
+    transform: rotate(180deg);
+}
+
+.brand-hub-btn:hover {
+    color: #ffffff;
+    background: rgba(59, 130, 246, 0.15);
+}
+
+:root:not(.dark) .brand-hub-btn:hover {
+    color: #1d4ed8;
+    background: rgba(59, 130, 246, 0.08);
+}
+
+.brand-hub-btn:hover .brand-hub-icon {
+    transform: rotate(25deg);
+}
+
+.brand-hub-btn.active {
+    background: #3b82f6;
+    color: #ffffff;
+}
+
+.brand-hub-btn.active .brand-hub-icon,
+.brand-hub-btn.active .brand-hub-chevron {
+    color: #ffffff;
+}
+
+/* Mobile Badge indicator (overlaid on logo icon on mobile) */
+.mobile-hub-badge-btn {
+    display: none;
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #3b82f6;
+    border: 1.5px solid #0f172a;
+    color: #ffffff;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    cursor: pointer;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+    transition: transform 0.15s ease;
+}
+
+:root:not(.dark) .mobile-hub-badge-btn {
+    border-color: #ffffff;
+}
+
+.mobile-hub-badge-btn:hover {
+    transform: scale(1.15);
+}
+
+/* ==========================================================================
+   Mobile / Small Screen Responsiveness:
+   Just show Seenomad logo icon in place of full name (<= 768px)
+   ========================================================================== */
 @media (max-width: 768px) {
+    .seenomad-brand-group.with-hub {
+        background: transparent;
+        border: none;
+        padding: 0;
+        box-shadow: none;
+    }
+
     .seenomad-logo .logo-text {
-        display: none;
+        display: none !important;
+    }
+
+    .brand-hub-btn {
+        display: none !important;
+    }
+
+    .mobile-hub-badge-btn {
+        display: flex;
     }
 
     .seenomad-logo {
         gap: 0;
+        padding: 0;
     }
 
     .logo-medium .logo-image {
