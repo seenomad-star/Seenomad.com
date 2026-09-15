@@ -1,11 +1,11 @@
 import React from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Menu, Compass, Search, Bell, MessageSquare, Star, Wallet, User, MoreVertical } from 'lucide-react';
+import { PanelLeft, PanelLeftClose, Compass, Search, Bell, MessageSquare, Star, Wallet, User, MoreVertical } from 'lucide-react';
 import { useNavStore } from '../../store/navStore';
 import Logo from '../common/Logo';
 import ThemeSelector from './ThemeSelector';
 
-const CoreNav = ({ toggleSidebar, toggleRightSidebar, currentTheme, onThemeChange }) => {
+const CoreNav = ({ toggleSidebar, toggleRightSidebar, isSidebarCollapsed, currentTheme, onThemeChange }) => {
     const navigate = useNavigate();
     const {
         toggleSearch,
@@ -24,8 +24,14 @@ const CoreNav = ({ toggleSidebar, toggleRightSidebar, currentTheme, onThemeChang
     return (
         <div className="core-nav">
             <div className="nav-left">
-                <button className="nav-btn" onClick={toggleSidebar}>
-                    <Menu size={20} />
+                <button
+                    className="nav-btn sidebar-toggle-btn"
+                    onClick={toggleSidebar}
+                    aria-label={isSidebarCollapsed ? 'Expand navigation sidebar' : 'Collapse navigation sidebar'}
+                    aria-expanded={!isSidebarCollapsed}
+                    title={isSidebarCollapsed ? 'Expand navigation' : 'Collapse navigation'}
+                >
+                    {isSidebarCollapsed ? <PanelLeft size={20} /> : <PanelLeftClose size={20} />}
                 </button>
                 <div className="nav-logo">
                     <Logo size="medium" showText={true} onClick={handleLogoClick} />
@@ -54,7 +60,7 @@ const CoreNav = ({ toggleSidebar, toggleRightSidebar, currentTheme, onThemeChang
                     <Bell size={20} />
                     <span className="notification-badge">4</span>
                 </Link>
-                <button className="nav-btn"><MessageSquare size={20} /></button>
+                <button className="nav-btn" aria-label="Open messages" title="Messages"><MessageSquare size={20} /></button>
 
                 <ThemeSelector currentTheme={currentTheme} onThemeChange={onThemeChange} />
 
@@ -74,7 +80,7 @@ const CoreNav = ({ toggleSidebar, toggleRightSidebar, currentTheme, onThemeChang
                     </div>
                 </div>
 
-                <button className="nav-btn" onClick={toggleRightSidebar}>
+                <button className="nav-btn" onClick={toggleRightSidebar} aria-label="Open quick tools" title="Quick tools">
                     <MoreVertical size={20} />
                 </button>
             </div>
