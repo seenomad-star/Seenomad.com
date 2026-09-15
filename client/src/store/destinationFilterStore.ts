@@ -12,6 +12,7 @@ interface FilterState {
         categories: string[];
     };
     viewMode: 'grid' | 'list' | 'map';
+    sortBy: string;
     searchHistory: string[];
     unlockedFeatures: string[];
     progress: number;
@@ -21,6 +22,7 @@ interface FilterState {
 
     setSearchQuery: (query: string) => void;
     setSelectedFilters: (filters: string[]) => void;
+    setSortBy: (sort: string) => void;
     toggleFilter: (filterId: string) => void;
     toggleAdvancedFilter: (category: keyof FilterState['advancedFilters'], value: string) => void;
     setViewMode: (mode: 'grid' | 'list' | 'map') => void;
@@ -45,6 +47,7 @@ export const useDestinationStore = create<FilterState>()(
                 categories: [],
             },
             viewMode: 'grid',
+            sortBy: 'featured',
             searchHistory: [],
             unlockedFeatures: [],
             progress: 0,
@@ -55,6 +58,8 @@ export const useDestinationStore = create<FilterState>()(
             setSearchQuery: (query) => set({ searchQuery: query }),
 
             setSelectedFilters: (filters) => set({ selectedFilters: filters }),
+
+            setSortBy: (sort) => set({ sortBy: sort }),
 
             toggleFilter: (filterId) => set((state) => ({
                 selectedFilters: state.selectedFilters.includes(filterId)
@@ -111,6 +116,7 @@ export const useDestinationStore = create<FilterState>()(
             resetFilters: () => set({
                 selectedFilters: [],
                 searchQuery: '',
+                sortBy: 'featured',
                 advancedFilters: {
                     regions: [],
                     budgetRanges: [],
