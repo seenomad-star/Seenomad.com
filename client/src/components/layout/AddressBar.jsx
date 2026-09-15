@@ -1,6 +1,6 @@
 import React from 'react';
 import { useLocation, Link, useNavigate } from 'react-router-dom';
-import { ChevronRight, ChevronLeft, ArrowUp, RotateCw, Monitor, Search, LayoutGrid, List } from 'lucide-react';
+import { ChevronRight, ChevronLeft, ArrowUp, RotateCw, Monitor, LayoutGrid, List } from 'lucide-react';
 import { useDestinationStore } from '../../store/destinationFilterStore';
 import '../../styles/AddressBar.css';
 
@@ -61,15 +61,6 @@ const AddressBar = ({ isSidebarCollapsed }) => {
                             </div>
                         );
                     })}
-                </div>
-
-                <div className="address-bar-search address-bar-search-desktop">
-                    <Search size={15} className="search-icon" />
-                    <input
-                        type="text"
-                        placeholder={`Filter ${pathnames[pathnames.length - 1] || 'current view'}...`}
-                        aria-label="Filter current page"
-                    />
                 </div>
 
                 <div className="address-bar-view-toggle">
