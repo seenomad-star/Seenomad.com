@@ -11,6 +11,7 @@ import NomadDock from '../features/SocialFeed/components/NomadDock';
 import ModuleNavbar from '../components/common/ModuleNavbar';
 import BottomNav from '../components/common/BottomNav';
 import ToastContainer from '../components/common/ToastContainer';
+import ScrollProgressBar from '../components/common/ScrollProgressBar';
 import { useNavStore } from '../store/navStore';
 import { useNomadOSStore } from '../store/nomadOSStore';
 
@@ -108,6 +109,7 @@ const MainLayout = () => {
 
     return (
         <div className={`app page-${location.pathname.split('/')[1] || 'feed'}`}>
+            <ScrollProgressBar />
             <Sidebar
                 isCollapsed={isSidebarCollapsed}
                 toggleSidebar={toggleSidebar}
