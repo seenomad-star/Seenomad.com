@@ -1,0 +1,32 @@
+/* Ensure parent containers have position: relative */
+.destination-card,
+.country-card,
+.embassy-card-new,
+.destination-list-item {
+    position: relative;
+}
+
+/* Grid view specific adjustments */
+.destination-card .card-action-bar-vertical,
+.country-card .card-action-bar-vertical,
+.embassy-card-new .card-action-bar-vertical {
+    right: 0.75rem;
+}
+
+/* List view specific adjustments */
+.destination-list-item .card-action-bar-vertical {
+    right: 0.75rem;
+    gap: 0.4rem;
+    padding: 0.6rem 0.4rem;
+    z-index: 30;
+}
+
+.destination-list-item .card-action-bar-vertical .action-item {
+    width: 30px;
+    height: 30px;
+}
+
+.destination-list-item .card-action-bar-vertical .action-item svg {
+    width: 14px;
+    height: 14px;
+}

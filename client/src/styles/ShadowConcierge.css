@@ -1,0 +1,55 @@
+.shadow-concierge-container {
+    max-width: 1100px; margin: 0 auto; padding: 4rem 2rem; font-family: 'Inter', sans-serif; color: white;
+}
+.sc-header { text-align: center; margin-bottom: 4rem; }
+.sc-header h1 { font-size: 3.5rem; font-weight: 950; margin: 1rem 0; }
+.sc-header h1 span { color: #A855F7; }
+.sc-header p { font-size: 1.15rem; color: rgba(255,255,255,0.5); max-width: 600px; margin: 0 auto; line-height: 1.6; }
+
+.sc-badge { 
+    display: inline-flex; align-items: center; gap: 0.5rem; 
+    background: rgba(168, 85, 247, 0.1); border: 1px solid rgba(168, 85, 247, 0.3);
+    padding: 0.5rem 1rem; border-radius: 100px; font-size: 0.75rem; font-weight: 800; color: #A855F7;
+    margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: 1px;
+}
+
+.sc-type-selector { display: flex; justify-content: center; gap: 1rem; margin-bottom: 4rem; }
+.sc-type-btn {
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.5); padding: 1rem 2rem; border-radius: 16px;
+    font-size: 0.9rem; font-weight: 900; cursor: pointer; transition: 0.3s;
+    display: flex; align-items: center; gap: 0.75rem;
+}
+.sc-type-btn:hover { background: rgba(255,255,255,0.08); color: white; }
+.sc-type-btn.active { background: #A855F7; border-color: transparent; color: white; box-shadow: 0 10px 20px rgba(168, 85, 247, 0.3); }
+
+.sc-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; margin-bottom: 4rem; }
+.sc-card {
+    background: #0F172A; border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 24px; overflow: hidden; transition: all 0.3s;
+}
+.sc-card:hover { transform: translateY(-10px); border-color: #A855F7; box-shadow: 0 40px 80px rgba(0,0,0,0.4); }
+
+.sc-card-img { height: 250px; background-size: cover; background-position: center; }
+.sc-card-content { padding: 2rem; display: flex; flex-direction: column; gap: 1.5rem; }
+.sc-card-header { display: flex; justify-content: space-between; align-items: center; }
+.sc-card-header h3 { font-size: 1.5rem; font-weight: 950; margin: 0; }
+.sc-price { font-size: 1.1rem; font-weight: 900; color: #10B981; }
+
+.sc-card-stats { display: flex; gap: 1.5rem; font-size: 0.85rem; font-weight: 800; color: rgba(255,255,255,0.4); }
+.sc-stat { display: flex; align-items: center; gap: 0.4rem; }
+
+.sc-book-btn {
+    background: white; color: black; border: none; padding: 1.25rem;
+    border-radius: 12px; font-weight: 950; font-size: 1rem; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; gap: 0.5rem; transition: 0.3s;
+}
+.sc-book-btn:hover { background: #A855F7; color: white; }
+
+.sc-vip-perks {
+    background: rgba(168, 85, 247, 0.05); border: 1px dashed rgba(168, 85, 247, 0.3);
+    padding: 2rem; border-radius: 20px; display: flex; justify-content: center;
+}
+.vip-perk { display: flex; align-items: center; gap: 1.5rem; text-align: left; }
+.vip-perk h4 { font-size: 1.1rem; font-weight: 950; margin: 0 0 0.2rem 0; color: #A855F7; }
+.vip-perk p { font-size: 0.9rem; color: rgba(255,255,255,0.5); font-weight: 600; margin: 0; }

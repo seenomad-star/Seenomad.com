@@ -1,0 +1,44 @@
+.vault-container {
+    max-width: 900px; margin: 0 auto; padding: 4rem 2rem; font-family: 'Inter', sans-serif; color: white;
+}
+.vault-header { text-align: center; margin-bottom: 4rem; }
+.vault-header h1 { font-size: 3rem; font-weight: 950; margin: 1rem 0; }
+.vault-header h1 span { color: #A855F7; }
+.vault-header p { font-size: 1.1rem; color: rgba(255,255,255,0.5); max-width: 500px; margin: 0 auto; line-height: 1.6; }
+
+.vault-lock-screen {
+    background: rgba(15, 23, 42, 0.6); border: 2px solid rgba(168, 85, 247, 0.2);
+    border-radius: 30px; padding: 5rem; display: flex; flex-direction: column; align-items: center; gap: 3rem;
+}
+.biometric-scanner {
+    display: flex; flex-direction: column; align-items: center; gap: 1.5rem; cursor: pointer;
+}
+.biometric-scanner span { font-size: 0.9rem; font-weight: 900; color: #A855F7; text-transform: uppercase; letter-spacing: 1.5px; }
+.scan-animate { animation: scanPulse 1.5s infinite; filter: drop-shadow(0 0 10px #A855F7); }
+@keyframes scanPulse { 0% { opacity: 0.5; } 50% { opacity: 1; transform: scale(1.05); } 100% { opacity: 0.5; } }
+
+.security-badges { display: flex; gap: 1rem; }
+.badge { background: rgba(255,255,255,0.05); padding: 0.5rem 1rem; border-radius: 100px; font-size: 0.7rem; font-weight: 800; display: flex; align-items: center; gap: 0.4rem; opacity: 0.6; }
+
+.vault-unlocked-state { display: flex; flex-direction: column; gap: 2rem; }
+.doc-grid { display: flex; flex-direction: column; gap: 1rem; }
+.doc-card {
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); padding: 1.5rem; border-radius: 20px;
+    display: flex; align-items: center; gap: 1.5rem; transition: 0.2s;
+}
+.doc-card:hover { border-color: #3B82F6; background: rgba(59, 130, 246, 0.05); }
+.doc-type-icon { width: 50px; height: 50px; background: rgba(59, 130, 246, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+
+.doc-content { flex: 1; }
+.doc-label { font-size: 0.75rem; font-weight: 800; color: rgba(255,255,255,0.4); text-transform: uppercase; margin-bottom: 0.2rem; }
+.doc-main { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.2rem; }
+.doc-main span { font-size: 1.25rem; font-weight: 950; font-family: 'JetBrains Mono', monospace; }
+.doc-main span.censored { color: rgba(255,255,255,0.2); letter-spacing: 2px; }
+.show-btn { background: transparent; border: none; color: #3B82F6; cursor: pointer; display: flex; align-items: center; }
+
+.doc-expiry { font-size: 0.8rem; font-weight: 700; color: #10B981; }
+.download-btn { background: rgba(255,255,255,0.05); border: none; color: white; padding: 0.8rem; border-radius: 10px; cursor: pointer; transition: 0.2s; }
+.download-btn:hover { background: #3B82F6; }
+
+.add-doc-btn { background: #A855F7; color: white; border: none; padding: 1rem; border-radius: 15px; font-weight: 950; cursor: pointer; }
+.lock-vault-btn { background: transparent; border: 1px dashed rgba(255,255,255,0.2); color: rgba(255,255,255,0.4); padding: 0.75rem; border-radius: 15px; font-weight: 800; cursor: pointer; }

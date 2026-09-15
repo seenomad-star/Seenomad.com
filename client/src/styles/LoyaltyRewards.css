@@ -1,0 +1,72 @@
+.loyalty-rewards-container {
+    background: var(--glass-bg, rgba(15, 23, 42, 0.7));
+    border: 1px solid rgba(255,255,255,0.1);
+    -webkit-backdrop-filter: blur(24px);
+    backdrop-filter: blur(24px);
+    border-radius: 24px;
+    padding: 2.5rem;
+    font-family: 'Inter', sans-serif;
+    color: white;
+    max-width: 800px;
+    margin: 0 auto;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+}
+
+.lr-header {
+    display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2.5rem;
+}
+.lr-tier-badge { display: flex; align-items: center; gap: 0.75rem; }
+.tier-icon { color: white; padding: 0.5rem; border-radius: 12px; }
+.tier-icon.silver { background: linear-gradient(135deg, #94A3B8, #475569); }
+.tier-icon.gold { background: linear-gradient(135deg, #FCD34D, #D97706); }
+.tier-icon.platinum { background: linear-gradient(135deg, #A855F7, #4F46E5); }
+
+.lr-tier-badge h2 { font-size: 1.5rem; font-weight: 950; letter-spacing: 1px; margin: 0; }
+
+.lr-coins-display { text-align: right; }
+.coin-value {
+    font-size: 3rem; font-weight: 950; line-height: 1;
+    background: linear-gradient(135deg, #FCD34D, #F59E0B);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.lr-coins-display span { font-size: 0.85rem; font-weight: 800; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 1px; }
+
+.lr-progress-section { margin-bottom: 3rem; }
+.progress-labels { display: flex; justify-content: space-between; font-size: 0.8rem; font-weight: 700; color: rgba(255,255,255,0.7); margin-bottom: 0.5rem; }
+.progress-bar-bg { width: 100%; height: 12px; background: rgba(0,0,0,0.4); border-radius: 100px; overflow: hidden; position: relative; }
+.progress-bar-fill { height: 100%; border-radius: 100px; position: relative; transition: width 1s cubic-bezier(0.4, 0, 0.2, 1); }
+.progress-bar-fill.silver { background: #94A3B8; }
+.progress-bar-fill.gold { background: linear-gradient(90deg, #F59E0B, #FCD34D); box-shadow: 0 0 15px rgba(245, 158, 11, 0.5); }
+.progress-bar-fill.platinum { background: linear-gradient(90deg, #A855F7, #EC4899); box-shadow: 0 0 15px rgba(168, 85, 247, 0.5); }
+
+.progress-glow {
+    position: absolute; right: 0; top: 0; bottom: 0; width: 20px;
+    background: white; filter: blur(5px); opacity: 0.5;
+}
+.progress-hint { font-size: 0.85rem; color: rgba(255,255,255,0.5); margin-top: 0.75rem; text-align: center; }
+
+.lr-benefits-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2.5rem; }
+.lr-card { background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; padding: 1.5rem; }
+.lr-card h3 { display: flex; align-items: center; gap: 0.5rem; font-size: 1.1rem; font-weight: 900; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); }
+
+.perk-list { display: flex; flex-direction: column; gap: 1rem; }
+.perk-item { display: flex; align-items: center; gap: 1rem; }
+.perk-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.1); color: white; transition: all 0.3s; }
+.perk-item.active .perk-icon { background: rgba(16, 185, 129, 0.2); color: #10B981; }
+.perk-item.locked { opacity: 0.4; }
+.perk-info h4 { font-size: 0.95rem; font-weight: 800; margin: 0; }
+.perk-info span { font-size: 0.75rem; color: rgba(255,255,255,0.6); }
+
+.lr-earn-cta {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(168, 85, 247, 0.1));
+    border: 1px dashed rgba(168, 85, 247, 0.4);
+    border-radius: 16px; padding: 1.5rem 2rem;
+    display: flex; justify-content: space-between; align-items: center; gap: 2rem;
+}
+.earn-content h3 { font-size: 1.1rem; font-weight: 900; color: #A855F7; margin-bottom: 0.25rem; }
+.earn-content p { font-size: 0.85rem; color: rgba(255,255,255,0.7); line-height: 1.5; }
+.earn-btn {
+    background: white; color: #A855F7; border: none; padding: 0.8rem 1.5rem;
+    border-radius: 100px; font-weight: 800; cursor: pointer; white-space: nowrap; transition: all 0.3s;
+}
+.earn-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(168, 85, 247, 0.2); }

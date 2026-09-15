@@ -1,0 +1,136 @@
+/* ShortsFeed.css */
+.shorts-container {
+    height: calc(100dvh - 120px);
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    background: #000;
+    border-radius: 20px;
+    margin-top: 10px;
+}
+
+.shorts-container::-webkit-scrollbar {
+    display: none;
+}
+
+.short-video-wrapper {
+    height: 100%;
+    width: 100%;
+    scroll-snap-align: start;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.short-video-mock {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background: linear-gradient(180deg, #1f2937 0%, #111827 100%);
+}
+
+.short-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 20px;
+    background: linear-gradient(0deg, rgba(0,0,0,0.8) 0%, transparent 100%);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.short-info {
+    flex: 1;
+    margin-right: 60px;
+}
+
+.short-author {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.short-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid white;
+}
+
+.short-author h3 {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.short-description {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    margin-bottom: 15px;
+}
+
+.short-actions {
+    position: absolute;
+    right: 20px;
+    bottom: 60px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+}
+
+.action-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+}
+
+.action-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+}
+
+.action-item:hover .action-icon {
+    transform: scale(1.1);
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.action-item span {
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.book-trip-btn {
+    background: #3b82f6;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 30px;
+    border: none;
+    font-weight: 600;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+}
+
+.book-trip-btn:hover {
+    background: #2563eb;
+}

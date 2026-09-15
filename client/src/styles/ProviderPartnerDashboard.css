@@ -1,0 +1,61 @@
+.provider-dashboard-container {
+    display: flex; min-height: 600px;
+    background: #0F172A; border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 24px; overflow: hidden;
+    font-family: 'Inter', sans-serif; color: white;
+}
+
+.pd-sidebar {
+    width: 220px; background: rgba(0,0,0,0.3); padding: 2rem 1rem;
+    border-right: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; gap: 2rem;
+}
+.brand-logo { font-size: 1.25rem; font-weight: 900; letter-spacing: 1px; color: #E2E8F0; text-transform: uppercase; padding-left: 1rem; }
+.pd-nav { display: flex; flex-direction: column; gap: 0.5rem; }
+.pd-nav a {
+    display: flex; align-items: center; gap: 0.75rem; padding: 1rem;
+    border-radius: 12px; color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.95rem; font-weight: 700; transition: all 0.2s;
+}
+.pd-nav a:hover { background: rgba(255,255,255,0.05); color: white; }
+.pd-nav a.active { background: #3B82F6; color: white; }
+
+.pd-main { flex: 1; padding: 2.5rem; display: flex; flex-direction: column; gap: 2.5rem; overflow-y: auto; }
+
+.pd-header { display: flex; justify-content: space-between; align-items: center; }
+.pd-header h2 { font-size: 1.75rem; font-weight: 900; }
+.alert-badge { position: relative; background: rgba(255,255,255,0.1); padding: 0.75rem; border-radius: 50%; cursor: pointer; }
+.alert-badge .dot { position: absolute; top: 5px; right: 5px; width: 8px; height: 8px; background: #EF4444; border-radius: 50%; }
+
+.metrics-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+.pd-metric-card {
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05);
+    padding: 1.5rem; border-radius: 16px; display: flex; flex-direction: column; gap: 0.75rem; position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+.pd-metric-card span { font-size: 0.85rem; font-weight: 700; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 1px; }
+.pd-metric-card h3 { font-size: 2rem; font-weight: 900; margin: 0; }
+.trend.positive { display: flex; align-items: center; gap: 0.4rem; color: #10B981; font-size: 0.85rem; font-weight: 800; background: rgba(16, 185, 129, 0.1); padding: 0.3rem 0.6rem; border-radius: 8px; width: fit-content; }
+
+.surge-toggle-card { border-color: rgba(168, 85, 247, 0.3); background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(168, 85, 247, 0.05)); }
+.surge-controller { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
+.status { font-size: 1.25rem; font-weight: 900; color: rgba(255,255,255,0.5); }
+.status.active { color: #A855F7; }
+.toggle-btn {
+    width: 60px; height: 32px; border-radius: 30px; background: rgba(255,255,255,0.1); border: none; cursor: pointer;
+    position: relative; transition: all 0.3s;
+}
+.toggle-btn.active { background: #A855F7; }
+.knob {
+    width: 24px; height: 24px; background: white; border-radius: 50%;
+    position: absolute; top: 4px; left: 4px; transition: all 0.3s;
+}
+.toggle-btn.active .knob { left: 32px; }
+
+.chart-area-mock { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; padding: 2rem; margin-top: 1rem; }
+.chart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+.chart-header h3 { font-size: 1.15rem; font-weight: 800; }
+.chart-header span { font-size: 0.85rem; color: #3B82F6; font-weight: 700; }
+
+.css-bar-chart { display: flex; align-items: flex-end; justify-content: space-around; height: 180px; padding-bottom: 2rem; position: relative; border-bottom: 1px dashed rgba(255,255,255,0.1); }
+.bar-wrapper { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; height: 100%; justify-content: flex-end; width: 10%; }
+.bar-fill { width: 100%; background: linear-gradient(180deg, #3B82F6, #2563EB); border-radius: 6px 6px 0 0; transition: height 1s; box-shadow: 0 0 15px rgba(59, 130, 246, 0.3); }
+.day-label { font-size: 0.75rem; font-weight: 700; color: rgba(255,255,255,0.5); position: absolute; bottom: 0; }

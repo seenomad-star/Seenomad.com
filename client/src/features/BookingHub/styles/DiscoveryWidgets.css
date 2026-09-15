@@ -1,0 +1,65 @@
+.discovery-widgets-container {
+    max-width: 1200px; margin: 0 auto; padding: 2rem;
+    display: flex; flex-direction: column; gap: 3rem;
+    font-family: 'Inter', sans-serif;
+}
+
+.dw-section { display: flex; flex-direction: column; gap: 1.5rem; }
+.dw-header { display: flex; justify-content: space-between; align-items: center; }
+.dw-header h2 { display: flex; align-items: center; gap: 0.5rem; font-size: 1.35rem; font-weight: 900; color: white; }
+
+.deals-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+.deal-card {
+    background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.02));
+    border: 1px solid var(--theme-color);
+    border-radius: 16px; padding: 1.5rem; color: white;
+    display: flex; flex-direction: column; justify-content: space-between; gap: 1.5rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    position: relative; overflow: hidden;
+}
+.deal-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: var(--theme-color); opacity: 0.1; z-index: -1;
+}
+.deal-content h3 { font-size: 1.15rem; font-weight: 900; margin-bottom: 0.4rem; }
+.deal-content p { font-size: 0.9rem; color: rgba(255,255,255,0.7); }
+.deal-code {
+    background: rgba(0,0,0,0.4); padding: 0.75rem; border-radius: 8px;
+    font-size: 0.85rem; text-align: center; border: 1px dashed rgba(255,255,255,0.3);
+}
+.deal-code strong { color: var(--theme-color); font-size: 1.1rem; letter-spacing: 1px; }
+
+.dw-tabs { display: flex; gap: 0.5rem; background: rgba(0,0,0,0.3); padding: 0.3rem; border-radius: 100px; }
+.dw-tabs button {
+    background: transparent; border: none; color: rgba(255,255,255,0.6); padding: 0.5rem 1.25rem;
+    border-radius: 100px; font-weight: 800; cursor: pointer; transition: all 0.3s;
+}
+.dw-tabs button.active { background: #3B82F6; color: white; }
+
+.pill-cloud { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+.dest-pill {
+    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1);
+    color: white; padding: 0.6rem 1.25rem; border-radius: 100px;
+    font-size: 0.9rem; font-weight: 700; cursor: pointer; transition: all 0.2s;
+}
+.dest-pill:hover { background: rgba(255,255,255,0.2); }
+.dest-pill.more { background: transparent; border-style: dashed; color: #3B82F6; }
+
+.quick-actions-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+.qa-card { border-radius: 20px; padding: 1.75rem; color: white; display: flex; flex-direction: column; gap: 1.25rem; }
+.qa-card h3 { display: flex; align-items: center; gap: 0.5rem; font-size: 1.1rem; font-weight: 900; margin-bottom: 0.5rem; }
+.qa-card.pattern-1 { background: radial-gradient(circle at top right, #3B82F6, #1E3A8A); }
+.qa-card.pattern-2 { background: radial-gradient(circle at bottom left, #EC4899, #831843); }
+.qa-card.solid-dark { background: var(--glass-bg, rgba(15, 23, 42, 0.9)); border: 1px solid rgba(255,255,255,0.1); }
+
+.link-list { display: flex; flex-direction: column; gap: 0.75rem; }
+.link-list a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: color 0.2s; }
+.link-list a:hover { color: white; text-decoration: underline; }
+
+.pnr-checker { display: flex; flex-direction: column; gap: 0.5rem; }
+.pnr-checker input { background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.2); padding: 0.8rem; border-radius: 8px; color: white; font-weight: 700; outline: none; }
+.pnr-checker button { background: #10B981; color: white; border: none; padding: 0.8rem; border-radius: 8px; font-weight: 800; cursor: pointer; }
+
+.blog-link { display: flex; align-items: center; gap: 1rem; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.1); cursor: pointer; }
+.blog-link h4 { font-size: 0.9rem; font-weight: 800; color: #A855F7; }
+.blog-link p { font-size: 0.75rem; color: rgba(255,255,255,0.6); }

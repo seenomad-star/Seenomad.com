@@ -1,0 +1,124 @@
+/* ============================================
+   AI AGENT CHAT - Smart Response Cards
+   ============================================ */
+
+/* Capabilities strip */
+.agent-capabilities {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-bottom: 1px solid var(--glass-border);
+}
+.capability-tag {
+    background: var(--agent-color-alpha, rgba(99,102,241,0.1));
+    color: var(--agent-color, #6366f1);
+    border: 1px solid var(--agent-color-alpha, rgba(99,102,241,0.2));
+    padding: 0.2rem 0.7rem;
+    border-radius: 100px;
+    font-size: 0.72rem;
+    font-weight: 600;
+}
+
+/* Quick Prompts */
+.quick-prompts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-top: 1px solid var(--glass-border);
+}
+.prompt-chip {
+    background: var(--bg-secondary);
+    border: 1px solid var(--glass-border);
+    color: var(--text-primary);
+    padding: 0.45rem 1rem;
+    border-radius: 100px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+.prompt-chip:hover {
+    background: var(--agent-color-alpha, rgba(99,102,241,0.1));
+    border-color: var(--agent-color, #6366f1);
+    color: var(--agent-color, #6366f1);
+    transform: translateY(-2px);
+}
+
+/* Rich Response Cards inside chat */
+.ai-response-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    overflow: hidden;
+    max-width: 380px;
+    width: 100%;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+.card-header-strip {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+.visa-strip { background: rgba(16,185,129,0.15); color: #10B981; }
+.flight-strip { background: rgba(99,102,241,0.15); color: #818CF8; }
+.spot-strip { background: rgba(6,182,212,0.15); color: #06B6D4; }
+.cost-strip { background: rgba(245,158,11,0.15); color: #F59E0B; }
+
+.card-body { padding: 1rem; }
+.visa-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.9rem;
+    border-radius: 100px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    margin-bottom: 0.75rem;
+}
+.visa-status-badge[data-status="free"] { background: rgba(16,185,129,0.15); color: #10B981; }
+.visa-status-badge[data-status="paid"] { background: rgba(245,158,11,0.15); color: #F59E0B; }
+.visa-status-badge[data-status="visa on arrival"] { background: rgba(245,158,11,0.15); color: #F59E0B; }
+
+.visa-meta-grid { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 0.75rem; }
+.visa-meta-item { display: flex; align-items: center; gap: 0.3rem; font-size: 0.82rem; color: var(--text-secondary); }
+.requirements-list { border-top: 1px solid var(--glass-border); padding-top: 0.75rem; }
+.req-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 0.4rem; }
+.req-item { font-size: 0.82rem; color: var(--text-primary); padding: 0.2rem 0; }
+
+.flight-list { padding: 0.5rem; }
+.flight-item { display: flex; align-items: center; justify-content: space-between; padding: 0.65rem 0.5rem; border-bottom: 1px solid var(--glass-border); }
+.flight-item:last-child { border-bottom: none; }
+.flight-airline { font-weight: 600; font-size: 0.85rem; flex: 1; }
+.flight-details { display: flex; flex-direction: column; align-items: center; flex: 1; }
+.flight-stops { font-size: 0.72rem; color: var(--text-secondary); }
+.flight-duration { font-size: 0.72rem; color: var(--text-secondary); }
+.flight-price { font-weight: 800; color: #10B981; font-size: 0.95rem; }
+.card-note { font-size: 0.72rem; color: var(--text-secondary); padding: 0.5rem; text-align: center; }
+
+.spot-list { padding: 0.5rem; }
+.spot-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.65rem 0.5rem; border-bottom: 1px solid var(--glass-border); }
+.spot-item:last-child { border-bottom: none; }
+.spot-icon-wrap { width: 32px; height: 32px; background: rgba(6,182,212,0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #06B6D4; flex-shrink: 0; }
+.spot-info { flex: 1; }
+.spot-name { font-weight: 600; font-size: 0.85rem; }
+.spot-area { font-size: 0.72rem; color: var(--text-secondary); }
+.spot-stats { display: flex; flex-direction: column; align-items: flex-end; gap: 0.2rem; }
+.wifi-speed { font-weight: 700; font-size: 0.8rem; color: #10B981; }
+.spot-rating { display: flex; align-items: center; gap: 0.2rem; font-size: 0.75rem; font-weight: 600; }
+.spot-price { font-size: 0.72rem; color: var(--text-secondary); }
+
+.cost-body { padding: 1rem; display: flex; gap: 1rem; align-items: flex-start; }
+.nomad-score { text-align: center; padding: 0.5rem 1rem; background: rgba(245,158,11,0.1); border-radius: 12px; border: 1px solid rgba(245,158,11,0.2); flex-shrink: 0; }
+.score-value { display: block; font-size: 1.8rem; font-weight: 900; color: #F59E0B; }
+.score-label { font-size: 0.65rem; color: var(--text-secondary); font-weight: 600; text-transform: uppercase; }
+.cost-breakdown { flex: 1; }
+.cost-row { display: flex; justify-content: space-between; font-size: 0.82rem; padding: 0.25rem 0; border-bottom: 1px solid var(--glass-border); }
+.cost-row:last-child { border-bottom: none; }
+.cost-row strong { color: var(--text-primary); }

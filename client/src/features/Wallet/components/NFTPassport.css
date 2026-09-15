@@ -1,0 +1,240 @@
+/* =========================================
+   NFT Passport Component
+   ========================================= */
+
+.nft-passport {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 4px 0 32px;
+}
+
+/* Holographic Passport Card */
+.passport-card {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #1a1f3e 0%, #0f172a 50%, #1a1f3e 100%);
+    border: 1px solid rgba(139,92,246,0.3);
+    padding: 20px;
+    box-shadow: 0 0 40px rgba(139,92,246,0.15), 0 20px 60px rgba(0,0,0,0.4);
+}
+
+.passport-holo {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        105deg,
+        transparent 20%,
+        rgba(245,133,41,0.04) 30%,
+        rgba(139,92,246,0.06) 40%,
+        rgba(6,182,212,0.04) 50%,
+        transparent 60%
+    );
+    animation: holoShift 6s ease-in-out infinite;
+    pointer-events: none;
+}
+@keyframes holoShift {
+    0%, 100% { opacity: 0.6; background-position: 0% 50%; }
+    50% { opacity: 1; background-position: 100% 50%; }
+}
+
+.passport-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+    position: relative;
+}
+.passport-logo {
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: #a78bfa;
+}
+.passport-type {
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,0.4);
+    font-weight: 600;
+}
+
+.passport-body {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    position: relative;
+    margin-bottom: 18px;
+}
+
+.passport-avatar-wrap { position: relative; flex-shrink: 0; }
+.passport-avatar {
+    width: 70px; height: 70px;
+    border-radius: 14px;
+    object-fit: cover;
+    border: 2px solid rgba(139,92,246,0.5);
+}
+.passport-level {
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #f59e0b, #ec4899);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 999px;
+    white-space: nowrap;
+}
+
+.passport-details { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+.passport-field { display: flex; flex-direction: column; gap: 1px; }
+.passport-field span { font-size: 9px; letter-spacing: 1.5px; color: rgba(255,255,255,0.35); font-weight: 600; }
+.passport-field strong { font-size: 14px; color: #fff; font-weight: 700; }
+
+.passport-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    position: relative;
+}
+.passport-chain { font-size: 11px; color: rgba(139,92,246,0.7); }
+
+.passport-mint-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 18px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #8b5cf6, #ec4899);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.passport-mint-btn:hover { transform: scale(1.04); }
+.passport-mint-btn.loading { opacity: 0.7; cursor: wait; }
+.mint-spinner {
+    width: 14px; height: 14px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.passport-minted {
+    font-size: 13px;
+    color: #10b981;
+    font-weight: 600;
+}
+
+/* Progress */
+.passport-progress { display: flex; flex-direction: column; gap: 8px; }
+.progress-label { display: flex; justify-content: space-between; font-size: 12px; color: rgba(255,255,255,0.5); }
+.progress-track {
+    height: 6px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 999px;
+    overflow: hidden;
+}
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #8b5cf6, #ec4899);
+    border-radius: 999px;
+    transition: width 0.8s ease;
+}
+
+/* Badge Filters */
+.badge-filters { display: flex; gap: 8px; }
+.badge-filter {
+    padding: 7px 16px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 500;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.5);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.badge-filter.active {
+    background: rgba(139,92,246,0.2);
+    border-color: rgba(139,92,246,0.5);
+    color: #a78bfa;
+}
+
+/* Badge Grid */
+.badge-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 12px;
+}
+
+.badge-card {
+    position: relative;
+    border-radius: 16px;
+    padding: 16px 12px;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.04);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    text-align: center;
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+.badge-card.earned {
+    border-color: var(--rarity-color, rgba(255,255,255,0.15));
+    box-shadow: 0 0 20px var(--rarity-glow, transparent);
+}
+.badge-card.earned:hover { transform: translateY(-4px); }
+
+.badge-icon-wrap { position: relative; }
+.badge-icon { font-size: 32px; line-height: 1; display: block; }
+.badge-aura {
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    background: conic-gradient(#f59e0b, #ec4899, #8b5cf6, #f59e0b);
+    animation: rotate 3s linear infinite;
+    z-index: -1;
+    opacity: 0.6;
+}
+@keyframes rotate { to { transform: rotate(360deg); } }
+
+.badge-info { display: flex; flex-direction: column; gap: 4px; align-items: center; width: 100%; }
+.badge-name { font-size: 12px; color: #fff; font-weight: 600; }
+.badge-rarity {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 999px;
+    color: #fff;
+    letter-spacing: 0.5px;
+}
+.badge-loc { font-size: 10px; color: rgba(255,255,255,0.4); display: flex; align-items: center; gap: 3px; }
+.badge-xp { font-size: 11px; color: #f59e0b; font-weight: 600; }
+
+.badge-lock-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(3px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255,255,255,0.3);
+    border-radius: 16px;
+}
+
+@media (max-width: 600px) {
+    .badge-grid { grid-template-columns: repeat(2, 1fr); }
+    .passport-body { flex-direction: column; align-items: center; text-align: center; }
+}

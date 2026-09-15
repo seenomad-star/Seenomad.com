@@ -1,0 +1,345 @@
+.sidebar {
+    position: fixed;
+    top: 72px;
+    left: 0;
+    height: calc(100vh - 72px);
+    width: 260px;
+    background-color: var(--color-bg-navbar);
+    -webkit-backdrop-filter: var(--glass-blur);
+    backdrop-filter: var(--glass-blur);
+    border-right: 1px solid var(--glass-border);
+    display: flex;
+    flex-direction: column;
+    transition: width var(--transition-normal);
+    z-index: 1100;
+    box-shadow: var(--shadow-premium);
+}
+
+.sidebar.collapsed {
+    width: 80px;
+}
+
+.sidebar.collapsed:hover {
+    width: 260px;
+    box-shadow: var(--shadow-premium);
+}
+
+.sidebar.collapsed .sidebar-nav a,
+.sidebar.collapsed .sidebar-footer a {
+    justify-content: center;
+    padding: 0.75rem 0;
+}
+
+.sidebar.collapsed .sidebar-nav span,
+.sidebar.collapsed .sidebar-footer span {
+    opacity: 0;
+    width: 0;
+    overflow: hidden;
+    transition: opacity 0.2s ease, width 0.2s ease;
+}
+
+.sidebar.collapsed:hover .sidebar-nav span,
+.sidebar.collapsed:hover .sidebar-footer span {
+    opacity: 1;
+    width: auto;
+    overflow: visible;
+}
+
+.sidebar-nav {
+    flex: 1;
+    padding: 1rem 0;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    -ms-overflow-style: none;
+
+    @supports (scrollbar-width: none) {
+        scrollbar-width: none;
+    }
+}
+
+.sidebar-nav::-webkit-scrollbar {
+    display: none;
+}
+
+.sidebar-nav a,
+.sidebar-footer a {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0 24px 24px 0;
+    margin-right: 1rem;
+    color: var(--color-text-secondary);
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all var(--transition-fast);
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.sidebar-nav a svg,
+.sidebar-footer a svg {
+    flex-shrink: 0;
+    min-width: 20px;
+    color: var(--color-text-secondary);
+    transition: all var(--transition-fast);
+}
+
+.sidebar-nav a:hover,
+.sidebar-footer a:hover {
+    background-color: var(--glass-bg);
+    color: var(--color-text-primary);
+}
+
+.sidebar-nav a:hover svg,
+.sidebar-footer a:hover svg {
+    color: var(--color-primary);
+    transform: scale(1.1);
+}
+
+.sidebar-nav a.active {
+    background: linear-gradient(90deg, rgba(59, 130, 246, 0.15), transparent);
+    color: var(--color-primary);
+    border-left: 3px solid var(--color-primary);
+}
+
+.sidebar-nav a.active svg {
+    color: var(--color-primary);
+}
+
+.sidebar-footer {
+    padding: 0.5rem 0;
+    border-top: 1px solid var(--glass-border);
+}
+
+.logout-link:hover {
+    background-color: rgba(244, 63, 94, 0.1);
+    color: var(--color-accent);
+}
+
+.logout-link:hover svg {
+    color: var(--color-accent);
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-100%);
+        width: 280px;
+        top: 0;
+        height: 100vh;
+        z-index: 2000;
+        background-color: var(--color-bg-primary);
+        box-shadow: 10px 0 30px rgba(0, 0, 0, 0.5);
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .sidebar.mobile-open {
+        transform: translateX(0);
+    }
+
+    .sidebar .sidebar-nav a,
+    .sidebar .sidebar-footer a {
+        justify-content: flex-start;
+        padding: 0.75rem 1.5rem;
+        margin-right: 1rem;
+        border-radius: 0 24px 24px 0;
+    }
+
+    .sidebar .sidebar-nav span,
+    .sidebar .sidebar-footer span {
+        display: inline;
+    }
+}
+
+/* Legal Footer Section (Reddit-style) */
+.sidebar-legal-footer {
+    padding: 1rem;
+    margin: 0.5rem;
+    border: 2px solid #ff4500;
+    border-radius: var(--radius-sm);
+    background: rgba(255, 69, 0, 0.05);
+}
+
+.sidebar-legal-footer ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-legal-footer li {
+    margin-bottom: 0.5rem;
+}
+
+.sidebar-legal-footer a {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem;
+    border-radius: var(--radius-sm);
+    color: var(--color-text-secondary);
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all var(--transition-fast);
+    margin: 0;
+}
+
+.sidebar-legal-footer a:hover {
+    background-color: rgba(255, 69, 0, 0.1);
+    color: #ff4500;
+}
+
+.sidebar-legal-footer a svg {
+    color: var(--color-text-secondary);
+    transition: color var(--transition-fast);
+}
+
+.sidebar-legal-footer a:hover svg {
+    color: #ff4500;
+}
+
+.sidebar-legal-footer .copyright {
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(255, 69, 0, 0.2);
+    text-align: center;
+}
+
+.sidebar-legal-footer .copyright small {
+    color: var(--color-text-secondary);
+    font-size: 0.75rem;
+}
+
+.sidebar.collapsed .sidebar-legal-footer {
+    display: none;
+}
+
+.sidebar.collapsed:hover .sidebar-legal-footer {
+    display: block;
+}
+
+/* Section Dividers */
+.sidebar-section {
+    margin-bottom: 1.5rem;
+}
+
+.sidebar-section-title {
+    padding: 0.5rem 1.5rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.5rem;
+    opacity: 0.7;
+}
+
+.sidebar.collapsed .sidebar-section-title {
+    display: none;
+}
+
+.sidebar.collapsed:hover .sidebar-section-title {
+    display: block;
+}
+
+.sidebar-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Copyright text */
+.sidebar-copyright {
+    margin-top: 1rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--glass-border);
+    text-align: center;
+}
+
+.sidebar-copyright small {
+    color: var(--color-text-secondary);
+    font-size: 0.7rem;
+    opacity: 0.7;
+}
+
+.sidebar.collapsed .sidebar-copyright {
+    display: none;
+}
+
+.sidebar.collapsed:hover .sidebar-copyright {
+    display: block;
+}
+
+/* Legal links in scrollable nav area */
+.sidebar-legal-links {
+    margin-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.sidebar-legal-links ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-legal-links a {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0 24px 24px 0;
+    margin-right: 1rem;
+    color: var(--color-text-secondary);
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all var(--transition-fast);
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.sidebar-legal-links a:hover {
+    background-color: var(--glass-bg);
+    color: var(--color-text-primary);
+}
+
+.sidebar-legal-links a svg {
+    flex-shrink: 0;
+    min-width: 20px;
+    color: var(--color-text-secondary);
+    transition: all var(--transition-fast);
+}
+
+.sidebar-legal-links a:hover svg {
+    color: var(--color-primary);
+    transform: scale(1.1);
+}
+
+/* Reddit-style compact spacing */
+.sidebar-nav a,
+.sidebar-footer a {
+    padding: 0.5rem 1.5rem;
+    font-size: 0.875rem;
+    gap: 1rem;
+}
+
+.sidebar-nav a svg,
+.sidebar-footer a svg {
+    min-width: 18px;
+}
+
+.sidebar-section {
+    margin-bottom: 1rem;
+}
+
+.sidebar-section-title {
+    padding: 0.4rem 1.5rem;
+    font-size: 0.7rem;
+    margin-bottom: 0.25rem;
+}
+
+.sidebar-legal-links a {
+    padding: 0.5rem 1.5rem;
+    font-size: 0.875rem;
+    gap: 1rem;
+}

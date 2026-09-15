@@ -1,0 +1,33 @@
+.checklist-card {
+    background: rgba(15, 23, 42, 0.4); border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 20px; padding: 1.5rem; flex: 1.2;
+}
+.cl-header { margin-bottom: 1.5rem; }
+.cl-header h3 { font-size: 1.1rem; font-weight: 900; margin-bottom: 0.3rem; }
+.cl-header p { font-size: 0.85rem; color: rgba(255,255,255,0.5); font-weight: 600; }
+
+.cl-list { display: flex; flex-direction: column; gap: 0.5rem; }
+.cl-item {
+    background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.03);
+    border-radius: 12px; overflow: hidden; transition: all 0.3s; cursor: pointer;
+}
+.cl-item:hover { border-color: #3B82F6; }
+.cl-item.open { background: rgba(59, 130, 246, 0.05); border-color: #3B82F6; }
+
+.cl-item-header { display: flex; align-items: center; gap: 0.75rem; padding: 1rem; }
+.cl-ico { color: #3B82F6; }
+.cl-item-header span { font-size: 0.9rem; font-weight: 800; flex: 1; }
+.urgent-badge { background: #EF4444; color: white; font-size: 0.65rem; font-weight: 950; padding: 0.2rem 0.5rem; border-radius: 4px; }
+
+.cl-item-body { padding: 0 1rem 1rem 3rem; animation: slideDown 0.3s ease-out; }
+@keyframes slideDown { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+.cl-item-body p { font-size: 0.85rem; color: rgba(255,255,255,0.7); line-height: 1.5; margin-bottom: 1rem; }
+
+.guide-btn { background: transparent; border: none; color: #3B82F6; font-size: 0.75rem; font-weight: 900; display: flex; align-items: center; gap: 0.4rem; cursor: pointer; }
+
+.cl-footer { margin-top: 2rem; }
+.apply-now-btn {
+    width: 100%; background: #10B981; color: white; border: none; padding: 1rem;
+    border-radius: 12px; font-weight: 950; font-size: 1rem; cursor: pointer; transition: all 0.3s; box-shadow: 0 10px 20px rgba(16, 185, 129, 0.2);
+}
+.apply-now-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(16, 185, 129, 0.4); }

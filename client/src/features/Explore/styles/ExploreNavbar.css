@@ -1,0 +1,174 @@
+.module-navbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 0 1rem;
+    height: 36px;
+    background: transparent;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    position: relative;
+    z-index: 900;
+    width: 100%;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Grouped Command Center Pill */
+.module-nav-group {
+    display: flex;
+    align-items: center;
+    background: rgba(15, 23, 42, 0.5);
+    -webkit-backdrop-filter: blur(24px);
+    backdrop-filter: blur(24px);
+    padding: 6px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    position: relative;
+    margin: 0 auto;
+    transition: all 0.4s ease;
+}
+
+.module-nav-group:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.module-nav-scroll-container {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    overflow-x: auto;
+    -ms-overflow-style: none;
+    max-width: 600px;
+    padding: 0 4px;
+}
+
+@supports (scrollbar-width: none) {
+    .module-nav-scroll-container {
+        scrollbar-width: none;
+    }
+}
+
+.module-nav-scroll-container::-webkit-scrollbar {
+    display: none;
+}
+
+/* Micro-Typography Navigation Items */
+.module-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 12px;
+    color: rgba(255, 255, 255, 0.6);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    border: 1px solid transparent;
+}
+
+.module-nav-item:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-1px);
+}
+
+/* Precision Active State */
+.module-nav-item.active {
+    color: #fff;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    box-shadow:
+        0 4px 15px rgba(59, 130, 246, 0.2),
+        inset 0 0 10px rgba(59, 130, 246, 0.1);
+}
+
+.module-nav-item.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 15%;
+    right: 15%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #3b82f6, #8b5cf6, transparent);
+    box-shadow: 0 0 12px #3b82f6;
+    border-radius: 2px;
+}
+
+/* Icon Sizing */
+.module-nav-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.7;
+    transition: transform 0.3s ease;
+}
+
+.module-nav-item.active .module-nav-icon {
+    opacity: 1;
+    color: #3b82f6;
+    transform: scale(1.1);
+}
+
+.module-nav-label {
+    position: relative;
+    z-index: 1;
+}
+
+/* Scroll Buttons */
+.module-scroll-btn {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.3);
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-radius: 6px;
+}
+
+.module-scroll-btn:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
+    .module-navbar {
+        padding: 0 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .module-navbar {
+        height: auto;
+        min-height: 42px;
+        flex-direction: column;
+        padding: 8px 1rem;
+        gap: 8px;
+    }
+
+    .module-nav-group {
+        width: 100%;
+    }
+
+    .module-nav-scroll-container {
+        max-width: 100%;
+    }
+}
+
+.module-navbar.left-sidebar-expanded {
+    padding-left: 280px;
+}
+
+.module-navbar.left-sidebar-collapsed {
+    padding-left: 100px;
+}

@@ -1,0 +1,53 @@
+.passport-portal-container {
+    max-width: 800px; margin: 0 auto; padding: 4rem 2rem; font-family: 'Inter', sans-serif; color: white; text-align: center;
+}
+.pp-header { margin-bottom: 3rem; }
+.pp-header h1 { font-size: 2.5rem; font-weight: 950; margin: 1rem 0; }
+.pp-header h1 span { color: #A855F7; }
+.pp-header p { opacity: 0.5; font-size: 1rem; font-weight: 600; }
+
+.pp-card-area { perspective: 1000px; margin-bottom: 3rem; }
+.passport-card {
+    width: 450px; height: 280px; margin: 0 auto; background: #0F172A;
+    border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; position: relative;
+    overflow: hidden; transition: 0.6s cubic-bezier(0.23, 1, 0.32, 1); transform-style: preserve-3d;
+}
+.passport-card.verified { border-color: #10B981; box-shadow: 0 0 50px rgba(16, 185, 129, 0.2); }
+
+.card-glare {
+    position: absolute; inset: 0; background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%);
+    pointer-events: none; z-index: 2;
+}
+.card-inner { padding: 1.5rem; height: 100%; display: flex; flex-direction: column; text-align: left; }
+
+.p-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 1rem; margin-bottom: 1.5rem; }
+.p-org { font-size: 0.75rem; font-weight: 950; letter-spacing: 2px; color: rgba(255,255,255,0.3); }
+
+.p-body { display: flex; gap: 1.5rem; flex: 1; }
+.p-photo { width: 100px; height: 120px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; background-image: url('https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200&h=240&auto=format&fit=crop'); background-size: cover; filter: grayscale(1); }
+.p-info { flex: 1; display: flex; flex-direction: column; gap: 0.75rem; }
+.p-field { display: flex; flex-direction: column; }
+.p-field .label { font-size: 0.6rem; font-weight: 900; opacity: 0.4; letter-spacing: 1px; }
+.p-field .val { font-size: 0.9rem; font-weight: 950; font-family: 'Courier New', Courier, monospace; }
+.p-field .status { color: #A855F7; }
+.passport-card.verified .status { color: #10B981; }
+
+.p-footer { display: flex; justify-content: space-between; align-items: flex-end; }
+.p-badges { display: flex; gap: 0.5rem; }
+.p-badge { background: rgba(255,255,255,0.05); font-size: 0.6rem; font-weight: 900; padding: 0.2rem 0.5rem; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1); }
+.verify-icon { animation: verifyAppear 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+@keyframes verifyAppear { 0% { transform: scale(0) rotate(-45deg); opacity: 0; } 100% { transform: scale(1) rotate(0); opacity: 1; } }
+
+.pp-actions { display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+.sync-btn {
+    background: #A855F7; color: white; border: none; padding: 1rem 2rem; border-radius: 50px;
+    font-weight: 950; font-size: 1rem; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 0.75rem;
+}
+.sync-btn:hover:not(:disabled) { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(168, 85, 247, 0.4); }
+.sync-btn:disabled { background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.5); cursor: default; }
+.sync-btn.loading { background: #3B82F6; }
+
+.spin { animation: spin 2s linear infinite; }
+@keyframes spin { 100% { transform: rotate(360deg); } }
+
+.pp-secure-text { display: flex; align-items: center; gap: 0.4rem; font-size: 0.75rem; color: rgba(255,255,255,0.3); font-weight: 600; }

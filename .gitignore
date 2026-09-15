@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+dist-ssr/
+.env
+*.env
+*.env.*
+*.local
+
+# Frontend / Vite
+.vite/
+**/.vite/
+
+# Logs and error dumps
+logs/
+*.log
+**/*.log
+*error*.txt
+*report*.txt
+*log*.txt
+
+# OS files
+.DS_Store
+Thumbs.db
+

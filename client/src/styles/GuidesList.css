@@ -1,0 +1,311 @@
+.guides-list-container {
+    padding: 1rem 0;
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* Plus Banner */
+.guides-plus-banner {
+    background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+    border-radius: 20px;
+    padding: 1.5rem 2rem;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2.5rem;
+    box-shadow: 0 10px 25px rgba(30, 27, 75, 0.2);
+}
+
+.plus-content {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.plus-content h3 {
+    margin: 0 0 0.25rem 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.plus-content p {
+    margin: 0;
+    opacity: 0.8;
+    font-size: 0.95rem;
+}
+
+.plus-btn {
+    background: #f59e0b;
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.plus-btn:hover {
+    transform: scale(1.05);
+}
+
+/* Bundle Offer */
+.bundle-card {
+    background: linear-gradient(135deg, #fef3c7 0%, #fffbeb 100%);
+    border: 2px dashed #f59e0b;
+    border-radius: 24px;
+    padding: 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3rem;
+}
+
+.bundle-info {
+    max-width: 60%;
+}
+
+.bundle-badge {
+    display: inline-block;
+    background: #f59e0b;
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+}
+
+.bundle-info h2 {
+    font-size: 2rem;
+    margin: 0 0 0.75rem 0;
+    color: #92400e;
+}
+
+.bundle-info p {
+    font-size: 1.1rem;
+    color: #b45309;
+    margin-bottom: 1.5rem;
+}
+
+.bundle-price {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.old-price {
+    text-decoration: line-through;
+    color: #d97706;
+    font-size: 1.25rem;
+    opacity: 0.6;
+}
+
+.new-price {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #92400e;
+}
+
+.buy-bundle-btn {
+    background: #92400e;
+    color: white;
+    border: none;
+    padding: 1.25rem 2.5rem;
+    border-radius: 16px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 10px 20px rgba(146, 64, 14, 0.2);
+}
+
+.buy-bundle-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(146, 64, 14, 0.3);
+}
+
+/* Guides Grid */
+.guides-section {
+    margin-bottom: 3rem;
+}
+
+.guides-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+.guide-card {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s;
+}
+
+.guide-card:hover {
+    transform: translateY(-8px);
+}
+
+.guide-image {
+    position: relative;
+    height: 180px;
+}
+
+.guide-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.guide-price-tag {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: white;
+    padding: 0.4rem 0.8rem;
+    border-radius: 50px;
+    font-weight: 800;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.sponsored-badge {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    color: white;
+    padding: 0.3rem 0.7rem;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.guide-details {
+    padding: 1.5rem;
+}
+
+.guide-details h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.2rem;
+}
+
+.guide-details p {
+    font-size: 0.9rem;
+    color: #6b7280;
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+}
+
+.guide-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.rating {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #4b5563;
+}
+
+.buy-now-btn {
+    background: #10b981;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    cursor: pointer;
+}
+
+.partner-btn {
+    width: 100%;
+    background: #f3f4f6;
+    color: #1f2937;
+    border: 1px solid #e5e7eb;
+    padding: 0.75rem;
+    border-radius: 10px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+/* Affiliate Gear */
+.gear-list {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.gear-item {
+    flex: 1;
+    background: #f9fafb;
+    border-radius: 16px;
+    padding: 1rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.gear-item img {
+    width: 80px;
+    height: 80px;
+    border-radius: 12px;
+    object-fit: cover;
+}
+
+.gear-info h4 {
+    margin: 0 0 0.25rem 0;
+    font-size: 1rem;
+}
+
+.gear-info p {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.85rem;
+    color: #6b7280;
+}
+
+.gear-link {
+    background: none;
+    border: none;
+    color: #2563eb;
+    font-weight: 600;
+    font-size: 0.85rem;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+@media (max-width: 768px) {
+    .bundle-card {
+        flex-direction: column;
+        text-align: center;
+        gap: 2rem;
+    }
+
+    .bundle-info {
+        max-width: 100%;
+    }
+
+    .gear-list {
+        flex-direction: column;
+    }
+}

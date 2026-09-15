@@ -1,0 +1,24 @@
+--- Scanning d:\Seenomad_V3\client\src\styles\CreatorCommunity.css ---
+SCROLLBAR WARNING at 498:     scrollbar-width: none;
+--- Scanning d:\Seenomad_V3\client\src\features\Explore\components\DestinationDetail.css ---
+SCROLLBAR WARNING at 312:     scrollbar-width: thin;
+  MISSING -ms-overflow-style
+SCROLLBAR WARNING at 335:     scrollbar-width: none;
+--- Scanning d:\Seenomad_V3\client\src\features\Explore\styles\ExploreNavbar.css ---
+SCROLLBAR WARNING at 37:     scrollbar-width: none;
+--- Scanning d:\Seenomad_V3\client\src\features\SocialFeed\styles\SocialFeed.css ---
+SCROLLBAR WARNING at 72:     scrollbar-width: none;
+  MISSING -ms-overflow-style
+--- Scanning d:\Seenomad_V3\client\src\styles\BusinessPartner.css ---
+SCROLLBAR WARNING at 173:     scrollbar-width: none;
+  MISSING -ms-overflow-style
+--- Scanning d:\Seenomad_V3\client\src\styles\popular\PopularFeed.css ---
+SCROLLBAR WARNING at 189:         scrollbar-width: none;
+--- Scanning d:\Seenomad_V3\client\src\styles\Sidebar.css ---
+SCROLLBAR WARNING at 55:     scrollbar-width: none;
+--- Scanning d:\Seenomad_V3\client\src\styles\SocialFeed.css ---
+SCROLLBAR WARNING at 72:     scrollbar-width: none;
+  MISSING -ms-overflow-style
+--- Scanning d:\Seenomad_V3\client\src\styles\Wallet.css ---
+SCROLLBAR WARNING at 31:     scrollbar-width: none;
+SCROLLBAR WARNING at 168:     scrollbar-width: none;

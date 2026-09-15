@@ -1,0 +1,288 @@
+.command-center-wrapper {
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.intelligence-ticker {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    overflow: hidden;
+    position: relative;
+}
+
+.ticker-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.65rem;
+    font-weight: 900;
+    color: #ef4444;
+    white-space: nowrap;
+    background: rgba(239, 68, 68, 0.1);
+    padding: 0.25rem 0.6rem;
+    border-radius: 6px;
+}
+
+.ticker-track {
+    white-space: nowrap;
+    animation: ticker 30s linear infinite;
+}
+
+.ticker-track p {
+    margin: 0;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.5);
+    letter-spacing: 0.02em;
+}
+
+.command-content-grid {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 1.5rem;
+}
+
+.user-status-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    padding: 1.25rem;
+    position: relative;
+}
+
+.status-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.status-avatar-ring {
+    position: relative;
+    width: 48px;
+    height: 48px;
+}
+
+.status-avatar-ring img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 2px solid #3b82f6;
+    padding: 2px;
+}
+
+.online-indicator {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    width: 12px;
+    height: 12px;
+    background: #10b981;
+    border: 2px solid #000;
+    border-radius: 50%;
+}
+
+.status-info h3 {
+    margin: 0;
+    font-size: 1rem;
+    color: white;
+}
+
+.mood-trigger {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+    margin-top: 0.2rem;
+}
+
+.mood-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+}
+
+.mood-picker {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #1a1a1a;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    margin-top: 0.5rem;
+    z-index: 100;
+    padding: 0.5rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.mood-option {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.6rem 0.85rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+}
+
+.mood-option:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
+}
+
+.roadmap-mini-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 1.25rem;
+    margin-top: 1rem;
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.65rem;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.3);
+    margin-bottom: 0.75rem;
+}
+
+.roadmap-mini-card h4 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: white;
+}
+
+.countdown-bar {
+    margin-top: 1rem;
+}
+
+.days {
+    font-size: 0.6rem;
+    font-weight: 900;
+    color: #3b82f6;
+    margin-bottom: 0.4rem;
+}
+
+.progress-bg {
+    height: 4px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 2px;
+}
+
+.progress-fill {
+    height: 100%;
+    background: #3b82f6;
+    border-radius: 2px;
+}
+
+.roadmap-tasks {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.task {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.task.done {
+    color: #10b981;
+}
+
+.utility-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+}
+
+.utility-action-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 1.25rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    cursor: pointer;
+}
+
+.action-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.action-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.action-label {
+    font-weight: 700;
+    color: white;
+    font-size: 0.95rem;
+}
+
+.action-desc {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.3);
+    margin-top: 0.1rem;
+}
+
+.search-local-bar {
+    margin-top: 1.5rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 0.85rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.search-local-bar input {
+    background: transparent;
+    border: none;
+    color: white;
+    width: 100%;
+    font-size: 0.9rem;
+}
+
+.ai-badge {
+    background: linear-gradient(135deg, #a855f7, #7e22ce);
+    color: white;
+    font-size: 0.6rem;
+    font-weight: 900;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+}
+
+@keyframes ticker {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+}
+
+@media (max-width: 768px) {
+    .command-content-grid {
+        grid-template-columns: 1fr;
+    }
+}

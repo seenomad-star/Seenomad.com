@@ -1,0 +1,35 @@
+.modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; z-index: 10000; }
+.share-draft-modal { background: #0F172A; border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 24px; width: 500px; padding: 2rem; position: relative; color: white; }
+.close-btn { position: absolute; top: 1.5rem; right: 1.5rem; background: transparent; border: none; color: white; font-size: 1.5rem; cursor: pointer; opacity: 0.5; }
+
+.sd-header { text-align: center; margin-bottom: 2rem; }
+.sd-icon-wrapper { width: 50px; height: 50px; background: rgba(168, 85, 247, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; }
+.sd-header h2 { font-size: 1.5rem; font-weight: 950; margin-bottom: 0.5rem; }
+.sd-header h2 span { color: #A855F7; }
+.sd-header p { font-size: 0.9rem; color: rgba(255,255,255,0.5); font-weight: 600; }
+
+.invite-form { margin-bottom: 2rem; }
+.invite-input-row { display: flex; gap: 0.75rem; }
+.email-input-wrapper { flex: 1; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; display: flex; align-items: center; padding: 0 1rem; }
+.mail-icon { opacity: 0.4; margin-right: 0.75rem; }
+.email-input-wrapper input { background: transparent; border: none; color: white; width: 100%; height: 45px; font-size: 0.9rem; }
+.invite-btn { background: #A855F7; color: white; border: none; padding: 0 1.5rem; border-radius: 12px; font-weight: 900; cursor: pointer; min-width: 80px; }
+.invite-btn.sent { background: #10B981; }
+
+.collaborator-history { margin-bottom: 2.5rem; }
+.collaborator-history h4 { font-size: 0.7rem; font-weight: 900; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 1rem; }
+.invited-list { display: flex; flex-direction: column; gap: 1rem; }
+.user-row { display: flex; align-items: center; gap: 1rem; }
+.user-avatar { width: 36px; height: 36px; background: #3B82F6; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 0.9rem; }
+.user-meta { flex: 1; display: flex; flex-direction: column; }
+.user-meta strong { font-size: 0.85rem; font-weight: 800; }
+.user-meta span { font-size: 0.7rem; opacity: 0.5; font-weight: 700; }
+.user-role { font-size: 0.7rem; font-weight: 900; color: #A855F7; background: rgba(168, 85, 247, 0.1); padding: 0.2rem 0.6rem; border-radius: 6px; }
+
+.copy-link-box { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); padding: 0.75rem; border-radius: 12px; display: flex; gap: 0.75rem; }
+.copy-link-box input { background: transparent; border: none; color: rgba(255,255,255,0.4); font-size: 0.8rem; flex: 1; }
+.copy-btn { background: rgba(255,255,255,0.05); border: none; color: white; padding: 0.6rem 1rem; border-radius: 8px; font-weight: 800; font-size: 0.75rem; cursor: pointer; display: flex; align-items: center; gap: 0.4rem; }
+.copy-btn.copied { color: #10B981; }
+
+.sd-footer { padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.05); }
+.active-collaborators { display: flex; align-items: center; gap: 0.5rem; font-size: 0.75rem; color: rgba(255,255,255,0.4); font-weight: 700; }

@@ -1,0 +1,33 @@
+.compare-passports-card {
+    background: rgba(15, 23, 42, 0.4); border: 1px solid rgba(59, 130, 246, 0.3);
+    border-radius: 20px; padding: 1.5rem; margin-top: 3rem;
+}
+.cp-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 2rem; }
+.cp-header h3 { font-size: 1.1rem; font-weight: 950; text-transform: uppercase; letter-spacing: 1px; }
+
+.cp-selectors { display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; }
+.cp-select-box {
+    flex: 1; position: relative;
+    background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px;
+}
+.cp-select-box input {
+    width: 100%; height: 45px; background: transparent; border: none;
+    color: white; font-weight: 900; padding: 0 1rem; outline: none; text-align: center;
+}
+.cp-select-box .si { position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); color: rgba(255,255,255,0.3); }
+
+.cp-vs { font-weight: 950; color: #3B82F6; font-size: 1.1rem; opacity: 0.5; }
+
+.cp-table { display: flex; flex-direction: column; gap: 1rem; }
+.cp-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1rem; background: rgba(255,255,255,0.02); border-radius: 12px;
+}
+.cp-label { font-size: 0.8rem; font-weight: 900; color: rgba(255,255,255,0.4); text-transform: uppercase; }
+.cp-val { font-size: 1.2rem; font-weight: 950; color: white; width: 60px; text-align: center; }
+.cp-row:nth-child(even) .cp-val { color: #3B82F6; }
+
+.cp-footer {
+    margin-top: 2rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+    color: rgba(255,255,255,0.4); font-size: 0.75rem; font-weight: 800;
+}

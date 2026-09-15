@@ -1,0 +1,60 @@
+.risk-hub-container {
+    background: #0F172A; border: 1px solid rgba(239, 68, 68, 0.2);
+    border-radius: 24px; padding: 2rem; font-family: 'Inter', sans-serif; color: white;
+}
+.risk-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 2rem; }
+.risk-header h2 { font-size: 1.25rem; font-weight: 950; text-transform: uppercase; letter-spacing: 1px; }
+.risk-header h2 span { color: #EF4444; }
+.risk-live { margin-left: auto; font-size: 0.7rem; font-weight: 950; color: #EF4444; animation: blink 1s infinite; }
+@keyframes blink { 0% { opacity: 0.3; } 50% { opacity: 1; } 100% { opacity: 0.3; } }
+
+.risk-heatmap-preview {
+    height: 180px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 16px; margin-bottom: 2rem; position: relative; overflow: hidden;
+    background-image: url('https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?q=80&w=400&h=200&auto=format&fit=crop');
+    background-size: cover; background-position: center; opacity: 0.6;
+}
+.heatmap-overlay { position: absolute; inset: 0; background: radial-gradient(circle, transparent 40%, rgba(239, 68, 68, 0.2) 100%); }
+.hotspot { position: absolute; width: 30px; height: 30px; transform: translate(-50%, -50%); }
+.hs-pulse {
+    width: 100%; height: 100%; border-radius: 50%;
+    animation: hotpulse 1.5s infinite;
+}
+.hotspot.high .hs-pulse { background: rgba(249, 115, 22, 0.4); border: 1px solid #F97316; }
+.hotspot.critical .hs-pulse { background: rgba(239, 68, 68, 0.4); border: 1px solid #EF4444; }
+@keyframes hotpulse { 0% { transform: scale(1); opacity: 0.8; } 100% { transform: scale(2.5); opacity: 0; } }
+
+.risk-legend { position: absolute; bottom: 1rem; left: 1rem; display: flex; gap: 1rem; background: rgba(0,0,0,0.6); padding: 0.4rem 0.8rem; border-radius: 6px; }
+.leg-item { display: flex; align-items: center; gap: 0.4rem; font-size: 0.65rem; font-weight: 900; text-transform: uppercase; }
+.dot { width: 8px; height: 8px; border-radius: 50%; }
+.dot.critical { background: #EF4444; }
+.dot.high { background: #F97316; }
+.dot.mid { background: #FCD34D; }
+
+.risk-alerts-list { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 2rem; }
+.risk-alert-card {
+    display: flex; align-items: center; gap: 1.25rem; padding: 1.25rem;
+    background: rgba(255,255,255,0.02); border: 1px solid transparent; border-radius: 16px;
+}
+.ra-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+.ra-content { flex: 1; }
+.ra-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.2rem; }
+.ra-type { font-size: 0.75rem; font-weight: 950; text-transform: uppercase; opacity: 0.5; }
+.ra-loc { font-size: 0.8rem; font-weight: 900; color: white; }
+.ra-msg { font-size: 0.9rem; font-weight: 700; color: rgba(255,255,255,0.8); margin: 0; }
+
+.ra-status-badge { font-size: 0.65rem; font-weight: 950; padding: 0.25rem 0.5rem; border-radius: 100px; }
+
+.risk-alert-card.high .ra-icon { background: rgba(249, 115, 22, 0.1); color: #F97316; }
+.risk-alert-card.high .ra-status-badge { background: #F97316; color: white; }
+.risk-alert-card.critical { border-color: rgba(239, 68, 68, 0.3); background: rgba(239, 68, 68, 0.05); }
+.risk-alert-card.critical .ra-icon { background: rgba(239, 68, 68, 0.1); color: #EF4444; }
+.risk-alert-card.critical .ra-status-badge { background: #EF4444; color: white; }
+.risk-alert-card.mid .ra-icon { background: rgba(252, 211, 77, 0.1); color: #FCD34D; }
+.risk-alert-card.mid .ra-status-badge { background: #FCD34D; color: black; }
+
+.risk-report-btn {
+    width: 100%; padding: 1rem; background: transparent; border: 1px dashed rgba(255,255,255,0.2);
+    color: white; border-radius: 12px; font-weight: 900; font-size: 0.85rem; cursor: pointer; transition: 0.3s;
+}
+.risk-report-btn:hover { border-color: #EF4444; background: rgba(239, 68, 68, 0.05); }

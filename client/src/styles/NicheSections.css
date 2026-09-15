@@ -1,0 +1,151 @@
+.niche-container {
+    padding: 1rem;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.niche-header {
+    margin-bottom: 2rem;
+}
+
+.niche-header h2 {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: #1e293b;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.niche-header p {
+    color: #64748b;
+    font-size: 1rem;
+}
+
+.niche-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.niche-card {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+.niche-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+}
+
+.niche-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.niche-card-content {
+    padding: 1.5rem;
+}
+
+.niche-card-tag {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background: #f1f5f9;
+    color: #475569;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+}
+
+.niche-card h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 0.5rem;
+}
+
+.niche-card p {
+    color: #64748b;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 1.25rem;
+}
+
+.niche-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1.25rem;
+    border-top: 1px solid #f1f5f9;
+}
+
+.niche-price {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #8b5e3c;
+}
+
+.niche-cta {
+    padding: 0.6rem 1.2rem;
+    background: #1e293b;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.niche-cta:hover {
+    background: #334155;
+    transform: scale(1.05);
+}
+
+.niche-promo-banner {
+    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+    border-radius: 24px;
+    padding: 2.5rem;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.niche-promo-content h3 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+}
+
+.niche-promo-content p {
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 1.5rem;
+}
+
+.niche-promo-cta {
+    padding: 0.8rem 1.5rem;
+    background: #8b5e3c;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.niche-promo-cta:hover {
+    background: #a37654;
+    transform: scale(1.05);
+}

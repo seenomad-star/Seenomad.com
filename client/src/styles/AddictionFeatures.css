@@ -1,0 +1,62 @@
+/* Phase 17: Addiction & Final Hooks */
+.viral-challenges-container { padding: 3rem; flex: 1; display: flex; flex-direction: column; align-items: center; }
+.challenges-hero { text-align: center; margin-bottom: 4rem; }
+.globe-spinner-area { position: relative; display: flex; flex-direction: column; align-items: center; gap: 3rem; }
+.globe-visual { color: #A855F7; filter: drop-shadow(0 0 30px rgba(168, 85, 247, 0.3)); }
+.globe-visual.spinning { filter: blur(2px) drop-shadow(0 0 50px rgba(168, 85, 247, 0.5)); }
+.spin-btn { background: #F59E0B; color: black; padding: 1.5rem 3rem; border-radius: 100px; font-weight: 950; font-size: 1.2rem; border: none; display: flex; align-items: center; gap: 1rem; cursor: pointer; box-shadow: 0 10px 40px rgba(245, 158, 11, 0.4); }
+
+.challenge-reveal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(20px); z-index: 2000; display: flex; align-items: center; justify-content: center; padding: 2rem; }
+.challenge-card { background: var(--glass-bg); padding: 4rem; border-radius: 40px; border: 1px solid #A855F7; text-align: center; max-width: 600px; width: 100%; box-shadow: 0 0 100px rgba(168, 85, 247, 0.3); }
+.c-header { display: flex; align-items: center; justify-content: center; gap: 1rem; color: #A855F7; font-weight: 950; font-size: 0.8rem; margin-bottom: 2rem; letter-spacing: 2px; }
+.challenge-card h2 { font-size: 3rem; font-weight: 950; margin-bottom: 1rem; }
+.c-location { display: flex; align-items: center; justify-content: center; gap: 0.5rem; opacity: 0.5; font-size: 1.1rem; margin-bottom: 2rem; }
+.c-desc { font-size: 1.25rem; opacity: 0.8; line-height: 1.6; margin-bottom: 3rem; }
+.c-reward { background: rgba(245, 158, 11, 0.1); color: #F59E0B; padding: 1rem 2rem; border-radius: 100px; display: inline-flex; align-items: center; gap: 1rem; font-size: 1.5rem; margin-bottom: 3rem; }
+
+.c-actions { display: flex; gap: 1.5rem; justify-content: center; }
+.accept-btn { background: #A855F7; color: white; padding: 1.25rem 2.5rem; border-radius: 100px; border: none; font-weight: 950; display: flex; align-items: center; gap: 1rem; cursor: pointer; }
+.decline-btn { background: transparent; color: white; opacity: 0.5; padding: 1.25rem 2rem; border-radius: 100px; border: 1px solid white; font-weight: 950; cursor: pointer; }
+
+/* NC Marketplace */
+.nomad-perks-container { padding: 3rem; flex: 1; overflow-y: auto; }
+.perks-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem; }
+.nc-display { background: rgba(0,0,0,0.3); padding: 0.8rem 1.5rem; border-radius: 100px; border: 1px solid var(--glass-border); display: flex; align-items: center; gap: 0.8rem; font-weight: 950; color: #F59E0B; }
+
+.premium-flash-deal { background: linear-gradient(135deg, rgba(236, 72, 153, 0.2), rgba(168, 85, 247, 0.2)); border: 1px solid #EC4899; padding: 3rem; border-radius: 30px; margin-bottom: 3rem; display: flex; justify-content: space-between; align-items: center; }
+.deal-badge { background: #EC4899; color: white; padding: 0.4rem 1rem; border-radius: 6px; font-weight: 950; font-size: 0.7rem; margin-bottom: 1rem; display: inline-block; }
+.deal-info h3 { font-size: 1.8rem; margin-bottom: 0.5rem; }
+.deal-btn { background: white; color: black; padding: 1rem 2rem; border-radius: 12px; font-weight: 950; display: flex; align-items: center; gap: 1rem; }
+
+.perks-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2rem; }
+.perk-card-market { background: var(--glass-bg); padding: 2rem; border-radius: 24px; border: 1px solid var(--glass-border); position: relative; }
+.perk-card-market.locked { opacity: 0.5; pointer-events: none; }
+.p-icon-box { color: #A855F7; margin-bottom: 1.5rem; }
+.p-type { font-size: 0.7rem; font-weight: 950; opacity: 0.4; text-transform: uppercase; letter-spacing: 1px; }
+.perk-card-market h4 { font-size: 1.1rem; margin-bottom: 1.5rem; }
+.p-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--glass-border); padding-top: 1.5rem; }
+.p-price { font-weight: 950; color: #F59E0B; }
+.p-buy-btn { background: #A855F7; color: white; border: none; padding: 0.6rem 1.5rem; border-radius: 10px; font-weight: 950; font-size: 0.8rem; }
+.p-lock { display: flex; align-items: center; gap: 0.5rem; font-size: 0.75rem; font-weight: 950; color: #EF4444; }
+
+/* Geo Heatmap Styles */
+.significance-heatmap-container { background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); border-radius: 24px; padding: 1.5rem; margin-top: 2rem; }
+.heatmap-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+.layer-selector { display: flex; gap: 0.5rem; }
+.layer-btn { background: rgba(255,255,255,0.05); color: white; border: none; padding: 0.6rem; border-radius: 8px; cursor: pointer; transition: all 0.3s; }
+.layer-btn.active { background: var(--accent); color: white; box-shadow: 0 0 15px var(--accent); }
+
+.heatmap-visual-container { height: 180px; background: rgba(255,255,255,0.02); border-radius: 16px; position: relative; overflow: hidden; margin-bottom: 1.5rem; border: 1px solid rgba(255,255,255,0.05); }
+.heat-blob { position: absolute; filter: blur(30px); opacity: 0; transition: opacity 0.5s; width: 100px; height: 100px; border-radius: 50%; }
+.layer-significance .heat-blob { background: #F59E0B; opacity: 0.4; }
+.layer-safety .heat-blob { background: #10B981; opacity: 0.4; }
+.layer-social .heat-blob { background: #A855F7; opacity: 0.4; }
+
+.heat-blob.one { top: 20%; left: 30%; }
+.heat-blob.two { top: 60%; left: 70%; width: 120px; height: 120px; }
+.heat-blob.three { top: 40%; left: 10%; width: 80px; height: 80px; }
+
+.heatmap-labels { position: absolute; inset: 0; padding: 1rem; display: flex; flex-direction: column; justify-content: space-between; pointer-events: none; }
+.label { font-size: 0.65rem; font-weight: 950; text-transform: uppercase; opacity: 0.3; }
+
+.purchase-toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%); background: #10B981; color: white; padding: 1rem 2rem; border-radius: 100px; font-weight: 950; display: flex; align-items: center; gap: 1rem; z-index: 3000; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }

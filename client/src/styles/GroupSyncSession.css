@@ -1,0 +1,27 @@
+.group-sync-sidebar {
+    width: 280px; background: rgba(15, 23, 42, 0.4); border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 20px; padding: 1.5rem; display: flex; flex-direction: column; gap: 2rem;
+    -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+}
+.gs-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 1rem; }
+.gs-title { display: flex; align-items: center; gap: 0.5rem; }
+.gs-title h3 { font-size: 1rem; font-weight: 950; text-transform: uppercase; letter-spacing: 1px; }
+
+.live-indicator { display: flex; align-items: center; gap: 0.4rem; font-size: 0.75rem; font-weight: 800; color: #10B981; }
+.pulse-dot { animation: pulse 1.5s infinite; }
+@keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
+
+.gs-presence-list { display: flex; flex-direction: column; gap: 1rem; }
+.gs-friend-row { display: flex; align-items: center; gap: 1rem; }
+.gs-avatar { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; position: relative; background: rgba(0,0,0,0.3); }
+.status-dot { position: absolute; bottom: 0; right: 0; width: 10px; height: 10px; border-radius: 50%; border: 2px solid #0F172A; }
+
+.gs-meta { display: flex; flex-direction: column; gap: 0.1rem; }
+.gs-meta strong { font-size: 0.9rem; font-weight: 800; }
+.gs-meta span { font-size: 0.75rem; color: rgba(255,255,255,0.5); font-weight: 700; }
+
+.gs-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+.gs-btn { background: rgba(168, 85, 247, 0.1); border: 1px solid rgba(168, 85, 247, 0.3); color: #A855F7; padding: 0.75rem; border-radius: 12px; font-weight: 900; font-size: 0.8rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem; cursor: pointer; transition: 0.2s; }
+.gs-btn:hover { background: #A855F7; color: white; }
+
+.gs-footer { margin-top: auto; display: flex; align-items: center; gap: 0.5rem; color: rgba(255,255,255,0.3); font-size: 0.75rem; font-weight: 700; cursor: pointer; }
