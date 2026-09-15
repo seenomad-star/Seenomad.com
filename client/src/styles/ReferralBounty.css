@@ -1,0 +1,39 @@
+.referral-bounty-container {
+    max-width: 900px; margin: 0 auto; padding: 4rem 2rem; font-family: 'Inter', sans-serif; color: white;
+}
+.rb-hero { text-align: center; margin-bottom: 4rem; }
+.rb-hero h1 { font-size: 3rem; font-weight: 950; margin-top: 1rem; margin-bottom: 1rem; }
+.rb-hero h1 span { color: #A855F7; }
+.rb-hero p { font-size: 1.1rem; color: rgba(255,255,255,0.6); max-width: 500px; margin: 0 auto; }
+
+.rb-stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 4rem; }
+.rb-stat-card {
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 20px;
+    display: flex; align-items: center; gap: 1.25rem;
+}
+.rb-stat-meta h3 { font-size: 1.75rem; font-weight: 950; margin: 0; }
+.rb-stat-meta span { font-size: 0.85rem; color: rgba(255,255,255,0.5); font-weight: 700; text-transform: uppercase; }
+
+.rb-link-section { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.1); padding: 2rem; border-radius: 24px; margin-bottom: 4rem; }
+.rb-link-section h3 { font-size: 1.25rem; font-weight: 950; margin-bottom: 1.5rem; }
+.link-box { display: flex; gap: 0.5rem; background: rgba(0,0,0,0.3); padding: 0.5rem; border-radius: 12px; margin-bottom: 1.5rem; }
+.link-box input { flex: 1; background: transparent; border: none; color: #A855F7; font-weight: 900; padding: 0 1rem; outline: none; }
+.copy-link { background: #A855F7; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 900; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; }
+
+.share-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+.s-icon { padding: 1rem; border: none; border-radius: 12px; font-weight: 900; color: white; cursor: pointer; transition: 0.2s; }
+.whatsapp { background: #25D366; }
+.twitter { background: #1DA1F2; }
+.telegram { background: #0088CC; }
+.s-icon:hover { transform: translateY(-3px); opacity: 0.9; }
+
+.rb-rewards-tier { display: flex; flex-direction: column; gap: 1.5rem; }
+.tier-list { display: flex; flex-direction: column; gap: 1rem; }
+.tier-item { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 16px; display: flex; align-items: center; gap: 1.5rem; }
+.tier-item.active { border-color: #10B981; background: rgba(16, 185, 129, 0.05); }
+.tier-rank { width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; font-weight: 950; font-size: 1.25rem; }
+.tier-info { flex: 1; display: flex; flex-direction: column; gap: 0.2rem; }
+.tier-info strong { font-size: 1.1rem; font-weight: 950; }
+.tier-info span { font-size: 0.85rem; color: rgba(255,255,255,0.5); font-weight: 700; }
+.tier-check { color: #10B981; font-size: 1.5rem; font-weight: 900; }
+.tier-progress { font-size: 0.85rem; font-weight: 950; color: #3B82F6; }

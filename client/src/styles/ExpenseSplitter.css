@@ -1,0 +1,81 @@
+.expense-splitter-wrapper {
+    background: var(--glass-bg, rgba(15, 23, 42, 0.6));
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    -webkit-backdrop-filter: blur(24px);
+    backdrop-filter: blur(24px);
+    border-radius: 24px;
+    padding: 2.5rem;
+    font-family: 'Inter', sans-serif;
+    color: white;
+    max-width: 500px;
+    margin: 0 auto;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+}
+
+.es-header {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 1.5rem; margin-bottom: 2rem;
+}
+.es-title { display: flex; flex-direction: column; gap: 0.5rem; }
+.es-title h2 { font-size: 1.4rem; font-weight: 900; margin: 0; }
+.es-total-box { text-align: right; }
+.es-total-box span { font-size: 0.75rem; color: rgba(255,255,255,0.6); font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
+.es-total-box h3 { font-size: 1.75rem; font-weight: 950; color: #10B981; margin: 0.2rem 0 0; }
+
+.es-split-info {
+    background: rgba(168, 85, 247, 0.1);
+    border: 1px dashed rgba(168, 85, 247, 0.4);
+    padding: 1.5rem; border-radius: 16px; margin-bottom: 2rem;
+}
+.split-amount { display: flex; justify-content: space-between; align-items: center; }
+.sa-label { font-size: 0.95rem; font-weight: 800; color: #A855F7; }
+.sa-value { font-size: 1.5rem; font-weight: 950; display: flex; align-items: baseline; gap: 0.5rem; }
+.sa-value span { font-size: 0.85rem; font-weight: 600; color: rgba(255,255,255,0.7); }
+
+.es-members-list h3 { display: flex; align-items: center; gap: 0.5rem; font-size: 1.1rem; font-weight: 800; margin-bottom: 1.5rem; }
+.member-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1rem 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.m-info { display: flex; align-items: center; gap: 1rem; }
+.m-avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: linear-gradient(135deg, #3B82F6, #EC4899);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 900; font-size: 1.1rem;
+}
+.m-avatar.you { background: linear-gradient(135deg, #10B981, #059669); }
+.m-name { font-size: 1rem; font-weight: 700; }
+.m-status.paid { color: #10B981; font-size: 0.85rem; font-weight: 800; display: flex; align-items: center; gap: 0.4rem; }
+
+.request-btn {
+    background: #3B82F6; color: white; border: none; padding: 0.6rem 1.25rem;
+    border-radius: 100px; font-size: 0.85rem; font-weight: 800;
+    display: flex; align-items: center; gap: 0.4rem; cursor: pointer; transition: all 0.3s;
+}
+.request-btn:hover { background: #2563EB; transform: translateY(-2px); box-shadow: 0 4px 10px rgba(59, 130, 246, 0.4); }
+.pending-badge { background: rgba(245, 158, 11, 0.2); color: #F59E0B; padding: 0.5rem 1rem; border-radius: 100px; font-size: 0.8rem; font-weight: 800; border: 1px solid rgba(245, 158, 11, 0.4); }
+
+.add-member-form {
+    display: flex; gap: 1rem; margin-top: 2rem;
+}
+.add-member-form input {
+    flex: 1; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.15);
+    padding: 1rem; border-radius: 12px; color: white; font-weight: 600; outline: none;
+}
+.add-member-form button {
+    background: rgba(255,255,255,0.1); color: white; border: none; padding: 0 1.5rem;
+    border-radius: 12px; font-weight: 800; cursor: pointer; transition: all 0.3s;
+}
+.add-member-form button:hover { background: rgba(255,255,255,0.2); }
+
+.es-crypto-bridge {
+    background: #1E293B; border-radius: 16px; padding: 1.25rem; margin-top: 2rem;
+    display: flex; justify-content: space-between; align-items: center;
+}
+.cb-info { display: flex; align-items: center; gap: 1rem; color: rgba(255,255,255,0.9); }
+.cb-info h4 { font-size: 0.95rem; font-weight: 800; margin-bottom: 0.2rem; }
+.cb-info p { font-size: 0.75rem; color: rgba(255,255,255,0.5); }
+.copy-pay-link { background: transparent; border: 1px solid rgba(255,255,255,0.2); color: white; padding: 0.5rem 1rem; border-radius: 100px; font-size: 0.8rem; font-weight: 800; display: flex; align-items: center; gap: 0.4rem; cursor: pointer; }
+.copy-pay-link:hover { background: rgba(255,255,255,0.1); }

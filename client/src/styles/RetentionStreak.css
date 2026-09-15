@@ -1,0 +1,212 @@
+/* Psychological hooks for retention */
+.retention-streak-widget {
+    background: linear-gradient(145deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.9));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+}
+
+.streak-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+}
+.header-text h3 {
+    font-size: 1.5rem;
+    font-weight: 900;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: linear-gradient(90deg, #F59E0B, #FBBF24);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.header-text p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+.inline-icon {
+    color: #F59E0B;
+}
+
+.streak-counter {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: rgba(245, 158, 11, 0.1);
+    padding: 0.75rem 1.25rem;
+    border-radius: 100px;
+    border: 1px solid rgba(245, 158, 11, 0.2);
+}
+.streak-counter span {
+    font-weight: 800;
+    color: #F59E0B;
+    font-size: 1.1rem;
+}
+.active-flame {
+    color: #EF4444;
+    filter: drop-shadow(0 0 8px rgba(239, 68, 68, 0.6));
+}
+.pulse-anim {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+    100% { transform: scale(1); }
+}
+
+.streak-days-track {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2.5rem;
+    position: relative;
+}
+.streak-days-track::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: rgba(255,255,255,0.05);
+    z-index: 0;
+    border-radius: 4px;
+}
+
+.streak-day {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    transition: all 0.3s ease;
+}
+.day-label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+}
+.day-circle {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(30, 41, 59, 1);
+    border: 2px solid rgba(255,255,255,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    transition: all 0.3s ease;
+}
+.day-reward {
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: var(--text-secondary);
+}
+
+/* Past claims */
+.streak-day.claimed .day-circle {
+    background: #10B981;
+    border-color: #10B981;
+    color: white;
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+}
+.streak-day.claimed .day-reward {
+    color: #10B981;
+}
+
+/* Today's opportunity (Loss Aversion effect) */
+.streak-day.today .day-circle {
+    background: rgba(245, 158, 11, 0.1);
+    border-color: #F59E0B;
+    color: #F59E0B;
+    transform: scale(1.15);
+    box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
+}
+.streak-day.today .day-reward {
+    color: #F59E0B;
+}
+
+/* Milestone */
+.streak-day.milestone .day-circle {
+    width: 56px;
+    height: 56px;
+    background: rgba(139, 92, 246, 0.1);
+    border-color: #8B5CF6;
+    color: #8B5CF6;
+}
+
+.claim-btn {
+    width: 100%;
+    background: linear-gradient(135deg, #F59E0B, #EF4444);
+    color: white;
+    border: none;
+    padding: 1.25rem;
+    border-radius: 16px;
+    font-size: 1.2rem;
+    font-weight: 900;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    box-shadow: 0 10px 25px rgba(245, 158, 11, 0.4);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.claim-btn:hover:not(.claimed-state) {
+    transform: translateY(-4px);
+    box-shadow: 0 15px 35px rgba(245, 158, 11, 0.6);
+}
+.claim-btn.claimed-state {
+    background: rgba(255,255,255,0.05);
+    color: var(--text-secondary);
+    box-shadow: none;
+    cursor: not-allowed;
+}
+
+/* Reward Overlay */
+.reward-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+.reward-pop {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+.gold-coin {
+    color: #FBBF24;
+    filter: drop-shadow(0 0 30px rgba(251, 191, 36, 0.6));
+}
+.reward-pop h2 {
+    font-size: 2.5rem;
+    font-weight: 950;
+    color: #10B981;
+    margin: 0;
+}
+.reward-pop p {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: white;
+    opacity: 0.8;
+}

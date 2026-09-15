@@ -1,0 +1,8 @@
+{
+  "name": "Seenomad",
+  "description": "Nomad intelligence platform for digital nomads featuring destinations, visas, AI agents, and community.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

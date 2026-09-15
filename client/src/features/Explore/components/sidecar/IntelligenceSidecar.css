@@ -1,0 +1,209 @@
+.intelligence-sidecar-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Common Widget Styles */
+.sidecar-widget {
+    background: rgba(30, 41, 59, 0.4);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 1.25rem;
+    transition: all 0.3s ease;
+}
+
+.sidecar-widget:hover {
+    border-color: rgba(255, 255, 255, 0.1);
+    background: rgba(30, 41, 59, 0.6);
+}
+
+.widget-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.widget-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #94a3b8;
+}
+
+.widget-icon {
+    color: #3b82f6;
+}
+
+/* Live Pulse Ticker */
+.pulse-ticker {
+    background: rgba(245, 158, 11, 0.1);
+    border-color: rgba(245, 158, 11, 0.2);
+}
+
+.pulse-message {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #fbbf24;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Partner Spotlight */
+.partner-spotlight {
+    position: relative;
+    overflow: hidden;
+}
+
+.partner-spotlight::after {
+    content: 'SPONSORED';
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    font-size: 0.6rem;
+    font-weight: 900;
+    color: rgba(255, 255, 255, 0.3);
+    letter-spacing: 0.05em;
+}
+
+.partner-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.partner-main {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.partner-logo-box {
+    width: 48px;
+    height: 48px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+}
+
+.partner-info h4 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.partner-info p {
+    margin: 0;
+    font-size: 0.8rem;
+    color: #94a3b8;
+}
+
+.partner-action-btn {
+    width: 100%;
+    padding: 0.6rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    color: #fff;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.partner-action-btn:hover {
+    background: #fff;
+    color: #0f172a;
+}
+
+/* Quest Log */
+.quest-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.quest-info h4 {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 700;
+}
+
+.quest-progress-bar {
+    height: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 100px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #3b82f6, #60a5fa);
+    border-radius: 100px;
+}
+
+.quest-stats {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #94a3b8;
+}
+
+/* Locked Insights */
+.locked-insights {
+    background: rgba(15, 23, 42, 0.8);
+}
+
+.locked-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.insight-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.insight-label {
+    font-size: 0.85rem;
+    color: #94a3b8;
+}
+
+.insight-value-blurred {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #fff;
+    filter: blur(4px);
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.premium-cta-btn {
+    margin-top: 0.5rem;
+    padding: 0.75rem;
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    border: none;
+    border-radius: 12px;
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+    transition: all 0.2s;
+}
+
+.premium-cta-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.4);
+}

@@ -1,0 +1,279 @@
+.nexus-feed-container {
+    width: 100%;
+    min-height: 500px;
+    position: relative;
+    padding: 1rem;
+}
+
+/* Scanner Overlay */
+.nexus-scanner-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(15, 23, 42, 0.4);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+}
+
+.scanner-elements {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    text-align: center;
+}
+
+.scanner-ring {
+    width: 80px;
+    height: 80px;
+    border: 3px solid transparent;
+    border-top-color: var(--accent-blue);
+    border-right-color: var(--accent-blue);
+    border-radius: 50%;
+}
+
+.scanner-text h3 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    background: linear-gradient(to right, #60a5fa, #c084fc);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.scanner-text p {
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+    margin: 0.5rem 0 0;
+}
+
+.scanning-bar {
+    width: 200px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.scanning-progress {
+    height: 100%;
+    background: linear-gradient(to right, #3b82f6, #a855f7);
+}
+
+/* Nexus Content */
+.nexus-header-stats {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.stat-pill {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.4rem 0.8rem;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.reporter-submit-trigger {
+    background: rgba(255, 68, 68, 0.1);
+    border: 1px solid rgba(255, 68, 68, 0.2);
+    padding: 0.4rem 1rem;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    color: #ff4444;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.reporter-submit-trigger:hover {
+    background: rgba(255, 68, 68, 0.2);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(255, 68, 68, 0.2);
+}
+
+/* Agent Signal Stack */
+.agent-signal-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    perspective: 1000px;
+}
+
+.agent-signal-card {
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.card-hologram {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 100%);
+    pointer-events: none;
+}
+
+.card-agent-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 10px;
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+}
+
+.card-main h4 {
+    margin: 0 0 0.5rem;
+    font-size: 1.1rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    color: #fff;
+}
+
+.card-main p {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+}
+
+.card-footer {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-diagnostic code {
+    font-size: 0.7rem;
+    color: var(--color-text-secondary);
+    opacity: 0.6;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.card-earnings-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: rgba(234, 179, 8, 0.1);
+    color: #eab308;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    margin-left: 8px;
+    border: 1px solid rgba(234, 179, 8, 0.2);
+}
+
+.card-action-btn {
+    background: transparent;
+    border: 1px solid;
+    padding: 0.4rem 1rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.card-action-btn:hover {
+    background: rgba(255, 255, 255, 0.05);
+    transform: translateX(4px);
+}
+
+/* Agent Specific Glows */
+.agent-signal-card.travel { box-shadow: 0 0 40px rgba(59, 130, 246, 0.1); border-left: 4px solid #3b82f6; }
+.agent-signal-card.safety { box-shadow: 0 0 40px rgba(239, 68, 68, 0.1); border-left: 4px solid #ef4444; }
+.agent-signal-card.economy { box-shadow: 0 0 40px rgba(251, 191, 36, 0.1); border-left: 4px solid #fbbf24; }
+.agent-signal-card.social { box-shadow: 0 0 40px rgba(168, 85, 247, 0.1); border-left: 4px solid #a855f7; }
+.agent-signal-card.reporter { 
+    box-shadow: 0 0 40px rgba(255, 68, 68, 0.1); 
+    border-left: 4px solid #ff4444;
+    background: linear-gradient(135deg, rgba(20, 30, 50, 0.8) 0%, rgba(15, 23, 42, 0.6) 100%);
+}
+
+/* Feed Divider */
+.nexus-feed-divider {
+    margin: 3rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nexus-feed-divider::before,
+.nexus-feed-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.nexus-feed-divider span {
+    padding: 0 1.5rem;
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: var(--color-text-secondary);
+    letter-spacing: 0.2em;
+    opacity: 0.4;
+}
+
+/* Ghost Posts */
+.nexus-social-placeholder {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    opacity: 0.3;
+}
+
+.ghost-post {
+    height: 120px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 20px;
+    border: 1px dashed rgba(255, 255, 255, 0.1);
+}
+
+/* Mobile Responsive */
+@media (max-width: 600px) {
+    .nexus-feed-container {
+        padding: 0.5rem;
+    }
+    
+    .agent-signal-card {
+        padding: 1rem;
+    }
+
+    .card-footer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .card-action-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}

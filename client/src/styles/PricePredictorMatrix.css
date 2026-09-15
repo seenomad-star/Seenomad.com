@@ -1,0 +1,39 @@
+.price-predictor-container {
+    background: var(--glass-bg, rgba(15, 23, 42, 0.8));
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 20px; padding: 1.5rem;
+    font-family: 'Inter', sans-serif; color: white;
+    max-width: 400px;
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+}
+
+.ppm-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 1rem; margin-bottom: 1.5rem; }
+.ppm-title { display: flex; align-items: center; gap: 0.5rem; }
+.ppm-title h2 { font-size: 1rem; font-weight: 900; margin: 0; letter-spacing: 0.5px; }
+.ppm-route { background: rgba(255,255,255,0.1); padding: 0.4rem 0.8rem; border-radius: 100px; font-size: 0.75rem; font-weight: 800; color: rgba(255,255,255,0.8); }
+
+.ppm-verdict {
+    display: flex; align-items: center; gap: 1rem; padding: 1.5rem;
+    border-radius: 12px; margin-bottom: 1.5rem;
+}
+.ppm-verdict.buy { background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); }
+.ppm-verdict.buy .verdict-icon { background: rgba(16, 185, 129, 0.2); color: #10B981; }
+.ppm-verdict.buy h3 { color: #10B981; }
+
+.ppm-verdict.wait { background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); }
+.ppm-verdict.wait .verdict-icon { background: rgba(245, 158, 11, 0.2); color: #F59E0B; }
+.ppm-verdict.wait h3 { color: #F59E0B; }
+
+.verdict-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+.verdict-text h3 { font-size: 1.5rem; font-weight: 950; margin: 0 0 0.25rem 0; text-transform: uppercase; }
+.verdict-text p { font-size: 0.85rem; color: rgba(255,255,255,0.7); margin: 0; font-weight: 600; line-height: 1.4; }
+
+.ppm-confidence { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+.conf-bar { flex: 1; height: 8px; background: rgba(0,0,0,0.5); border-radius: 100px; overflow: hidden; }
+.conf-fill { height: 100%; background: linear-gradient(90deg, #F59E0B, #10B981); border-radius: 100px; }
+.ppm-confidence span { font-size: 0.8rem; color: rgba(255,255,255,0.6); font-weight: 700; }
+.ppm-confidence strong { color: white; }
+
+.ppm-footer { display: flex; align-items: flex-start; gap: 0.5rem; font-size: 0.75rem; color: rgba(255,255,255,0.4); line-height: 1.5; }

@@ -1,0 +1,39 @@
+.sos-beacon-container {
+    background: #0F172A; border: 1px solid rgba(239, 68, 68, 0.2);
+    border-radius: 20px; padding: 2rem; font-family: 'Inter', sans-serif; color: white;
+}
+.sos-beacon-container.transmitting { border-color: #EF4444; box-shadow: 0 0 30px rgba(239, 68, 68, 0.1); }
+
+.sos-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; }
+.sos-header h2 { font-size: 1.25rem; font-weight: 950; text-transform: uppercase; }
+.sos-header h2 span { color: #EF4444; }
+
+.sos-idle p { font-size: 0.9rem; color: rgba(255,255,255,0.5); font-weight: 600; line-height: 1.5; margin-bottom: 2rem; }
+.sos-trigger-btn {
+    width: 100%; background: #EF4444; color: white; border: none; padding: 1.25rem;
+    border-radius: 12px; font-weight: 950; font-size: 1.1rem; cursor: pointer;
+    box-shadow: 0 10px 20px rgba(239, 68, 68, 0.3); transition: 0.3s;
+}
+.sos-trigger-btn:hover { transform: translateY(-3px); filter: brightness(1.2); }
+
+.sos-active { display: flex; flex-direction: column; align-items: center; gap: 3rem; padding: 2rem 0; }
+.radio-waves { position: relative; width: 100px; height: 100px; display: flex; align-items: center; justify-content: center; }
+.wave {
+    position: absolute; width: 100%; height: 100%; border: 2px solid #EF4444;
+    border-radius: 50%; animation: radio 2s linear infinite; opacity: 0;
+}
+@keyframes radio { 
+    0% { transform: scale(0.3); opacity: 1; }
+    100% { transform: scale(2.5); opacity: 0; }
+}
+.delay-1 { animation-delay: 0.6s; }
+.delay-2 { animation-delay: 1.2s; }
+
+.sos-status-text { text-align: center; font-size: 1rem; font-weight: 900; color: #EF4444; }
+.coords { font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; opacity: 0.5; margin-top: 0.5rem; }
+
+.sos-success { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+.sos-success h3 { font-size: 1.5rem; font-weight: 950; margin: 0; }
+.sos-cancel-btn { background: rgba(255,255,255,0.1); color: white; border: none; padding: 0.8rem 2rem; border-radius: 10px; font-weight: 900; cursor: pointer; margin-top: 1rem; }
+
+.sos-footer { margin-top: 2rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem; color: #10B981; font-size: 0.75rem; font-weight: 800; }

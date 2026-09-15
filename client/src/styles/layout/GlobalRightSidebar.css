@@ -1,0 +1,258 @@
+.global-right-sidebar {
+    width: 320px;
+    height: calc(100vh - 72px);
+    padding: 20px 1.5rem 1.5rem 0.5rem;
+    position: fixed;
+    top: 72px; /* CoreNav height */
+    right: 0;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    scrollbar-width: none;
+    z-index: 1100;
+    background: var(--color-bg-navbar);
+    -webkit-backdrop-filter: var(--glass-blur);
+    backdrop-filter: var(--glass-blur);
+    border-left: 1px solid var(--glass-border);
+}
+
+.global-right-sidebar::-webkit-scrollbar {
+    display: none;
+}
+
+.sidebar-inner-scroll {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+/* TravelOS System Card Base */
+.travel-os-system-card {
+    background: var(--cc-glass);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    backdrop-filter: blur(12px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 1.25rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.travel-os-system-card:hover {
+    border-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+/* Nomad Pulse Mini */
+.pulse-mini {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(15, 23, 42, 0.2));
+}
+
+.pulse-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.4);
+    margin-bottom: 0.75rem;
+}
+
+.pulse-stats {
+    display: flex;
+    justify-content: space-between;
+}
+
+.pulse-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.pulse-item .label {
+    font-size: 0.65rem;
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.pulse-item .value {
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+/* Meetup Mini */
+.meetup-mini-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+}
+
+.meetup-item-compact {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+}
+
+.mini-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--color-primary-dark);
+}
+
+.item-info {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.item-info .name {
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.item-info .meta {
+    font-size: 0.65rem;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.ping-icon {
+    background: var(--color-primary);
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Eco Mini */
+.xp-badge {
+    margin-left: auto;
+    font-size: 0.65rem;
+    font-weight: 800;
+    color: #10b981;
+    background: rgba(16, 185, 129, 0.1);
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.eco-stats {
+    margin-top: 0.75rem;
+}
+
+.progress-mini {
+    height: 4px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 2px;
+    margin-bottom: 4px;
+}
+
+.progress-mini .fill.green {
+    height: 100%;
+    background: #10b981;
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
+}
+
+.progress-text {
+    font-size: 0.65rem;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+/* Visa Health */
+.visa-status {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: 0.5rem;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.status-dot.green { background: #10b981; box-shadow: 0 0 8px rgba(16, 185, 129, 0.5); }
+
+.status-text {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.system-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+/* Quest Card */
+.quest-card {
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(15, 23, 42, 0.4));
+    border: 1px solid rgba(245, 158, 11, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.quest-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: #f59e0b;
+    color: black;
+    font-size: 0.55rem;
+    font-weight: 900;
+    padding: 2px 8px;
+    border-bottom-left-radius: 8px;
+    text-transform: uppercase;
+}
+
+.quest-title {
+    font-size: 1rem;
+    font-weight: 800;
+    margin-bottom: 0.25rem;
+}
+
+.quest-task {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.4;
+    margin-bottom: 0.75rem;
+}
+
+.quest-reward {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #f59e0b;
+}
+
+/* Sidebar Quick Map */
+.sidebar-quick-map {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px dashed rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+
+.sidebar-quick-map:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: white;
+}

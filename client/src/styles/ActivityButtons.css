@@ -1,0 +1,116 @@
+/* Facebook-Style Activity Buttons */
+/* Copy these styles into your Explore.css file, replacing the existing activity button styles */
+
+/* Welcome section paragraph - add this after .welcome-section h1 */
+.welcome-section p {
+    color: #6b5b52;
+    font-size: 0.95rem;
+    font-weight: 500;
+    position: relative;
+    z-index: 1;
+    animation: fadeInUp 0.6s ease-out 0.1s backwards;
+}
+
+/* Welcome content wrapper */
+.welcome-content {
+    position: relative;
+    z-index: 1;
+    flex-shrink: 0;
+}
+
+/* Activity buttons container */
+.activity-buttons {
+    display: flex;
+    gap: 0.5rem;
+    position: relative;
+    z-index: 1;
+    flex-shrink: 0;
+    width: 100%;
+    /* Ensure container takes full width */
+}
+
+/* Base button style - Facebook-like design */
+.activity-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    /* Adjusted padding */
+    border: none;
+    border-radius: 50px;
+    font-size: 0.7rem;
+    /* Tiny size as requested */
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: rgba(255, 255, 255, 0.4);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    color: #4b5563;
+    box-shadow: none;
+    animation: fadeInUp 0.6s ease-out 0.2s backwards;
+    flex: 1 1 0px;
+    /* Force equal width */
+    min-width: 0;
+    /* Allow shrinking */
+    width: 0;
+    /* Fallback for flex equal width */
+}
+
+.activity-btn:hover {
+    background: rgba(255, 255, 255, 0.6);
+    transform: none;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.activity-btn:active {
+    transform: scale(0.98);
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.activity-btn svg {
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+}
+
+.activity-btn span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Upload button - Green theme */
+.upload-btn svg {
+    color: #10b981;
+}
+
+.upload-btn:hover {
+    background: rgba(16, 185, 129, 0.08);
+}
+
+/* Live button - Red theme */
+.live-btn svg {
+    color: #ef4444;
+}
+
+.live-btn:hover {
+    background: rgba(239, 68, 68, 0.08);
+}
+
+/* Follow button - Blue theme */
+.follow-btn svg {
+    color: #3b82f6;
+}
+
+.follow-btn:hover {
+    background: rgba(59, 130, 246, 0.08);
+}
+
+/* Share button - Purple theme */
+.share-btn svg {
+    color: #8b5cf6;
+}
+
+.share-btn:hover {
+    background: rgba(139, 92, 246, 0.08);
+}

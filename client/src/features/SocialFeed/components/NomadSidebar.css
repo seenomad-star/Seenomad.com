@@ -1,0 +1,257 @@
+.nomad-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    width: 320px;
+    position: sticky;
+    top: 2rem;
+}
+
+.sidebar-widget {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    padding: 1.25rem;
+    overflow: hidden;
+}
+
+.widget-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+}
+
+.title-with-icon {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.status-pill {
+    font-size: 0.6rem;
+    font-weight: 900;
+    padding: 0.25rem 0.6rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.status-pill.available {
+    background: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+}
+
+.status-pill.busy {
+    background: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
+}
+
+.meetup-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.meetup-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.meetup-avatar {
+    position: relative;
+    width: 36px;
+    height: 36px;
+}
+
+.meetup-avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 1.5px solid rgba(255, 255, 255, 0.1);
+}
+
+.activity-icon {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    background: #1a1a1a;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 2px;
+    border-radius: 50%;
+    color: #10b981;
+}
+
+.meetup-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.meetup-info .name {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: white;
+}
+
+.meetup-info .meta {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.ping-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: none;
+    color: white;
+    padding: 0.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.ping-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.view-all-link {
+    width: 100%;
+    background: none;
+    border: none;
+    color: #3b82f6;
+    font-size: 0.75rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    cursor: pointer;
+    padding-top: 0.5rem;
+}
+
+.border-top {
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    margin-top: 1rem;
+}
+
+.live-badge {
+    background: #ef4444;
+    color: white;
+    font-size: 0.55rem;
+    font-weight: 900;
+    padding: 0.1rem 0.4rem;
+    border-radius: 4px;
+}
+
+.arbitrage-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.stat-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+}
+
+.stat-row .label { opacity: 0.5; }
+.stat-row .value { font-weight: 700; }
+
+.best-value-card {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.1));
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    border-radius: 12px;
+    padding: 0.85rem;
+}
+
+.card-top {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.6rem;
+    font-weight: 900;
+    color: #10b981;
+    margin-bottom: 0.4rem;
+}
+
+.best-value-card h4 {
+    margin: 0;
+    font-size: 0.95rem;
+    color: white;
+}
+
+.best-value-card p {
+    margin: 0.4rem 0 0 0;
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.4);
+    line-height: 1.4;
+}
+
+.eco-progress {
+    margin-bottom: 1rem;
+}
+
+.eco-text {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.7rem;
+    margin-bottom: 0.5rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.progress-bg {
+    height: 6px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 3px;
+}
+
+.progress-fill.success {
+    height: 100%;
+    background: linear-gradient(90deg, #10b981, #34d399);
+    border-radius: 3px;
+}
+
+.eco-bounty-tease {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(16, 185, 129, 0.05);
+    padding: 0.6rem;
+    border-radius: 10px;
+    font-size: 0.7rem;
+    color: #10b981;
+    font-weight: 600;
+}
+
+.sidebar-footer-links {
+    padding: 0 1.25rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.sidebar-footer-links a {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.2);
+    text-decoration: none;
+}
+
+.sidebar-footer-links a:hover {
+    color: white;
+}
+
+.text-primary { color: #3b82f6; }
+.text-secondary { color: #a855f7; }
+.text-success { color: #10b981; }
+.text-warning { color: #f59e0b; }
+
+@media (max-width: 1200px) {
+    .nomad-sidebar {
+        display: none;
+    }
+}

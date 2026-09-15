@@ -1,0 +1,46 @@
+.nomad-visa-center {
+    background: rgba(15, 23, 42, 0.4); border: 1px solid rgba(168, 85, 247, 0.2);
+    border-radius: 20px; padding: 1.5rem; margin-bottom: 3rem;
+}
+.nvc-header { margin-bottom: 2rem; }
+.nvc-badge { 
+    display: inline-flex; align-items: center; gap: 0.4rem; 
+    background: rgba(168, 85, 247, 0.1); color: #A855F7; 
+    padding: 0.3rem 0.6rem; border-radius: 100px; font-size: 0.65rem; font-weight: 900;
+}
+.nvc-header h3 { font-size: 1.25rem; font-weight: 950; margin-top: 0.5rem; }
+.nvc-header p { font-size: 0.85rem; color: rgba(255,255,255,0.5); font-weight: 600; }
+
+.nomad-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 2rem; }
+.nomad-card {
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 16px; padding: 1.25rem; display: flex; flex-direction: column; gap: 1rem;
+    transition: all 0.3s;
+}
+.nomad-card:hover { border-color: #A855F7; transform: translateY(-5px); background: rgba(168, 85, 247, 0.05); }
+
+.nc-top { display: flex; gap: 0.75rem; align-items: flex-start; }
+.nc-flag { font-size: 1.5rem; }
+.nc-title { display: flex; flex-direction: column; }
+.nc-title strong { font-size: 1rem; font-weight: 900; }
+.nc-title span { font-size: 0.75rem; color: rgba(255,255,255,0.4); font-weight: 700; }
+
+.nc-stats { display: flex; flex-direction: column; gap: 0.4rem; }
+.nc-stat { display: flex; align-items: center; gap: 0.5rem; font-size: 0.75rem; font-weight: 800; color: rgba(255,255,255,0.7); }
+.nc-apply-btn {
+    background: rgba(255,255,255,0.05); border: none; color: white; padding: 0.6rem;
+    border-radius: 10px; font-weight: 800; font-size: 0.75rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.3rem; transition: 0.3s;
+}
+.nomad-card:hover .nc-apply-btn { background: #A855F7; }
+
+.nomad-perks-banner {
+    background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px; padding: 1.25rem; display: flex; justify-content: space-between; align-items: center;
+}
+.npb-content { display: flex; align-items: center; gap: 1.25rem; }
+.npb-content h4 { font-size: 0.95rem; font-weight: 900; color: #A855F7; margin: 0 0 0.2rem 0; }
+.npb-content p { font-size: 0.8rem; color: rgba(255,255,255,0.5); font-weight: 600; margin: 0; }
+.explore-perks-btn {
+    background: white; color: black; border: none; padding: 0.6rem 1.25rem;
+    border-radius: 100px; font-weight: 900; font-size: 0.8rem; cursor: pointer;
+}

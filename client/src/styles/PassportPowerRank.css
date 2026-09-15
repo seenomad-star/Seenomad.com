@@ -1,0 +1,35 @@
+.passport-rank-card {
+    background: rgba(15, 23, 42, 0.4); border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 20px; padding: 1.5rem; flex: 1;
+}
+.pr-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; }
+.pr-title { display: flex; align-items: center; gap: 0.5rem; }
+.pr-title h3 { font-size: 1rem; font-weight: 900; margin: 0; }
+.last-updated { font-size: 0.7rem; color: rgba(255,255,255,0.4); font-weight: 800; background: rgba(0,0,0,0.2); padding: 0.2rem 0.5rem; border-radius: 4px; }
+
+.rank-list { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.5rem; }
+.rank-item {
+    display: flex; align-items: center; gap: 1rem;
+    padding: 0.75rem; background: rgba(255,255,255,0.02); border-radius: 12px; border: 1px solid transparent;
+    transition: all 0.2s;
+}
+.rank-item:hover { background: rgba(255,255,255,0.05); border-color: #FCD34D; }
+
+.rank-num { font-size: 0.85rem; font-weight: 900; color: #FCD34D; width: 30px; }
+.rank-country { flex: 1; display: flex; align-items: center; gap: 0.75rem; }
+.r-flag { font-size: 1.25rem; }
+.r-info { display: flex; flex-direction: column; }
+.r-info strong { font-size: 0.95rem; font-weight: 800; }
+.r-info span { font-size: 0.75rem; color: rgba(255,255,255,0.4); font-weight: 700; }
+
+.rank-change { font-size: 0.75rem; font-weight: 900; padding: 0.2rem 0.4rem; border-radius: 4px; }
+.rank-change.up { color: #10B981; }
+.rank-change.down { color: #EF4444; }
+.rank-change.stable { color: rgba(255,255,255,0.3); }
+
+.full-rank-btn {
+    width: 100%; background: rgba(255,255,255,0.05); border: none; color: white;
+    padding: 0.75rem; border-radius: 10px; font-weight: 800; font-size: 0.85rem;
+    display: flex; justify-content: center; align-items: center; gap: 0.5rem; cursor: pointer;
+}
+.full-rank-btn:hover { background: rgba(255,255,255,0.1); }

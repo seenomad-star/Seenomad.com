@@ -1,0 +1,386 @@
+.social-feed-container {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: transparent;
+    min-height: 100vh;
+    border-left: 1px solid var(--glass-border);
+    border-right: 1px solid var(--glass-border);
+}
+
+/* Header & Tabs */
+.feed-header {
+    position: sticky;
+    top: 72px;
+    /* Adjust based on your main navbar height */
+    z-index: 100;
+    background-color: rgba(15, 23, 42, 0.85);
+    /* Dark theme bg with blur */
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.feed-tabs {
+    display: flex;
+    justify-content: space-around;
+    padding: 0;
+}
+
+.feed-tab {
+    flex: 1;
+    background: none;
+    border: none;
+    padding: 1rem 0;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+.feed-tab:hover {
+    background-color: rgba(255, 255, 255, 0.03);
+    color: var(--color-text-primary);
+}
+
+.feed-tab.active {
+    color: var(--color-text-primary);
+    font-weight: 700;
+}
+
+.feed-tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 3.5rem;
+    height: 4px;
+    background-color: var(--color-primary);
+    border-radius: 2px;
+}
+
+/* Stories Rail */
+.stories-rail {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    overflow-x: auto;
+
+    @supports (scrollbar-width: none) {
+        scrollbar-width: none;
+        /* Firefox */
+    }
+
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.stories-rail::-webkit-scrollbar {
+    display: none;
+    /* Chrome/Safari */
+}
+
+.story-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    flex-shrink: 0;
+    width: 72px;
+}
+
+.story-avatar-ring {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    padding: 2px;
+    position: relative;
+    border: 2px solid transparent;
+}
+
+.story-avatar-ring.active {
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+}
+
+/* Fallback for the ring border if mask doesn't work as expected or for simpler approach */
+.story-avatar-ring.active {
+    border: 2px solid #e1306c;
+    /* Instagram pink */
+    padding: 2px;
+}
+
+.story-avatar {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--color-bg-card);
+    /* Gap between ring and image */
+}
+
+.story-add-btn {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background-color: var(--color-primary);
+    color: white;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--color-bg-card);
+}
+
+.story-username {
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;
+    text-align: center;
+}
+
+/* Composer */
+.composer-container {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.composer-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.composer-content {
+    flex: 1;
+}
+
+.composer-input {
+    width: 100%;
+    background: none;
+    border: none;
+    font-size: 1.25rem;
+    color: var(--color-text-primary);
+    padding: 0.5rem 0;
+    margin-bottom: 1rem;
+    outline: none;
+}
+
+.composer-input::placeholder {
+    color: var(--color-text-secondary);
+}
+
+.composer-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.composer-tools {
+    display: flex;
+    gap: 0.25rem;
+}
+
+.tool-btn {
+    background: none;
+    border: none;
+    color: var(--color-primary);
+    padding: 0.5rem;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tool-btn:hover {
+    background-color: rgba(59, 130, 246, 0.1);
+}
+
+.post-submit-btn {
+    background-color: var(--color-primary);
+    color: white;
+    border: none;
+    padding: 0.5rem 1.25rem;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.post-submit-btn:hover {
+    opacity: 0.9;
+}
+
+/* Feed Stream */
+.stream-post {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    border-bottom: 1px solid var(--glass-border);
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.stream-post:hover {
+    background-color: rgba(255, 255, 255, 0.02);
+}
+
+.post-left {
+    flex-shrink: 0;
+}
+
+.post-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.post-right {
+    flex: 1;
+    min-width: 0;
+    /* Prevents flex item from overflowing */
+}
+
+.post-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.25rem;
+}
+
+.post-author-name {
+    font-weight: 700;
+    color: var(--color-text-primary);
+}
+
+.post-author-handle,
+.post-time,
+.post-dot {
+    color: var(--color-text-secondary);
+    font-size: 0.95rem;
+}
+
+.post-more-btn {
+    margin-left: auto;
+    background: none;
+    border: none;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    padding: 0.25rem;
+    border-radius: 50%;
+}
+
+.post-more-btn:hover {
+    background-color: rgba(59, 130, 246, 0.1);
+    color: var(--color-primary);
+}
+
+.post-content-text {
+    color: var(--color-text-primary);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 0.75rem;
+    white-space: pre-wrap;
+}
+
+.post-media {
+    margin-bottom: 0.75rem;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--glass-border);
+}
+
+.post-media img {
+    width: 100%;
+    height: auto;
+    display: block;
+    max-height: 500px;
+    object-fit: cover;
+}
+
+/* Interactions */
+.post-interactions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 425px;
+    /* Keeps icons from spreading too wide like Twitter */
+    margin-top: 0.5rem;
+}
+
+.interaction-btn {
+    background: none;
+    border: none;
+    color: var(--color-text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    font-size: 0.85rem;
+    padding: 0.5rem;
+    border-radius: 20px;
+    transition: all 0.2s;
+}
+
+.interaction-btn span {
+    font-weight: 500;
+}
+
+/* Hover Colors */
+.interaction-btn.reply:hover {
+    color: #1d9bf0;
+    background-color: rgba(29, 155, 240, 0.1);
+}
+
+.interaction-btn.repost:hover {
+    color: #00ba7c;
+    background-color: rgba(0, 186, 124, 0.1);
+}
+
+.interaction-btn.like:hover {
+    color: #f91880;
+    background-color: rgba(249, 24, 128, 0.1);
+}
+
+.interaction-btn.view:hover,
+.interaction-btn.share:hover {
+    color: #1d9bf0;
+    background-color: rgba(29, 155, 240, 0.1);
+}
+
+.interaction-spacer {
+    flex: 0;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .social-feed-container {
+        border: none;
+    }
+
+    .feed-header {
+        top: 60px;
+    }
+}

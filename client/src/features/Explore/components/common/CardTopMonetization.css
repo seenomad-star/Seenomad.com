@@ -1,0 +1,62 @@
+.card-top-monetization {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.4rem 1rem;
+    background: rgba(255, 255, 255, 0.95);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid #f1f5f9;
+    position: relative;
+    z-index: 10;
+    transition: all 0.3s ease;
+}
+
+.monetization-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    white-space: nowrap;
+}
+
+.monetization-btn.unlock {
+    color: #f59e0b;
+}
+
+.monetization-btn.premium {
+    color: #8b5cf6;
+}
+
+.monetization-btn:hover {
+    background: rgba(0, 0, 0, 0.02);
+    transform: translateY(-1px);
+}
+
+.monetization-btn svg {
+    transition: transform 0.2s ease;
+}
+
+.monetization-btn:hover svg {
+    transform: scale(1.1);
+}
+
+/* List view specific adjustments */
+.destination-list-item .card-top-monetization {
+    padding: 0.3rem 0.75rem;
+    background: #f8fafc;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.country-card .card-top-monetization {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}

@@ -1,0 +1,239 @@
+.v-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(15px);
+    z-index: 9999;
+}
+
+.v-modal-content {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 32px;
+    width: 100%;
+    max-width: 500px;
+    padding: 2.5rem;
+    z-index: 10000;
+    box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.v-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+.v-modal-header h2 {
+    font-size: 1.8rem;
+    font-weight: 950;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.5px;
+}
+.v-modal-header p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+.v-modal-header p strong {
+    color: #10B981;
+}
+.v-close {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--glass-border);
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.v-close:hover {
+    background: rgba(255,255,255,0.1);
+    transform: scale(1.05);
+}
+
+/* Scorecard Design (Exportable) */
+.scorecard-capture-area {
+    padding: 1rem;
+    background: rgba(0,0,0,0.2);
+    border-radius: 24px;
+    display: flex;
+    justify-content: center;
+}
+
+.nomad-scorecard {
+    background: linear-gradient(135deg, #1E1E2E 0%, #11111B 100%);
+    border-radius: 28px;
+    padding: 2rem;
+    width: 100%;
+    max-width: 360px;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+}
+.card-ambient-glow {
+    position: absolute;
+    top: -50px;
+    left: -50px;
+    width: 150px;
+    height: 150px;
+    background: #8B5CF6;
+    filter: blur(80px);
+    opacity: 0.5;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.scorecard-top {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 2.5rem;
+    z-index: 1;
+}
+.sc-user {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.sc-user img {
+    width: 56px;
+    height: 56px;
+    border-radius: 18px;
+    object-fit: cover;
+    border: 2px solid white;
+}
+.sc-user h3 {
+    font-size: 1.25rem;
+    font-weight: 900;
+    margin: 0;
+}
+.sc-user span {
+    font-size: 0.85rem;
+    color: #8B5CF6;
+    font-weight: 700;
+}
+
+.sc-badge {
+    background: rgba(255,255,255,0.1);
+    padding: 0.4rem 0.8rem;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: white;
+}
+
+.sc-metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    position: relative;
+    z-index: 1;
+    margin-bottom: 2.5rem;
+}
+.sc-metric {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background: rgba(0,0,0,0.3);
+    padding: 1.25rem 0.5rem;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+.sc-metric .icon { margin-bottom: 0.75rem; }
+.icon.c-blue { color: #3B82F6; }
+.icon.c-green { color: #10B981; }
+.icon.c-orange { color: #F59E0B; }
+
+.sc-metric .val {
+    font-size: 1.8rem;
+    font-weight: 950;
+    line-height: 1;
+    margin-bottom: 0.3rem;
+}
+.sc-metric .lbl {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.5);
+    text-transform: uppercase;
+}
+
+.sc-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 1.5rem;
+    position: relative;
+    z-index: 1;
+}
+.sc-footer .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+.brand-icon { color: #A855F7; }
+.sc-footer .join-link {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.5);
+    font-weight: 600;
+}
+
+/* Share Actions */
+.share-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+.share-btn {
+    padding: 1rem;
+    border-radius: 16px;
+    border: none;
+    font-weight: 800;
+    font-size: 0.95rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    color: white;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.share-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
+.share-btn.x-btn {
+    background: #000;
+    border: 1px solid rgba(255,255,255,0.2);
+}
+.share-btn.ig-btn {
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+}
+.share-btn.link-btn {
+    grid-column: 1 / -1;
+    background: rgba(255,255,255,0.1);
+}
+.share-btn.link-btn:hover {
+    background: rgba(255,255,255,0.15);
+}

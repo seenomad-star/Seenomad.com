@@ -1,0 +1,22 @@
+.p2p-tipping-card {
+    background: rgba(0,0,0,0.6); border: 1px solid rgba(16, 185, 129, 0.2);
+    border-radius: 12px; padding: 1rem; width: 100%; display: flex; flex-direction: column; gap: 0.75rem;
+}
+.pt-header { display: flex; align-items: center; gap: 0.5rem; font-size: 0.65rem; font-weight: 950; letter-spacing: 1px; color: rgba(255,255,255,0.4); }
+.pt-header strong { color: white; }
+
+.pt-input-row { display: flex; gap: 0.75rem; }
+.pt-amounts { display: flex; gap: 0.4rem; flex: 1; }
+.amt-btn {
+    flex: 1; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+    color: white; padding: 0.5rem; border-radius: 8px; font-weight: 900; font-size: 0.75rem; cursor: pointer;
+}
+.amt-btn.active { background: #10B981; border-color: transparent; }
+
+.pt-send-btn {
+    background: #10B981; color: white; border: none; padding: 0 1rem; border-radius: 8px;
+    cursor: pointer; transition: 0.3s;
+}
+.pt-send-btn.sent { background: #3B82F6; }
+
+.pt-success { font-size: 0.6rem; color: #10B981; font-family: monospace; text-align: center; }

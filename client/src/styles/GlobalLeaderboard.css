@@ -1,0 +1,44 @@
+.leaderboard-container {
+    background: #0F172A; border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 24px; padding: 2rem;
+    font-family: 'Inter', sans-serif; color: white;
+}
+
+.lb-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem; }
+.lb-title { display: flex; align-items: center; gap: 0.75rem; }
+.lb-title h2 { font-size: 1.5rem; font-weight: 950; text-transform: uppercase; letter-spacing: 1px; }
+
+.lb-stats-mini { display: flex; gap: 1rem; color: rgba(255,255,255,0.4); font-size: 0.75rem; font-weight: 800; }
+.lb-stat { display: flex; align-items: center; gap: 0.3rem; }
+
+.lb-ranking-table { display: flex; flex-direction: column; gap: 0.75rem; }
+.lb-user-row {
+    display: flex; align-items: center; gap: 1.25rem;
+    padding: 1.25rem; background: rgba(255,255,255,0.02); border-radius: 16px;
+    border: 1px solid transparent; transition: all 0.2s;
+}
+.lb-user-row:hover { background: rgba(255,255,255,0.05); border-color: rgba(59, 130, 246, 0.3); }
+
+.lb-rank-badge { width: 30px; font-weight: 950; font-size: 1.1rem; color: #3B82F6; text-align: center; }
+.lb-user-avatar { width: 45px; height: 45px; border-radius: 12px; background: linear-gradient(135deg, #3B82F6, #10B981); display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.1rem; }
+
+.lb-user-meta { flex: 1; display: flex; flex-direction: column; }
+.lb-user-meta strong { font-size: 1rem; font-weight: 900; }
+.lb-user-meta span { font-size: 0.75rem; color: rgba(255,255,255,0.4); font-weight: 700; text-transform: uppercase; }
+
+.lb-metrics { display: flex; gap: 1.5rem; }
+.lb-metric { display: flex; align-items: center; gap: 0.4rem; font-size: 0.85rem; font-weight: 800; }
+
+.lb-trend { margin-left: 1rem; opacity: 0.8; }
+
+.rank-1 { background: linear-gradient(90deg, rgba(234, 179, 8, 0.05), rgba(0,0,0,0)); border-color: rgba(234, 179, 8, 0.3); }
+.rank-1 .lb-rank-badge { color: #EAB308; }
+
+.referral-box {
+    margin-top: 3rem; background: linear-gradient(135deg, #3B82F6, #A855F7);
+    padding: 1.5rem; border-radius: 20px; display: flex; justify-content: space-between; align-items: center;
+}
+.rb-content h4 { font-size: 1.1rem; font-weight: 950; margin: 0 0 0.25rem 0; }
+.rb-content p { font-size: 0.85rem; font-weight: 700; margin: 0; opacity: 0.9; }
+.invite-btn { background: white; color: #3B82F6; border: none; padding: 0.75rem 1.5rem; border-radius: 100px; font-weight: 900; cursor: pointer; transition: 0.3s; }
+.invite-btn:hover { transform: scale(1.05); }

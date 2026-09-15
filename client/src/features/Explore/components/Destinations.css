@@ -1,0 +1,532 @@
+/* Travel OS Design Tokens */
+:root {
+    --travel-os-blur: blur(30px);
+    --travel-os-border: 1px solid rgba(255, 255, 255, 0.1);
+    --travel-os-bg: rgba(15, 23, 42, 0.6);
+    --aura-blue: 0 0 20px rgba(59, 130, 246, 0.4);
+    --aura-orange: 0 0 20px rgba(245, 158, 11, 0.4);
+    --aura-purple: 0 0 20px rgba(168, 85, 247, 0.4);
+}
+
+.destinations-page {
+    padding: 2rem;
+    max-width: 1800px;
+    margin: 0 auto;
+    min-height: 100vh;
+    background: transparent;
+    position: relative;
+    animation: fadeIn 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Main Layout - Two Column (70/30) */
+.destinations-main-layout {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 2.5rem;
+    margin-top: 1rem;
+    align-items: start;
+}
+
+.destinations-feed-column {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+/* Discovery Grid */
+.destinations-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+}
+
+.destinations-grid.list-view-container {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+/* Destination Cards - Base */
+.destination-card {
+    background: var(--color-bg-card);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: var(--shadow-premium);
+    transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    border: 1px solid var(--card-border);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.destination-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 24px;
+    padding: 1px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent 50%, rgba(255, 255, 255, 0.05));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+}
+
+.destination-card:hover {
+    border-color: var(--card-hover-border);
+    background: var(--card-hover-bg);
+    transform: translateY(-8px) scale(1.01);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px var(--primary-glow);
+}
+
+/* Compact Overrides */
+.destination-card.compact {
+    border-radius: 20px;
+    transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.card-image-container.compact {
+    height: 120px;
+}
+
+.card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.destination-card:hover .card-image {
+    transform: scale(1.1);
+}
+
+/* Live Pulse Badge - Compact */
+.live-pulse-badge.compact {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    background: rgba(0, 0, 0, 0.6);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    padding: 0.3rem 0.6rem;
+    border-radius: 100px;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.65rem;
+    font-weight: 800;
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 10;
+    transition: all 0.3s ease;
+}
+
+.destination-card:hover .live-pulse-badge.compact {
+    background: rgba(16, 185, 129, 0.2);
+    border-color: rgba(16, 185, 129, 0.3);
+}
+
+.pulse-dot {
+    width: 5px;
+    height: 5px;
+    background: #10b981;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #10b981;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.5);
+        opacity: 0.5;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* AI Confidence Gauge - Compact */
+.ai-confidence-gauge.compact {
+    position: absolute;
+    bottom: 0.75rem;
+    left: 0.75rem;
+    right: 0.75rem;
+    background: rgba(15, 23, 42, 0.85);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    padding: 0.4rem 0.75rem;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 10;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.destination-card:hover .ai-confidence-gauge.compact {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.gauge-track {
+    flex: 1;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 100px;
+    overflow: hidden;
+}
+
+.gauge-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+    box-shadow: 0 0 8px rgba(59, 130, 246, 0.5);
+}
+
+.gauge-value {
+    font-size: 0.65rem;
+    font-weight: 900;
+    color: white;
+    white-space: nowrap;
+}
+
+/* Compact Content */
+.card-content.compact {
+    padding: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.card-header-compact {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.title-row h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--color-text-primary);
+    transition: color 0.3s ease;
+}
+
+.destination-card:hover .title-row h3 {
+    color: #3b82f6;
+}
+
+.location-tag {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.65rem;
+    color: var(--color-text-secondary);
+    margin-top: 0.1rem;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.follow-btn-mini {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+    font-size: 0.65rem;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.follow-btn-mini:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.follow-btn-mini.followed {
+    background: rgba(16, 185, 129, 0.1);
+    border-color: rgba(16, 185, 129, 0.2);
+    color: #10b981;
+}
+
+.rating-pill {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    background: rgba(245, 158, 11, 0.1);
+    color: #f59e0b;
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+    font-size: 0.7rem;
+    font-weight: 900;
+    border: 1px solid rgba(245, 158, 11, 0.15);
+}
+
+.review-count {
+    font-size: 0.6rem;
+    opacity: 0.6;
+    font-weight: 600;
+    margin-left: 1px;
+}
+
+/* Highlights List */
+.highlights-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+.highlight-tag {
+    background: rgba(59, 130, 246, 0.05);
+    border: 1px solid rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
+    padding: 0.2rem 0.5rem;
+    border-radius: 6px;
+    font-size: 0.6rem;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    transition: all 0.3s ease;
+}
+
+.destination-card:hover .highlight-tag {
+    background: rgba(59, 130, 246, 0.1);
+    border-color: rgba(59, 130, 246, 0.2);
+}
+
+/* Single Row Data Grid */
+.intelligence-data-row {
+    display: flex;
+    justify-content: space-between;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    padding: 0.4rem 0.6rem;
+    border-radius: 10px;
+    opacity: 0.3;
+    filter: grayscale(1);
+    transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.destination-card:hover .intelligence-data-row {
+    opacity: 1;
+    filter: grayscale(0);
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.data-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: white;
+}
+
+.data-item svg.blue {
+    color: #3b82f6;
+}
+
+.data-item svg.green {
+    color: #10b981;
+}
+
+.data-item svg.purple {
+    color: #a855f7;
+}
+
+.data-item svg.orange {
+    color: #f59e0b;
+}
+
+/* Social Actions Row - Compact */
+.social-actions-row.compact {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.social-btn.compact {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.4);
+    padding: 0.35rem 0.6rem;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.65rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.social-btn.compact:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.social-btn.more.compact {
+    padding: 0.35rem;
+    margin-left: auto;
+}
+
+/* Footer Compact */
+.card-footer-compact {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.price-tag .val {
+    font-size: 1rem;
+    font-weight: 900;
+    color: #3b82f6;
+}
+
+.workstation-btn-compact {
+    background: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0.45rem 0.85rem;
+    border-radius: 8px;
+    font-size: 0.7rem;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.destination-card:hover .workstation-btn-compact {
+    background: white;
+    color: #0f172a;
+    border-color: white;
+    transform: translateX(2px);
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
+}
+
+.workstation-btn-compact:hover {
+    background: #3b82f6 !important;
+    color: white !important;
+    border-color: #3b82f6 !important;
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.5) !important;
+}
+
+/* Aura Effects */
+.aura-trending {
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.15);
+    border-color: rgba(59, 130, 246, 0.2) !important;
+}
+
+.aura-deal {
+    box-shadow: 0 0 15px rgba(245, 158, 11, 0.15);
+    border-color: rgba(245, 158, 11, 0.2) !important;
+}
+
+.aura-ai {
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.15);
+    border-color: rgba(168, 85, 247, 0.2) !important;
+}
+
+/* Intelligence Sidecar Container */
+.intelligence-sidecar {
+    position: sticky;
+    top: 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    height: calc(100vh - 120px);
+    overflow-y: auto;
+    padding-right: 0.5rem;
+}
+
+.intelligence-sidecar::-webkit-scrollbar {
+    width: 4px;
+}
+
+.intelligence-sidecar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.intelligence-sidecar::-webkit-scrollbar-thumb {
+    border-radius: 6px;
+    font-size: 0.7rem;
+    font-weight: 800;
+    border: 1px solid rgba(168, 85, 247, 0.2);
+}
+
+/* Responsive */
+@media (max-width: 1400px) {
+    .destinations-main-layout {
+        grid-template-columns: 1fr 320px;
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 1100px) {
+    .destinations-main-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .intelligence-sidecar {
+        position: static;
+        height: auto;
+        padding-right: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .destinations-page {
+        padding: 1rem;
+    }
+
+    .destinations-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .card-main-layout.horizontal {
+        flex-direction: column;
+    }
+
+    .card-image-container.list-image {
+        width: 100%;
+        height: 140px;
+    }
+}

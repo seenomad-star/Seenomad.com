@@ -1,0 +1,20 @@
+.social-proof-wrapper {
+    position: fixed; bottom: 2rem; left: 2rem; z-index: 9999;
+}
+.sp-toast {
+    display: flex; align-items: flex-start; gap: 1rem;
+    background: rgba(15, 23, 42, 0.95);
+    border: 1px solid rgba(168, 85, 247, 0.4);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.4), 0 0 15px rgba(168, 85, 247, 0.2);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    border-radius: 16px; padding: 1rem 1.25rem; font-family: 'Inter', sans-serif;
+    transform: translateY(100px); opacity: 0; transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+.sp-toast.visible { transform: translateY(0); opacity: 1; }
+
+.sp-icon { background: rgba(168, 85, 247, 0.1); padding: 0.75rem; border-radius: 50%; color: #A855F7; display: flex; align-items: center; justify-content: center; }
+.sp-content h4 { margin: 0; font-size: 0.9rem; font-weight: 700; color: rgba(255,255,255,0.9); }
+.sp-content strong { color: white; font-weight: 900; }
+.sp-content p { margin: 0.2rem 0; font-size: 0.85rem; color: #A855F7; font-weight: 600; }
+.sp-time { font-size: 0.7rem; color: rgba(255,255,255,0.5); font-weight: 700; text-transform: uppercase; }

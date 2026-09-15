@@ -1,0 +1,52 @@
+.shorts-container {
+    height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #000;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+    border-radius: 30px;
+    position: relative;
+}
+
+.shorts-feed { width: 100%; height: 100%; }
+
+.short-video-card {
+    height: 100%; width: 100%;
+    background-size: cover;
+    background-position: center;
+    scroll-snap-align: start;
+    position: relative;
+    display: flex; flex-direction: column; justify-content: flex-end;
+}
+
+.video-overlay {
+    background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 60%);
+    padding: 2.5rem 1.5rem;
+    display: flex; justify-content: space-between; align-items: flex-end;
+    color: white; font-family: 'Inter', sans-serif;
+}
+
+.video-info { flex: 1; display: flex; flex-direction: column; gap: 0.75rem; }
+.user-row { display: flex; align-items: center; gap: 1rem; }
+.user-row h4 { font-size: 1.1rem; font-weight: 900; }
+.follow-btn {
+    background: transparent; border: 1px solid white; color: white;
+    padding: 0.3rem 0.8rem; border-radius: 6px; font-weight: 700; font-size: 0.75rem;
+    display: flex; align-items: center; gap: 0.4rem; cursor: pointer;
+}
+.video-info p { font-size: 0.95rem; line-height: 1.4; color: rgba(255,255,255,0.9); font-weight: 500; }
+
+.music-ticker { display: flex; align-items: center; gap: 0.5rem; font-size: 0.8rem; font-weight: 600; opacity: 0.8; }
+.spinning { animation: spin 4s linear infinite; }
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+.video-actions { display: flex; flex-direction: column; gap: 1.5rem; align-items: center; }
+.action-item { display: flex; flex-direction: column; align-items: center; gap: 0.3rem; cursor: pointer; }
+.action-item span { font-size: 0.8rem; font-weight: 800; text-transform: uppercase; }
+
+.user-avatar-disc { width: 45px; height: 45px; border-radius: 50%; border: 2px solid white; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.disc-inner { width: 100%; height: 100%; background: linear-gradient(45deg, #A855F7, #3B82F6); }
+
+.play-hint { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; opacity: 0.3; pointer-events: none; }

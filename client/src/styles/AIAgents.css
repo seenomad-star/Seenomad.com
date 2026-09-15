@@ -1,0 +1,223 @@
+/* Nomad OS - Digital Universe Styling */
+
+:root {
+    --nomad-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+    --xp-color: #fbbf24;
+    /* Amber-400 */
+    --premium-gold: linear-gradient(135deg, #fcd34d 0%, #f59e0b 100%);
+}
+
+.ai-hub-container {
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    animation: universeFadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ai-hub-header h1 {
+    font-size: 3.5rem;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    background: var(--nomad-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.5rem;
+}
+
+/* Agent Cards - Gamified */
+.agent-card {
+    background: var(--glass-bg);
+    -webkit-backdrop-filter: blur(24px);
+    backdrop-filter: blur(24px);
+    border: 1px solid var(--glass-border);
+    border-radius: 28px;
+    padding: 2.5rem;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+}
+
+.agent-card:hover {
+    transform: translateY(-12px) scale(1.02);
+    border-color: var(--agent-color);
+    box-shadow: 0 20px 50px -12px var(--agent-color-alpha);
+}
+
+/* Affinity & Progression */
+.affinity-container {
+    margin: 1.5rem 0;
+}
+
+.affinity-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.affinity-bar {
+    height: 6px;
+    background: var(--bg-secondary);
+    border-radius: 100px;
+    overflow: hidden;
+}
+
+.affinity-progress {
+    height: 100%;
+    background: var(--agent-color);
+    box-shadow: 0 0 12px var(--agent-color-alpha);
+    transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Premium Gating */
+.agent-card.gated {
+    filter: grayscale(0.5);
+    opacity: 0.8;
+}
+
+.premium-badge {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    background: var(--premium-gold);
+    color: #000;
+    padding: 0.4rem 0.8rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+}
+
+/* Chat Interface - Immersive */
+.agent-chat-container {
+    height: calc(100vh - 140px);
+    background: rgba(15, 15, 20, 0.8);
+    -webkit-backdrop-filter: blur(40px);
+    backdrop-filter: blur(40px);
+    border-radius: 32px;
+    margin: 1rem;
+    border: 1px solid var(--glass-border);
+    display: flex;
+    flex-direction: column;
+    animation: chatSlideUp 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.context-pill {
+    background: var(--agent-color-alpha);
+    color: var(--agent-color);
+    padding: 0.4rem 1rem;
+    border-radius: 100px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: 1px solid var(--agent-color-alpha);
+}
+
+/* Typing Indicator */
+.typing-indicator {
+    display: flex;
+    gap: 4px;
+    padding: 4px 0;
+}
+
+.typing-indicator span {
+    width: 6px;
+    height: 6px;
+    background: var(--text-secondary);
+    border-radius: 50%;
+    animation: typingBounce 1.4s infinite ease-in-out;
+}
+
+.typing-indicator span:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.typing-indicator span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.typing-indicator span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+/* Animations */
+@keyframes universeFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes chatSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes typingBounce {
+
+    0%,
+    80%,
+    100% {
+        transform: translateY(0);
+    }
+
+    40% {
+        transform: translateY(-6px);
+    }
+}
+
+/* XP Gain Notification (Conceptual) */
+.xp-gain-popup {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: var(--xp-color);
+    color: #000;
+    padding: 1rem 2rem;
+    border-radius: 16px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    animation: xpPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    z-index: 1000;
+}
+
+@keyframes xpPop {
+    0% {
+        transform: scale(0) rotate(-10deg);
+        opacity: 0;
+    }
+
+    70% {
+        transform: scale(1.1) rotate(2deg);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+    }
+}
