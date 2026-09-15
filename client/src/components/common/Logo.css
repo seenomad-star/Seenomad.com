@@ -78,33 +78,23 @@
     padding: 3px 10px;
 }
 
-/* Mobile Responsiveness */
-@media (max-width: 640px) {
-    .seenomad-logo {
-        gap: 0.45rem;
-    }
-
-    .logo-medium .logo-image {
-        width: 28px;
-        height: 28px;
-    }
-
-    .logo-medium .logo-name {
-        font-size: 1.15rem;
-    }
-
-    .logo-medium .logo-badge {
-        font-size: 0.65rem;
-        padding: 1px 5px;
-    }
-}
-
-@media (max-width: 380px) {
-    .logo-badge {
+/* Mobile / Small Screen Responsiveness: Just show Seenomad logo icon in place of full name */
+@media (max-width: 768px) {
+    .seenomad-logo .logo-text {
         display: none;
     }
 
-    .logo-medium .logo-name {
-        font-size: 1.05rem;
+    .seenomad-logo {
+        gap: 0;
+    }
+
+    .logo-medium .logo-image {
+        width: 32px;
+        height: 32px;
+    }
+
+    .logo-small .logo-image {
+        width: 26px;
+        height: 26px;
     }
 }

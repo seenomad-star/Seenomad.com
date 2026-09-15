@@ -243,11 +243,12 @@ const CoreNav = ({ toggleSidebar, toggleRightSidebar, currentTheme, onThemeChang
                         <button
                             className={`nav-btn nomad-start-btn ${isModuleSwitcherOpen ? 'active' : ''}`}
                             onClick={() => toggleModuleSwitcher()}
-                            aria-label="Open Launchpad"
-                            title="Open Launchpad Apps"
+                            aria-label="Open Travel Hub & Trip Launcher"
+                            title="Open Seenomad Travel Hub"
                         >
-                            <Compass size={18} className="start-icon" />
-                            <span className="start-label">Start</span>
+                            <Compass size={17} className="start-icon" />
+                            <span className="start-label">Travel Hub</span>
+                            <span className="start-badge">All</span>
                         </button>
                     </div>
 
