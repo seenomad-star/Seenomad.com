@@ -24,27 +24,27 @@ const AddressBar = ({ isSidebarCollapsed }) => {
     return (
         <div className={`address-bar-container ${!isSidebarCollapsed ? 'left-sidebar-expanded' : 'left-sidebar-collapsed'}`}>
             <div className="address-bar-nav-btns">
-                <button className="addr-btn" onClick={() => navigate(-1)} title="Back">
-                    <ChevronLeft size={18} />
+                <button className="addr-btn" onClick={() => navigate(-1)} title="Back" aria-label="Go back">
+                    <ChevronLeft size={16} />
                 </button>
-                <button className="addr-btn" onClick={() => navigate(1)} title="Forward">
-                    <ChevronRight size={18} />
+                <button className="addr-btn" onClick={() => navigate(1)} title="Forward" aria-label="Go forward">
+                    <ChevronRight size={16} />
                 </button>
-                <button className="addr-btn" onClick={handleGoUp} title="Up" disabled={pathnames.length === 0}>
-                    <ArrowUp size={18} />
+                <button className="addr-btn addr-btn-up" onClick={handleGoUp} title="Go up one level" disabled={pathnames.length === 0} aria-label="Up">
+                    <ArrowUp size={16} />
                 </button>
-                <button className="addr-btn" onClick={handleRefresh} title="Refresh">
-                    <RotateCw size={16} />
+                <button className="addr-btn addr-btn-refresh" onClick={handleRefresh} title="Refresh page" aria-label="Refresh">
+                    <RotateCw size={15} />
                 </button>
             </div>
 
             <div className="address-bar-main">
                 <div className="address-bar-path">
                     <div className="path-segment root">
-                        <Link to="/" className="segment-link">
-                            <Monitor size={16} />
+                        <Link to="/" className="segment-link" title="Home">
+                            <Monitor size={15} />
                         </Link>
-                        <ChevronRight size={14} className="separator" />
+                        {pathnames.length > 0 && <ChevronRight size={13} className="separator" />}
                     </div>
                     {pathnames.map((value, index) => {
                         const to = `/${pathnames.slice(0, index + 1).join('/')}`;
@@ -52,21 +52,23 @@ const AddressBar = ({ isSidebarCollapsed }) => {
                             .split('-')
                             .map(word => word.charAt(0).toUpperCase() + word.slice(1))
                             .join(' ');
+                        const isLast = index === pathnames.length - 1;
 
                         return (
-                            <div key={to} className="path-segment">
+                            <div key={to} className={`path-segment ${isLast ? 'active' : ''}`}>
                                 <Link to={to} className="segment-link">{label}</Link>
-                                <ChevronRight size={14} className="separator" />
+                                {!isLast && <ChevronRight size={13} className="separator" />}
                             </div>
                         );
                     })}
                 </div>
 
-                <div className="address-bar-search">
-                    <Search size={16} className="search-icon" />
+                <div className="address-bar-search address-bar-search-desktop">
+                    <Search size={15} className="search-icon" />
                     <input
                         type="text"
-                        placeholder={`Search ${pathnames[pathnames.length - 1] || 'Travel OS'}`}
+                        placeholder={`Filter ${pathnames[pathnames.length - 1] || 'current view'}...`}
+                        aria-label="Filter current page"
                     />
                 </div>
 
@@ -75,15 +77,17 @@ const AddressBar = ({ isSidebarCollapsed }) => {
                         className={`view-toggle-btn ${viewMode === 'grid' ? 'active' : ''}`}
                         onClick={() => setViewMode('grid')}
                         title="Grid View"
+                        aria-label="Grid View"
                     >
-                        <LayoutGrid size={16} />
+                        <LayoutGrid size={15} />
                     </button>
                     <button
                         className={`view-toggle-btn ${viewMode === 'list' ? 'active' : ''}`}
                         onClick={() => setViewMode('list')}
                         title="List View"
+                        aria-label="List View"
                     >
-                        <List size={16} />
+                        <List size={15} />
                     </button>
                 </div>
             </div>

@@ -77,3 +77,34 @@
     font-size: 0.875rem;
     padding: 3px 10px;
 }
+
+/* Mobile Responsiveness */
+@media (max-width: 640px) {
+    .seenomad-logo {
+        gap: 0.45rem;
+    }
+
+    .logo-medium .logo-image {
+        width: 28px;
+        height: 28px;
+    }
+
+    .logo-medium .logo-name {
+        font-size: 1.15rem;
+    }
+
+    .logo-medium .logo-badge {
+        font-size: 0.65rem;
+        padding: 1px 5px;
+    }
+}
+
+@media (max-width: 380px) {
+    .logo-badge {
+        display: none;
+    }
+
+    .logo-medium .logo-name {
+        font-size: 1.05rem;
+    }
+}
