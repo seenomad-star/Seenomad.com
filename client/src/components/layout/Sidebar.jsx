@@ -76,11 +76,15 @@ const Sidebar = ({ isCollapsed, toggleSidebar, isMobileOpen, isMobile }) => {
         : `sidebar ${isCollapsed ? 'collapsed' : ''}`;
 
     return (
-        <aside className={sidebarClass}>
-            <nav className="sidebar-nav">
+        <aside
+            className={sidebarClass}
+            aria-label="Primary navigation"
+            aria-expanded={isMobile ? isMobileOpen : !isCollapsed}
+        >
+            <nav className="sidebar-nav" aria-label="Explore Seenomad">
                 {sidebarSections.map((section, sectionIndex) => (
                     <div key={sectionIndex} className="sidebar-section">
-                        {!isCollapsed && <div className="sidebar-section-title">{section.title}</div>}
+                        <div className="sidebar-section-title" aria-hidden={isCollapsed}>{section.title}</div>
                         <ul>
                             {section.items.map((item, index) => (
                                 <li key={index} className={item.label === 'Explore' ? 'explore-item-container' : ''}>
@@ -102,7 +106,7 @@ const Sidebar = ({ isCollapsed, toggleSidebar, isMobileOpen, isMobile }) => {
                 ))}
                 {/* Legal section in scrollable area */}
                 <div className="sidebar-section">
-                    {!isCollapsed && <div className="sidebar-section-title">LEGAL</div>}
+                    <div className="sidebar-section-title" aria-hidden={isCollapsed}>LEGAL</div>
                     <ul>
                         <li>
                             <NavLink to="/legal/community-guidelines" title={isCollapsed ? 'Community Guidelines' : ''}>
@@ -132,20 +136,20 @@ const Sidebar = ({ isCollapsed, toggleSidebar, isMobileOpen, isMobile }) => {
                 </div>
             </nav>
             {/* Sticky footer with Settings and Logout */}
-            <div className="sidebar-footer">
+            <div className="sidebar-footer" aria-label="Account navigation">
                 <ul>
                     <li>
                         <NavLink
                             to="/settings"
                             className={({ isActive }) => isActive ? 'active' : ''}
-                            title={isCollapsed ? 'Settings' : ''}
+                            title="Settings"
                         >
                             <SettingsIcon size={20} />
                             <span>Settings</span>
                         </NavLink>
                     </li>
                     <li>
-                        <a href="#logout" className="logout-link" title={isCollapsed ? 'Logout' : ''}>
+                        <a href="#logout" className="logout-link" title="Logout">
                             <LogOut size={20} />
                             <span>Logout</span>
                         </a>

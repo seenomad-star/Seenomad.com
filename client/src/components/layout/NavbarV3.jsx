@@ -12,6 +12,7 @@ const NavbarV3 = ({ toggleSidebar, toggleRightSidebar, isRightSidebarCollapsed, 
             <CoreNav
                 toggleSidebar={toggleSidebar}
                 toggleRightSidebar={toggleRightSidebar}
+                isSidebarCollapsed={isSidebarCollapsed}
                 currentTheme={currentTheme}
                 onThemeChange={onThemeChange}
             />
