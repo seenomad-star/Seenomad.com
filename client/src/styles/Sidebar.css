@@ -19,26 +19,30 @@
     width: 80px;
 }
 
+.sidebar.collapsed:hover {
+    width: 260px;
+    box-shadow: var(--shadow-premium);
+}
+
 .sidebar.collapsed .sidebar-nav a,
 .sidebar.collapsed .sidebar-footer a {
     justify-content: center;
-    padding: 0.6rem 0;
-    margin-right: 0.5rem;
-    margin-left: 0.5rem;
-    border-radius: 10px;
+    padding: 0.75rem 0;
 }
 
 .sidebar.collapsed .sidebar-nav span,
 .sidebar.collapsed .sidebar-footer span {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
+    opacity: 0;
+    width: 0;
     overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
+    transition: opacity 0.2s ease, width 0.2s ease;
+}
+
+.sidebar.collapsed:hover .sidebar-nav span,
+.sidebar.collapsed:hover .sidebar-footer span {
+    opacity: 1;
+    width: auto;
+    overflow: visible;
 }
 
 .sidebar-nav {
@@ -94,15 +98,13 @@
     transform: scale(1.1);
 }
 
-.sidebar-nav a.active,
-.sidebar-footer a.active {
+.sidebar-nav a.active {
     background: linear-gradient(90deg, rgba(59, 130, 246, 0.15), transparent);
     color: var(--color-primary);
     border-left: 3px solid var(--color-primary);
 }
 
-.sidebar-nav a.active svg,
-.sidebar-footer a.active svg {
+.sidebar-nav a.active svg {
     color: var(--color-primary);
 }
 
@@ -213,6 +215,10 @@
     display: none;
 }
 
+.sidebar.collapsed:hover .sidebar-legal-footer {
+    display: block;
+}
+
 /* Section Dividers */
 .sidebar-section {
     margin-bottom: 1.5rem;
@@ -230,15 +236,11 @@
 }
 
 .sidebar.collapsed .sidebar-section-title {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
+    display: none;
+}
+
+.sidebar.collapsed:hover .sidebar-section-title {
+    display: block;
 }
 
 .sidebar-section ul {
@@ -262,11 +264,11 @@
 }
 
 .sidebar.collapsed .sidebar-copyright {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
+    display: none;
+}
+
+.sidebar.collapsed:hover .sidebar-copyright {
+    display: block;
 }
 
 /* Legal links in scrollable nav area */
@@ -316,8 +318,7 @@
 /* Reddit-style compact spacing */
 .sidebar-nav a,
 .sidebar-footer a {
-    position: relative;
-    padding: 0.6rem 1.5rem;
+    padding: 0.5rem 1.5rem;
     font-size: 0.875rem;
     gap: 1rem;
 }
