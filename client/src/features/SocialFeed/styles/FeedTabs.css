@@ -1,0 +1,222 @@
+/* ==========================================================================
+   FeedTabs.css - Modern Social Media Tab Switcher (X / Facebook / Threads Style)
+   ========================================================================== */
+
+.feed-header-sticky {
+    position: sticky;
+    top: 72px; /* aligns below NavbarV3 */
+    z-index: 910;
+    background: rgba(10, 15, 29, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    transition: background 0.2s ease, border-color 0.2s ease;
+    width: 100%;
+}
+
+:root:not(.dark) .feed-header-sticky {
+    background: rgba(255, 255, 255, 0.9);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.feed-tabs-wrapper {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    padding: 0.4rem 0.5rem;
+    box-sizing: border-box;
+}
+
+.feed-tabs-scroll-container {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding: 2px 4px;
+    width: 100%;
+    -webkit-overflow-scrolling: touch;
+}
+
+.feed-tabs-scroll-container::-webkit-scrollbar {
+    display: none;
+}
+
+/* Scroll Arrows for Desktop */
+.feed-scroll-arrow {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(15, 23, 42, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #94a3b8;
+    cursor: pointer;
+    flex-shrink: 0;
+    z-index: 10;
+    transition: all 0.15s ease;
+}
+
+:root:not(.dark) .feed-scroll-arrow {
+    background: #f1f5f9;
+    border-color: rgba(0, 0, 0, 0.08);
+    color: #475569;
+}
+
+.feed-scroll-arrow:hover {
+    background: rgba(59, 130, 246, 0.2);
+    color: #ffffff;
+    border-color: #3b82f6;
+    transform: scale(1.08);
+}
+
+:root:not(.dark) .feed-scroll-arrow:hover {
+    background: #e2e8f0;
+    color: #0f172a;
+}
+
+@media (min-width: 768px) {
+    .feed-scroll-arrow {
+        display: flex;
+    }
+}
+
+/* Tab Pill */
+.feed-tab-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 6px 14px;
+    min-height: 36px;
+    border-radius: 999px;
+    background: transparent;
+    border: 1px solid transparent;
+    color: #94a3b8;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    user-select: none;
+}
+
+:root:not(.dark) .feed-tab-pill {
+    color: #64748b;
+}
+
+.feed-tab-pill:hover {
+    background: rgba(255, 255, 255, 0.06);
+    color: #ffffff;
+}
+
+:root:not(.dark) .feed-tab-pill:hover {
+    background: rgba(0, 0, 0, 0.05);
+    color: #0f172a;
+}
+
+/* Active State */
+.feed-tab-pill.active {
+    background: rgba(59, 130, 246, 0.16);
+    border-color: rgba(59, 130, 246, 0.35);
+    color: #60a5fa;
+    box-shadow: 0 2px 10px rgba(59, 130, 246, 0.15);
+}
+
+:root:not(.dark) .feed-tab-pill.active {
+    background: rgba(59, 130, 246, 0.1);
+    border-color: rgba(59, 130, 246, 0.3);
+    color: #2563eb;
+    box-shadow: 0 1px 4px rgba(59, 130, 246, 0.1);
+}
+
+.tab-icon-wrap {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tab-icon {
+    flex-shrink: 0;
+}
+
+.tab-label {
+    font-size: 0.82rem;
+}
+
+/* Badges */
+.tab-badge {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.62rem;
+    font-weight: 700;
+    padding: 1px 5px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #cbd5e1;
+    letter-spacing: 0.02em;
+}
+
+:root:not(.dark) .tab-badge {
+    background: rgba(0, 0, 0, 0.08);
+    color: #475569;
+}
+
+.live-badge-glow {
+    background: rgba(239, 68, 68, 0.25);
+    color: #fca5a5;
+    border: 1px solid rgba(239, 68, 68, 0.4);
+}
+
+:root:not(.dark) .live-badge-glow {
+    background: rgba(239, 68, 68, 0.15);
+    color: #dc2626;
+    border-color: rgba(239, 68, 68, 0.3);
+}
+
+.live-dot-pulse {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #ef4444;
+    box-shadow: 0 0 8px #ef4444;
+    animation: livePulseDot 1.4s infinite ease-in-out;
+}
+
+@keyframes livePulseDot {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 0.9;
+    }
+    50% {
+        transform: scale(1.35);
+        opacity: 0.5;
+    }
+}
+
+/* Mobile responsive tuning */
+@media (max-width: 640px) {
+    .feed-header-sticky {
+        top: 60px; /* navbar mobile height */
+    }
+
+    .feed-tabs-wrapper {
+        padding: 0.3rem 0.4rem;
+    }
+
+    .feed-tab-pill {
+        padding: 5px 11px;
+        min-height: 32px;
+        font-size: 0.78rem;
+    }
+
+    .tab-label {
+        font-size: 0.78rem;
+    }
+}
