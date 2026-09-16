@@ -342,3 +342,242 @@
     padding: 2px 6px;
     border-radius: 4px;
 }
+
+/* Navigation controls */
+.nav-btn,
+.search-wrapper,
+.nav-user-profile {
+    min-width: 40px;
+    min-height: 40px;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.nav-btn:hover,
+.nav-user-profile:hover {
+    color: var(--color-text-primary, #f8fafc);
+    background: rgba(59, 130, 246, 0.12);
+}
+
+.nav-btn:focus-visible,
+.search-wrapper:focus-visible,
+.nav-user-profile:focus-visible {
+    outline: 2px solid var(--accent-blue);
+    outline-offset: 2px;
+}
+
+.search-wrapper {
+    width: 100%;
+    padding: 0;
+    border: 0;
+    color: inherit;
+    background: transparent;
+    cursor: pointer;
+    text-align: left;
+}
+
+.search-wrapper:hover .search-bar-v3 {
+    border-color: rgba(59, 130, 246, 0.45);
+    background: rgba(59, 130, 246, 0.08);
+}
+
+.nav-left,
+.nav-right {
+    flex-shrink: 0;
+}
+
+.nav-logo {
+    display: flex;
+    align-items: center;
+}
+
+.nomad-start-btn {
+    gap: 0.45rem;
+    padding-inline: 0.8rem;
+    border: 1px solid rgba(59, 130, 246, 0.25);
+    background: rgba(59, 130, 246, 0.1);
+    color: #93c5fd;
+    white-space: nowrap;
+}
+
+.nomad-start-btn.active,
+.nomad-start-btn:hover {
+    background: rgba(59, 130, 246, 0.2);
+    color: #bfdbfe;
+}
+
+.nav-stat {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    min-height: 36px;
+    padding: 0 0.65rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.stat-value {
+    color: #cbd5e1;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.nav-user-profile {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: inherit;
+    text-decoration: none;
+    border-radius: 999px;
+    padding: 0.2rem 0.55rem 0.2rem 0.2rem;
+}
+
+.avatar-circle {
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: #dbeafe;
+    background: linear-gradient(135deg, #2563eb, #7c3aed);
+    border: 2px solid rgba(255, 255, 255, 0.22);
+}
+
+.profile-label {
+    color: #cbd5e1;
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+
+@media (max-width: 1200px) {
+    .core-nav {
+        padding-inline: 1rem;
+    }
+
+    .nav-left,
+    .nav-right {
+        gap: 0.45rem;
+    }
+
+    .nav-center {
+        margin-inline: 1rem;
+    }
+
+    .nav-stat {
+        padding-inline: 0.45rem;
+    }
+
+    .nav-stat .stat-value {
+        display: none;
+    }
+}
+
+@media (max-width: 900px) {
+    .profile-label,
+    .nomad-start-btn .start-label {
+        display: none;
+    }
+
+    .nomad-start-btn {
+        width: 40px;
+        padding: 0;
+    }
+
+    .nav-center {
+        max-width: none;
+        margin-inline: 0.5rem;
+    }
+
+    .nav-right {
+        gap: 0.2rem;
+    }
+
+    .nav-right .nav-stat,
+    .nav-right .theme-selector {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    :root {
+        --nav-height: 60px;
+    }
+
+    .core-nav {
+        height: var(--nav-height);
+        padding: 0 0.65rem;
+        gap: 0.45rem;
+    }
+
+    .nav-left {
+        gap: 0.25rem;
+    }
+
+    .nav-logo .seenomad-logo .logo-text,
+    .nav-logo .seenomad-logo .logo-badge {
+        display: none;
+    }
+
+    .nav-logo .seenomad-logo {
+        min-width: 34px;
+    }
+
+    .nav-center {
+        display: flex;
+        min-width: 0;
+        margin: 0;
+    }
+
+    .search-bar-v3 {
+        min-height: 40px;
+        padding: 0.5rem 0.7rem;
+        gap: 0.5rem;
+        border-radius: 999px;
+    }
+
+    .search-placeholder {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 0.78rem;
+    }
+
+    .search-hint {
+        display: none;
+    }
+
+    .nav-right .overflow-toggle {
+        display: none;
+    }
+
+    .address-bar-container,
+    .module-navbar {
+        display: none;
+    }
+
+    .navbar-v3-container {
+        background: rgba(15, 23, 42, 0.96);
+    }
+}
+
+@media (max-width: 420px) {
+    .core-nav {
+        padding-inline: 0.4rem;
+    }
+
+    .menu-toggle,
+    .nomad-start-btn,
+    .nav-right .messages-btn {
+        min-width: 36px;
+        width: 36px;
+    }
+
+    .search-placeholder {
+        font-size: 0.72rem;
+    }
+
+    .nav-logo {
+        display: none;
+    }
+}
