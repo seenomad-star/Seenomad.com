@@ -3,10 +3,12 @@
  * - Loads posts from Supabase when configured
  * - Subscribes to postgres_changes on `posts` for INSERT / UPDATE / DELETE
  * - Falls back to local mock data when Supabase is not configured
+ * - createPost attaches user_id + profile author fields when signed in
  */
 
 import { create } from 'zustand';
 import { supabase, isSupabaseConfigured } from '../lib/supabase';
+import { useAuthStore } from './authStore';
 
 /** Map DB row → UI post shape used by SocialFeed / Post components */
 export function mapRowToPost(row) {
@@ -33,6 +35,7 @@ export function mapRowToPost(row) {
     shares: row.shares_count ?? 0,
     views: formatCount(row.views_count),
     feedTab: row.feed_tab || 'foryou',
+    userId: row.user_id || null,
   };
 }
 
@@ -66,7 +69,6 @@ export const useFeedStore = create((set, get) => ({
   realtimeConnected: false,
   usingMock: !isSupabaseConfigured,
 
-  /** Initial load + start Realtime subscription */
   init: async () => {
     if (!isSupabaseConfigured || !supabase) {
       set({ usingMock: true, loading: false });
@@ -160,15 +162,27 @@ export const useFeedStore = create((set, get) => ({
   },
 
   createPost: async (draft) => {
+    const author = useAuthStore.getState().getAuthorPayload?.() || null;
+    const isAuthed = Boolean(author?.user_id);
+
     const tempId = `temp-${Date.now()}`;
+    const optimisticAuthor = isAuthed
+      ? {
+          name: author.author_name,
+          handle: author.author_handle,
+          avatar: author.author_avatar,
+          verified: true,
+        }
+      : draft.author || {
+          name: 'You',
+          handle: '@your_journey',
+          avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150',
+          verified: false,
+        };
+
     const optimistic = {
       id: tempId,
-      author: draft.author || {
-        name: 'You',
-        handle: '@your_journey',
-        avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150',
-        verified: true,
-      },
+      author: optimisticAuthor,
       time: 'Just now',
       createdAt: new Date().toISOString(),
       location: draft.location || null,
@@ -183,6 +197,7 @@ export const useFeedStore = create((set, get) => ({
       shares: 0,
       views: '0',
       feedTab: draft.feedTab || 'foryou',
+      userId: author?.user_id || null,
     };
 
     set((state) => ({ posts: [optimistic, ...state.posts] }));
@@ -191,10 +206,19 @@ export const useFeedStore = create((set, get) => ({
       return optimistic;
     }
 
+    if (!isAuthed) {
+      set((state) => ({
+        posts: state.posts.filter((p) => p.id !== tempId),
+        error: 'Sign in to post to the Nexus feed',
+      }));
+      return { error: 'Sign in required', needsAuth: true };
+    }
+
     const row = {
-      author_name: optimistic.author.name,
-      author_handle: optimistic.author.handle,
-      author_avatar: optimistic.author.avatar,
+      user_id: author.user_id,
+      author_name: author.author_name,
+      author_handle: author.author_handle,
+      author_avatar: author.author_avatar,
       content: optimistic.content,
       location: optimistic.location,
       vibe: optimistic.vibe,
@@ -208,8 +232,11 @@ export const useFeedStore = create((set, get) => ({
 
     if (error) {
       console.error('[feedStore] insert failed', error);
-      set({ error: error.message });
-      return optimistic;
+      set((state) => ({
+        posts: state.posts.filter((p) => p.id !== tempId),
+        error: error.message,
+      }));
+      return { error: error.message };
     }
 
     const serverPost = mapRowToPost(data);
