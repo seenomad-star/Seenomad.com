@@ -77,7 +77,7 @@
     .toast-container {
         right: 10px;
         left: 10px;
-        bottom: 160px; /* Above BottomNav and GhostDock */
+        bottom: 95px; /* Above BottomNav */
     }
     
     .toast-item {

@@ -25,8 +25,36 @@ function syncDistPlugin() {
   };
 }
 
+/**
+ * Cache-Control headers plugin for Vite dev & preview servers
+ * Sets cache headers for icons, images, manifest, and public assets
+ */
+function cacheHeadersPlugin() {
+  const applyCacheHeaders = (req, res, next) => {
+    const url = req.url || '';
+    if (url.match(/\.(svg|jpg|jpeg|png|webp|ico)$/) || url.includes('seenomad-logo') || url === '/favicon.ico') {
+      res.setHeader('Cache-Control', 'public, max-age=604800, stale-while-revalidate=86400');
+    } else if (url === '/manifest.json' || url === '/robots.txt' || url === '/sitemap.xml') {
+      res.setHeader('Cache-Control', 'public, max-age=86400, stale-while-revalidate=43200');
+    } else if (url.startsWith('/assets/')) {
+      res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+    }
+    next();
+  };
+
+  return {
+    name: 'cache-headers-plugin',
+    configureServer(server) {
+      server.middlewares.use(applyCacheHeaders);
+    },
+    configurePreviewServer(server) {
+      server.middlewares.use(applyCacheHeaders);
+    }
+  };
+}
+
 export default defineConfig({
-  plugins: [react(), syncDistPlugin()],
+  plugins: [react(), syncDistPlugin(), cacheHeadersPlugin()],
   server: {
     host: '0.0.0.0',
     port: 3000,
@@ -45,5 +73,3 @@ export default defineConfig({
     'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
   }
 })
-
-

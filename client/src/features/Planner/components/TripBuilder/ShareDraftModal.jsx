@@ -7,11 +7,11 @@ const ShareDraftModal = ({ itineraryId, onClose }) => {
     const [isSent, setIsSent] = useState(false);
     const [copied, setCopied] = useState(false);
     const [invitedUsers, setInvitedUsers] = useState([
-        { email: 'alex@traveluh.com', role: 'Editor', status: 'Accepted' },
+        { email: 'alex@seenomad.com', role: 'Editor', status: 'Accepted' },
         { email: 'sarah@nomad.io', role: 'Viewer', status: 'Pending' }
     ]);
 
-    const shareLink = `https://traveluh.com/itinerary/shared/${itineraryId || 'draft-x89f2a'}`;
+    const shareLink = `https://seenomad.com/itinerary/shared/${itineraryId || 'draft-x89f2a'}`;
 
     const handleInvite = (e) => {
         e.preventDefault();

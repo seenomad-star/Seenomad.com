@@ -69,7 +69,7 @@ const DiscoveryHub = () => {
                             <h2>User Captured!</h2>
                             <p>Entering platform via <strong>{entries.find(e => e.id === source).name}</strong>. Personalized onboarding triggered.</p>
                             <button onClick={handleEnter} className="go-to-platform-btn">
-                                Open Traveluh Planner <ArrowRight size={18} />
+                                Open SeeNomad Planner <ArrowRight size={18} />
                             </button>
                         </div>
                     </motion.div>

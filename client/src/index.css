@@ -1,6 +1,7 @@
 @import './styles/themes.css';
 @import './styles/PamperFeatures.css';
 @import './styles/AddictionFeatures.css';
+@import './layouts/BaseLayout.css';
 
 :root {
   /* Seenomad V3 - Premium Glassmorphism Palette */
@@ -76,6 +77,13 @@ body {
     radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.1) 0px, transparent 50%),
     radial-gradient(at 100% 100%, rgba(139, 92, 246, 0.1) 0px, transparent 50%);
   background-attachment: fixed;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+body.theme-light {
+  background-image:
+    radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.05) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(139, 92, 246, 0.04) 0px, transparent 50%);
 }
 
 h1,
@@ -156,6 +164,67 @@ ul {
   border-color: rgba(255, 255, 255, 0.2);
 }
 
+.btn-ghost {
+  background: transparent;
+  color: var(--color-text-primary);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  transition: 
+    border-color 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+    background-color 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+    color 0.2s ease,
+    transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.32);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 4px 12px -2px rgba(0, 0, 0, 0.25);
+  transform: translateY(-1px);
+}
+
+.btn-ghost:active {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.15), inset 0 1px 2px rgba(0, 0, 0, 0.3);
+  transform: translateY(0) scale(0.985);
+}
+
+.btn-ghost:focus-visible {
+  outline: none;
+  border-color: var(--color-primary, #3b82f6);
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.35);
+}
+
+.btn-ghost:disabled,
+.btn-ghost.disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+  border-color: rgba(255, 255, 255, 0.06);
+  transform: none;
+  box-shadow: none;
+}
+
+/* Light mode adjustments for .btn-ghost */
+.theme-light .btn-ghost {
+  color: var(--color-text-primary, #0f172a);
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
+.theme-light .btn-ghost:hover {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.28);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.06), 0 4px 12px -2px rgba(0, 0, 0, 0.08);
+}
+
+.theme-light .btn-ghost:active {
+  background: rgba(0, 0, 0, 0.08);
+  border-color: rgba(0, 0, 0, 0.42);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), inset 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
 /* Animations */
 @keyframes fadeIn {
   from {
@@ -173,29 +242,54 @@ ul {
   animation: fadeIn var(--transition-slow) forwards;
 }
 
-/* Layout Adjustments for Sidebar */
+/* Layout Adjustments for Sidebar & Content Regions */
 .main-content {
-  margin-left: 350px; /* 260px sidebar + 65px dock area + 25px gaps */
-  margin-right: 320px; /* Global TravelOS Sidebar Space */
-  padding-top: 180px;
-  transition: margin-left var(--transition-normal), width var(--transition-normal);
-  width: calc(100% - 670px); /* 350 + 320 */
-  min-height: calc(100vh - 154px);
+  margin-left: var(--current-sidebar-w, 255px);
+  margin-right: var(--current-right-sidebar-w, 0px);
+  padding-top: var(--current-header-h, 60px);
+  transition: margin-left 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+              margin-right 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+              width 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+              padding 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: margin-left, margin-right, width;
+  width: calc(100% - var(--current-sidebar-w, 255px) - var(--current-right-sidebar-w, 0px));
+  min-height: 100vh;
   position: relative;
   box-sizing: border-box;
 }
 
 /* Left Sidebar Collapsed */
-.main-content.expanded-left {
-  margin-left: 170px; /* 80px sidebar + 65px dock + 25px gaps */
-  width: calc(100% - 490px); /* 170 + 320 */
+.main-content.expanded-left,
+.main-content.sidebar-collapsed {
+  margin-left: var(--layout-sidebar-collapsed-width, 76px);
+  width: calc(100% - var(--layout-sidebar-collapsed-width, 76px) - var(--current-right-sidebar-w, 0px));
 }
 
-/* Both States Active */
-.main-content.expanded-left.expanded-right {
-  margin-left: 170px;
-  margin-right: 320px;
-  width: calc(100% - 490px);
+/* Big Screen Docked Mode Only (>= 1360px and pinned) */
+@media (min-width: 1360px) {
+  .main-content.has-right-docked,
+  .main-content.right-docked {
+    margin-right: var(--layout-right-sidebar-width, 320px);
+    width: calc(100% - var(--current-sidebar-w, 255px) - var(--layout-right-sidebar-width, 320px));
+  }
+
+  .main-content.expanded-left.has-right-docked,
+  .main-content.sidebar-collapsed.right-docked {
+    margin-left: var(--layout-sidebar-collapsed-width, 76px);
+    margin-right: var(--layout-right-sidebar-width, 320px);
+    width: calc(100% - var(--layout-sidebar-collapsed-width, 76px) - var(--layout-right-sidebar-width, 320px));
+  }
+}
+
+/* Mobile Viewport */
+@media (max-width: 900px) {
+  .main-content {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    width: 100% !important;
+    padding-top: 60px !important;
+    padding-bottom: 76px !important;
+  }
 }
 
 /* Explore Page Specific Adjustments */
@@ -221,7 +315,7 @@ ul {
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .main-content {
     margin-left: 0 !important;
     margin-right: 0 !important;

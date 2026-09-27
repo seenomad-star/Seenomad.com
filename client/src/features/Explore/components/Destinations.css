@@ -114,8 +114,9 @@
     transform: scale(1.1);
 }
 
-/* Live Pulse Badge - Compact */
-.live-pulse-badge.compact {
+/* Live Viewer Badge - Compact */
+.live-pulse-badge.compact,
+.live-viewer-badge.compact {
     position: absolute;
     top: 0.75rem;
     left: 0.75rem;
@@ -135,7 +136,8 @@
     transition: all 0.3s ease;
 }
 
-.destination-card:hover .live-pulse-badge.compact {
+.destination-card:hover .live-pulse-badge.compact,
+.destination-card:hover .live-viewer-badge.compact {
     background: rgba(16, 185, 129, 0.2);
     border-color: rgba(16, 185, 129, 0.3);
 }
@@ -227,6 +229,12 @@
     align-items: center;
 }
 
+.title-domain-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
 .title-row h3 {
     margin: 0;
     font-size: 1.1rem;
@@ -237,6 +245,105 @@
 
 .destination-card:hover .title-row h3 {
     color: #3b82f6;
+}
+
+/* Card Destination Domain Badge */
+.card-domain-badge-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-top: 0.05rem;
+}
+
+.card-domain-name {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: #38bdf8;
+    background: rgba(56, 189, 248, 0.1);
+    border: 1px solid rgba(56, 189, 248, 0.25);
+    padding: 0.1rem 0.4rem;
+    border-radius: 6px;
+    letter-spacing: 0.02em;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+body.theme-light .card-domain-name,
+.theme-light .card-domain-name {
+    color: #0284c7;
+    background: rgba(2, 132, 199, 0.08);
+    border-color: rgba(2, 132, 199, 0.2);
+}
+
+.card-domain-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.62rem;
+    font-weight: 800;
+    padding: 0.1rem 0.4rem;
+    border-radius: 100px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    line-height: 1;
+}
+
+.card-domain-status-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+}
+
+/* Status Available */
+.card-domain-status-badge.status-available {
+    background: rgba(16, 185, 129, 0.14);
+    border: 1px solid rgba(16, 185, 129, 0.35);
+    color: #34d399;
+}
+.card-domain-status-badge.status-available .card-domain-status-dot {
+    background: #10b981;
+    box-shadow: 0 0 6px #10b981;
+}
+body.theme-light .card-domain-status-badge.status-available,
+.theme-light .card-domain-status-badge.status-available {
+    background: rgba(16, 185, 129, 0.1);
+    border-color: rgba(16, 185, 129, 0.3);
+    color: #059669;
+}
+
+/* Status Taken */
+.card-domain-status-badge.status-taken {
+    background: rgba(148, 163, 184, 0.14);
+    border: 1px solid rgba(148, 163, 184, 0.3);
+    color: #cbd5e1;
+}
+.card-domain-status-badge.status-taken .card-domain-status-dot {
+    background: #94a3b8;
+}
+body.theme-light .card-domain-status-badge.status-taken,
+.theme-light .card-domain-status-badge.status-taken {
+    background: rgba(100, 116, 139, 0.1);
+    border-color: rgba(100, 116, 139, 0.25);
+    color: #475569;
+}
+
+/* Status Premium */
+.card-domain-status-badge.status-premium {
+    background: rgba(168, 85, 247, 0.16);
+    border: 1px solid rgba(168, 85, 247, 0.4);
+    color: #d8b4fe;
+}
+.card-domain-status-badge.status-premium .card-domain-status-dot {
+    background: #a855f7;
+    box-shadow: 0 0 6px #a855f7;
+}
+body.theme-light .card-domain-status-badge.status-premium,
+.theme-light .card-domain-status-badge.status-premium {
+    background: rgba(168, 85, 247, 0.1);
+    border-color: rgba(168, 85, 247, 0.3);
+    color: #7e22ce;
 }
 
 .location-tag {
@@ -330,29 +437,28 @@
 .intelligence-data-row {
     display: flex;
     justify-content: space-between;
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.04);
-    padding: 0.4rem 0.6rem;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 0.45rem 0.65rem;
     border-radius: 10px;
-    opacity: 0.3;
-    filter: grayscale(1);
-    transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    opacity: 0.95;
+    filter: none;
+    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .destination-card:hover .intelligence-data-row {
     opacity: 1;
-    filter: grayscale(0);
-    background: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.15);
 }
 
 .data-item {
     display: flex;
     align-items: center;
     gap: 0.4rem;
-    font-size: 0.7rem;
+    font-size: 0.72rem;
     font-weight: 700;
-    color: white;
+    color: var(--color-text-primary, #f8fafc);
 }
 
 .data-item svg.blue {
@@ -529,4 +635,80 @@
         width: 100%;
         height: 140px;
     }
+}
+
+/* Light Theme Overrides */
+body.theme-light .destination-card,
+.theme-light .destination-card {
+    background: rgba(255, 255, 255, 0.85);
+    border-color: rgba(0, 0, 0, 0.08);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+}
+
+body.theme-light .destination-card:hover,
+.theme-light .destination-card:hover {
+    background: #ffffff;
+    border-color: rgba(59, 130, 246, 0.4);
+    box-shadow: 0 18px 36px rgba(0, 0, 0, 0.1), 0 0 20px rgba(59, 130, 246, 0.15);
+}
+
+body.theme-light .intelligence-data-row,
+.theme-light .intelligence-data-row {
+    background: rgba(0, 0, 0, 0.03);
+    border-color: rgba(0, 0, 0, 0.06);
+}
+
+body.theme-light .destination-card:hover .intelligence-data-row,
+.theme-light .destination-card:hover .intelligence-data-row {
+    background: rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+body.theme-light .data-item,
+.theme-light .data-item {
+    color: #1e293b;
+}
+
+body.theme-light .card-footer-compact,
+.theme-light .card-footer-compact {
+    border-top-color: rgba(0, 0, 0, 0.06);
+}
+
+body.theme-light .workstation-btn-compact,
+.theme-light .workstation-btn-compact {
+    background: rgba(0, 0, 0, 0.04);
+    color: #334155;
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+body.theme-light .destination-card:hover .workstation-btn-compact,
+.theme-light .destination-card:hover .workstation-btn-compact {
+    background: #0f172a;
+    color: #ffffff;
+    border-color: #0f172a;
+}
+
+body.theme-light .follow-btn-mini,
+.theme-light .follow-btn-mini {
+    background: rgba(0, 0, 0, 0.04);
+    border-color: rgba(0, 0, 0, 0.08);
+    color: #334155;
+}
+
+body.theme-light .follow-btn-mini:hover,
+.theme-light .follow-btn-mini:hover {
+    background: rgba(0, 0, 0, 0.08);
+}
+
+body.theme-light .sidecar-widget,
+.theme-light .sidecar-widget {
+    background: rgba(255, 255, 255, 0.8);
+    border-color: rgba(0, 0, 0, 0.06);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+}
+
+body.theme-light .sidecar-widget:hover,
+.theme-light .sidecar-widget:hover {
+    background: #ffffff;
+    border-color: rgba(59, 130, 246, 0.3);
 }

@@ -15,7 +15,7 @@ const NomadBlackCard = () => {
                         <div className="card-chip"></div>
                         <div className="card-logo">
                             <Shield size={24} color="gold" />
-                            <span>Traveluh Elite</span>
+                            <span>SeeNomad Elite</span>
                         </div>
                         <div className="card-number">•••• •••• •••• 8888</div>
                         <div className="card-holder">

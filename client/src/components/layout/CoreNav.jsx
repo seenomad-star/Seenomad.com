@@ -6,10 +6,12 @@ import {
     Shield, Award, Sparkles, X, ArrowLeft, Globe, MapPin, Cpu, Calendar, TrendingUp
 } from 'lucide-react';
 import { useNavStore } from '../../store/navStore';
+import { useSavedStore } from '../../store/savedStore';
 import Logo from '../common/Logo';
+import ThemeToggle from '../common/ThemeToggle';
 import ThemeSelector from './ThemeSelector';
 
-const CoreNav = ({ toggleSidebar, toggleRightSidebar, currentTheme, onThemeChange }) => {
+const CoreNav = ({ toggleSidebar, toggleRightSidebar, currentTheme, onThemeChange, isSidebarCollapsed = false, isMobile: propIsMobile }) => {
     const navigate = useNavigate();
     const {
         toggleModuleSwitcher,
@@ -17,11 +19,33 @@ const CoreNav = ({ toggleSidebar, toggleRightSidebar, currentTheme, onThemeChang
         isModuleSwitcherOpen,
         globalSearchQuery,
         setGlobalSearchQuery,
+        isMobileSidebarOpen,
         userXP = 4250,
         userLevel = 12,
         userRank = 'Elite Explorer',
         userAvatar = 'https://api.dicebear.com/7.x/avataaars/svg?seed=elite'
     } = useNavStore();
+
+    // Responsive screen width detection
+    const [isMobileScreen, setIsMobileScreen] = useState(() => {
+        if (propIsMobile !== undefined) return propIsMobile;
+        return typeof window !== 'undefined' ? window.innerWidth <= 900 : false;
+    });
+
+    useEffect(() => {
+        if (propIsMobile !== undefined) {
+            setIsMobileScreen(propIsMobile);
+            return;
+        }
+        const handleResize = () => {
+            setIsMobileScreen(window.innerWidth <= 900);
+        };
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, [propIsMobile]);
+
+    const savedDestinations = useSavedStore((state) => state.savedDestinations);
+    const savedCount = savedDestinations.length;
 
     // Search state
     const [searchQuery, setSearchQuery] = useState(globalSearchQuery || '');
@@ -225,24 +249,38 @@ const CoreNav = ({ toggleSidebar, toggleRightSidebar, currentTheme, onThemeChang
                 </div>
             ) : (
                 <>
-                    {/* Left Section: Menu Toggle & Merged Brand Travel Hub */}
+                    {/* Left Section: Sidebar Toggle & Official Brand Logo (Preferred Brand Anchor) */}
                     <div className="nav-left">
                         <button
-                            className="nav-btn nav-hamburger-btn"
+                            type="button"
+                            id="nav-hamburger-toggle"
+                            className={`nav-btn nav-hamburger-btn ${isMobileScreen && isMobileSidebarOpen ? 'is-open' : ''} ${!isMobileScreen && !isSidebarCollapsed ? 'desktop-expanded' : ''}`}
                             onClick={toggleSidebar}
-                            aria-label="Toggle navigation menu"
-                            title="Toggle menu"
+                            aria-label={
+                                isMobileScreen
+                                    ? (isMobileSidebarOpen ? "Close navigation menu" : "Open navigation menu")
+                                    : (isSidebarCollapsed ? "Expand sidebar (⌘B)" : "Collapse sidebar (⌘B)")
+                            }
+                            title={
+                                isMobileScreen
+                                    ? (isMobileSidebarOpen ? "Close navigation menu" : "Open navigation menu")
+                                    : (isSidebarCollapsed ? "Expand navigation sidebar (⌘B)" : "Collapse navigation sidebar (⌘B)")
+                            }
+                            aria-expanded={isMobileScreen ? isMobileSidebarOpen : !isSidebarCollapsed}
+                            aria-controls="mobile-navigation-drawer"
                         >
-                            <Menu size={20} />
+                            {isMobileScreen && isMobileSidebarOpen ? (
+                                <X size={22} className="nav-hamburger-icon open-icon" strokeWidth={2.4} />
+                            ) : (
+                                <Menu size={22} className="nav-hamburger-icon" strokeWidth={2.2} />
+                            )}
                         </button>
 
-                        <div className="nav-logo">
+                        <div className="nav-logo" onClick={handleLogoClick}>
                             <Logo
                                 size="medium"
                                 showText={true}
-                                showHub={true}
-                                isHubOpen={isModuleSwitcherOpen}
-                                onHubClick={() => toggleModuleSwitcher()}
+                                showHub={false}
                                 onClick={handleLogoClick}
                             />
                         </div>
@@ -274,8 +312,8 @@ const CoreNav = ({ toggleSidebar, toggleRightSidebar, currentTheme, onThemeChang
                                         setIsSearchDropdownOpen(true);
                                     }}
                                     onBlur={() => setIsSearchFocused(false)}
-                                    placeholder="Search destinations, visas, nomads, AI agents..."
-                                    aria-label="Search destinations, visas, nomads, AI agents"
+                                    placeholder="Search destinations, people, hashtags..."
+                                    aria-label="Search destinations, people, hashtags"
                                     autoComplete="off"
                                     spellCheck="false"
                                 />
@@ -347,9 +385,9 @@ const CoreNav = ({ toggleSidebar, toggleRightSidebar, currentTheme, onThemeChang
                         )}
                     </div>
 
-                    {/* Right Section: Mobile Search, Notifications, Messages, Theme, Profile, HUD */}
+                    {/* Right Section: Focused global utilities (Search, Notifications, Theme, Profile, HUD) */}
                     <div className="nav-right">
-                        {/* Mobile Search Button (visible on <= 920px) */}
+                        {/* Mobile Search Button (visible on <= 900px) */}
                         <button
                             className="nav-btn mobile-search-btn"
                             onClick={() => {
@@ -363,7 +401,7 @@ const CoreNav = ({ toggleSidebar, toggleRightSidebar, currentTheme, onThemeChang
                             <Search size={19} className="search-trigger-icon" />
                         </button>
 
-                        {/* Notifications Link */}
+                        {/* Notifications Link (Dedicated Alert Center) */}
                         <Link
                             to="/notifications"
                             className="nav-btn notification-bell"
@@ -374,36 +412,8 @@ const CoreNav = ({ toggleSidebar, toggleRightSidebar, currentTheme, onThemeChang
                             <span className="notification-badge">4</span>
                         </Link>
 
-                        {/* Community Messages Link */}
-                        <Link
-                            to="/community"
-                            className="nav-btn nav-messages-btn"
-                            aria-label="Nomad Community"
-                            title="Community Messages"
-                        >
-                            <MessageSquare size={19} />
-                        </Link>
-
-                        {/* Theme Selector Popover */}
-                        <ThemeSelector currentTheme={currentTheme} onThemeChange={onThemeChange} />
-
-                        {/* Gamification Level Badge (Desktop > 920px) */}
-                        <div
-                            className="nav-stat nav-level-badge"
-                            title={`Level ${userLevel} • ${xpPercentage}% to next level`}
-                        >
-                            <Star size={16} className="stat-star-icon" />
-                            <span className="stat-value">Lvl {userLevel}</span>
-                        </div>
-
-                        {/* Wallet Balance Badge (Desktop > 920px) */}
-                        <div
-                            className="nav-stat nav-wallet-badge"
-                            title="Nomad Wallet Balance"
-                        >
-                            <Wallet size={16} className="stat-wallet-icon" />
-                            <span className="stat-value">$450</span>
-                        </div>
+                        {/* Global Light/Dark Theme Toggle */}
+                        <ThemeToggle />
 
                         {/* User Profile Avatar with Dropdown Menu */}
                         <div className="nav-user-container" ref={profileDropdownRef}>
@@ -438,7 +448,7 @@ const CoreNav = ({ toggleSidebar, toggleRightSidebar, currentTheme, onThemeChang
                                                 <img src={userAvatar} alt="User" />
                                             </div>
                                             <div className="profile-user-details">
-                                                <div className="profile-user-name">Seenomad Nomad</div>
+                                                <div className="profile-user-name">Alex Rover</div>
                                                 <div className="profile-user-email">seenomad@gmail.com</div>
                                             </div>
                                         </div>
@@ -487,10 +497,11 @@ const CoreNav = ({ toggleSidebar, toggleRightSidebar, currentTheme, onThemeChang
 
                                         <button
                                             className="profile-menu-item"
-                                            onClick={() => handleProfileLinkClick('/explore')}
+                                            onClick={() => handleProfileLinkClick('/saved')}
                                         >
                                             <Bookmark size={16} />
-                                            <span>Saved Destinations & Visas</span>
+                                            <span>Saved & Wishlist</span>
+                                            {savedCount > 0 && <span className="profile-saved-badge">{savedCount}</span>}
                                             <ChevronRight size={14} className="item-arrow" />
                                         </button>
 

@@ -1,0 +1,566 @@
+/* Schengen & Tax Residency Tracker Styling */
+.schengen-tracker-card {
+    background: #111827;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 24px;
+    margin: 24px 0;
+    color: #f3f4f6;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+}
+
+:root:not(.dark) .schengen-tracker-card {
+    background: #ffffff;
+    border-color: #e5e7eb;
+    color: #111827;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+.st-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+:root:not(.dark) .st-header {
+    border-bottom-color: #e5e7eb;
+}
+
+.st-title-group {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.st-icon-wrap {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: rgba(6, 182, 212, 0.12);
+    border: 1px solid rgba(6, 182, 212, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.st-badge {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #06b6d4;
+    margin-bottom: 2px;
+}
+
+.st-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #f9fafb;
+    margin: 0;
+}
+
+:root:not(.dark) .st-title {
+    color: #111827;
+}
+
+/* Tabs */
+.st-tabs {
+    display: flex;
+    gap: 6px;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 4px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+:root:not(.dark) .st-tabs {
+    background: #f3f4f6;
+    border-color: #e5e7eb;
+}
+
+.st-tab-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 6px;
+    border: none;
+    background: transparent;
+    color: #9ca3af;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.st-tab-btn:hover {
+    color: #f3f4f6;
+}
+
+:root:not(.dark) .st-tab-btn:hover {
+    color: #111827;
+}
+
+.st-tab-btn.active {
+    background: #0284c7;
+    color: #ffffff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* Metric Grid */
+.st-metric-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+@media (max-width: 860px) {
+    .st-metric-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.st-metric-box {
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 10px;
+    padding: 18px;
+}
+
+:root:not(.dark) .st-metric-box {
+    background: #f9fafb;
+    border-color: #e5e7eb;
+}
+
+.gauge-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.gauge-label {
+    font-size: 0.8125rem;
+    color: #9ca3af;
+    font-weight: 500;
+}
+
+.gauge-value-row {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+
+.gauge-big-num {
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: #f3f4f6;
+    line-height: 1;
+}
+
+:root:not(.dark) .gauge-big-num {
+    color: #111827;
+}
+
+.gauge-total {
+    font-size: 0.9375rem;
+    color: #9ca3af;
+    font-weight: 500;
+}
+
+.st-progress-bar-bg {
+    width: 100%;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 999px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+:root:not(.dark) .st-progress-bar-bg {
+    background: #e5e7eb;
+}
+
+.st-progress-bar-fill {
+    height: 100%;
+    border-radius: 999px;
+    transition: width 0.4s ease;
+}
+
+.st-progress-bar-fill.safe {
+    background: #10b981;
+}
+
+.st-progress-bar-fill.caution {
+    background: #f59e0b;
+}
+
+.st-progress-bar-fill.critical {
+    background: #f97316;
+}
+
+.st-progress-bar-fill.overstay {
+    background: #ef4444;
+}
+
+.gauge-footer-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: #9ca3af;
+}
+
+/* Risk Pill */
+.risk-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.risk-pill.safe {
+    background: rgba(16, 185, 129, 0.15);
+    color: #34d399;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.risk-pill.caution {
+    background: rgba(245, 158, 11, 0.15);
+    color: #fbbf24;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.risk-pill.critical {
+    background: rgba(249, 115, 22, 0.15);
+    color: #fb923c;
+    border: 1px solid rgba(249, 115, 22, 0.3);
+}
+
+.risk-pill.overstay {
+    background: rgba(239, 68, 68, 0.15);
+    color: #f87171;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+/* Intel Box */
+.intel-box h4 {
+    margin: 0 0 8px 0;
+    font-size: 0.9375rem;
+    color: #f3f4f6;
+}
+
+:root:not(.dark) .intel-box h4 {
+    color: #111827;
+}
+
+.intel-text {
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: #9ca3af;
+    margin: 0 0 16px 0;
+}
+
+.intel-highlights {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+.intel-item {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 6px;
+    padding: 8px 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+:root:not(.dark) .intel-item {
+    background: #ffffff;
+    border-color: #e5e7eb;
+}
+
+.intel-k {
+    font-size: 0.6875rem;
+    color: #9ca3af;
+    text-transform: uppercase;
+}
+
+.intel-v {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: #f3f4f6;
+}
+
+:root:not(.dark) .intel-v {
+    color: #111827;
+}
+
+/* Select input */
+.country-select-inline {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8125rem;
+    color: #9ca3af;
+}
+
+.st-inline-select {
+    background: #1f2937;
+    color: #f3f4f6;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 0.8125rem;
+    cursor: pointer;
+}
+
+:root:not(.dark) .st-inline-select {
+    background: #ffffff;
+    color: #111827;
+    border-color: #d1d5db;
+}
+
+/* Trips Section */
+.st-trips-section {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding-top: 20px;
+}
+
+:root:not(.dark) .st-trips-section {
+    border-top-color: #e5e7eb;
+}
+
+.st-trips-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.trips-header-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.trips-header-left h3 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #f3f4f6;
+}
+
+:root:not(.dark) .trips-header-left h3 {
+    color: #111827;
+}
+
+.st-add-trip-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(6, 182, 212, 0.12);
+    border: 1px solid rgba(6, 182, 212, 0.3);
+    color: #22d3ee;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.st-add-trip-toggle:hover {
+    background: rgba(6, 182, 212, 0.2);
+}
+
+/* Trip Form */
+.st-trip-form {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+}
+
+:root:not(.dark) .st-trip-form {
+    background: #f9fafb;
+    border-color: #e5e7eb;
+}
+
+.st-form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.form-group label {
+    font-size: 0.75rem;
+    color: #9ca3af;
+    font-weight: 500;
+}
+
+.st-input {
+    background: #1f2937;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 6px;
+    padding: 8px 10px;
+    color: #f3f4f6;
+    font-size: 0.8125rem;
+    outline: none;
+}
+
+:root:not(.dark) .st-input {
+    background: #ffffff;
+    color: #111827;
+    border-color: #d1d5db;
+}
+
+.st-input:focus {
+    border-color: #06b6d4;
+}
+
+.st-submit-btn {
+    background: #0284c7;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.st-submit-btn:hover {
+    background: #0369a1;
+}
+
+/* Trips List */
+.st-trips-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.st-trip-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 8px;
+    padding: 10px 14px;
+    transition: all 0.15s ease;
+}
+
+:root:not(.dark) .st-trip-item {
+    background: #f9fafb;
+    border-color: #e5e7eb;
+}
+
+.st-trip-item:hover {
+    background: rgba(255, 255, 255, 0.06);
+}
+
+:root:not(.dark) .st-trip-item:hover {
+    background: #f3f4f6;
+}
+
+.trip-main {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.trip-place {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.trip-pin {
+    color: #06b6d4;
+}
+
+.trip-city {
+    font-weight: 600;
+    color: #f3f4f6;
+}
+
+:root:not(.dark) .trip-city {
+    color: #111827;
+}
+
+.trip-country {
+    color: #9ca3af;
+    font-size: 0.8125rem;
+}
+
+.trip-tag.schengen {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: rgba(6, 182, 212, 0.12);
+    color: #22d3ee;
+    border: 1px solid rgba(6, 182, 212, 0.25);
+}
+
+.trip-dates {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.75rem;
+    color: #9ca3af;
+}
+
+.trip-days-badge {
+    background: rgba(255, 255, 255, 0.08);
+    color: #e2e8f0;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 600;
+}
+
+:root:not(.dark) .trip-days-badge {
+    background: #e5e7eb;
+    color: #374151;
+}
+
+.trip-delete-btn {
+    background: transparent;
+    border: none;
+    color: #64748b;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 4px;
+    transition: all 0.15s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.trip-delete-btn:hover {
+    color: #ef4444;
+    background: rgba(239, 68, 68, 0.1);
+}

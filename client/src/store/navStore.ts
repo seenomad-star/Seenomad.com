@@ -28,11 +28,15 @@ interface NavState {
     isSearchOpen: boolean;
     isModuleSwitcherOpen: boolean;
     isRightSidebarOpen: boolean;
+    isRightSidebarPinned: boolean;
+    isSidebarCollapsed: boolean;
+    isMobileSidebarOpen: boolean;
     moduleNavItems: any[];
     moduleBasePath: string;
 
     // Ghost Dock & Dopamine Engine
     dockState: 'orb' | 'command' | 'hud';
+    isGhostMode: boolean;
     dockConfig: {
         placeholder: string;
         quickFilters: Array<{ id: string; label: string; icon: string }>;
@@ -59,8 +63,14 @@ interface NavState {
     toggleSearch: (open?: boolean) => void;
     toggleModuleSwitcher: (open?: boolean) => void;
     toggleRightSidebar: (open?: boolean) => void;
+    toggleRightSidebarPinned: (pinned?: boolean) => void;
+    toggleSidebar: (collapsed?: boolean) => void;
+    setSidebarCollapsed: (collapsed: boolean) => void;
+    toggleMobileSidebar: (open?: boolean) => void;
+    setMobileSidebarOpen: (open: boolean) => void;
     setModuleNav: (items: any[], basePath: string) => void;
     setDockState: (state: NavState['dockState']) => void;
+    toggleGhostMode: (enable?: boolean) => void;
     setDockConfig: (config: NavState['dockConfig']) => void;
     setGlobalSearchQuery: (query: string) => void;
     setGlobalActiveFilters: (filters: string[]) => void;
@@ -89,9 +99,13 @@ export const useNavStore = create<NavState>((set, get) => ({
     isSearchOpen: false,
     isModuleSwitcherOpen: false,
     isRightSidebarOpen: false,
+    isRightSidebarPinned: typeof window !== 'undefined' ? (localStorage.getItem('seenomad_sidebar_pinned') !== 'false') : true,
+    isSidebarCollapsed: typeof window !== 'undefined' ? (localStorage.getItem('seenomad_sidebar_collapsed') === 'true' || window.innerWidth < 1024) : false,
+    isMobileSidebarOpen: false,
     moduleNavItems: [],
     moduleBasePath: '',
-    dockState: 'orb',
+    dockState: 'command',
+    isGhostMode: typeof window !== 'undefined' ? (localStorage.getItem('seenomad_ghost_mode') === 'true') : false,
     dockConfig: {
         placeholder: 'Command Travel OS...',
         quickFilters: [],
@@ -139,8 +153,51 @@ export const useNavStore = create<NavState>((set, get) => ({
     toggleSearch: (open) => set((state) => ({ isSearchOpen: open ?? !state.isSearchOpen })),
     toggleModuleSwitcher: (open) => set((state) => ({ isModuleSwitcherOpen: open ?? !state.isModuleSwitcherOpen })),
     toggleRightSidebar: (open) => set((state) => ({ isRightSidebarOpen: open ?? !state.isRightSidebarOpen })),
+    toggleRightSidebarPinned: (pinned) => set((state) => {
+        const nextPinned = pinned ?? !state.isRightSidebarPinned;
+        try {
+            localStorage.setItem('seenomad_sidebar_pinned', String(nextPinned));
+        } catch (e) {
+            // ignore
+        }
+        return { isRightSidebarPinned: nextPinned };
+    }),
+    toggleSidebar: (collapsed) => set((state) => {
+        if (typeof window !== 'undefined' && window.innerWidth <= 900) {
+            const nextMobile = collapsed !== undefined ? !collapsed : !state.isMobileSidebarOpen;
+            return { isMobileSidebarOpen: nextMobile };
+        }
+        const nextCollapsed = collapsed !== undefined ? collapsed : !state.isSidebarCollapsed;
+        try {
+            localStorage.setItem('seenomad_sidebar_collapsed', String(nextCollapsed));
+        } catch (e) {
+            // ignore
+        }
+        return { isSidebarCollapsed: nextCollapsed };
+    }),
+    toggleMobileSidebar: (open) => set((state) => ({
+        isMobileSidebarOpen: open !== undefined ? open : !state.isMobileSidebarOpen
+    })),
+    setMobileSidebarOpen: (open) => set({ isMobileSidebarOpen: open }),
+    setSidebarCollapsed: (collapsed) => set(() => {
+        try {
+            localStorage.setItem('seenomad_sidebar_collapsed', String(collapsed));
+        } catch (e) {
+            // ignore
+        }
+        return { isSidebarCollapsed: collapsed };
+    }),
     setModuleNav: (items, basePath) => set({ moduleNavItems: items, moduleBasePath: basePath }),
     setDockState: (state) => set({ dockState: state }),
+    toggleGhostMode: (enable) => set((state) => {
+        const nextGhost = enable !== undefined ? enable : !state.isGhostMode;
+        try {
+            localStorage.setItem('seenomad_ghost_mode', String(nextGhost));
+        } catch (e) {
+            // ignore
+        }
+        return { isGhostMode: nextGhost };
+    }),
     setDockConfig: (config) => set({ dockConfig: config }),
     setGlobalActiveFilters: (filters) => set({ globalActiveFilters: filters }),
     addXP: (amount) => set((state) => {

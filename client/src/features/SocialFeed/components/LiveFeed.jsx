@@ -161,8 +161,8 @@ const LiveFeed = () => {
             {/* Live Ticker Bar */}
             <div className="live-hero-ticker">
                 <div className="live-status-pill">
-                    <span className="live-radar-dot" />
-                    <span className="live-label">LIVE RADAR</span>
+                    <span className="live-dot" />
+                    <span className="live-label">LIVE NOW</span>
                 </div>
                 <div className="live-ticker-text">
                     <span className="ticker-highlight">2,840 nomads active now</span> across 42 hubs • 3 live streams streaming • 4 audio lounges open
@@ -356,7 +356,7 @@ const LiveFeed = () => {
                                 <div className="audio-space-top">
                                     <span className="audio-category-pill">{room.category}</span>
                                     <div className="audio-live-pill">
-                                        <span className="live-radar-dot" />
+                                        <span className="live-audio-dot" />
                                         <span>LIVE TALK</span>
                                     </div>
                                 </div>
@@ -386,7 +386,7 @@ const LiveFeed = () => {
                 </div>
             </div>
 
-            {/* Real-Time Live Check-Ins Radar */}
+            {/* Real-Time Live Check-Ins */}
             <div className="live-section-card">
                 <div className="live-section-header">
                     <div className="flex items-center gap-2">

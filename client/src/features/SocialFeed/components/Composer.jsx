@@ -1,101 +1,148 @@
 import React, { useState } from 'react';
 import { 
     Image, 
+    Video,
     MapPin, 
-    Smile, 
-    BarChart2, 
+    FileText,
     Sparkles, 
     X, 
     Send, 
-    Globe, 
+    Smile,
+    BarChart2,
+    Globe,
+    Lock,
+    Users,
     Check
 } from 'lucide-react';
 import { useToastStore } from '../../../store/toastStore';
 import '../styles/Composer.css';
 
 const PRESET_LOCATIONS = [
+    'Kyoto, Japan',
     'Canggu, Bali',
+    'Santorini, Greece',
     'Lisbon, Portugal',
-    'Tokyo, Japan',
+    'Shinjuku, Tokyo',
     'Medellin, Colombia',
-    'Chiang Mai, Thailand',
-    'Cape Town, South Africa'
+    'Amalfi Coast, Italy'
 ];
 
 const PRESET_PHOTOS = [
+    { label: 'Bamboo Grove', url: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=900' },
     { label: 'Sunset Beach', url: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=900' },
-    { label: 'Nomad Cafe', url: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=900' },
-    { label: 'Tokyo Shinjuku', url: 'https://images.unsplash.com/photo-1503899036084-c55cdd92da26?w=900' },
-    { label: 'Santorini Cliffs', url: 'https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?w=900' }
+    { label: 'Mount Fuji', url: 'https://images.unsplash.com/photo-1490806843957-31f4c9a91c65?w=900' },
+    { label: 'Santorini Cliffs', url: 'https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?w=900' },
+    { label: 'Amalfi Coast', url: 'https://images.unsplash.com/photo-1533105079780-92b9be482077?w=900' }
 ];
 
-const VIBES = ['☕ Cafe Hopping', '💻 Deep Work', '🏄 Surf Session', '🎒 Exploring', '✈️ In Transit'];
+const PRESET_FEELINGS = [
+    { label: 'adventurous 🏄‍♂️', id: 'adventurous' },
+    { label: 'working remote 💻', id: 'remote' },
+    { label: 'eating street food 🍜', id: 'foodie' },
+    { label: 'watching sunset 🌅', id: 'sunset' },
+    { label: 'exploring hidden spots 🗺️', id: 'explorer' },
+    { label: 'drinking matcha 🍵', id: 'relaxed' }
+];
 
 const Composer = ({ onAddPost }) => {
     const { addToast } = useToastStore();
+    const [isExpanded, setIsExpanded] = useState(false);
     const [content, setContent] = useState('');
-    const [selectedImage, setSelectedImage] = useState(null);
-    const [showImagePicker, setShowImagePicker] = useState(false);
-    const [customImageUrl, setCustomImageUrl] = useState('');
+    const [audience, setAudience] = useState('everyone');
+    
+    // Media selections
+    const [selectedImages, setSelectedImages] = useState([]);
+    const [selectedVideo, setSelectedVideo] = useState(null);
     const [selectedLocation, setSelectedLocation] = useState(null);
+    const [selectedFeeling, setSelectedFeeling] = useState(null);
+    
+    // Drawers
+    const [showImagePicker, setShowImagePicker] = useState(false);
+    const [showVideoPicker, setShowVideoPicker] = useState(false);
     const [showLocationPicker, setShowLocationPicker] = useState(false);
-    const [selectedVibe, setSelectedVibe] = useState(null);
-    const [showPoll, setShowPoll] = useState(false);
+    const [showFeelingPicker, setShowFeelingPicker] = useState(false);
+    const [showPollCreator, setShowPollCreator] = useState(false);
+
+    // Poll State
     const [pollQuestion, setPollQuestion] = useState('');
-    const [pollOption1, setPollOption1] = useState('');
-    const [pollOption2, setPollOption2] = useState('');
-    const [isFocused, setIsFocused] = useState(false);
+    const [pollOpt1, setPollOpt1] = useState('');
+    const [pollOpt2, setPollOpt2] = useState('');
 
     const handleAIPolish = () => {
         if (!content.trim()) {
-            setContent('Checking into my new nomad base! 🌴 Fast fiber, friendly community, and unmatched views. #WorkFromAnywhere #DigitalNomad');
-            addToast('AI Nomad Copilot drafted a travel update for you!', 'success');
+            setContent('Exploring another tranquil corner of the world today! Pristine views, high-speed fiber, and delicious local food. #SeeNomad #DigitalNomad #Explore');
+            addToast('AI Travel Copilot drafted an update for you! ✨', 'success');
             return;
         }
 
         let polished = content.trim();
         if (!polished.includes('#')) {
-            polished += '\n\n#NomadLife #RemoteWork #GlobalCommunity';
+            polished += '\n\n#SeeNomad #DigitalNomad #ExploreTheWorld';
         }
         setContent(polished);
-        addToast('Post polished with travel tags & formatted!', 'success');
+        addToast('Post polished with travel hashtags! ✨', 'success');
+    };
+
+    const handleTogglePhoto = (url) => {
+        if (selectedImages.includes(url)) {
+            setSelectedImages(prev => prev.filter(u => u !== url));
+        } else {
+            if (selectedImages.length >= 4) {
+                addToast('Maximum 4 photos per carousel', 'info');
+                return;
+            }
+            setSelectedImages(prev => [...prev, url]);
+            setSelectedVideo(null);
+        }
     };
 
     const handleSubmit = (e) => {
         if (e) e.preventDefault();
-        if (!content.trim() && !selectedImage && !showPoll) return;
+        const hasText = content.trim().length > 0;
+        const hasMedia = selectedImages.length > 0 || selectedVideo !== null;
+        const hasPoll = pollQuestion.trim() && pollOpt1.trim() && pollOpt2.trim();
+
+        if (!hasText && !hasMedia && !hasPoll) return;
 
         const newPost = {
             id: `user-post-${Date.now()}`,
             author: {
-                name: 'You',
-                handle: '@your_journey',
+                name: 'Traveler',
+                handle: '@traveler_t',
                 avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150',
                 verified: true
             },
             time: 'Just now',
-            location: selectedLocation || 'Nomad Hub',
-            vibe: selectedVibe,
+            location: selectedLocation || null,
+            feeling: selectedFeeling || null,
             content: content.trim(),
-            media: selectedImage ? { type: 'image', url: selectedImage } : null,
-            poll: showPoll && pollOption1 && pollOption2 ? {
-                question: pollQuestion || 'Nomad Poll:',
+            images: selectedImages.length > 0 ? selectedImages : null,
+            image: selectedImages.length === 1 ? selectedImages[0] : (selectedImages.length === 0 && selectedVideo ? selectedVideo.url : null),
+            type: selectedVideo ? 'video' : (selectedImages.length > 1 ? 'carousel' : 'standard'),
+            video: selectedVideo ? {
+                thumbnail: selectedVideo.url,
+                quality: '4K 60FPS',
+                duration: '04:20',
+                current: '00:00',
+                chapters: [
+                    { time: '0:00', title: 'Arrival & Drone View' },
+                    { time: '1:45', title: 'Local Secret Spot' },
+                    { time: '3:10', title: 'Sunset Wrap' }
+                ]
+            } : null,
+            poll: hasPoll ? {
+                question: pollQuestion.trim(),
                 options: [
-                    { text: pollOption1, votes: 0 },
-                    { text: pollOption2, votes: 0 }
+                    { text: pollOpt1.trim(), votes: 0 },
+                    { text: pollOpt2.trim(), votes: 0 }
                 ],
                 totalVotes: 0
             } : null,
-            stats: {
-                replies: 0,
-                reposts: 0,
-                likes: 0,
-                bookmarks: 0
-            },
-            userLiked: false,
-            userReposted: false,
-            userBookmarked: false,
-            comments: []
+            likes: '1',
+            comments: [],
+            shares: 0,
+            views: '1',
+            userLiked: true
         };
 
         if (onAddPost) {
@@ -104,255 +151,400 @@ const Composer = ({ onAddPost }) => {
 
         // Reset state
         setContent('');
-        setSelectedImage(null);
-        setCustomImageUrl('');
-        setShowImagePicker(false);
+        setSelectedImages([]);
+        setSelectedVideo(null);
         setSelectedLocation(null);
+        setSelectedFeeling(null);
+        setShowImagePicker(false);
+        setShowVideoPicker(false);
         setShowLocationPicker(false);
-        setSelectedVibe(null);
-        setShowPoll(false);
+        setShowFeelingPicker(false);
+        setShowPollCreator(false);
         setPollQuestion('');
-        setPollOption1('');
-        setPollOption2('');
-        setIsFocused(false);
+        setPollOpt1('');
+        setPollOpt2('');
+        setIsExpanded(false);
 
-        addToast('Post published to your nomad feed! 🚀', 'success');
+        addToast('Published to your SeeNomad Travel Feed! 🚀', 'success');
     };
 
+    const maxChars = 280;
+    const charCount = content.length;
+    const charProgress = Math.min(100, (charCount / maxChars) * 100);
+
     return (
-        <div className={`composer-card ${isFocused ? 'expanded' : ''}`}>
-            <div className="composer-main-row">
-                <img 
-                    src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150" 
-                    alt="Your avatar" 
-                    className="composer-user-avatar" 
-                />
+        <div className="travel-share-box-card" id="composer-card">
+            {/* Top Row: User Avatar + Input */}
+            <div className="share-box-top-row">
+                <div className="share-box-avatar" title="You (Traveler)">
+                    <span>T</span>
+                </div>
 
-                <div className="composer-input-area">
-                    {/* Active tags row */}
-                    {(selectedLocation || selectedVibe) && (
-                        <div className="composer-active-tags">
-                            {selectedLocation && (
-                                <span className="composer-tag location">
-                                    <MapPin size={11} />
-                                    {selectedLocation}
-                                    <button onClick={() => setSelectedLocation(null)} aria-label="Remove location">
-                                        <X size={10} />
-                                    </button>
-                                </span>
-                            )}
-                            {selectedVibe && (
-                                <span className="composer-tag vibe">
-                                    {selectedVibe}
-                                    <button onClick={() => setSelectedVibe(null)} aria-label="Remove vibe">
-                                        <X size={10} />
-                                    </button>
-                                </span>
-                            )}
-                        </div>
-                    )}
-
-                    <textarea
-                        className="composer-textarea"
-                        placeholder="What's happening in your nomad journey? Share a tip, ask about cafes..."
-                        value={content}
-                        onChange={(e) => setContent(e.target.value)}
-                        onFocus={() => setIsFocused(true)}
-                        rows={isFocused || content.length > 60 ? 3 : 2}
-                    />
-
-                    {/* Image Preview */}
-                    {selectedImage && (
-                        <div className="composer-media-preview">
-                            <img src={selectedImage} alt="Attachment" className="preview-image" />
+                {!isExpanded ? (
+                    <div 
+                        className="share-box-input-pill"
+                        onClick={() => setIsExpanded(true)}
+                        role="button"
+                        tabIndex={0}
+                    >
+                        <span>What's happening on your journey? Share a secret spot, tip, or story...</span>
+                    </div>
+                ) : (
+                    <div className="share-box-expanded-area">
+                        {/* Audience Selector (Twitter Style) */}
+                        <div className="share-audience-selector">
                             <button 
-                                className="remove-media-btn" 
-                                onClick={() => setSelectedImage(null)}
-                                title="Remove photo"
-                                aria-label="Remove photo"
+                                type="button" 
+                                className="audience-pill-btn"
+                                onClick={() => {
+                                    setAudience(prev => prev === 'everyone' ? 'nomads' : 'everyone');
+                                    addToast(audience === 'everyone' ? 'Audience: Nomads you follow' : 'Audience: Everyone', 'info');
+                                }}
                             >
-                                <X size={14} />
+                                {audience === 'everyone' ? <Globe size={12} /> : <Users size={12} />}
+                                <span>{audience === 'everyone' ? 'Everyone can reply' : 'Nomads you follow'}</span>
                             </button>
                         </div>
-                    )}
 
-                    {/* Poll Creator */}
-                    {showPoll && (
-                        <div className="composer-poll-box">
-                            <div className="flex items-center justify-between mb-2">
-                                <span className="poll-title">Nomad Community Poll</span>
-                                <button onClick={() => setShowPoll(false)} className="text-gray-400 hover:text-white" aria-label="Close poll">
-                                    <X size={14} />
-                                </button>
-                            </div>
-                            <input
-                                type="text"
-                                placeholder="Ask a question (e.g. Best coffee in Lisbon?)"
-                                value={pollQuestion}
-                                onChange={(e) => setPollQuestion(e.target.value)}
-                                className="poll-input mb-2"
-                            />
-                            <div className="poll-options-grid">
-                                <input
-                                    type="text"
-                                    placeholder="Option 1"
-                                    value={pollOption1}
-                                    onChange={(e) => setPollOption1(e.target.value)}
-                                    className="poll-input"
-                                />
-                                <input
-                                    type="text"
-                                    placeholder="Option 2"
-                                    value={pollOption2}
-                                    onChange={(e) => setPollOption2(e.target.value)}
-                                    className="poll-input"
-                                />
-                            </div>
-                        </div>
-                    )}
-
-                    {/* Expandable Image Chooser Drawer */}
-                    {showImagePicker && (
-                        <div className="composer-drawer">
-                            <span className="drawer-heading">Choose Travel Photo:</span>
-                            <div className="preset-photos-row">
-                                {PRESET_PHOTOS.map((p, idx) => (
-                                    <button
-                                        key={idx}
-                                        className="preset-photo-thumb"
-                                        onClick={() => {
-                                            setSelectedImage(p.url);
-                                            setShowImagePicker(false);
-                                        }}
-                                        title={p.label}
-                                    >
-                                        <img src={p.url} alt={p.label} />
-                                        <span>{p.label}</span>
-                                    </button>
-                                ))}
-                            </div>
-                            <div className="custom-url-row">
-                                <input
-                                    type="text"
-                                    placeholder="Or paste direct image URL..."
-                                    value={customImageUrl}
-                                    onChange={(e) => setCustomImageUrl(e.target.value)}
-                                    className="custom-url-input"
-                                />
-                                <button
-                                    className="apply-url-btn"
-                                    onClick={() => {
-                                        if (customImageUrl.trim()) {
-                                            setSelectedImage(customImageUrl.trim());
-                                            setCustomImageUrl('');
-                                            setShowImagePicker(false);
-                                        }
-                                    }}
-                                >
-                                    Add
-                                </button>
-                            </div>
-                        </div>
-                    )}
-
-                    {/* Expandable Location Picker */}
-                    {showLocationPicker && (
-                        <div className="composer-drawer">
-                            <span className="drawer-heading">Tag Nomad Destination:</span>
-                            <div className="location-pills-row">
-                                {PRESET_LOCATIONS.map((loc) => (
-                                    <button
-                                        key={loc}
-                                        className={`location-choice-pill ${selectedLocation === loc ? 'active' : ''}`}
-                                        onClick={() => {
-                                            setSelectedLocation(loc);
-                                            setShowLocationPicker(false);
-                                        }}
-                                    >
+                        {/* Active tags badge row */}
+                        {(selectedLocation || selectedFeeling) && (
+                            <div className="share-active-tags-row">
+                                {selectedLocation && (
+                                    <span className="share-tag location">
                                         <MapPin size={11} />
-                                        {loc}
-                                    </button>
+                                        {selectedLocation}
+                                        <button type="button" onClick={() => setSelectedLocation(null)} aria-label="Remove location">
+                                            <X size={10} />
+                                        </button>
+                                    </span>
+                                )}
+                                {selectedFeeling && (
+                                    <span className="share-tag feeling">
+                                        feeling {selectedFeeling}
+                                        <button type="button" onClick={() => setSelectedFeeling(null)} aria-label="Remove feeling">
+                                            <X size={10} />
+                                        </button>
+                                    </span>
+                                )}
+                            </div>
+                        )}
+
+                        <textarea
+                            className="share-box-textarea"
+                            placeholder="What's happening on your journey? Share a secret spot, tip, or story..."
+                            value={content}
+                            onChange={(e) => setContent(e.target.value)}
+                            rows={3}
+                            autoFocus
+                        />
+
+                        {/* Multi-Photo Carousel Preview (Instagram Style) */}
+                        {selectedImages.length > 0 && (
+                            <div className="composer-photos-preview-strip">
+                                {selectedImages.map((imgUrl, i) => (
+                                    <div key={i} className="composer-photo-preview-item">
+                                        <img src={imgUrl} alt={`Upload ${i + 1}`} className="preview-mini-thumb" />
+                                        <span className="preview-index-tag">{i + 1}/{selectedImages.length}</span>
+                                        <button 
+                                            type="button" 
+                                            className="remove-mini-btn"
+                                            onClick={() => setSelectedImages(prev => prev.filter(u => u !== imgUrl))}
+                                        >
+                                            <X size={10} />
+                                        </button>
+                                    </div>
                                 ))}
                             </div>
-                        </div>
-                    )}
+                        )}
 
-                    {/* Footer Actions & Tools */}
-                    <div className="composer-bottom-bar">
-                        <div className="composer-tools-group">
-                            <button 
-                                type="button"
-                                className={`tool-icon-btn ${selectedImage ? 'active' : ''}`}
-                                onClick={() => setShowImagePicker(!showImagePicker)}
-                                title="Attach photo"
-                                aria-label="Attach photo"
-                            >
-                                <Image size={18} />
-                            </button>
-
-                            <button 
-                                type="button"
-                                className={`tool-icon-btn ${selectedLocation ? 'active' : ''}`}
-                                onClick={() => setShowLocationPicker(!showLocationPicker)}
-                                title="Tag location"
-                                aria-label="Tag location"
-                            >
-                                <MapPin size={18} />
-                            </button>
-
-                            <button 
-                                type="button"
-                                className={`tool-icon-btn ${showPoll ? 'active' : ''}`}
-                                onClick={() => setShowPoll(!showPoll)}
-                                title="Create poll"
-                                aria-label="Create poll"
-                            >
-                                <BarChart2 size={18} />
-                            </button>
-
-                            <div className="vibe-dropdown-wrapper">
+                        {/* Video Preview (YouTube Style) */}
+                        {selectedVideo && (
+                            <div className="share-media-preview">
+                                <img src={selectedVideo.url} alt="Video thumbnail" className="preview-img" />
+                                <div className="video-badge-overlay">
+                                    <Video size={14} />
+                                    <span>YouTube 4K Travel Vlog · {selectedVideo.label}</span>
+                                </div>
                                 <button 
                                     type="button"
-                                    className={`tool-icon-btn ${selectedVibe ? 'active' : ''}`}
-                                    onClick={() => {
-                                        const nextIdx = selectedVibe ? (VIBES.indexOf(selectedVibe) + 1) % VIBES.length : 0;
-                                        setSelectedVibe(VIBES[nextIdx]);
-                                    }}
-                                    title="Cycle nomad vibe"
-                                    aria-label="Nomad vibe"
+                                    className="remove-preview-btn" 
+                                    onClick={() => setSelectedVideo(null)}
+                                    aria-label="Remove video"
                                 >
-                                    <Smile size={18} />
+                                    <X size={13} />
                                 </button>
+                            </div>
+                        )}
+
+                        {/* Poll Preview (Facebook / Twitter Style) */}
+                        {showPollCreator && (
+                            <div className="composer-poll-box">
+                                <input 
+                                    type="text" 
+                                    placeholder="Ask a travel question... (e.g. Best area in Tokyo?)" 
+                                    value={pollQuestion}
+                                    onChange={(e) => setPollQuestion(e.target.value)}
+                                    className="poll-input question"
+                                />
+                                <input 
+                                    type="text" 
+                                    placeholder="Option 1 (e.g. Shibuya)" 
+                                    value={pollOpt1}
+                                    onChange={(e) => setPollOpt1(e.target.value)}
+                                    className="poll-input"
+                                />
+                                <input 
+                                    type="text" 
+                                    placeholder="Option 2 (e.g. Shinjuku)" 
+                                    value={pollOpt2}
+                                    onChange={(e) => setPollOpt2(e.target.value)}
+                                    className="poll-input"
+                                />
+                                <button 
+                                    type="button" 
+                                    className="remove-poll-btn"
+                                    onClick={() => setShowPollCreator(false)}
+                                >
+                                    Remove Poll
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                )}
+            </div>
+
+            {/* Photo Picker Drawer */}
+            {isExpanded && showImagePicker && (
+                <div className="composer-drawer">
+                    <div className="drawer-header">
+                        <span className="drawer-title">Select Travel Photos (Instagram Carousel):</span>
+                        <span className="drawer-sub">{selectedImages.length}/4 selected</span>
+                    </div>
+                    <div className="drawer-photos-grid">
+                        {PRESET_PHOTOS.map((p, idx) => {
+                            const isSelected = selectedImages.includes(p.url);
+                            return (
+                                <button
+                                    key={idx}
+                                    type="button"
+                                    className={`drawer-photo-thumb ${isSelected ? 'selected' : ''}`}
+                                    onClick={() => handleTogglePhoto(p.url)}
+                                >
+                                    <img src={p.url} alt={p.label} />
+                                    {isSelected && (
+                                        <div className="selected-check-badge">
+                                            <Check size={12} />
+                                        </div>
+                                    )}
+                                    <span>{p.label}</span>
+                                </button>
+                            );
+                        })}
+                    </div>
+                </div>
+            )}
+
+            {/* Video Picker Drawer */}
+            {isExpanded && showVideoPicker && (
+                <div className="composer-drawer">
+                    <span className="drawer-title">Attach YouTube Travel Vlog:</span>
+                    <div className="drawer-photos-grid">
+                        {PRESET_PHOTOS.slice(0, 3).map((v, idx) => (
+                            <button
+                                key={idx}
+                                type="button"
+                                className={`drawer-photo-thumb ${selectedVideo?.url === v.url ? 'selected' : ''}`}
+                                onClick={() => {
+                                    setSelectedVideo({ label: v.label, url: v.url });
+                                    setSelectedImages([]);
+                                    setShowVideoPicker(false);
+                                }}
+                            >
+                                <img src={v.url} alt={v.label} />
+                                <span className="drawer-yt-tag">4K Vlog</span>
+                                <span>{v.label}</span>
+                            </button>
+                        ))}
+                    </div>
+                </div>
+            )}
+
+            {/* Feeling Picker Drawer (Facebook Style) */}
+            {isExpanded && showFeelingPicker && (
+                <div className="composer-drawer">
+                    <span className="drawer-title">How are you feeling on your journey?</span>
+                    <div className="drawer-chips-wrap">
+                        {PRESET_FEELINGS.map((f) => (
+                            <button
+                                key={f.id}
+                                type="button"
+                                className={`drawer-chip ${selectedFeeling === f.label ? 'active' : ''}`}
+                                onClick={() => {
+                                    setSelectedFeeling(f.label);
+                                    setShowFeelingPicker(false);
+                                }}
+                            >
+                                {f.label}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+            )}
+
+            {/* Location Picker Drawer */}
+            {isExpanded && showLocationPicker && (
+                <div className="composer-drawer">
+                    <span className="drawer-title">Check-in at Location:</span>
+                    <div className="drawer-chips-wrap">
+                        {PRESET_LOCATIONS.map((loc, idx) => (
+                            <button
+                                key={idx}
+                                type="button"
+                                className={`drawer-chip ${selectedLocation === loc ? 'active' : ''}`}
+                                onClick={() => {
+                                    setSelectedLocation(loc);
+                                    setShowLocationPicker(false);
+                                }}
+                            >
+                                <MapPin size={12} />
+                                {loc}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+            )}
+
+            {/* Bottom Action Bar */}
+            <div className="share-box-actions-bar">
+                <div className="share-box-left-tools">
+                    <button 
+                        type="button" 
+                        className={`tool-btn ${showImagePicker ? 'active' : ''}`}
+                        onClick={() => {
+                            setIsExpanded(true);
+                            setShowImagePicker(!showImagePicker);
+                            setShowVideoPicker(false);
+                            setShowLocationPicker(false);
+                            setShowFeelingPicker(false);
+                        }}
+                        title="Add Instagram Carousel Photos"
+                    >
+                        <Image size={17} className="text-sky-500" />
+                        <span className="tool-label">Photos</span>
+                    </button>
+
+                    <button 
+                        type="button" 
+                        className={`tool-btn ${showVideoPicker ? 'active' : ''}`}
+                        onClick={() => {
+                            setIsExpanded(true);
+                            setShowVideoPicker(!showVideoPicker);
+                            setShowImagePicker(false);
+                            setShowLocationPicker(false);
+                            setShowFeelingPicker(false);
+                        }}
+                        title="Add YouTube Travel Vlog"
+                    >
+                        <Video size={17} className="text-red-500" />
+                        <span className="tool-label">Video</span>
+                    </button>
+
+                    <button 
+                        type="button" 
+                        className={`tool-btn ${showPollCreator ? 'active' : ''}`}
+                        onClick={() => {
+                            setIsExpanded(true);
+                            setShowPollCreator(!showPollCreator);
+                        }}
+                        title="Create Community Poll"
+                    >
+                        <BarChart2 size={17} className="text-amber-500" />
+                        <span className="tool-label">Poll</span>
+                    </button>
+
+                    <button 
+                        type="button" 
+                        className={`tool-btn ${showFeelingPicker ? 'active' : ''}`}
+                        onClick={() => {
+                            setIsExpanded(true);
+                            setShowFeelingPicker(!showFeelingPicker);
+                            setShowImagePicker(false);
+                            setShowVideoPicker(false);
+                            setShowLocationPicker(false);
+                        }}
+                        title="Feeling / Activity"
+                    >
+                        <Smile size={17} className="text-yellow-500" />
+                        <span className="tool-label">Feeling</span>
+                    </button>
+
+                    <button 
+                        type="button" 
+                        className={`tool-btn ${showLocationPicker ? 'active' : ''}`}
+                        onClick={() => {
+                            setIsExpanded(true);
+                            setShowLocationPicker(!showLocationPicker);
+                            setShowImagePicker(false);
+                            setShowVideoPicker(false);
+                            setShowFeelingPicker(false);
+                        }}
+                        title="Check in location"
+                    >
+                        <MapPin size={17} className="text-emerald-500" />
+                        <span className="tool-label">Check in</span>
+                    </button>
+
+                    <button 
+                        type="button" 
+                        className="tool-btn ai-polish"
+                        onClick={handleAIPolish}
+                        title="AI Travel Copilot"
+                    >
+                        <Sparkles size={16} className="text-purple-400" />
+                        <span className="tool-label font-bold text-purple-500">AI Polish</span>
+                    </button>
+                </div>
+
+                <div className="share-box-right-tools">
+                    {isExpanded && (
+                        <>
+                            {/* Twitter style circular progress indicator */}
+                            <div className="char-count-indicator" title={`${maxChars - charCount} characters remaining`}>
+                                <svg width="22" height="22" viewBox="0 0 24 24">
+                                    <circle cx="12" cy="12" r="9" fill="none" stroke="rgba(0,0,0,0.1)" strokeWidth="2.5" />
+                                    <circle 
+                                        cx="12" 
+                                        cy="12" 
+                                        r="9" 
+                                        fill="none" 
+                                        stroke={charCount > 240 ? "#ef4444" : "#0284c7"} 
+                                        strokeWidth="2.5"
+                                        strokeDasharray="56.5"
+                                        strokeDashoffset={56.5 - (56.5 * charProgress) / 100}
+                                        transform="rotate(-90 12 12)"
+                                    />
+                                </svg>
                             </div>
 
                             <button 
-                                type="button"
-                                className="tool-icon-btn ai-polish-btn"
-                                onClick={handleAIPolish}
-                                title="AI Nomad Copilot polish"
-                                aria-label="AI Nomad Copilot polish"
+                                type="button" 
+                                className="composer-cancel-btn"
+                                onClick={() => setIsExpanded(false)}
                             >
-                                <Sparkles size={18} />
+                                Cancel
                             </button>
-                        </div>
+                        </>
+                    )}
 
-                        <div className="composer-submit-group">
-                            {content.length > 0 && (
-                                <span className="char-counter">
-                                    {content.length}
-                                </span>
-                            )}
-                            <button
-                                type="button"
-                                className="composer-post-btn"
-                                onClick={handleSubmit}
-                                disabled={!content.trim() && !selectedImage && !showPoll}
-                            >
-                                <span>Post</span>
-                                <Send size={13} />
-                            </button>
-                        </div>
-                    </div>
+                    <button 
+                        type="button" 
+                        className="share-submit-btn"
+                        onClick={handleSubmit}
+                        disabled={!content.trim() && selectedImages.length === 0 && !selectedVideo && !pollQuestion}
+                    >
+                        <Send size={14} />
+                        <span>Post</span>
+                    </button>
                 </div>
             </div>
         </div>

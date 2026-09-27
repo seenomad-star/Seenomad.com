@@ -84,7 +84,7 @@ const DiscoveryWidgets = () => {
                     <div className="blog-link">
                         <BookOpen size={16} />
                         <div>
-                            <h4>Traveluh Blog & Ideas</h4>
+                            <h4>SeeNomad Blog & Ideas</h4>
                             <p>Read the latest digital nomad guides.</p>
                         </div>
                     </div>

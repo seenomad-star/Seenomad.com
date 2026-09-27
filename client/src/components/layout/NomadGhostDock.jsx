@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useScroll } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { Search, Compass, Sparkles, Zap, Star, Shield, Filter, X, Globe, User, Briefcase, Target, Play, ChevronRight } from 'lucide-react';
+import { Search, Sparkles, Zap, Star, Shield, Filter, X, Globe, User, Briefcase, Target, Play, ChevronRight } from 'lucide-react';
 import { useNavStore } from '../../store/navStore';
 import NomadToolkit from '../../features/SupportUtility/components/NomadToolkit';
 import './NomadGhostDock.css';
@@ -38,21 +38,23 @@ const NomadGhostDock = () => {
     const hudRef = useRef(null);
     const { scrollY } = useScroll();
 
+    // Auto-sync ghost strip visibility if set by page config
+    useEffect(() => {
+        if (dockConfig?.showGhostStrip !== undefined) {
+            setShowGhostStrip(dockConfig.showGhostStrip);
+        }
+    }, [dockConfig?.showGhostStrip]);
+
     // Scroll detection for Ghost Mode
     useEffect(() => {
         return scrollY.on('change', (latest) => {
             const direction = latest > lastScrollY.current ? 'down' : 'up';
             if (direction !== (isScrollingDown ? 'down' : 'up') && Math.abs(latest - lastScrollY.current) > 10) {
                 setIsScrollingDown(direction === 'down');
-                if (direction === 'down' && dockState !== 'hud') {
-                    setDockState('orb');
-                } else if (direction === 'up' && dockState !== 'hud') {
-                    setDockState('command');
-                }
             }
             lastScrollY.current = latest;
         });
-    }, [scrollY, isScrollingDown, dockState, setDockState]);
+    }, [scrollY, isScrollingDown]);
 
     const spawnXPParticles = (startX, startY, amount = 5) => {
         const container = document.getElementById('xp-vacuum-container');
@@ -114,33 +116,13 @@ const NomadGhostDock = () => {
     }, [dockState, setDockState]);
 
     return (
-        <div className="nomad-ghost-dock-container">
+        <div className={`nomad-ghost-dock-container ${dockState === 'hud' ? 'has-open-hud' : ''}`}>
             <AnimatePresence mode="wait">
-                {dockState === 'orb' && (
-                    <motion.div
-                        key="orb"
-                        layoutId="dock"
-                        className="nomad-orb-innovative"
-                        initial={{ scale: 0.8, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        exit={{ scale: 0.8, opacity: 0 }}
-                        onClick={() => setDockState('command')}
-                        whileHover={{ scale: 1.05, rotate: 5 }}
-                        drag
-                        dragConstraints={{ left: -window.innerWidth/2, right: window.innerWidth/2, top: -window.innerHeight + 100, bottom: 50 }}
-                        dragElastic={0.1}
-                        dragMomentum={false}
-                    >
-                        <div className="orb-glass-inner" />
-                        <Compass size={22} className="orb-icon-aura" />
-                    </motion.div>
-                )}
-
                 {dockState === 'command' && (
                     <div className="dock-command-wrapper">
                         {/* Layer 2: Ghost Strip (Quick Filters) */}
                         <AnimatePresence>
-                            {showGhostStrip && dockConfig.quickFilters.length > 0 && (
+                            {showGhostStrip && dockConfig.quickFilters && dockConfig.quickFilters.length > 0 && (
                                 <motion.div
                                     className="nomad-ghost-strip"
                                     initial={{ y: 20, opacity: 0, scale: 0.95 }}
@@ -148,22 +130,27 @@ const NomadGhostDock = () => {
                                     exit={{ y: 20, opacity: 0, scale: 0.95 }}
                                 >
                                     <div className="ghost-strip-content">
-                                        {dockConfig.quickFilters.map(filter => (
-                                            <motion.button
-                                                key={filter.id}
-                                                className={`ghost-chip ${globalActiveFilters.includes(filter.id) ? 'active' : ''}`}
-                                                onClick={() => {
-                                                    const newFilters = globalActiveFilters.includes(filter.id)
-                                                        ? globalActiveFilters.filter(f => f !== filter.id)
-                                                        : [...globalActiveFilters, filter.id];
-                                                    setGlobalActiveFilters(newFilters);
-                                                }}
-                                                whileHover={{ scale: 1.05 }}
-                                                whileTap={{ scale: 0.95 }}
-                                            >
-                                                <span className="chip-label">{filter.label}</span>
-                                            </motion.button>
-                                        ))}
+                                        {dockConfig.quickFilters.map((filter, idx) => {
+                                            const filterId = typeof filter === 'string' ? filter.toLowerCase().replace(/\s+/g, '-') : (filter.id || `filter-${idx}`);
+                                            const filterLabel = typeof filter === 'string' ? filter : (filter.label || filter.id);
+                                            const isActive = globalActiveFilters.includes(filterId);
+                                            return (
+                                                <motion.button
+                                                    key={filterId}
+                                                    className={`ghost-chip ${isActive ? 'active' : ''}`}
+                                                    onClick={() => {
+                                                        const newFilters = isActive
+                                                            ? globalActiveFilters.filter(f => f !== filterId)
+                                                            : [...globalActiveFilters, filterId];
+                                                        setGlobalActiveFilters(newFilters);
+                                                    }}
+                                                    whileHover={{ scale: 1.05 }}
+                                                    whileTap={{ scale: 0.95 }}
+                                                >
+                                                    <span className="chip-label">{filterLabel}</span>
+                                                </motion.button>
+                                            );
+                                        })}
                                     </div>
                                 </motion.div>
                             )}
@@ -177,10 +164,6 @@ const NomadGhostDock = () => {
                             initial={{ y: 20, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
                             exit={{ y: 20, opacity: 0 }}
-                            drag
-                            dragConstraints={{ left: -window.innerWidth/2 + 200, right: window.innerWidth/2 - 200, top: -window.innerHeight + 100, bottom: 50 }}
-                            dragElastic={0.05}
-                            dragMomentum={false}
                         >
                             <div className="pill-left-minimal" onClick={() => toggleModuleSwitcher(true)}>
                                 <div className="system-signal-compact">
@@ -194,8 +177,12 @@ const NomadGhostDock = () => {
                                 <div className="pill-center-content">
                                     <div className="active-filters-inline">
                                         {globalActiveFilters.map(filterId => {
-                                            const filter = dockConfig.quickFilters.find(f => f.id === filterId);
+                                            const filter = dockConfig.quickFilters?.find(f => {
+                                                const id = typeof f === 'string' ? f.toLowerCase().replace(/\s+/g, '-') : f.id;
+                                                return id === filterId;
+                                            });
                                             if (!filter) return null;
+                                            const filterLabel = typeof filter === 'string' ? filter : (filter.label || filter.id);
                                             return (
                                                 <motion.div
                                                     key={filterId}
@@ -204,7 +191,7 @@ const NomadGhostDock = () => {
                                                     animate={{ scale: 1, opacity: 1 }}
                                                     exit={{ scale: 0.8, opacity: 0 }}
                                                 >
-                                                    <span>{filter.label}</span>
+                                                    <span>{filterLabel}</span>
                                                     <X
                                                         size={12}
                                                         className="remove-tag"
@@ -267,13 +254,25 @@ const NomadGhostDock = () => {
                                         )}
                                     </AnimatePresence>
                                 </div>
-                                <div className="ai-pulse">
+                                <div className="ai-sparkle-badge">
                                     <Sparkles size={16} />
                                 </div>
                             </div>
 
                             <div className="pill-right-minimal">
-                                {/* Community Social Pulse */}
+                                {/* Quick Filter Toggle Button */}
+                                {dockConfig.quickFilters && dockConfig.quickFilters.length > 0 && (
+                                    <button
+                                        className={`filter-trigger ${showGhostStrip ? 'active' : ''}`}
+                                        onClick={() => setShowGhostStrip(prev => !prev)}
+                                        title={showGhostStrip ? 'Hide Quick Filters' : 'Show Quick Filters'}
+                                        aria-label="Toggle Quick Filters"
+                                    >
+                                        <Filter size={16} />
+                                    </button>
+                                )}
+
+                                {/* Community Social Updates */}
                                 <button
                                     className={`social-trigger-innovative ${hasNewInsights ? 'has-notification' : ''}`}
                                     onClick={() => {

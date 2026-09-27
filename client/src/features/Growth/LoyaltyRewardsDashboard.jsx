@@ -31,7 +31,7 @@ const LoyaltyRewardsDashboard = () => {
                 </div>
                 <div className="lr-coins-display">
                     <div className="coin-value">{coins.toLocaleString()}</div>
-                    <span>Traveluh Coins</span>
+                    <span>SeeNomad Coins</span>
                 </div>
             </div>
 
@@ -87,7 +87,7 @@ const LoyaltyRewardsDashboard = () => {
             <div className="lr-earn-cta">
                 <div className="earn-content">
                     <h3>Earn 5,000 Coins Today!</h3>
-                    <p>Refer a friend to the Traveluh OS or book your next International Flight through the platform to instantly receive up to 5,000 Traveluh Coins.</p>
+                    <p>Refer a friend to the SeeNomad platform or book your next International Flight through the platform to instantly receive up to 5,000 SeeNomad Coins.</p>
                 </div>
                 <button className="earn-btn">View Earning Opportunities</button>
             </div>

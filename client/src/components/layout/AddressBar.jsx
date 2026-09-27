@@ -26,6 +26,7 @@ import {
     FileText
 } from 'lucide-react';
 import { useDestinationStore } from '../../store/destinationFilterStore';
+import SidebarToggle from '../common/SidebarToggle';
 import '../../styles/AddressBar.css';
 
 // Rich route metadata for clean, accurate travel breadcrumbs
@@ -135,6 +136,7 @@ const AddressBar = ({ isSidebarCollapsed }) => {
         >
             {/* History & Quick Traversal Controls */}
             <div className="address-bar-nav-btns">
+                <SidebarToggle variant="inline" className="address-bar-sidebar-toggle" />
                 <button
                     className="addr-btn"
                     onClick={() => navigate(-1)}
@@ -191,7 +193,7 @@ const AddressBar = ({ isSidebarCollapsed }) => {
                                 <div className="current-page-pill">
                                     <Sparkles size={13} className="breadcrumb-icon feed-icon text-amber-400" />
                                     <span className="breadcrumb-text current-title">Nexus Feed</span>
-                                    <span className="live-pulse-badge">
+                                    <span className="live-status-badge">
                                         <span className="live-dot" />
                                         Live
                                     </span>

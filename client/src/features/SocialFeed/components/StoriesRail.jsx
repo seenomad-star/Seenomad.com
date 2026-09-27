@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, X, Heart, ChevronLeft, ChevronRight, MapPin, Send } from 'lucide-react';
 import { useToastStore } from '../../../store/toastStore';
@@ -8,7 +8,7 @@ const DEFAULT_STORIES = [
     {
         id: 0,
         username: 'Your Story',
-        avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150',
+        avatar: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=400',
         isUser: true,
         storyImage: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=900',
         location: 'Seminyak, Bali',
@@ -17,53 +17,58 @@ const DEFAULT_STORIES = [
     },
     {
         id: 1,
-        username: 'emma_j',
-        avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150',
+        username: 'Sarah',
+        avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200',
         hasStory: true,
-        storyImage: 'https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?w=900',
-        location: 'Oia, Santorini',
-        caption: 'Watching the whitewashed cliffs turn into pure gold ✨🇬🇷',
-        time: '2h ago'
+        storyImage: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=900',
+        location: 'Kyoto, Japan',
+        caption: 'Morning light in the Arashiyama Bamboo Grove. Pure tranquil magic 🎋✨',
+        time: '2h ago',
+        ringColor: 'orange'
     },
     {
         id: 2,
-        username: 'alex_k',
-        avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150',
+        username: 'Marco',
+        avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200',
         hasStory: true,
-        storyImage: 'https://images.unsplash.com/photo-1490806843957-31f4c9a91c65?w=900',
-        location: 'Mount Fuji, Japan',
-        caption: 'Sunrise hike at the 5th station. 0 degrees but 100% worth it 🗻',
-        time: '4h ago'
+        storyImage: 'https://images.unsplash.com/photo-1533105079780-92b9be482077?w=900',
+        location: 'Amalfi Coast, Italy',
+        caption: 'Speedboat cruise between cliffside lemon groves 🍋🚤',
+        time: '3h ago',
+        ringColor: 'orange'
     },
     {
         id: 3,
-        username: 'sarah_m',
-        avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150',
+        username: 'Yuki',
+        avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=200',
         hasStory: true,
-        storyImage: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900',
-        location: 'Ubud, Bali',
-        caption: 'Rice terrace cafe with 200 Mbps Starlink fiber ☕💻',
-        time: '6h ago'
+        storyImage: 'https://images.unsplash.com/photo-1503899036084-c55cdd92da26?w=900',
+        location: 'Shinjuku, Tokyo',
+        caption: 'Midnight ramen run and alley exploration 🍜🏮',
+        time: '5h ago',
+        ringColor: 'orange'
     },
     {
         id: 4,
-        username: 'marcus_nx',
-        avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=marcus',
+        username: 'Alex',
+        avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200',
         hasStory: true,
-        storyImage: 'https://images.unsplash.com/photo-1518684079-3c830dcef090?w=900',
-        location: 'Medellin, Colombia',
-        caption: 'Found the quietest rooftop workspace in Poblado 🌴',
-        time: '8h ago'
+        storyImage: 'https://images.unsplash.com/photo-1490806843957-31f4c9a91c65?w=900',
+        location: 'Mount Fuji, Japan',
+        caption: 'Sunrise hike at 5th station. 0 degrees but 100% worth it 🗻',
+        time: '8h ago',
+        ringColor: 'gray'
     },
     {
         id: 5,
-        username: 'lisa_p',
-        avatar: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=150',
+        username: 'Priya',
+        avatar: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=200',
         hasStory: true,
-        storyImage: 'https://images.unsplash.com/photo-1503899036084-c55cdd92da26?w=900',
-        location: 'Tokyo, Japan',
-        caption: 'Midnight ramen run after a 12-hour design sprint 🍜',
-        time: '11h ago'
+        storyImage: 'https://images.unsplash.com/photo-1599661046289-e31897846e41?w=900',
+        location: 'Udaipur, India',
+        caption: 'Sunset over the City Palace on Lake Pichola 🏰🌅',
+        time: '10h ago',
+        ringColor: 'orange'
     }
 ];
 
@@ -85,7 +90,7 @@ const StoriesRail = ({ stories = DEFAULT_STORIES }) => {
         setProgress(0);
     };
 
-    const nextStory = () => {
+    const nextStory = useCallback(() => {
         if (activeStoryIndex < stories.length - 1) {
             setActiveStoryIndex(prev => prev + 1);
             setProgress(0);
@@ -93,7 +98,7 @@ const StoriesRail = ({ stories = DEFAULT_STORIES }) => {
         } else {
             closeStory();
         }
-    };
+    }, [activeStoryIndex, stories.length]);
 
     const prevStory = () => {
         if (activeStoryIndex > 0) {
@@ -103,9 +108,10 @@ const StoriesRail = ({ stories = DEFAULT_STORIES }) => {
         }
     };
 
-    // Auto progress timer
+    // Auto-advance stories
     useEffect(() => {
         if (activeStoryIndex === null) return;
+
         const interval = setInterval(() => {
             setProgress(prev => {
                 if (prev >= 100) {
@@ -115,47 +121,59 @@ const StoriesRail = ({ stories = DEFAULT_STORIES }) => {
                 return prev + 2;
             });
         }, 100);
+
         return () => clearInterval(interval);
-    }, [activeStoryIndex]);
+    }, [activeStoryIndex, nextStory]);
 
     const activeStory = activeStoryIndex !== null ? stories[activeStoryIndex] : null;
 
     const handleSendReply = (e) => {
         e.preventDefault();
         if (!replyText.trim()) return;
-        addToast(`Reply sent to ${activeStory?.username}! 💌`, 'success');
+        addToast(`Reply sent to ${activeStory.username}: "${replyText}"`, 'success');
         setReplyText('');
     };
 
+    const toggleLike = () => {
+        setStoryLiked(!storyLiked);
+        if (!storyLiked) {
+            addToast(`Liked ${activeStory.username}'s story! ❤️`, 'success');
+        }
+    };
+
     return (
-        <>
-            <div className="stories-rail-container">
-                <div className="stories-rail-scroll">
-                    {stories.map((story, idx) => (
-                        <div 
-                            key={story.id} 
-                            className="story-item-box"
-                            onClick={() => {
-                                if (story.isUser) {
-                                    addToast('Opening story creator...', 'info');
-                                    openStory(idx);
-                                } else {
-                                    openStory(idx);
-                                }
-                            }}
-                        >
-                            <div className={`story-avatar-wrapper ${story.hasStory ? 'has-active-story' : ''} ${story.isUser ? 'is-user-story' : ''}`}>
-                                <img src={story.avatar} alt={story.username} className="story-avatar-img" />
-                                {story.isUser && (
-                                    <div className="story-add-badge" title="Add to story">
-                                        <Plus size={12} strokeWidth={3} />
-                                    </div>
-                                )}
+        <section className="stories-rail-container" aria-label="Stories Rail">
+            <div className="stories-rail-scroll">
+                {stories.map((story, idx) => (
+                    <div 
+                        key={story.id} 
+                        className="story-item-box"
+                        onClick={() => {
+                            if (story.isUser) {
+                                addToast('Opening story creator...', 'info');
+                                openStory(idx);
+                            } else {
+                                openStory(idx);
+                            }
+                        }}
+                    >
+                        {story.isUser ? (
+                            <div className="story-squircle-wrapper user-squircle">
+                                <img src={story.avatar} alt="Your story" className="story-squircle-bg" />
+                                <div className="story-add-plus-badge" title="Add to story">
+                                    <Plus size={15} strokeWidth={3} />
+                                </div>
                             </div>
-                            <span className="story-item-name">{story.username}</span>
-                        </div>
-                    ))}
-                </div>
+                        ) : (
+                            <div className={`story-squircle-wrapper ring-${story.ringColor || 'orange'}`}>
+                                <div className="story-squircle-inner">
+                                    <img src={story.avatar} alt={story.username} className="story-avatar-squircle" />
+                                </div>
+                            </div>
+                        )}
+                        <span className="story-item-name">{story.username}</span>
+                    </div>
+                ))}
             </div>
 
             {/* Story Viewer Modal */}
@@ -178,37 +196,67 @@ const StoriesRail = ({ stories = DEFAULT_STORIES }) => {
 
                             {/* Header */}
                             <div className="story-modal-header">
-                                <img src={activeStory.avatar} alt={activeStory.username} className="story-modal-avatar" />
-                                <div className="story-modal-meta">
-                                    <div className="story-modal-author">{activeStory.username}</div>
-                                    <div className="story-modal-loc">
-                                        <MapPin size={11} />
-                                        <span>{activeStory.location || 'Global Nomad'}</span>
-                                        <span>·</span>
-                                        <span>{activeStory.time || '2h'}</span>
+                                <div className="story-author-info">
+                                    <img 
+                                        src={activeStory.avatar} 
+                                        alt={activeStory.username} 
+                                        className="story-modal-avatar" 
+                                    />
+                                    <div>
+                                        <h4 className="story-author-name">{activeStory.username}</h4>
+                                        <div className="story-meta-row">
+                                            {activeStory.location && (
+                                                <span className="story-location">
+                                                    <MapPin size={11} /> {activeStory.location}
+                                                </span>
+                                            )}
+                                            <span className="story-timestamp">· {activeStory.time}</span>
+                                        </div>
                                     </div>
                                 </div>
-                                <button className="story-modal-close" onClick={closeStory} aria-label="Close story">
+
+                                <button 
+                                    className="story-close-btn" 
+                                    onClick={closeStory}
+                                    aria-label="Close story"
+                                >
                                     <X size={18} />
                                 </button>
                             </div>
 
-                            {/* Story Media */}
-                            <div className="story-modal-media">
-                                <img src={activeStory.storyImage || activeStory.avatar} alt="Story visual" className="story-image" />
-                                <div className="story-media-gradient" />
-                                <p className="story-caption">{activeStory.caption}</p>
+                            {/* Story Media Background */}
+                            <div className="story-media-view">
+                                <img 
+                                    src={activeStory.storyImage} 
+                                    alt={activeStory.caption || 'Travel story'} 
+                                    className="story-full-image" 
+                                />
+                                {activeStory.caption && (
+                                    <div className="story-caption-overlay">
+                                        <p>{activeStory.caption}</p>
+                                    </div>
+                                )}
+
+                                {/* Nav Chevrons */}
+                                {activeStoryIndex > 0 && (
+                                    <button 
+                                        className="story-nav-btn prev" 
+                                        onClick={(e) => { e.stopPropagation(); prevStory(); }}
+                                        aria-label="Previous story"
+                                    >
+                                        <ChevronLeft size={24} />
+                                    </button>
+                                )}
+                                <button 
+                                    className="story-nav-btn next" 
+                                    onClick={(e) => { e.stopPropagation(); nextStory(); }}
+                                    aria-label="Next story"
+                                >
+                                    <ChevronRight size={24} />
+                                </button>
                             </div>
 
-                            {/* Navigation Touch Targets */}
-                            <button className="story-nav-btn prev" onClick={prevStory} aria-label="Previous story">
-                                <ChevronLeft size={22} />
-                            </button>
-                            <button className="story-nav-btn next" onClick={nextStory} aria-label="Next story">
-                                <ChevronRight size={22} />
-                            </button>
-
-                            {/* Bottom Reply Bar */}
+                            {/* Bottom Interaction Bar */}
                             <form className="story-reply-bar" onSubmit={handleSendReply}>
                                 <input
                                     type="text"
@@ -217,25 +265,26 @@ const StoriesRail = ({ stories = DEFAULT_STORIES }) => {
                                     onChange={(e) => setReplyText(e.target.value)}
                                     className="story-reply-input"
                                 />
-                                <button 
-                                    type="button" 
-                                    className={`story-like-btn ${storyLiked ? 'liked' : ''}`}
-                                    onClick={() => {
-                                        setStoryLiked(!storyLiked);
-                                        if (!storyLiked) addToast('Story liked! ❤️', 'success');
-                                    }}
-                                >
-                                    <Heart size={20} fill={storyLiked ? '#ef4444' : 'none'} stroke={storyLiked ? '#ef4444' : 'white'} />
-                                </button>
-                                <button type="submit" className="story-send-btn" disabled={!replyText.trim()}>
-                                    <Send size={16} />
-                                </button>
+                                {replyText.trim() ? (
+                                    <button type="submit" className="story-send-btn" aria-label="Send reply">
+                                        <Send size={16} />
+                                    </button>
+                                ) : (
+                                    <button 
+                                        type="button" 
+                                        className={`story-like-btn ${storyLiked ? 'liked' : ''}`}
+                                        onClick={toggleLike}
+                                        aria-label="Like story"
+                                    >
+                                        <Heart size={20} fill={storyLiked ? '#ef4444' : 'none'} color={storyLiked ? '#ef4444' : '#ffffff'} />
+                                    </button>
+                                )}
                             </form>
                         </div>
                     </motion.div>
                 )}
             </AnimatePresence>
-        </>
+        </section>
     );
 };
 

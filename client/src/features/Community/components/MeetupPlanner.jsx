@@ -67,7 +67,7 @@ const MeetupPlanner = () => {
         <div className="mt-planner">
             <div className="bt-header">
                 <div>
-                    <h3 className="ach-section-title">Live Nomad Meetups (Pulse)</h3>
+                    <h3 className="ach-section-title">Live Nomad Meetups</h3>
                     <p style={{ fontSize: '0.8rem', opacity: 0.7 }}>Meet with your mates and local nomads</p>
                 </div>
                 <button className="smt-contribute-btn">

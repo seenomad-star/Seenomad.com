@@ -1,0 +1,156 @@
+/* ==========================================================================
+   AdSenseSlot.css - Google AdSense Policy Compliant Ad Container
+   ========================================================================== */
+
+.adsense-wrapper {
+    margin: 1.5rem 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    user-select: none;
+}
+
+.adsense-label-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 728px;
+    padding: 0.25rem 0.5rem;
+    margin-bottom: 4px;
+}
+
+.adsense-mandatory-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #94a3b8;
+}
+
+:root.dark .adsense-mandatory-label {
+    color: #64748b;
+}
+
+.adsense-disclosure-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: #94a3b8;
+    text-decoration: none;
+    transition: color 0.15s ease;
+}
+
+.adsense-disclosure-link:hover {
+    color: #0284c7;
+}
+
+:root.dark .adsense-disclosure-link:hover {
+    color: #38bdf8;
+}
+
+.adsense-slot-container {
+    width: 100%;
+    max-width: 728px;
+    background: #f8fafc;
+    border: 1px dashed rgba(203, 213, 225, 0.9);
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+}
+
+:root.dark .adsense-slot-container {
+    background: rgba(15, 23, 42, 0.4);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.adsense-preview-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.25rem 1rem;
+    text-align: center;
+    gap: 6px;
+    width: 100%;
+}
+
+.adsense-placeholder-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #0284c7;
+    background: #e0f2fe;
+    padding: 3px 10px;
+    border-radius: 999px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+:root.dark .adsense-placeholder-badge {
+    background: rgba(14, 165, 233, 0.15);
+    color: #38bdf8;
+}
+
+.adsense-placeholder-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.adsense-slot-spec {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #334155;
+}
+
+:root.dark .adsense-slot-spec {
+    color: #cbd5e1;
+}
+
+.adsense-slot-hint {
+    font-size: 0.72rem;
+    color: #64748b;
+    margin: 0;
+    max-width: 480px;
+}
+
+:root.dark .adsense-slot-hint {
+    color: #94a3b8;
+}
+
+.adsense-placeholder-footer {
+    margin-top: 4px;
+}
+
+.adsense-badge-verified {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.68rem;
+    color: #10b981;
+    font-weight: 600;
+}
+
+/* Formats */
+.adsense-format-rectangle .adsense-slot-container {
+    max-width: 336px;
+}
+
+.adsense-format-vertical .adsense-slot-container {
+    max-width: 300px;
+}
+
+.adsense-format-horizontal .adsense-slot-container {
+    max-width: 728px;
+}

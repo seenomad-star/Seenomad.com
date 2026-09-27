@@ -29,8 +29,8 @@ class ErrorBoundary extends React.Component {
                     flexDirection: 'column',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    background: 'var(--bg-dark)',
-                    color: 'var(--text-main)',
+                    background: 'var(--color-bg-main, #0f172a)',
+                    color: 'var(--color-text-primary, #f8fafc)',
                     textAlign: 'center',
                     padding: '20px'
                 }}>
@@ -56,7 +56,7 @@ class ErrorBoundary extends React.Component {
                             <AlertTriangle size={40} color="#ef4444" />
                         </div>
                         <h1 style={{ fontSize: '24px', marginBottom: '12px' }}>Something went wrong</h1>
-                        <p style={{ color: 'var(--text-muted)', marginBottom: '32px' }}>
+                        <p style={{ color: 'var(--color-text-secondary, #94a3b8)', marginBottom: '32px' }}>
                             We encountered an unexpected error. Don't worry, your data is safe.
                         </p>
 
@@ -79,7 +79,7 @@ class ErrorBoundary extends React.Component {
                             </button>
                         </div>
 
-                        {process.env.NODE_ENV === 'development' && (
+                        {this.state.error && (
                             <details style={{ marginTop: '32px', textAlign: 'left', fontSize: '12px', color: '#ef4444' }}>
                                 <summary style={{ cursor: 'pointer', marginBottom: '8px' }}>Error Details</summary>
                                 <pre style={{ whiteSpace: 'pre-wrap', background: 'rgba(0,0,0,0.2)', padding: '12px', borderRadius: '8px' }}>

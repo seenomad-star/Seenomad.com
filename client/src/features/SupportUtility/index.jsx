@@ -26,7 +26,7 @@ const QUICK_FILTER_CATEGORIES = [
 const MOCK_UTILITY_DATA = [
     {
         id: 1,
-        title: "Live Weather Radar",
+        title: "Live Weather Tracker",
         category: "Weather",
         icon: <Cloud size={48} color="#3b82f6" />,
         rating: 4.9,

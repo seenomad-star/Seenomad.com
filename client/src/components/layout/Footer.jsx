@@ -17,53 +17,54 @@ const Footer = () => {
                     <div className="footer-brand">
                         <div className="logo">
                             <Globe className="logo-icon" color="#3B82F6" />
-                            <span>Traveluh OS</span>
+                            <span>SeeNomad</span>
                         </div>
-                        <p>The ultimate AI-powered booking ecosystem for the modern digital nomad.</p>
+                        <p>The premier global travel intelligence and digital nomad community platform.</p>
                         <div className="social-links">
-                            <a href="#"><Facebook size={20} /></a>
-                            <a href="#"><Twitter size={20} /></a>
-                            <a href="#"><Instagram size={20} /></a>
-                            <a href="#"><Youtube size={20} /></a>
+                            <a href="#" aria-label="Facebook"><Facebook size={20} /></a>
+                            <a href="#" aria-label="Twitter"><Twitter size={20} /></a>
+                            <a href="#" aria-label="Instagram"><Instagram size={20} /></a>
+                            <a href="#" aria-label="YouTube"><Youtube size={20} /></a>
                         </div>
                     </div>
 
                     <div className="footer-links">
-                        <h4>Explore The World</h4>
+                        <h4>Explore Destinations</h4>
                         <ul>
-                            <li><a href="#">Flight Search</a></li>
-                            <li><a href="#">International Hotels</a></li>
-                            <li><a href="#">Digital Nomad Hubs</a></li>
-                            <li><a href="#">Holiday Packages</a></li>
-                            <li><a href="#">Visa Information</a></li>
+                            <li><a href="/explore">Global Destinations</a></li>
+                            <li><a href="/explore?view=map">Interactive World Map</a></li>
+                            <li><a href="/explore?tab=visas">Digital Nomad Visas</a></li>
+                            <li><a href="/popular">Scenic Travel Reels</a></li>
+                            <li><a href="/event-festival">Festivals & Events</a></li>
                         </ul>
                     </div>
 
                     <div className="footer-links">
-                        <h4>Platform Offerings</h4>
+                        <h4>Nomad Services</h4>
                         <ul>
-                            <li><a href="#">Travel Insurance</a></li>
-                            <li><a href="#">Corporate (myBiz)</a></li>
-                            <li><a href="#">Forex Cards</a></li>
-                            <li><a href="#">Gift Cards</a></li>
-                            <li><a href="#">Traveluh Blog</a></li>
+                            <li><a href="/ai-agents">AI Travel Concierge</a></li>
+                            <li><a href="/business-partner">Nomad Stays & Deals</a></li>
+                            <li><a href="/learning-voluntourism">Eco Voluntourism</a></li>
+                            <li><a href="/community">Nomad Community Hub</a></li>
+                            <li><a href="/insights-analytics">Cost of Living & Trends</a></li>
                         </ul>
                     </div>
 
                     <div className="footer-links">
-                        <h4>Support & Legal</h4>
+                        <h4>Trust, Legal & Ads</h4>
                         <ul>
-                            <li><a href="#">Contact Us</a></li>
-                            <li><a href="#">PNR Status</a></li>
-                            <li><a href="#">Refund Policy</a></li>
-                            <li><a href="/legal">Terms of Service</a></li>
-                            <li><a href="/legal">Privacy Policy</a></li>
+                            <li><a href="/legal?tab=privacy">Privacy Policy (AdSense)</a></li>
+                            <li><a href="/legal?tab=tos">Terms of Service</a></li>
+                            <li><a href="/legal?tab=cookies">Cookie Policy</a></li>
+                            <li><a href="/legal?tab=adsense">Advertising & FTC Disclosure</a></li>
+                            <li><a href="/about">About SeeNomad</a></li>
+                            <li><a href="/legal?tab=contact">Contact & Support</a></li>
                         </ul>
                     </div>
                 </div>
 
                 <div className="footer-bottom">
-                    <p>&copy; {new Date().getFullYear()} Traveluh Ecosystem (Powered by Seenomad). All rights reserved.</p>
+                    <p>&copy; {new Date().getFullYear()} SeeNomad. All rights reserved. Compliant with Google AdSense Publisher Policies & GDPR.</p>
                 </div>
             </div>
         </footer>

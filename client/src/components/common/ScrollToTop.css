@@ -1,0 +1,259 @@
+/* ==========================================================================
+   ScrollToTop Floating Action Button & Circular Progress Ring
+   Appears when user scrolls past threshold on content-rich pages.
+   ========================================================================== */
+
+.scroll-to-top-wrapper {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    z-index: 1040;
+    pointer-events: auto;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Button Base */
+.scroll-to-top-btn {
+    position: relative;
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    min-height: 48px;
+    border-radius: 50%;
+    background: rgba(15, 23, 42, 0.88);
+    -webkit-backdrop-filter: blur(18px) saturate(180%);
+    backdrop-filter: blur(18px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #38bdf8;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    outline: none;
+    box-shadow:
+        0 8px 24px -2px rgba(0, 0, 0, 0.5),
+        0 2px 8px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    transition:
+        transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+        background 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        color 0.2s ease;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Light Theme Styling */
+:root:not(.dark) .scroll-to-top-btn,
+body.theme-light .scroll-to-top-btn,
+.theme-light .scroll-to-top-btn {
+    background: rgba(255, 255, 255, 0.94);
+    border-color: rgba(0, 0, 0, 0.08);
+    color: #0284c7;
+    box-shadow:
+        0 8px 24px -2px rgba(0, 0, 0, 0.12),
+        0 2px 8px rgba(0, 0, 0, 0.06),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+/* Button Interactions */
+.scroll-to-top-btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    background: rgba(15, 23, 42, 0.96);
+    border-color: rgba(56, 189, 248, 0.4);
+    color: #ffffff;
+    box-shadow:
+        0 12px 30px -2px rgba(2, 132, 199, 0.45),
+        0 4px 12px rgba(0, 0, 0, 0.35);
+}
+
+:root:not(.dark) .scroll-to-top-btn:hover,
+body.theme-light .scroll-to-top-btn:hover,
+.theme-light .scroll-to-top-btn:hover {
+    background: #ffffff;
+    border-color: rgba(2, 132, 199, 0.3);
+    color: #0284c7;
+    box-shadow:
+        0 10px 28px -2px rgba(2, 132, 199, 0.25),
+        0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.scroll-to-top-btn:active {
+    transform: translateY(0) scale(0.94);
+}
+
+.scroll-to-top-btn:focus-visible {
+    outline: 2px solid #38bdf8;
+    outline-offset: 3px;
+}
+
+:root:not(.dark) .scroll-to-top-btn:focus-visible,
+body.theme-light .scroll-to-top-btn:focus-visible,
+.theme-light .scroll-to-top-btn:focus-visible {
+    outline-color: #0284c7;
+}
+
+/* ==========================================================================
+   Circular Progress Ring SVG
+   ========================================================================== */
+.scroll-progress-ring {
+    position: absolute;
+    inset: 0;
+    width: 48px;
+    height: 48px;
+    transform: rotate(-90deg); /* Start progress from 12 o'clock */
+    pointer-events: none;
+}
+
+.progress-ring-track {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.07);
+}
+
+:root:not(.dark) .progress-ring-track,
+body.theme-light .progress-ring-track,
+.theme-light .progress-ring-track {
+    stroke: rgba(0, 0, 0, 0.06);
+}
+
+.progress-ring-fill {
+    fill: none;
+    stroke: #38bdf8;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.1s linear;
+    filter: drop-shadow(0 0 3px rgba(56, 189, 248, 0.6));
+}
+
+:root:not(.dark) .progress-ring-fill,
+body.theme-light .progress-ring-fill,
+.theme-light .progress-ring-fill {
+    stroke: #0284c7;
+    filter: drop-shadow(0 0 2px rgba(2, 132, 199, 0.4));
+}
+
+/* ==========================================================================
+   Center Icon
+   ========================================================================== */
+.scroll-btn-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+}
+
+.scroll-up-arrow {
+    transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.scroll-to-top-btn:hover .scroll-up-arrow {
+    transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   Floating Tooltip Pill
+   ========================================================================== */
+.scroll-tooltip-pill {
+    position: absolute;
+    right: calc(100% + 10px);
+    top: 50%;
+    transform: translateY(-50%) translateX(6px);
+    background: rgba(15, 23, 42, 0.92);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #f8fafc;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 0.28rem 0.65rem;
+    border-radius: 20px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+    transition: opacity 0.18s ease, transform 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+:root:not(.dark) .scroll-tooltip-pill,
+body.theme-light .scroll-tooltip-pill,
+.theme-light .scroll-tooltip-pill {
+    background: #ffffff;
+    border-color: rgba(0, 0, 0, 0.08);
+    color: #0f172a;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+.scroll-tooltip-pill.visible {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+}
+
+.tooltip-percent {
+    color: #38bdf8;
+    font-weight: 800;
+}
+
+:root:not(.dark) .tooltip-percent,
+body.theme-light .tooltip-percent,
+.theme-light .tooltip-percent {
+    color: #0284c7;
+}
+
+/* Accommodate pinned right sidebar on wide desktop screens */
+@media (min-width: 1360px) {
+    .base-layout-root.right-docked .scroll-to-top-wrapper {
+        right: calc(320px + 28px);
+    }
+}
+
+/* ==========================================================================
+   Mobile & Responsive Adjustments
+   Ensure proper clearance above the Mobile Bottom Navigation Dock.
+   ========================================================================== */
+@media (max-width: 900px) {
+    .scroll-to-top-wrapper {
+        /* Sit nicely above the mobile bottom nav (64px + safe area padding) */
+        bottom: calc(84px + env(safe-area-inset-bottom, 0px));
+        right: 16px;
+    }
+
+    .scroll-to-top-btn {
+        width: 44px;
+        height: 44px;
+        min-width: 44px;
+        min-height: 44px;
+    }
+
+    .scroll-progress-ring {
+        width: 44px;
+        height: 44px;
+    }
+
+    /* Hide text tooltip on small touch devices to prevent clutter */
+    .scroll-tooltip-pill {
+        display: none;
+    }
+}
+
+/* Extra small screens */
+@media (max-width: 380px) {
+    .scroll-to-top-wrapper {
+        right: 12px;
+        bottom: calc(80px + env(safe-area-inset-bottom, 0px));
+    }
+}
+
+/* Hide on print */
+@media print {
+    .scroll-to-top-wrapper {
+        display: none !important;
+    }
+}

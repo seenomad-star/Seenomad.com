@@ -1,0 +1,332 @@
+/* ==========================================================================
+   Breadcrumbs Navigation Component
+   Dynamic route-aware breadcrumbs with glassmorphism, semantic hierarchy,
+   and responsive overflow handling.
+   ========================================================================== */
+
+.dynamic-breadcrumbs-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 1.25rem;
+    padding: 0.65rem 1rem;
+    background: rgba(15, 23, 42, 0.6);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.25);
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+:root:not(.dark) .dynamic-breadcrumbs-container,
+body.theme-light .dynamic-breadcrumbs-container,
+.theme-light .dynamic-breadcrumbs-container {
+    background: rgba(255, 255, 255, 0.85);
+    border-color: rgba(0, 0, 0, 0.07);
+    box-shadow: 0 4px 16px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Nav element */
+.dynamic-breadcrumbs-nav {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    min-width: 0;
+    overflow-x: auto;
+    scrollbar-width: none; /* Hide scrollbar for clean aesthetics */
+    -ms-overflow-style: none;
+    padding: 2px 0;
+}
+
+.dynamic-breadcrumbs-nav::-webkit-scrollbar {
+    display: none;
+}
+
+/* Ordered list containing crumbs */
+.dynamic-breadcrumbs-list {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 0.4rem;
+    white-space: nowrap;
+}
+
+/* Crumb List Item */
+.breadcrumb-crumb-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.82rem;
+    line-height: 1.2;
+}
+
+/* Clickable Crumb Link */
+.breadcrumb-crumb-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: #94a3b8;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.3rem 0.6rem;
+    border-radius: 8px;
+    background: transparent;
+    border: 1px solid transparent;
+    transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+
+:root:not(.dark) .breadcrumb-crumb-link,
+body.theme-light .breadcrumb-crumb-link,
+.theme-light .breadcrumb-crumb-link {
+    color: #64748b;
+}
+
+.breadcrumb-crumb-link:hover {
+    color: #38bdf8;
+    background: rgba(56, 189, 248, 0.1);
+    border-color: rgba(56, 189, 248, 0.2);
+    transform: translateY(-1px);
+}
+
+:root:not(.dark) .breadcrumb-crumb-link:hover,
+body.theme-light .breadcrumb-crumb-link:hover,
+.theme-light .breadcrumb-crumb-link:hover {
+    color: #0284c7;
+    background: rgba(2, 132, 199, 0.08);
+    border-color: rgba(2, 132, 199, 0.18);
+}
+
+.breadcrumb-crumb-link:active {
+    transform: scale(0.96);
+}
+
+/* Home Crumb specific styling */
+.breadcrumb-home-link {
+    padding: 0.35rem 0.55rem;
+}
+
+.breadcrumb-crumb-icon {
+    flex-shrink: 0;
+    color: inherit;
+    transition: transform 0.15s ease;
+}
+
+.breadcrumb-crumb-link:hover .breadcrumb-crumb-icon {
+    transform: scale(1.1);
+}
+
+/* Separator Icon */
+.breadcrumb-separator {
+    display: flex;
+    align-items: center;
+    color: rgba(255, 255, 255, 0.25);
+    user-select: none;
+    flex-shrink: 0;
+}
+
+:root:not(.dark) .breadcrumb-separator,
+body.theme-light .breadcrumb-separator,
+.theme-light .breadcrumb-separator {
+    color: rgba(0, 0, 0, 0.22);
+}
+
+/* Current / Active Page Badge Pill */
+.breadcrumb-current-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.32rem 0.75rem;
+    border-radius: 9999px;
+    background: linear-gradient(135deg, rgba(2, 132, 199, 0.18) 0%, rgba(56, 189, 248, 0.12) 100%);
+    border: 1px solid rgba(56, 189, 248, 0.35);
+    color: #38bdf8;
+    font-weight: 700;
+    font-size: 0.82rem;
+    box-shadow: 0 2px 10px rgba(2, 132, 199, 0.15);
+}
+
+:root:not(.dark) .breadcrumb-current-pill,
+body.theme-light .breadcrumb-current-pill,
+.theme-light .breadcrumb-current-pill {
+    background: linear-gradient(135deg, rgba(2, 132, 199, 0.1) 0%, rgba(14, 165, 233, 0.08) 100%);
+    border-color: rgba(2, 132, 199, 0.3);
+    color: #0284c7;
+    box-shadow: 0 2px 8px rgba(2, 132, 199, 0.08);
+}
+
+.breadcrumb-current-icon {
+    flex-shrink: 0;
+}
+
+.breadcrumb-current-text {
+    line-height: 1.2;
+}
+
+/* Optional Category / Filter Meta Badge on Current Page */
+.breadcrumb-meta-badge {
+    font-size: 0.65rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 0.1rem 0.45rem;
+    border-radius: 999px;
+    background: rgba(56, 189, 248, 0.2);
+    color: #38bdf8;
+    line-height: 1.2;
+    flex-shrink: 0;
+}
+
+:root:not(.dark) .breadcrumb-meta-badge,
+body.theme-light .breadcrumb-meta-badge,
+.theme-light .breadcrumb-meta-badge {
+    background: rgba(2, 132, 199, 0.14);
+    color: #0284c7;
+}
+
+/* Live Activity Pulse Dot on specific routes */
+.breadcrumb-live-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    margin-left: 0.2rem;
+}
+
+.breadcrumb-live-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #10b981;
+    box-shadow: 0 0 8px #10b981;
+    animation: crumbPulse 2s infinite;
+}
+
+@keyframes crumbPulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.3); opacity: 0.7; }
+}
+
+/* ==========================================================================
+   Breadcrumb Utility Actions (Back & Copy Link)
+   ========================================================================== */
+.breadcrumb-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-left: 0.75rem;
+    flex-shrink: 0;
+}
+
+.breadcrumb-action-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #94a3b8;
+    cursor: pointer;
+    transition: all 0.16s ease;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+
+:root:not(.dark) .breadcrumb-action-btn,
+body.theme-light .breadcrumb-action-btn,
+.theme-light .breadcrumb-action-btn {
+    background: rgba(0, 0, 0, 0.04);
+    border-color: rgba(0, 0, 0, 0.06);
+    color: #64748b;
+}
+
+.breadcrumb-action-btn:hover {
+    background: rgba(56, 189, 248, 0.12);
+    border-color: rgba(56, 189, 248, 0.3);
+    color: #38bdf8;
+    transform: translateY(-1px);
+}
+
+:root:not(.dark) .breadcrumb-action-btn:hover,
+body.theme-light .breadcrumb-action-btn:hover,
+.theme-light .breadcrumb-action-btn:hover {
+    background: rgba(2, 132, 199, 0.1);
+    border-color: rgba(2, 132, 199, 0.25);
+    color: #0284c7;
+}
+
+.breadcrumb-action-btn:active {
+    transform: scale(0.92);
+}
+
+.breadcrumb-action-btn.copied {
+    background: rgba(16, 185, 129, 0.15);
+    border-color: rgba(16, 185, 129, 0.4);
+    color: #10b981;
+}
+
+/* ==========================================================================
+   Responsive Rules
+   ========================================================================== */
+@media (max-width: 768px) {
+    .dynamic-breadcrumbs-container {
+        padding: 0.55rem 0.85rem;
+        margin-bottom: 1rem;
+        border-radius: 14px;
+    }
+
+    .breadcrumb-crumb-item {
+        font-size: 0.78rem;
+    }
+
+    .breadcrumb-crumb-link {
+        padding: 0.25rem 0.5rem;
+    }
+
+    .breadcrumb-current-pill {
+        padding: 0.28rem 0.65rem;
+        font-size: 0.78rem;
+    }
+
+    .breadcrumb-meta-badge {
+        font-size: 0.6rem;
+    }
+
+    .breadcrumb-action-btn {
+        width: 28px;
+        height: 28px;
+    }
+}
+
+@media (max-width: 480px) {
+    .dynamic-breadcrumbs-container {
+        padding: 0.5rem 0.75rem;
+        margin-bottom: 0.85rem;
+        border-radius: 12px;
+    }
+
+    .breadcrumb-actions {
+        margin-left: 0.4rem;
+        gap: 0.25rem;
+    }
+
+    .breadcrumb-crumb-item {
+        font-size: 0.75rem;
+    }
+
+    .breadcrumb-crumb-link {
+        padding: 0.2rem 0.4rem;
+    }
+
+    .breadcrumb-current-pill {
+        padding: 0.24rem 0.55rem;
+        font-size: 0.75rem;
+    }
+}

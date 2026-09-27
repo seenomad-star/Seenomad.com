@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { allDestinations } from '../../../data/destinationsData';
 import { useDestinationStore } from '../../../store/destinationFilterStore';
 import DestinationCard from './common/DestinationCard';
@@ -6,20 +7,25 @@ import AdCard from './common/AdCard';
 import MysteryCard from './common/MysteryCard';
 import IntelligenceSidecar from './sidecar/IntelligenceSidecar';
 import DestinationSearchHub from './DestinationSearchHub';
+import DestinationDomainHeader from './DestinationDomainHeader';
 import { useNavStore } from '../../../store/navStore';
+import { getDestinationDomainStatus } from '../../../utils/destinationDomainUtils';
 import { Compass, RotateCcw } from 'lucide-react';
 import './Destinations.css';
 
 const Destinations = () => {
+    const [searchParams] = useSearchParams();
     const {
         searchQuery,
         selectedFilters,
         advancedFilters,
+        domainStatus,
         viewMode,
         sortBy,
         incrementMonetizationExposure,
         setSearchQuery,
         setSelectedFilters,
+        setDomainStatus,
         resetFilters
     } = useDestinationStore();
 
@@ -61,6 +67,36 @@ const Destinations = () => {
             setSelectedFilters(globalActiveFilters);
         }
     }, [globalActiveFilters, selectedFilters, setSelectedFilters]);
+
+    // Handle URL search params on mount or route navigation
+    useEffect(() => {
+        const query = searchParams.get('search') || searchParams.get('q');
+        const filter = searchParams.get('filter') || searchParams.get('category');
+        const statusParam = searchParams.get('domainStatus') || searchParams.get('status');
+        if (query && query !== searchQuery) {
+            setSearchQuery(query);
+        }
+        if (filter) {
+            const filterLower = filter.toLowerCase();
+            if (!selectedFilters.includes(filterLower)) {
+                setSelectedFilters([filterLower]);
+            }
+        }
+        if (statusParam) {
+            const statusLower = statusParam.toLowerCase();
+            if (['all', 'available', 'taken', 'premium'].includes(statusLower) && domainStatus !== statusLower) {
+                setDomainStatus(statusLower);
+            }
+        }
+    }, [searchParams, searchQuery, selectedFilters, domainStatus, setSearchQuery, setSelectedFilters, setDomainStatus]);
+
+    const handleSelectPreset = (presetId) => {
+        if (selectedFilters.includes(presetId)) {
+            setSelectedFilters(selectedFilters.filter(f => f !== presetId));
+        } else {
+            setSelectedFilters([...selectedFilters, presetId]);
+        }
+    };
 
     // Filter & Sort Destinations
     const processedDestinations = useMemo(() => {
@@ -199,6 +235,14 @@ const Destinations = () => {
                 if (!advancedFilters.categories.includes(dest.category.toLowerCase())) return false;
             }
 
+            // Domain Status Filter ('available' | 'taken' | 'premium')
+            if (domainStatus && domainStatus !== 'all') {
+                const destStatus = getDestinationDomainStatus(dest).toLowerCase();
+                if (destStatus !== domainStatus.toLowerCase()) {
+                    return false;
+                }
+            }
+
             return true;
         });
 
@@ -227,7 +271,7 @@ const Destinations = () => {
             }
             return 0; // 'featured' or default retains data order
         });
-    }, [searchQuery, globalSearchQuery, selectedFilters, globalActiveFilters, advancedFilters, sortBy]);
+    }, [searchQuery, globalSearchQuery, selectedFilters, globalActiveFilters, advancedFilters, domainStatus, sortBy]);
 
     useEffect(() => {
         if (processedDestinations.length > 0) {
@@ -243,6 +287,13 @@ const Destinations = () => {
 
     return (
         <div className="destinations-page">
+            {/* Domain Hero Command Header */}
+            <DestinationDomainHeader
+                activeFilters={selectedFilters}
+                onSelectPreset={handleSelectPreset}
+                totalDestinations={allDestinations.length}
+            />
+
             <div className="destinations-main-layout">
                 <div className="destinations-feed-column">
                     {/* Dedicated Search & Filter Hub in Main Content Area */}

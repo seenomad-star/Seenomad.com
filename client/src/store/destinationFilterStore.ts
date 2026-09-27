@@ -4,6 +4,7 @@ import { persist } from 'zustand/middleware';
 interface FilterState {
     searchQuery: string;
     selectedFilters: string[];
+    domainStatus: 'all' | 'available' | 'taken' | 'premium';
     advancedFilters: {
         regions: string[];
         budgetRanges: string[];
@@ -22,6 +23,8 @@ interface FilterState {
 
     setSearchQuery: (query: string) => void;
     setSelectedFilters: (filters: string[]) => void;
+    setDomainStatus: (status: 'all' | 'available' | 'taken' | 'premium') => void;
+    toggleDomainStatus: (status: 'available' | 'taken' | 'premium') => void;
     setSortBy: (sort: string) => void;
     toggleFilter: (filterId: string) => void;
     toggleAdvancedFilter: (category: keyof FilterState['advancedFilters'], value: string) => void;
@@ -39,6 +42,7 @@ export const useDestinationStore = create<FilterState>()(
         (set) => ({
             searchQuery: '',
             selectedFilters: [],
+            domainStatus: 'all',
             advancedFilters: {
                 regions: [],
                 budgetRanges: [],
@@ -58,6 +62,12 @@ export const useDestinationStore = create<FilterState>()(
             setSearchQuery: (query) => set({ searchQuery: query }),
 
             setSelectedFilters: (filters) => set({ selectedFilters: filters }),
+
+            setDomainStatus: (status) => set({ domainStatus: status }),
+
+            toggleDomainStatus: (status) => set((state) => ({
+                domainStatus: state.domainStatus === status ? 'all' : status
+            })),
 
             setSortBy: (sort) => set({ sortBy: sort }),
 
@@ -116,6 +126,7 @@ export const useDestinationStore = create<FilterState>()(
             resetFilters: () => set({
                 selectedFilters: [],
                 searchQuery: '',
+                domainStatus: 'all',
                 sortBy: 'featured',
                 advancedFilters: {
                     regions: [],

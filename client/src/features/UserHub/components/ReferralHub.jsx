@@ -41,7 +41,7 @@ const ReferralHub = () => {
             <div className="referral-bonus-card">
                 <div className="bonus-content">
                     <h4>Earn 50 NC per mate</h4>
-                    <p>When your mate cross-checks their first speed test or posts a Pulse, you both get 50 NC!</p>
+                    <p>When your mate cross-checks their first speed test or posts a story, you both get 50 NC!</p>
                 </div>
                 <div className="bonus-amount">50 <span>NC</span></div>
             </div>

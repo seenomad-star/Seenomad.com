@@ -1,0 +1,174 @@
+/* ==========================================================================
+   SidebarToggle.css - Persistent Sidebar Toggle Control
+   Interacts with .main-content transitions and provides seamless layout switching
+   ========================================================================== */
+
+.sidebar-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(226, 232, 240, 0.9);
+    color: #475569;
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-size: 0.78rem;
+    font-weight: 500;
+    cursor: pointer;
+    user-select: none;
+    outline: none;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    /* Mirror the existing transition definition */
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 950;
+    flex-shrink: 0;
+}
+
+:root.dark .sidebar-toggle,
+.theme-dark .sidebar-toggle,
+body.dark .sidebar-toggle {
+    background: rgba(30, 41, 59, 0.85);
+    border-color: rgba(255, 255, 255, 0.1);
+    color: #cbd5e1;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.sidebar-toggle:hover {
+    background: #ffffff;
+    border-color: #0284c7;
+    color: #0284c7;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.15);
+}
+
+:root.dark .sidebar-toggle:hover,
+.theme-dark .sidebar-toggle:hover,
+body.dark .sidebar-toggle:hover {
+    background: rgba(51, 65, 85, 0.95);
+    border-color: rgba(56, 189, 248, 0.5);
+    color: #38bdf8;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.sidebar-toggle:active {
+    transform: scale(0.96);
+}
+
+.sidebar-toggle:focus-visible {
+    outline: 2px solid #0284c7;
+    outline-offset: 2px;
+}
+
+.sidebar-toggle-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar-toggle:hover .sidebar-toggle-icon {
+    transform: scale(1.08);
+}
+
+.sidebar-toggle-label {
+    line-height: 1;
+    white-space: nowrap;
+}
+
+/* Variant: Inline (in headers, address bar, navigation bars) */
+.sidebar-toggle.variant-inline {
+    padding: 5px 8px;
+    height: 28px;
+    font-size: 0.75rem;
+    border-radius: 6px;
+}
+
+.sidebar-toggle.variant-inline .sidebar-toggle-label {
+    display: none;
+}
+
+@media (min-width: 1200px) {
+    .sidebar-toggle.variant-inline .sidebar-toggle-label {
+        display: inline-block;
+    }
+}
+
+/* Variant: Edge Docked (snapped cleanly to the sidebar boundary & main-content) */
+.sidebar-toggle.variant-edge {
+    position: fixed;
+    top: calc(var(--current-header-h, 60px) + 12px);
+    left: calc(var(--current-sidebar-w, 255px) - 13px);
+    width: 26px;
+    height: 26px;
+    padding: 0;
+    border-radius: 50%;
+    z-index: 1260;
+    /* Transition left synchronously with the sidebar & main-content */
+    transition: left 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+                top 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+                background 0.2s ease,
+                border-color 0.2s ease,
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+}
+
+.sidebar-toggle.variant-edge .sidebar-toggle-label {
+    display: none;
+}
+
+/* Small screens: Keep edge toggle visible as an accessible quick-toggle option */
+@media (max-width: 900px) {
+    .sidebar-toggle.variant-edge {
+        display: inline-flex !important;
+        position: fixed;
+        top: calc(var(--current-header-h, 54px) + 8px);
+        left: 10px;
+        width: 30px;
+        height: 30px;
+        border-radius: 8px;
+        z-index: 1350;
+        background: rgba(255, 255, 255, 0.95);
+        border: 1px solid rgba(226, 232, 240, 0.9);
+        color: #0284c7;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    }
+
+    :root.dark .sidebar-toggle.variant-edge,
+    .theme-dark .sidebar-toggle.variant-edge,
+    body.dark .sidebar-toggle.variant-edge {
+        background: rgba(30, 41, 59, 0.95);
+        border-color: rgba(255, 255, 255, 0.15);
+        color: #38bdf8;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+    }
+
+    .sidebar-toggle.variant-edge.is-expanded {
+        left: 283px;
+        top: 10px;
+        z-index: 1450;
+    }
+}
+
+/* Variant: Floating / Pill */
+.sidebar-toggle.variant-floating {
+    position: fixed;
+    bottom: 24px;
+    left: calc(var(--current-sidebar-w, 255px) + 20px);
+    border-radius: 9999px;
+    padding: 8px 14px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: left 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+                background 0.2s ease,
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+    z-index: 1050;
+}
+
+@media (max-width: 900px) {
+    .sidebar-toggle.variant-floating {
+        left: 16px;
+        bottom: 80px; /* Above mobile bottom bar */
+    }
+}

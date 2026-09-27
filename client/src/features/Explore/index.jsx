@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import { useNavStore } from '../../store/navStore';
-import { useNavigate } from 'react-router-dom';
 import FloatingFilter from '../../components/common/FloatingFilter';
 import Embassy from './components/Embassy';
 import Visa from './components/Visa';
@@ -31,7 +30,8 @@ import {
     Building2, Globe, Radio, Briefcase, 
     Wifi, Plane, Backpack, Zap, Search,
     ShieldCheck, Sparkles, Map, Rocket,
-    Cpu, Dna, Trophy, ShoppingBag
+    Cpu, Dna, Trophy, ShoppingBag,
+    Users, Shield
 } from 'lucide-react';
 import VisaIntelligenceHub from '../Visa/VisaIntelligenceHub';
 import GuideMarketplace from '../Marketplace/GuideMarketplace';
@@ -50,6 +50,7 @@ import './styles/Explore.css';
 
 const Explore = () => {
     const navigate = useNavigate();
+    const location = useLocation();
     const [activeFilters, setActiveFilters] = useState([]);
     const { setModuleNav } = useNavStore();
     const [isVeraVisible, setIsVeraVisible] = useState(false);
@@ -58,7 +59,7 @@ const Explore = () => {
 
     const navItems = [
         { label: 'Destinations', icon: <Palmtree size={18} /> },
-        { label: 'Traveluh Multi', icon: <Map size={18} /> },
+        { label: 'SeeNomad Multi', icon: <Map size={18} /> },
         { label: 'Triipper AI', icon: <Sparkles size={18} /> },
         { label: 'Cultural Compass', icon: <Compass size={18} /> },
         { label: 'Story Studio', icon: <Rocket size={18} /> },
@@ -101,7 +102,7 @@ const Explore = () => {
         <div className="explore-container">
             <div className="explore-content">
                 <Routes>
-                    <Route path="/" element={<Navigate to="destinations" replace />} />
+                    <Route path="/" element={<Navigate to={{ pathname: 'destinations', search: location.search }} replace />} />
                     <Route path="destinations" element={<Destinations />} />
                     <Route path="destinations/:id" element={<DestinationDetail />} />
                     <Route path="embassy" element={<Embassy activeFilters={activeFilters} />} />

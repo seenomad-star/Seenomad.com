@@ -9,7 +9,7 @@ const NomadShortsFeed = () => {
         { 
             id: 1, 
             user: '@TravelLegend', 
-            caption: 'POV: Waking up in a glass igloo in Finland ❄️ #Traveluh #WinterVibes',
+            caption: 'POV: Waking up in a glass igloo in Finland ❄️ #SeeNomad #WinterVibes',
             music: 'Arctic Sounds - Original Audio',
             likes: '124K',
             comments: '1.2K',

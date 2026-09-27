@@ -64,6 +64,8 @@ const DestinationSearchHub = ({ totalResults = 0, onSelectDestination }) => {
         selectedFilters,
         toggleFilter,
         setSelectedFilters,
+        domainStatus,
+        setDomainStatus,
         advancedFilters,
         toggleAdvancedFilter,
         viewMode,
@@ -159,6 +161,7 @@ const DestinationSearchHub = ({ totalResults = 0, onSelectDestination }) => {
         (advancedFilters.regions.length) +
         (advancedFilters.budgetRanges.length) +
         (advancedFilters.categories.length) +
+        (domainStatus && domainStatus !== 'all' ? 1 : 0) +
         (searchQuery ? 1 : 0);
 
     // Suggestions matching current search query
@@ -450,6 +453,14 @@ const DestinationSearchHub = ({ totalResults = 0, onSelectDestination }) => {
                                 </button>
                             </span>
                         ))}
+                        {domainStatus && domainStatus !== 'all' && (
+                            <span className={`active-tag-chip domain-status status-${domainStatus}`}>
+                                Domain: {domainStatus.charAt(0).toUpperCase() + domainStatus.slice(1)}
+                                <button type="button" onClick={() => setDomainStatus('all')} title="Remove domain status filter">
+                                    <X size={12} />
+                                </button>
+                            </span>
+                        )}
                         {activeFilterCount > 0 && (
                             <button
                                 type="button"

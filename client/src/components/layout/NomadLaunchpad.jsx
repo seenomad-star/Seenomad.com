@@ -111,7 +111,7 @@ const NomadLaunchpad = () => {
         },
         {
             id: 'analytics',
-            name: 'Nomad Insights & Pulse',
+            name: 'Nomad Insights & Trends',
             category: 'lifestyle',
             path: '/insights-analytics',
             icon: <BarChart3 size={28} />,

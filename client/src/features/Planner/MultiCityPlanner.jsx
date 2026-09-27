@@ -34,7 +34,7 @@ const MultiCityPlanner = () => {
         <div className="multi-city-planner-container">
             <div className="planner-header">
                 <div className="h-left">
-                    <h1>Traveluh Multi-City</h1>
+                    <h1>SeeNomad Multi-City</h1>
                     <p>Simultaneous management for up to 10 cities.</p>
                 </div>
                 <div className="view-toggle">

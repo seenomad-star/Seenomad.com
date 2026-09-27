@@ -8,8 +8,8 @@ import {
     Music, 
     Clock, 
     ArrowRightLeft,
-    Activity,
-    Flame
+    Flame,
+    Zap
 } from 'lucide-react';
 import { useNomadOSStore } from '../../../store/nomadOSStore';
 import './NomadDock.css';
@@ -47,7 +47,7 @@ const NomadDock = () => {
                             <span>{dailyStreak} DAY STREAK</span>
                         </div>
                         <div className="stat-row">
-                            <Activity size={12} className="text-blue" />
+                            <Zap size={12} className="text-blue" />
                             <span>{dailyXP}/{dailyGoal} XP</span>
                         </div>
                         <div className="dock-progress-bar">
@@ -128,20 +128,9 @@ const NomadDock = () => {
                 <div className="tool-detail">
                     <span className="detail-sub">Real-time alerts</span>
                     <div className="safety-status low">
-                        <div className="pulse-dot"></div>
+                        <div className="safety-dot"></div>
                         <span>Zone: Safe</span>
                     </div>
-                </div>
-            )
-        },
-        { 
-            id: 'pulse', 
-            icon: Activity, 
-            label: 'Pulse Feed', 
-            content: (
-                <div className="tool-detail">
-                    <span className="detail-sub">Live social signals</span>
-                    <button className="mini-action-btn">View Pulse</button>
                 </div>
             )
         }
@@ -162,7 +151,7 @@ const NomadDock = () => {
                             whileHover={{ scale: 1.1, x: 5 }}
                             whileTap={{ scale: 0.9 }}
                             style={{ 
-                                color: tool.id === 'safety' ? '#f59e0b' : tool.id === 'pulse' ? '#10b981' : 'inherit'
+                                color: tool.id === 'safety' ? '#f59e0b' : 'inherit'
                             }}
                         >
                             {typeof tool.icon === 'function' ? <tool.icon /> : <tool.icon size={20} />}

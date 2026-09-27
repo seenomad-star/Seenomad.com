@@ -120,7 +120,85 @@
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 1.5rem;
+}
+
+/* Horizontal Tab Filter Bar at top */
+.travel-feed-top-filter-bar {
+    display: flex;
+    align-items: center;
+    background: var(--cc-glass);
+    border: 1px solid var(--cc-border);
+    border-radius: 16px;
+    padding: 6px;
+    gap: 8px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: var(--cc-card-shadow);
+}
+
+.travel-feed-top-filter-bar .feed-filter-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border-radius: 12px;
+    background: transparent;
+    border: none;
+    color: var(--cc-text-muted, #94a3b8);
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.travel-feed-top-filter-bar .feed-filter-btn:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--cc-text, #ffffff);
+}
+
+.travel-feed-top-filter-bar .feed-filter-btn.active {
+    background: var(--cc-accent, #3b82f6);
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.35);
+}
+
+.filter-count-badge {
+    padding: 2px 7px;
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.18);
+    font-size: 0.72rem;
+    font-weight: 700;
+}
+
+.filter-hot-badge {
+    padding: 2px 7px;
+    border-radius: 9999px;
+    background: rgba(249, 115, 22, 0.25);
+    color: #ffedd5;
+    font-size: 0.7rem;
+    font-weight: 800;
+}
+
+.filter-live-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #10b981;
+    box-shadow: 0 0 8px #10b981;
+    display: inline-block;
+}
+
+.travel-feed-status-line {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 0.78rem;
+    color: var(--cc-text-muted, #94a3b8);
+    padding: 0 0.5rem;
+    margin-top: -0.75rem;
 }
 
 .feed-card {

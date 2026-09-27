@@ -38,4 +38,6 @@ export const SkeletonCard = () => (
     </div>
 );
 
+export { default as TravelFeedSkeleton, TravelPostSkeleton, StoriesRailSkeleton, FeedLoadMoreSkeleton } from '../../features/SocialFeed/components/TravelFeedSkeleton';
+
 export default Skeleton;

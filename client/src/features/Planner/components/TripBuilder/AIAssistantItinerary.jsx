@@ -31,7 +31,7 @@ const AIAssistantItinerary = ({ onGenerate }) => {
         <div className="ai-assistant-wrapper">
             <div className="ai-header-badge">
                 <Sparkles size={14} color="#A855F7" />
-                <span>Traveluh Intelligence</span>
+                <span>SeeNomad Intelligence</span>
             </div>
             <h2>AI Itinerary Architect</h2>
             <p>Tell the engine where you want to go and how you travel. It will pre-fill a chronological master plan.</p>

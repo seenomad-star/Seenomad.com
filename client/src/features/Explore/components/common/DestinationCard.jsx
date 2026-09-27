@@ -4,8 +4,9 @@ import { motion } from 'framer-motion';
 import {
     MapPin, Star, Users, ShieldCheck, Sparkles, Calendar,
     Heart, Share2, MessageCircle, MoreVertical, Bookmark, TrendingUp,
-    Eye, Zap, Activity, Info, CheckCircle, Plus
+    Eye, Zap, Activity, Info, CheckCircle, Plus, Globe
 } from 'lucide-react';
+import { getDestinationDomainStatus, getDestinationDomainName } from '../../../../utils/destinationDomainUtils';
 import CardActionBar from './CardActionBar';
 import CardHorizontalActions from './CardHorizontalActions';
 import CardTopMonetization from './CardTopMonetization';
@@ -19,10 +20,7 @@ const DestinationCard = ({ dest, viewMode }) => {
     const [isFollowed, setIsFollowed] = useState(false);
 
     // Use the new actions hook
-    const { state, handlers } = useCardActions({
-        isSaved: false,
-        isLiked: false
-    });
+    const { state, handlers } = useCardActions(dest);
 
     const getAuraClass = () => {
         if (dest.trending) return 'aura-trending';
@@ -80,8 +78,8 @@ const DestinationCard = ({ dest, viewMode }) => {
                         }}
                     />
 
-                    <div className="live-pulse-badge compact">
-                        <span className="pulse-dot"></span>
+                    <div className="live-viewer-badge compact">
+                        <span className="live-dot"></span>
                         <span>{liveViewers} Live</span>
                     </div>
 
@@ -104,7 +102,22 @@ const DestinationCard = ({ dest, viewMode }) => {
                 <div className="card-content compact">
                     <div className="card-header-compact">
                         <div className="title-row">
-                            <h3>{dest.name}</h3>
+                            <div className="title-domain-group">
+                                <h3>{dest.name}</h3>
+                                <div className="card-domain-badge-wrap">
+                                    <span className="card-domain-name" title={`Destination Domain: ${getDestinationDomainName(dest)}`}>
+                                        <Globe size={10} />
+                                        <span>{getDestinationDomainName(dest)}</span>
+                                    </span>
+                                    <span
+                                        className={`card-domain-status-badge status-${getDestinationDomainStatus(dest).toLowerCase()}`}
+                                        title={`Domain Status: ${getDestinationDomainStatus(dest)}`}
+                                    >
+                                        <span className="card-domain-status-dot"></span>
+                                        <span>{getDestinationDomainStatus(dest)}</span>
+                                    </span>
+                                </div>
+                            </div>
                             <div className="location-tag">
                                 <MapPin size={10} />
                                 <span>{dest.location}</span>

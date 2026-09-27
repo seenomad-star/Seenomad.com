@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Calendar, MapPin, Users, Ticket, Filter, Search, Sparkles, Music, Coffee, Briefcase } from 'lucide-react';
-import WhosNearbyRadar from './components/WhosNearbyRadar';
 import '../../styles/NomadEventsHub.css';
 
 const NomadEventsHub = () => {
@@ -37,9 +36,6 @@ const NomadEventsHub = () => {
                 <div className="eh-titles">
                     <h1>Nomad <span>Events Hub</span></h1>
                     <p>Discover exclusive meetups, parties, and workshops in Tokyo.</p>
-                </div>
-                <div className="eh-radar-section">
-                    <WhosNearbyRadar />
                 </div>
             </header>
 
@@ -93,7 +89,7 @@ const NomadEventsHub = () => {
                     <Sparkles size={28} color="gold" />
                     <div className="promo-text">
                         <h4>Exclusive Rooftop Party</h4>
-                        <p>Available only for Traveluh Elite members. Limited slots remaining.</p>
+                        <p>Available only for SeeNomad Elite members. Limited slots remaining.</p>
                     </div>
                     <button className="promo-unlock">Unlock with Black Card</button>
                 </div>

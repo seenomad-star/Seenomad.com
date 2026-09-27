@@ -5,7 +5,7 @@ import PassportPowerRank from './components/PassportPowerRank';
 import RequirementChecklist from './components/RequirementChecklist';
 import NomadVisaCenter from './components/NomadVisaCenter';
 import ComparePassports from './components/ComparePassports';
-import GhostModeToggle from '../Social/components/GhostModeToggle';
+import SchengenTaxDayTracker from './components/SchengenTaxDayTracker';
 import RiskIntelligenceMap from '../Security/RiskIntelligenceMap';
 import SOSBeacon from '../Security/SOSBeacon';
 import '../../styles/VisaIntelligenceHub.css';
@@ -33,11 +33,6 @@ const VisaIntelligenceHub = () => {
 
     return (
         <div className="visa-hub-wrapper">
-            {/* Header with Ghost Mode */}
-            <div className="vh-top-nav">
-                <GhostModeToggle />
-            </div>
-
             {/* Hero Section */}
             <header className="vh-hero">
                 <div className="hero-badge">
@@ -61,6 +56,9 @@ const VisaIntelligenceHub = () => {
 
             {/* Interactive Global Map */}
             <InteractiveVisaMap />
+
+            {/* Personal Schengen 90/180 & 183-Day Tax Residency Tracker */}
+            <SchengenTaxDayTracker />
 
             {/* Global Risk Intelligence Feed */}
             <div className="vh-risk-section">

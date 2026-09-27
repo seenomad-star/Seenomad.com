@@ -1,16 +1,17 @@
 .nomad-dock-wrapper {
     position: fixed;
-    top: 170px;
-    left: 20px;
+    top: 140px;
+    left: calc(var(--current-sidebar-w, 255px) + 16px);
     height: fit-content;
     z-index: 1050;
-    transition: left var(--transition-normal);
+    transition: left 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Sync with Sidebar Collapse */
+:global(.sidebar-collapsed) .nomad-dock-wrapper,
 :global(.expanded-left) ~ .nomad-dock-wrapper,
 :global(.main-content.expanded-left) .nomad-dock-wrapper {
-    left: calc(var(--collapsed-sidebar-width) + 12px);
+    left: calc(var(--layout-sidebar-collapsed-width, 76px) + 16px);
 }
 
 .nomad-dock {
@@ -277,4 +278,11 @@
     0% { transform: scale(1); opacity: 1; }
     50% { transform: scale(1.5); opacity: 0.5; }
     100% { transform: scale(1); opacity: 1; }
+}
+
+/* Hide floating desktop dock on tablets and mobile */
+@media (max-width: 1024px) {
+    .nomad-dock-wrapper {
+        display: none !important;
+    }
 }

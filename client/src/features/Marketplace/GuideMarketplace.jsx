@@ -41,7 +41,7 @@ const GuideMarketplace = () => {
     return (
         <div className="marketplace-container">
             <header className="mp-header">
-                <div className="mp-badge"><Tag size={14} /> <span>Traveluh Economy</span></div>
+                <div className="mp-badge"><Tag size={14} /> <span>SeeNomad Economy</span></div>
                 <h1>The Itinerary <span>Marketplace</span></h1>
                 <p>Buy curated guides and automated itineraries from the world's top 1% of nomads.</p>
 

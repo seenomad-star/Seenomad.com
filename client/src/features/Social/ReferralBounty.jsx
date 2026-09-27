@@ -14,7 +14,7 @@ const ReferralBounty = () => {
             <div className="rb-hero">
                 <Gift size={48} color="#A855F7" />
                 <h1>Referral <span>Bounty Hub</span></h1>
-                <p>Don't travel alone. Bring your tribe and earn Traveluh Coins for every booking they make.</p>
+                <p>Don't travel alone. Bring your tribe and earn SeeNomad Coins for every booking they make.</p>
             </div>
 
             <div className="rb-stats-row">
@@ -35,7 +35,7 @@ const ReferralBounty = () => {
             <div className="rb-link-section">
                 <h3>Your Personal Invite Link</h3>
                 <div className="link-box">
-                    <input type="text" readOnly value="traveluh.os/ref/nomad_legend_88" />
+                    <input type="text" readOnly value="seenomad.com/ref/nomad_legend_88" />
                     <button className="copy-link"><Copy size={16} /> Copy</button>
                 </div>
                 <div className="share-grid">

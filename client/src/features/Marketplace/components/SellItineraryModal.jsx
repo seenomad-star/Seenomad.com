@@ -28,7 +28,7 @@ const SellItineraryModal = ({ isOpen, onClose, tripName = "My Bali Escape" }) =>
                             </div>
 
                             <div className="sm-input-row">
-                                <label>Set Price (Traveluh Coins)</label>
+                                <label>Set Price (SeeNomad Coins)</label>
                                 <div className="price-input-wrapper">
                                     <DollarSign size={18} />
                                     <input 

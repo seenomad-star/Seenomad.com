@@ -1,30 +1,238 @@
+/* ==========================================================================
+   Global Right Sidebar & TravelOS Radar Styles
+   Adaptive Docked / Slide-over Drawer Modes
+   ========================================================================== */
+
+/* Floating Quick Trigger Tab (Visible when sidebar is not docked & closed) */
+.floating-radar-trigger {
+    position: fixed;
+    right: 0;
+    top: 130px;
+    z-index: 1050;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px 8px 12px;
+    background: rgba(15, 23, 42, 0.9);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid var(--glass-border);
+    border-right: none;
+    border-radius: 20px 0 0 20px;
+    color: var(--color-text-primary);
+    font-size: 0.78rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: -4px 6px 20px rgba(0, 0, 0, 0.4);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), background 0.25s ease, box-shadow 0.25s ease, color 0.2s ease;
+}
+
+.floating-radar-trigger:hover {
+    transform: translateX(-4px);
+    background: rgba(30, 41, 59, 0.98);
+    border-color: rgba(59, 130, 246, 0.4);
+    box-shadow: -6px 8px 24px rgba(59, 130, 246, 0.25);
+    color: #60a5fa;
+}
+
+.trigger-pulse-dot {
+    position: relative;
+    width: 8px;
+    height: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pulse-dot-core {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #10b981;
+    box-shadow: 0 0 8px rgba(16, 185, 129, 0.8);
+}
+
+.pulse-dot-ring {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: rgba(16, 185, 129, 0.35);
+    animation: ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+.trigger-icon {
+    color: #3b82f6;
+    flex-shrink: 0;
+}
+
+.trigger-label {
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+}
+
+/* Floating Drawer Backdrop Overlay */
+.global-sidebar-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+    z-index: 1190;
+    animation: fadeIn 0.2s ease forwards;
+}
+
+/* Base Global Right Sidebar Container */
 .global-right-sidebar {
     width: 320px;
-    height: calc(100vh - 72px);
-    padding: 20px 1.5rem 1.5rem 0.5rem;
-    position: fixed;
-    top: 72px; /* CoreNav height */
-    right: 0;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    scrollbar-width: none;
-    z-index: 1100;
     background: var(--color-bg-navbar);
     -webkit-backdrop-filter: var(--glass-blur);
     backdrop-filter: var(--glass-blur);
     border-left: 1px solid var(--glass-border);
+    display: flex;
+    flex-direction: column;
+    scrollbar-width: none;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+    box-sizing: border-box;
 }
 
 .global-right-sidebar::-webkit-scrollbar {
     display: none;
 }
 
+/* Mode 1: Docked Mode (Only on Big Screen >= 1360px when pinned) */
+.global-right-sidebar.is-docked {
+    position: fixed;
+    top: var(--layout-top-nav-height, 60px);
+    right: 0;
+    height: calc(100vh - var(--layout-top-nav-height, 60px));
+    z-index: 1000;
+    transform: translateX(0);
+}
+
+/* Mode 2: Floating Drawer Mode (Screens < 1360px OR when unpinned) */
+.global-right-sidebar:not(.is-docked) {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 340px;
+    max-width: 90vw;
+    height: 100vh;
+    z-index: 1200;
+    transform: translateX(105%);
+    box-shadow: -15px 0 45px rgba(0, 0, 0, 0.6);
+}
+
+.global-right-sidebar:not(.is-docked).is-open {
+    transform: translateX(0);
+}
+
+/* Sidebar Header */
+.global-sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.85rem 1.25rem;
+    border-bottom: 1px solid var(--glass-border);
+    background: rgba(15, 23, 42, 0.75);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    flex-shrink: 0;
+}
+
+.header-branding {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.radar-status-badge,
+.intel-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 7px;
+    border-radius: 999px;
+    background: rgba(16, 185, 129, 0.15);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.live-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #10b981;
+    box-shadow: 0 0 6px rgba(16, 185, 129, 0.8);
+}
+
+.live-text {
+    font-size: 0.62rem;
+    font-weight: 800;
+    color: #10b981;
+    letter-spacing: 0.05em;
+}
+
+.radar-title-group,
+.intel-title-group {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.radar-title,
+.intel-title {
+    font-size: 0.88rem;
+    font-weight: 800;
+    color: var(--color-text-primary);
+    margin: 0;
+    letter-spacing: -0.01em;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.sidebar-header-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.sidebar-header-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: var(--color-text-primary);
+    transform: translateY(-1px);
+}
+
+.sidebar-header-btn.active {
+    background: rgba(59, 130, 246, 0.2);
+    border-color: rgba(59, 130, 246, 0.5);
+    color: #60a5fa;
+}
+
+/* Sidebar Inner Scroll Container */
 .sidebar-inner-scroll {
     display: flex;
     flex-direction: column;
     gap: 1.25rem;
+    padding: 1.25rem;
+    overflow-y: auto;
+    flex: 1;
+    scrollbar-width: none;
+}
+
+.sidebar-inner-scroll::-webkit-scrollbar {
+    display: none;
 }
 
 /* TravelOS System Card Base */
@@ -129,6 +337,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.ping-icon:hover {
+    transform: scale(1.1);
 }
 
 /* Eco Mini */
@@ -255,4 +470,27 @@
     background: rgba(255, 255, 255, 0.06);
     border-color: rgba(255, 255, 255, 0.2);
     color: white;
+}
+
+/* Mobile & Tablet Responsive Adjustments */
+@media (max-width: 1024px) {
+    .floating-radar-trigger {
+        top: 110px;
+    }
+}
+
+@media (max-width: 768px) {
+    .floating-radar-trigger {
+        top: 76px;
+        padding: 7px 10px;
+        border-radius: 12px 0 0 12px;
+    }
+    .trigger-label {
+        display: none;
+    }
+    .global-right-sidebar:not(.is-docked) {
+        width: 100vw;
+        max-width: 100vw;
+        border-left: none;
+    }
 }

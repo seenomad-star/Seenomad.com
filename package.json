@@ -9,5 +9,8 @@
         "dev": "npm run dev --workspace=client",
         "build": "npm run build --workspace=client",
         "lint": "npm run lint --workspace=client"
+    },
+    "dependencies": {
+        "react-helmet-async": "^3.0.0"
     }
 }

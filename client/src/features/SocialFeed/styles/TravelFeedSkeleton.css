@@ -1,0 +1,439 @@
+/* ==========================================================================
+   TravelFeedSkeleton.css
+   High-Fidelity Skeleton Loader for the Travel Social Feed
+   Matches Twitter/Instagram/YouTube hybrid post card structure
+   ========================================================================== */
+
+/* Shimmer Animation */
+@keyframes travel-skeleton-shimmer {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+@keyframes travel-skeleton-pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.6;
+    }
+}
+
+/* Base Skeleton Element */
+.tfs-bone {
+    position: relative;
+    overflow: hidden;
+    background: #e2e8f0;
+    border-radius: 6px;
+    display: block;
+}
+
+:root.dark .tfs-bone,
+.theme-dark .tfs-bone,
+body.dark .tfs-bone {
+    background: rgba(51, 65, 85, 0.45);
+}
+
+.tfs-bone::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.45) 45%,
+        rgba(255, 255, 255, 0.7) 50%,
+        rgba(255, 255, 255, 0.45) 55%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    animation: travel-skeleton-shimmer 1.8s infinite ease-in-out;
+}
+
+:root.dark .tfs-bone::after,
+.theme-dark .tfs-bone::after,
+body.dark .tfs-bone::after {
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.04) 45%,
+        rgba(255, 255, 255, 0.1) 50%,
+        rgba(255, 255, 255, 0.04) 55%,
+        rgba(255, 255, 255, 0) 100%
+    );
+}
+
+/* Stories Rail Skeleton */
+.tfs-stories-rail {
+    display: flex;
+    align-items: center;
+    gap: 1.15rem;
+    padding: 0.85rem 1rem;
+    margin: 0.5rem 1rem 1rem;
+    background: #ffffff;
+    border: 1px solid rgba(226, 232, 240, 0.85);
+    border-radius: 18px;
+    overflow-x: hidden;
+}
+
+:root.dark .tfs-stories-rail,
+.theme-dark .tfs-stories-rail,
+body.dark .tfs-stories-rail {
+    background: rgba(15, 23, 42, 0.75);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+.tfs-story-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 7px;
+    flex-shrink: 0;
+}
+
+.tfs-story-ring {
+    width: 62px;
+    height: 62px;
+    border-radius: 50%;
+    padding: 2px;
+    border: 2px dashed rgba(59, 130, 246, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tfs-story-circle {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+}
+
+.tfs-story-label {
+    width: 48px;
+    height: 10px;
+    border-radius: 4px;
+}
+
+/* Post Card Skeleton */
+.tfs-post-card {
+    padding: 1.15rem 1.25rem;
+    background: #ffffff;
+    border: 1px solid rgba(226, 232, 240, 0.85);
+    border-radius: 16px;
+    margin: 0.85rem 1rem;
+    box-sizing: border-box;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    position: relative;
+    animation: travel-skeleton-pulse 2.5s infinite ease-in-out;
+}
+
+:root.dark .tfs-post-card,
+.theme-dark .tfs-post-card,
+body.dark .tfs-post-card {
+    background: rgba(15, 23, 42, 0.75);
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.22);
+}
+
+/* Repost Header Placeholder */
+.tfs-repost-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding-left: calc(42px + 0.75rem);
+    margin-bottom: -0.2rem;
+}
+
+.tfs-repost-icon {
+    width: 13px;
+    height: 13px;
+    border-radius: 3px;
+}
+
+.tfs-repost-text {
+    width: 140px;
+    height: 11px;
+    border-radius: 4px;
+}
+
+/* Header Row */
+.tfs-header-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+}
+
+.tfs-avatar-wrapper {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.tfs-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+}
+
+.tfs-online-dot {
+    position: absolute;
+    bottom: -1px;
+    right: -1px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid #ffffff;
+    background: #10b981;
+    opacity: 0.8;
+}
+
+:root.dark .tfs-online-dot,
+.theme-dark .tfs-online-dot,
+body.dark .tfs-online-dot {
+    border-color: #0f172a;
+}
+
+.tfs-meta-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+}
+
+.tfs-author-line {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    flex-wrap: wrap;
+}
+
+.tfs-name {
+    width: 130px;
+    height: 15px;
+    border-radius: 4px;
+}
+
+.tfs-badge {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+}
+
+.tfs-handle {
+    width: 80px;
+    height: 12px;
+    border-radius: 4px;
+}
+
+.tfs-dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+}
+
+.tfs-time {
+    width: 32px;
+    height: 12px;
+    border-radius: 4px;
+}
+
+.tfs-subtags-row {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    flex-wrap: wrap;
+}
+
+.tfs-pill-tag {
+    height: 20px;
+    border-radius: 9999px;
+}
+
+.tfs-pill-location {
+    width: 110px;
+}
+
+.tfs-pill-feeling {
+    width: 85px;
+}
+
+.tfs-pill-vibe {
+    width: 95px;
+}
+
+.tfs-header-action {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    flex-shrink: 0;
+}
+
+/* Post Body Text */
+.tfs-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.tfs-text-line {
+    height: 14px;
+    border-radius: 4px;
+}
+
+.tfs-tags-row {
+    display: flex;
+    gap: 6px;
+    margin-top: 0.2rem;
+}
+
+.tfs-tag-pill {
+    width: 70px;
+    height: 18px;
+    border-radius: 9999px;
+}
+
+/* Media Block (Photo / Video Player) */
+.tfs-media-container {
+    width: 100%;
+    height: 280px;
+    border-radius: 14px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #cbd5e1;
+    overflow: hidden;
+}
+
+:root.dark .tfs-media-container,
+.theme-dark .tfs-media-container,
+body.dark .tfs-media-container {
+    background: rgba(30, 41, 59, 0.85);
+}
+
+.tfs-media-center-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #475569;
+}
+
+:root.dark .tfs-media-center-icon,
+.theme-dark .tfs-media-center-icon,
+body.dark .tfs-media-center-icon {
+    background: rgba(255, 255, 255, 0.1);
+    color: #94a3b8;
+}
+
+.tfs-media-badge-top {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    width: 60px;
+    height: 20px;
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.25);
+}
+
+.tfs-media-badge-bottom {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    width: 45px;
+    height: 18px;
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.35);
+}
+
+/* Engagement Actions Bar */
+.tfs-actions-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 0.65rem;
+    border-top: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+:root.dark .tfs-actions-bar,
+.theme-dark .tfs-actions-bar,
+body.dark .tfs-actions-bar {
+    border-top-color: rgba(255, 255, 255, 0.06);
+}
+
+.tfs-action-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.tfs-action-icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}
+
+.tfs-action-count {
+    width: 30px;
+    height: 11px;
+    border-radius: 4px;
+}
+
+/* Load More In-Stream Skeleton */
+.tfs-load-more-card {
+    padding: 0.85rem 1.15rem;
+    background: #ffffff;
+    border: 1px dashed rgba(59, 130, 246, 0.4);
+    border-radius: 14px;
+    margin: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+:root.dark .tfs-load-more-card,
+.theme-dark .tfs-load-more-card,
+body.dark .tfs-load-more-card {
+    background: rgba(15, 23, 42, 0.5);
+    border-color: rgba(59, 130, 246, 0.3);
+}
+
+.tfs-load-more-left {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.tfs-load-more-right {
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+    .tfs-post-card {
+        margin: 0.5rem 0.5rem;
+        padding: 0.9rem;
+    }
+    .tfs-media-container {
+        height: 210px;
+    }
+    .tfs-subtags-row {
+        display: none;
+    }
+    .tfs-pill-vibe {
+        display: none;
+    }
+}

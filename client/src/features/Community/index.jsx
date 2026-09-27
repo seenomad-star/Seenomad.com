@@ -27,7 +27,6 @@ import LocalRecommendations from './components/LocalRecommendations';
 import PostComposer from './components/PostComposer';
 import ShortsViewer from './components/ShortsViewer';
 import MeetupPlanner from './components/MeetupPlanner';
-import PulseFeed from './components/PulseFeed';
 import NomadSparks from '../Social/NomadSparks';
 import KnowledgeMarket from './components/KnowledgeMarket';
 import PopularFeed from '../../components/PopularFeed';
@@ -39,7 +38,7 @@ const Community = () => {
     const navItems = [
         'Popular',
         'Travel Feed',
-        'Nomad Pulse',
+        'Meetups',
         'Nomad Sparks',
         'Nexus Market',
         'Reels',
@@ -156,8 +155,9 @@ const Community = () => {
                     <Route path="/" element={<Navigate to="popular" replace />} />
                     <Route path="popular" element={<PopularFeed />} />
                     <Route path="travel-feed" element={<TravelFeed />} />
-                    <Route path="local-recommendations" element={<PulseFeed />} />
-                    <Route path="nomad-pulse" element={<MeetupPlanner />} />
+                    <Route path="meetups" element={<MeetupPlanner />} />
+                    <Route path="nomad-pulse" element={<Navigate to="../meetups" replace />} />
+                    <Route path="local-recommendations" element={<LocalRecommendations />} />
                     <Route path="nomad-sparks" element={<NomadSparks />} />
                     <Route path="nexus-market" element={<KnowledgeMarket />} />
                     <Route path="reels" element={<button onClick={() => setIsShortsOpen(true)} className="shorts-trigger-btn">Launch Shorts Player</button>} />

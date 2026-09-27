@@ -1,17 +1,32 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSavedStore } from '../store/savedStore';
 
 /**
  * Hook to manage interactive state for destination cards.
  * Provides handlers for common actions like Save, Like, Share, etc.
- * @param {Object} initialData - Initial state for the card (optional)
+ * @param {Object} initialData - Initial state or destination object for the card (optional)
  */
 const useCardActions = (initialData = {}) => {
-    const [isSaved, setIsSaved] = useState(initialData.isSaved || false);
+    const isDestInSavedStore = useSavedStore((state) => {
+        if (!initialData) return false;
+        if (initialData.id) return state.isSaved(initialData.id);
+        if (initialData.name) return state.isSaved(initialData.name);
+        return false;
+    });
+    const toggleSavedInStore = useSavedStore((state) => state.toggleSave);
+
+    const [isSaved, setIsSaved] = useState(initialData.isSaved || isDestInSavedStore || false);
     const [isLiked, setIsLiked] = useState(initialData.isLiked || false);
     const [hasAlert, setHasAlert] = useState(initialData.hasAlert || false);
     const [inBucketList, setInBucketList] = useState(initialData.inBucketList || false);
     const [xpClaimed, setXpClaimed] = useState(false);
     const [hasSpun, setHasSpun] = useState(false);
+
+    useEffect(() => {
+        if (initialData && (initialData.id || initialData.name)) {
+            setIsSaved(isDestInSavedStore);
+        }
+    }, [isDestInSavedStore, initialData]);
 
     // Helper to show toast (mock implementation)
     const showToast = (message, type = 'success') => {
@@ -63,8 +78,13 @@ const useCardActions = (initialData = {}) => {
 
     const toggleSave = (e) => {
         e?.stopPropagation();
-        setIsSaved(!isSaved);
-        showToast(isSaved ? "Removed from Wishlist" : "Saved to Wishlist");
+        if (initialData && (initialData.id || initialData.name)) {
+            const nextState = toggleSavedInStore(initialData);
+            setIsSaved(nextState);
+        } else {
+            setIsSaved(!isSaved);
+            showToast(!isSaved ? "Saved to Wishlist" : "Removed from Wishlist");
+        }
     };
 
     const toggleLike = (e) => {

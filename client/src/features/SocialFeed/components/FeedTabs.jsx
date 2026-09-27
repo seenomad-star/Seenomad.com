@@ -8,8 +8,10 @@ import {
     MapPin, 
     Camera, 
     PlaySquare, 
+    Calendar,
+    Video,
+    MessageSquare,
     Trophy, 
-    Activity, 
     Repeat, 
     ChevronLeft, 
     ChevronRight 
@@ -17,17 +19,15 @@ import {
 import '../styles/FeedTabs.css';
 
 const TABS = [
-    { id: 'foryou', label: 'For You', icon: Sparkles },
-    { id: 'following', label: 'Following', icon: Users },
-    { id: 'live', label: 'Live', icon: Radio, isLive: true, badge: 'LIVE' },
+    { id: 'following', label: 'Following', icon: Users, badge: '48' },
     { id: 'trending', label: 'Trending', icon: Flame, badge: 'HOT' },
-    { id: 'latest', label: 'Latest', icon: Clock },
-    { id: 'nearby', label: 'Nearby', icon: MapPin },
-    { id: 'visuals', label: '📸 Visuals', icon: Camera },
-    { id: 'shorts', label: 'Shorts', icon: PlaySquare },
-    { id: 'challenges', label: 'Challenges', icon: Trophy, badge: '+XP' },
-    { id: 'pulse', label: 'Pulse', icon: Activity },
-    { id: 'exchange', label: 'Exchange', icon: Repeat }
+    { id: 'recent', label: 'Recent', icon: Clock, badge: 'LIVE' },
+    { id: 'shorts', label: 'Shorts & Reels', icon: PlaySquare, badge: 'REELS' },
+    { id: 'vlogs', label: 'Travel Vlogs', icon: Video, badge: '4K' },
+    { id: 'events', label: 'Meetups & Events', icon: Calendar, badge: 'EVENTS' },
+    { id: 'visuals', label: '📸 Galleries', icon: Camera },
+    { id: 'live', label: 'Live Spaces', icon: Radio, isLive: true, badge: 'LIVE' },
+    { id: 'nearby', label: 'Nearby', icon: MapPin }
 ];
 
 const FeedTabs = ({ activeTab, setActiveTab }) => {
@@ -42,11 +42,15 @@ const FeedTabs = ({ activeTab, setActiveTab }) => {
 
     // Auto-scroll active tab into view
     useEffect(() => {
-        if (tabsContainerRef.current) {
-            const activeEl = tabsContainerRef.current.querySelector('.feed-tab-pill.active');
-            if (activeEl) {
-                activeEl.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        try {
+            if (tabsContainerRef.current && typeof tabsContainerRef.current.querySelector === 'function') {
+                const activeEl = tabsContainerRef.current.querySelector('.feed-tab-pill.active');
+                if (activeEl && typeof activeEl.scrollIntoView === 'function') {
+                    activeEl.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                }
             }
+        } catch {
+            // Defensive handling for iframe environments
         }
     }, [activeTab]);
 

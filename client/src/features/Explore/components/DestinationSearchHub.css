@@ -662,6 +662,24 @@
     color: #6ee7b7;
 }
 
+.active-tag-chip.domain-status.status-available {
+    background: rgba(16, 185, 129, 0.15);
+    border-color: rgba(16, 185, 129, 0.4);
+    color: #34d399;
+}
+
+.active-tag-chip.domain-status.status-taken {
+    background: rgba(148, 163, 184, 0.15);
+    border-color: rgba(148, 163, 184, 0.35);
+    color: #cbd5e1;
+}
+
+.active-tag-chip.domain-status.status-premium {
+    background: rgba(168, 85, 247, 0.18);
+    border-color: rgba(168, 85, 247, 0.4);
+    color: #d8b4fe;
+}
+
 .clear-all-text-btn {
     background: transparent;
     border: none;
@@ -845,3 +863,128 @@
         margin-left: 0;
     }
 }
+
+/* Light Theme Overrides for DestinationSearchHub */
+body.theme-light .search-hub-input-wrapper,
+.theme-light .search-hub-input-wrapper {
+    background: rgba(255, 255, 255, 0.9);
+    border-color: rgba(0, 0, 0, 0.12);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+body.theme-light .search-hub-input-wrapper:hover,
+.theme-light .search-hub-input-wrapper:hover {
+    background: #ffffff;
+    border-color: rgba(59, 130, 246, 0.4);
+}
+
+body.theme-light .search-hub-input-wrapper.active,
+body.theme-light .search-hub-input-wrapper:focus-within,
+.theme-light .search-hub-input-wrapper.active,
+.theme-light .search-hub-input-wrapper:focus-within {
+    background: #ffffff;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15), 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+
+body.theme-light .search-hub-input,
+.theme-light .search-hub-input {
+    color: #0f172a;
+}
+
+body.theme-light .search-hub-input::placeholder,
+.theme-light .search-hub-input::placeholder {
+    color: #94a3b8;
+}
+
+body.theme-light .category-pill,
+.theme-light .category-pill {
+    background: rgba(255, 255, 255, 0.85);
+    border-color: rgba(0, 0, 0, 0.08);
+    color: #334155;
+}
+
+body.theme-light .category-pill:hover,
+.theme-light .category-pill:hover {
+    background: #ffffff;
+    border-color: rgba(59, 130, 246, 0.3);
+    color: #1e293b;
+}
+
+body.theme-light .category-pill.active,
+.theme-light .category-pill.active {
+    background: rgba(59, 130, 246, 0.12);
+    border-color: rgba(59, 130, 246, 0.5);
+    color: #1d4ed8;
+}
+
+body.theme-light .search-hub-refine-panel,
+.theme-light .search-hub-refine-panel {
+    background: rgba(255, 255, 255, 0.95);
+    border-color: rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+body.theme-light .refine-pill,
+.theme-light .refine-pill {
+    background: rgba(0, 0, 0, 0.04);
+    border-color: rgba(0, 0, 0, 0.08);
+    color: #475569;
+}
+
+body.theme-light .refine-pill:hover,
+.theme-light .refine-pill:hover {
+    background: rgba(0, 0, 0, 0.08);
+    color: #0f172a;
+}
+
+body.theme-light .active-tag-chip,
+.theme-light .active-tag-chip {
+    background: rgba(59, 130, 246, 0.1);
+    border-color: rgba(59, 130, 246, 0.3);
+    color: #1d4ed8;
+}
+
+body.theme-light .results-count,
+.theme-light .results-count {
+    color: #475569;
+}
+
+body.theme-light .results-count strong,
+.theme-light .results-count strong {
+    color: #0f172a;
+}
+
+body.theme-light .view-mode-toggle-group,
+.theme-light .view-mode-toggle-group {
+    background: rgba(0, 0, 0, 0.04);
+    border-color: rgba(0, 0, 0, 0.08);
+}
+
+body.theme-light .sort-select,
+.theme-light .sort-select {
+    color: #1e293b;
+}
+
+body.theme-light .sort-select option,
+.theme-light .sort-select option {
+    background: #ffffff;
+    color: #0f172a;
+}
+
+body.theme-light .destinations-empty-search,
+.theme-light .destinations-empty-search {
+    background: rgba(255, 255, 255, 0.85);
+    border-color: rgba(0, 0, 0, 0.12);
+}
+
+body.theme-light .destinations-empty-search h3,
+.theme-light .destinations-empty-search h3 {
+    color: #0f172a;
+}
+
+body.theme-light .destinations-empty-search p,
+.theme-light .destinations-empty-search p {
+    color: #475569;
+}
+

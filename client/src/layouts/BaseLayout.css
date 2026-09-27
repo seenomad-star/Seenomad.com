@@ -1,0 +1,324 @@
+/* ==========================================================================
+   BaseLayout.css - Standardized Layout Structure & Spacing System
+   ========================================================================== */
+
+@property --current-sidebar-w {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 255px;
+}
+
+@property --current-right-sidebar-w {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 0px;
+}
+
+:root {
+  --layout-sidebar-width: 255px;
+  --layout-sidebar-collapsed-width: 76px;
+  --layout-right-sidebar-width: 320px;
+  --layout-top-nav-height: 60px;
+  --layout-address-bar-height: 38px;
+  --layout-max-width: 1440px;
+
+  /* Active layout variables set dynamically by BaseLayout */
+  --current-sidebar-w: var(--layout-sidebar-width);
+  --current-right-sidebar-w: 0px;
+  --current-header-h: var(--layout-top-nav-height);
+}
+
+/* ==========================================================================
+   Root Layout Container
+   ========================================================================== */
+.base-layout-root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-bg-main, #0f172a);
+  color: var(--color-text-primary, #f8fafc);
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* ==========================================================================
+   Top Header / Navbar Container Adjustment
+   Preferred brand anchor: spans full width across the top of the viewport
+   ========================================================================== */
+.navbar-v3-container {
+  position: fixed;
+  top: 0;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  z-index: 1200;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Sidebar positioning: Below Top Navbar on desktop */
+@media (min-width: 901px) {
+  .travel-sidebar {
+    top: var(--layout-top-nav-height, 60px) !important;
+    height: calc(100vh - var(--layout-top-nav-height, 60px)) !important;
+    z-index: 1250 !important;
+  }
+
+  /* Sub-navigation layers (AddressBar & ModuleNavbar) sit cleanly to the right of the sidebar */
+  .address-bar-container,
+  .module-navbar,
+  .context-strip-wrapper,
+  .action-ribbon-container {
+    margin-left: var(--current-sidebar-w, 255px) !important;
+    width: calc(100% - var(--current-sidebar-w, 255px) - var(--current-right-sidebar-w, 0px)) !important;
+    pointer-events: auto !important;
+    padding-left: 1.25rem !important;
+    padding-right: 1.25rem !important;
+    transition: margin-left 0.22s cubic-bezier(0.4, 0, 0.2, 1),
+                width 0.22s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .travel-sidebar {
+    top: 0 !important;
+    height: 100vh !important;
+    z-index: 1400 !important;
+  }
+
+  .address-bar-container,
+  .module-navbar,
+  .context-strip-wrapper,
+  .action-ribbon-container {
+    margin-left: 0 !important;
+    width: 100% !important;
+    pointer-events: auto !important;
+  }
+}
+
+/* ==========================================================================
+   Main Content Area - Standard Proportional Spacing & Smooth Transitions
+   ========================================================================== */
+.base-layout-main,
+.main-content {
+  margin-left: var(--current-sidebar-w, 255px);
+  margin-right: var(--current-right-sidebar-w, 0px);
+  width: calc(100% - var(--current-sidebar-w, 255px) - var(--current-right-sidebar-w, 0px));
+  min-height: 100vh;
+  padding-top: var(--current-header-h, 60px) !important;
+  transition: margin-left 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+              margin-right 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+              width 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+              padding 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: margin-left, margin-right, width;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  box-sizing: border-box;
+}
+
+/* Left Sidebar Expanded State (Default Desktop) */
+.base-layout-root.sidebar-expanded .main-content,
+.base-layout-root.sidebar-expanded .base-layout-main,
+.main-content:not(.expanded-left):not(.sidebar-collapsed) {
+  --current-sidebar-w: 255px;
+  margin-left: 255px;
+  width: calc(100% - 255px - var(--current-right-sidebar-w, 0px));
+}
+
+/* Left Sidebar Collapsed State (76px width) */
+.base-layout-root.sidebar-collapsed .main-content,
+.base-layout-root.sidebar-collapsed .base-layout-main,
+.base-layout-main.sidebar-collapsed,
+.main-content.expanded-left,
+.main-content.sidebar-collapsed {
+  --current-sidebar-w: var(--layout-sidebar-collapsed-width, 76px);
+  margin-left: var(--layout-sidebar-collapsed-width, 76px);
+  width: calc(100% - var(--layout-sidebar-collapsed-width, 76px) - var(--current-right-sidebar-w, 0px));
+}
+
+/* Right Sidebar Docked State (Big Screens >= 1360px) */
+@media (min-width: 1360px) {
+  .base-layout-root.right-docked .main-content,
+  .base-layout-root.right-docked .base-layout-main,
+  .base-layout-main.right-docked,
+  .main-content.has-right-docked,
+  .main-content.right-docked {
+    --current-right-sidebar-w: var(--layout-right-sidebar-width, 320px);
+    margin-right: var(--layout-right-sidebar-width, 320px);
+    width: calc(100% - var(--current-sidebar-w, 255px) - var(--layout-right-sidebar-width, 320px));
+  }
+
+  /* Combined State: Left Collapsed + Right Docked */
+  .base-layout-root.sidebar-collapsed.right-docked .main-content,
+  .base-layout-root.sidebar-collapsed.right-docked .base-layout-main,
+  .main-content.expanded-left.has-right-docked,
+  .main-content.sidebar-collapsed.right-docked {
+    margin-left: var(--layout-sidebar-collapsed-width, 76px);
+    margin-right: var(--layout-right-sidebar-width, 320px);
+    width: calc(100% - var(--layout-sidebar-collapsed-width, 76px) - var(--layout-right-sidebar-width, 320px));
+  }
+}
+
+/* Under 1360px: Right sidebar is never docked into main layout flow */
+@media (max-width: 1359px) {
+  .base-layout-root,
+  .base-layout-main,
+  .main-content {
+    --current-right-sidebar-w: 0px !important;
+  }
+}
+
+/* Mobile Viewport (<= 900px): Sidebar is off-canvas drawer */
+@media (max-width: 900px) {
+  .base-layout-root,
+  .base-layout-main,
+  .main-content {
+    --current-sidebar-w: 0px !important;
+    --current-right-sidebar-w: 0px !important;
+  }
+
+  .base-layout-main,
+  .main-content {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    width: 100% !important;
+    padding-top: var(--layout-top-nav-height, 60px) !important;
+    padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px)) !important; /* Ergonomic spacing for Bottom Nav Dock */
+  }
+
+  .address-bar-container,
+  .context-strip,
+  .action-ribbon,
+  .module-navbar {
+    display: none !important;
+  }
+}
+
+/* ==========================================================================
+   Standard Content Wrapper
+   ========================================================================== */
+.base-layout-content-wrapper,
+.content-wrapper {
+  flex: 1;
+  width: 100%;
+  max-width: var(--layout-max-width);
+  margin: 0 auto;
+  padding: 1.5rem 1.75rem 3.5rem 1.75rem;
+  box-sizing: border-box;
+}
+
+@media (max-width: 1024px) {
+  .base-layout-content-wrapper,
+  .content-wrapper {
+    padding: 1.25rem 1.25rem 2.5rem 1.25rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .base-layout-content-wrapper,
+  .content-wrapper {
+    padding: 1rem 0.85rem 2rem 0.85rem;
+  }
+}
+
+/* ==========================================================================
+   Mobile Backdrop Overlay
+   ========================================================================== */
+.base-layout-overlay,
+.mobile-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 1390;
+  animation: overlayFadeIn 0.2s ease forwards;
+}
+
+/* ==========================================================================
+   Large Screen Enhancements (>= 1280px and >= 1600px)
+   ========================================================================== */
+@media (min-width: 1280px) {
+  :root {
+    --layout-max-width: 1520px;
+  }
+
+  .base-layout-content-wrapper,
+  .content-wrapper {
+    padding: 1.75rem 2.25rem 4rem 2.25rem;
+  }
+
+  .core-nav {
+    padding: 0 1.75rem;
+  }
+
+  .nav-center {
+    max-width: 580px;
+  }
+}
+
+@media (min-width: 1600px) {
+  :root {
+    --layout-max-width: 1680px;
+  }
+
+  .base-layout-content-wrapper,
+  .content-wrapper {
+    padding: 2rem 2.75rem 4.5rem 2.75rem;
+  }
+
+  .core-nav {
+    padding: 0 2.25rem;
+  }
+
+  .nav-center {
+    max-width: 640px;
+  }
+}
+
+@keyframes overlayFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ==========================================================================
+   Edge Docked Sidebar Toggle Button
+   Synchronously transitions along the border of the sidebar and .main-content
+   ========================================================================== */
+.base-layout-edge-toggle {
+  position: fixed;
+  top: calc(var(--current-header-h, 60px) + 14px);
+  left: calc(var(--current-sidebar-w, 255px) - 13px);
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border-radius: 50%;
+  z-index: 1260;
+  transition: left 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+              background 0.2s ease,
+              border-color 0.2s ease,
+              color 0.2s ease,
+              transform 0.2s ease,
+              box-shadow 0.2s ease;
+}
+
+@media (max-width: 900px) {
+  .base-layout-edge-toggle {
+    display: inline-flex !important;
+    position: fixed;
+    top: calc(var(--current-header-h, 54px) + 8px);
+    left: 10px;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    z-index: 1350;
+  }
+
+  .base-layout-edge-toggle.is-expanded {
+    left: 283px;
+    top: 10px;
+    z-index: 1450;
+  }
+}
+

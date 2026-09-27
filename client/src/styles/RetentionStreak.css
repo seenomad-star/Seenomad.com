@@ -210,3 +210,70 @@
     color: white;
     opacity: 0.8;
 }
+
+/* Stats Header */
+.streak-stats-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.nmd-balance-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(245, 158, 11, 0.12);
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    padding: 0.75rem 1rem;
+    border-radius: 100px;
+    font-weight: 800;
+    color: #fbbf24;
+    font-size: 0.95rem;
+}
+
+/* Persistent Ledger History */
+.streak-ledger-history {
+    margin-top: 1.25rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.ledger-header {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #94a3b8;
+    margin-bottom: 0.5rem;
+}
+
+.ledger-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.ledger-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.82rem;
+    padding: 0.4rem 0.6rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.tx-reason {
+    color: #cbd5e1;
+    font-weight: 500;
+}
+
+.tx-amount {
+    color: #10b981;
+    font-weight: 700;
+}

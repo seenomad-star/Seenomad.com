@@ -1,21 +1,26 @@
 {
-  "name": "Seenomad V3",
-  "short_name": "Seenomad",
-  "description": "The Ultimate Digital Nomad Social Platform",
-  "start_url": "/",
+  "name": "SeeNomad – Digital Nomad Platform",
+  "short_name": "SeeNomad",
+  "description": "Global digital nomad and travel intelligence platform featuring destinations, visas, AI agents, and community.",
+  "start_url": "/?source=pwa",
+  "scope": "/",
   "display": "standalone",
-  "background_color": "#030712",
-  "theme_color": "#030712",
+  "orientation": "portrait-primary",
+  "background_color": "#0a0a0b",
+  "theme_color": "#0a0a0b",
+  "categories": ["travel", "productivity", "social"],
   "icons": [
     {
       "src": "/seenomad-logo.jpg",
       "sizes": "232x232",
-      "type": "image/jpeg"
+      "type": "image/jpeg",
+      "purpose": "any maskable"
     },
     {
       "src": "/seenomad-logo.svg",
       "sizes": "any",
-      "type": "image/svg+xml"
+      "type": "image/svg+xml",
+      "purpose": "any"
     }
   ]
 }

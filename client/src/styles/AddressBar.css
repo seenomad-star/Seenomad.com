@@ -24,13 +24,10 @@
     border-bottom: 1px solid rgba(0, 0, 0, 0.06);
 }
 
-/* Sidebar shift alignment */
-@media (min-width: 1025px) {
-    .address-bar-container.left-sidebar-expanded {
-        padding-left: 280px;
-    }
-    .address-bar-container.left-sidebar-collapsed {
-        padding-left: 90px;
+/* Responsive padding */
+@media (min-width: 901px) {
+    .address-bar-container {
+        padding: 0 1.25rem;
     }
 }
 
@@ -243,8 +240,9 @@
     flex-shrink: 0;
 }
 
-/* Live pulse badge on Nexus Feed */
-.live-pulse-badge {
+/* Live status badge on Nexus Feed */
+.live-pulse-badge,
+.live-status-badge {
     display: inline-flex;
     align-items: center;
     gap: 4px;
@@ -258,7 +256,8 @@
     text-transform: uppercase;
 }
 
-:root:not(.dark) .live-pulse-badge {
+:root:not(.dark) .live-pulse-badge,
+:root:not(.dark) .live-status-badge {
     color: #059669;
     background: rgba(16, 185, 129, 0.12);
 }
@@ -361,6 +360,38 @@
     border-color: rgba(59, 130, 246, 0.25);
 }
 
+/* ==========================================================================
+   Address Bar Persistent Sidebar Toggle Button
+   ========================================================================== */
+.address-bar-sidebar-toggle {
+    margin-right: 0.25rem;
+    height: 26px !important;
+    width: 26px !important;
+    padding: 0 !important;
+    border-radius: 6px !important;
+    background: transparent !important;
+    border: 1px solid transparent !important;
+    color: #94a3b8 !important;
+    box-shadow: none !important;
+}
+
+:root:not(.dark) .address-bar-sidebar-toggle {
+    color: #64748b !important;
+}
+
+.address-bar-sidebar-toggle:hover {
+    background: rgba(255, 255, 255, 0.08) !important;
+    border-color: rgba(255, 255, 255, 0.15) !important;
+    color: #38bdf8 !important;
+    transform: translateY(-1px);
+}
+
+:root:not(.dark) .address-bar-sidebar-toggle:hover {
+    background: rgba(0, 0, 0, 0.06) !important;
+    border-color: rgba(0, 0, 0, 0.12) !important;
+    color: #0284c7 !important;
+}
+
 @media (max-width: 640px) {
     .view-toggle-label {
         display: none;
@@ -369,3 +400,4 @@
         padding: 3px 5px;
     }
 }
+
