@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ChevronLeft, Play, Search } from 'lucide-react';
+import { UGCImage } from './common/Image';
 import '../styles/TrendingAll.css';
 
 const TrendingAll = ({ destinations, onBack }) => {
@@ -35,7 +36,12 @@ const TrendingAll = ({ destinations, onBack }) => {
                 {displayDestinations.map((dest, index) => (
                     <div key={`${dest.id}-${index}`} className="trending-all-card">
                         <div className="card-image-wrapper">
-                            <img src={dest.image} alt={dest.name} />
+                            <UGCImage
+                                src={dest.image}
+                                alt={dest.name}
+                                loading="lazy"
+                                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 360px"
+                            />
                             <button className="play-btn-overlay">
                                 <Play size={20} fill="white" />
                             </button>

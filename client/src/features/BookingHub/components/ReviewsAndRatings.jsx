@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Star, Camera, CheckCircle, ThumbsUp, MapPin } from 'lucide-react';
+import { UGCImage } from '../../../components/common/Image';
 import '../styles/ReviewsAndRatings.css';
 
 const ReviewsAndRatings = ({ entityId, entityName }) => {
@@ -143,7 +144,7 @@ const ReviewsAndRatings = ({ entityId, entityName }) => {
                         {rev.images.length > 0 && (
                             <div className="rev-images">
                                 {rev.images.map((img, idx) => (
-                                    <img key={idx} src={img} alt="User submission" />
+                                    <UGCImage key={idx} src={img} alt="User submission" loading="lazy" sizes="120px" />
                                 ))}
                             </div>
                         )}

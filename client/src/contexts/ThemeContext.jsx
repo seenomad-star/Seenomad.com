@@ -24,9 +24,35 @@ export const ThemeProvider = ({ children }) => {
 
     const isDark = theme !== 'light';
 
-    // Toggle between light and dark
+    // Toggle between light and dark with smooth transition animation
     const toggleTheme = useCallback(() => {
+        if (typeof document !== 'undefined') {
+            document.documentElement.classList.add('theme-transition-active');
+            document.body.classList.add('theme-transition-active');
+            if (window.__seenomadThemeTransitionTimer) {
+                clearTimeout(window.__seenomadThemeTransitionTimer);
+            }
+            window.__seenomadThemeTransitionTimer = setTimeout(() => {
+                document.documentElement.classList.remove('theme-transition-active');
+                document.body.classList.remove('theme-transition-active');
+            }, 450);
+        }
         setTheme(prev => (prev === 'light' ? 'dark' : 'light'));
+    }, []);
+
+    const handleSetTheme = useCallback((newTheme) => {
+        if (typeof document !== 'undefined') {
+            document.documentElement.classList.add('theme-transition-active');
+            document.body.classList.add('theme-transition-active');
+            if (window.__seenomadThemeTransitionTimer) {
+                clearTimeout(window.__seenomadThemeTransitionTimer);
+            }
+            window.__seenomadThemeTransitionTimer = setTimeout(() => {
+                document.documentElement.classList.remove('theme-transition-active');
+                document.body.classList.remove('theme-transition-active');
+            }, 450);
+        }
+        setTheme(newTheme);
     }, []);
 
     // Synchronize body and root classes whenever theme changes
@@ -92,7 +118,7 @@ export const ThemeProvider = ({ children }) => {
     }, []);
 
     return (
-        <ThemeContext.Provider value={{ theme, isDark, toggleTheme, setTheme }}>
+        <ThemeContext.Provider value={{ theme, isDark, toggleTheme, setTheme: handleSetTheme }}>
             {children}
         </ThemeContext.Provider>
     );

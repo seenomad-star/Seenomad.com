@@ -13,6 +13,7 @@ import { allDestinations } from '../../../data/destinationsData';
 import { useNomadOSStore } from '../../../store/nomadOSStore';
 import SEOManager, { useDestinationOGPreview } from '../../../components/SEOManager';
 import OGPreviewCard from '../../../components/common/OGPreviewCard';
+import { Image, UGCImage } from '../../../components/common/Image';
 import './DestinationDetail.css';
 
 const DestinationDetail = () => {
@@ -72,7 +73,13 @@ const DestinationDetail = () => {
 
             {/* Cinematic Hero Section */}
             <div className="detail-hero-section">
-                <img src={destination.image} alt={destination.name} className="hero-bg-image" />
+                <Image
+                    src={destination.image}
+                    alt={destination.name}
+                    className="hero-bg-image"
+                    priority={true}
+                    sizes="100vw"
+                />
                 <div className="hero-overlay"></div>
 
                 <div className="hero-content">
@@ -280,7 +287,7 @@ const DestinationDetail = () => {
                                     className="related-item"
                                     onClick={() => navigate(`/explore/destinations/${toSlug(dest.name)}`)}
                                 >
-                                    <img src={dest.image} alt={dest.name} />
+                                    <UGCImage src={dest.image} alt={dest.name} loading="lazy" sizes="80px" />
                                     <div className="related-info">
                                         <h4>{dest.name}</h4>
                                         <span>{dest.location}</span>

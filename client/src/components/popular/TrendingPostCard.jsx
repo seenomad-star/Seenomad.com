@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ArrowUp, ArrowDown, MessageCircle, Share2, Bookmark, Award, Lock, Flame, Zap, TrendingUp, Eye, Clock } from 'lucide-react';
+import { UGCImage } from '../common/Image';
 import '../../styles/popular/TrendingPostCard.css';
 
 const TrendingPostCard = ({ post, viewMode = 'card' }) => {
@@ -121,7 +122,7 @@ const TrendingPostCard = ({ post, viewMode = 'card' }) => {
                 <div className={`post-body ${post.isPremium ? 'blurred' : ''}`}>
                     {post.image && (
                         <div className="post-image">
-                            <img src={post.image} alt={post.title} />
+                            <UGCImage src={post.image} alt={post.title} loading="lazy" />
                             {post.isPremium && (
                                 <div className="premium-overlay">
                                     <Lock size={32} />

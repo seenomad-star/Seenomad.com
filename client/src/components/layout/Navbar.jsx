@@ -1,10 +1,11 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Bell, User, Menu, MoreVertical, HelpCircle, Sun, Moon } from 'lucide-react';
+import { Bell, User, Menu, MoreVertical, HelpCircle } from 'lucide-react';
 import GlobalSearch from '../../features/GlobalSearch';
 import Logo from '../common/Logo';
+import ThemeToggle from '../common/ThemeToggle';
 import '../../styles/Navbar.css';
 
-const Navbar = ({ isSidebarCollapsed, toggleSidebar, toggleRightSidebar, isDarkMode, toggleTheme }) => {
+const Navbar = ({ isSidebarCollapsed, toggleSidebar, toggleRightSidebar }) => {
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -30,9 +31,7 @@ const Navbar = ({ isSidebarCollapsed, toggleSidebar, toggleRightSidebar, isDarkM
                 <button className="navbar-icon-btn" aria-label="Support" onClick={() => navigate('/support-utility')}>
                     <HelpCircle size={20} />
                 </button>
-                <button className="navbar-icon-btn" aria-label="Toggle Theme" onClick={toggleTheme}>
-                    {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
-                </button>
+                <ThemeToggle className="navbar-icon-btn" />
                 <div className="navbar-user" onClick={() => navigate('/user/wallet')} style={{ cursor: 'pointer' }}>
                     <div className="navbar-user-avatar">
                         <User size={16} />

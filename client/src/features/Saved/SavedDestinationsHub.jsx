@@ -20,6 +20,7 @@ import {
     Filter
 } from 'lucide-react';
 import { useSavedStore } from '../../store/savedStore';
+import { UGCImage } from '../../components/common/Image';
 import './SavedDestinationsHub.css';
 
 const CATEGORIES = [
@@ -230,7 +231,13 @@ const SavedDestinationsHub = () => {
                             >
                                 {/* Media & Badges */}
                                 <div className="saved-card-media">
-                                    <img src={dest.image} alt={dest.name} className="saved-card-img" />
+                                    <UGCImage
+                                        src={dest.image}
+                                        alt={dest.name}
+                                        className="saved-card-img"
+                                        loading="lazy"
+                                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 360px"
+                                    />
                                     <div className="saved-card-overlay" />
 
                                     <div className="saved-card-top-badges">

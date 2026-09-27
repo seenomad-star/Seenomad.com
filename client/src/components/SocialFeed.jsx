@@ -15,6 +15,7 @@ import {
     Bookmark,
     Plus
 } from 'lucide-react';
+import { UGCImage, AvatarImage } from './common/Image';
 import '../styles/SocialFeed.css';
 
 const SocialFeed = () => {
@@ -101,7 +102,7 @@ const SocialFeed = () => {
                 {stories.map((story) => (
                     <div key={story.id} className="story-item">
                         <div className={`story-avatar-ring ${story.hasStory ? 'active' : ''}`}>
-                            <img src={story.avatar} alt={story.username} className="story-avatar" />
+                            <AvatarImage src={story.avatar} alt={story.username} className="story-avatar" sizes="48px" />
                             {story.isUser && (
                                 <div className="story-add-btn">
                                     <Plus size={12} />
@@ -115,7 +116,7 @@ const SocialFeed = () => {
 
             {/* Create Post (Composer) */}
             <div className="composer-container">
-                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150" alt="You" className="composer-avatar" />
+                <AvatarImage src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150" alt="You" className="composer-avatar" sizes="40px" />
                 <div className="composer-content">
                     <input
                         type="text"
@@ -141,7 +142,7 @@ const SocialFeed = () => {
                 {posts.map(post => (
                     <div key={post.id} className="stream-post">
                         <div className="post-left">
-                            <img src={post.avatar} alt={post.author} className="post-avatar" />
+                            <AvatarImage src={post.avatar} alt={post.author} className="post-avatar" sizes="48px" />
                         </div>
                         <div className="post-right">
                             <div className="post-meta">
@@ -160,7 +161,7 @@ const SocialFeed = () => {
 
                             {post.image && (
                                 <div className="post-media">
-                                    <img src={post.image} alt="Post content" />
+                                    <UGCImage src={post.image} alt="Post content" loading="lazy" />
                                 </div>
                             )}
 

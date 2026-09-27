@@ -12,6 +12,7 @@ import CardHorizontalActions from './CardHorizontalActions';
 import CardTopMonetization from './CardTopMonetization';
 import useLiveActivity from '../../../../hooks/useLiveActivity';
 import useCardActions from '../../../../hooks/useCardActions';
+import { UGCImage } from '../../../../components/common/Image';
 import '../Destinations.css';
 
 const DestinationCard = ({ dest, viewMode }) => {
@@ -54,7 +55,7 @@ const DestinationCard = ({ dest, viewMode }) => {
             <div className={`card-main-layout ${isList ? 'horizontal' : ''}`}>
                 {/* Compact Image Section */}
                 <div className={`card-image-container compact ${isList ? 'list-image' : ''}`}>
-                    <img src={dest.image} alt={dest.name} className="card-image" />
+                    <UGCImage src={dest.image} alt={dest.name} className="card-image" loading="lazy" />
                     <div className="card-overlay-gradient"></div>
 
                     {/* Vertical Action Bar */}

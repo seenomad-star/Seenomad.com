@@ -30,6 +30,7 @@ import {
     Bell,
     ThumbsUp
 } from 'lucide-react';
+import { UGCImage, AvatarImage } from '../../../components/common/Image';
 import '../styles/Post.css';
 
 // Facebook reaction definitions
@@ -264,7 +265,7 @@ const Post = ({ post }) => {
             {/* Header Row */}
             <div className="post-header-row">
                 <div className="post-avatar-wrapper">
-                    <img src={authorAvatar} alt={authorName} className="post-avatar-img" />
+                    <AvatarImage src={authorAvatar} alt={authorName} className="post-avatar-img" />
                     <span className="post-online-indicator" title="Active nomad" />
                 </div>
 
@@ -358,7 +359,7 @@ const Post = ({ post }) => {
                 {(post.type === 'video' || post.video) && (
                     <div className="post-video-player-card">
                         <div className="video-viewport">
-                            <img 
+                            <UGCImage 
                                 src={post.video?.thumbnail || post.image || 'https://images.unsplash.com/photo-1490806843957-31f4c9a91c65?w=900'} 
                                 alt="Travel Video" 
                                 className="video-poster-img"
