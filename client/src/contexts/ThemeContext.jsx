@@ -1,13 +1,24 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 
-const ThemeContext = createContext({
+/**
+ * Theme Context for global theme management (light/dark mode)
+ * Controls '.theme-light' and default dark mode, synchronizes document.body class,
+ * persists user preference in localStorage, and broadcasts cross-tab storage changes.
+ */
+export const ThemeContext = createContext({
     theme: 'dark',
     isDark: true,
     toggleTheme: () => {},
     setTheme: () => {}
 });
 
-export const useTheme = () => useContext(ThemeContext);
+export const useTheme = () => {
+    const context = useContext(ThemeContext);
+    if (!context) {
+        throw new Error('useTheme must be used within a ThemeProvider');
+    }
+    return context;
+};
 
 export const ThemeProvider = ({ children }) => {
     // Initialize theme from localStorage, default to 'dark'

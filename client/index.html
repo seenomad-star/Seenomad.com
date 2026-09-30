@@ -69,6 +69,16 @@
   <script>
     window.process = window.process || { env: { NODE_ENV: 'development' } };
     window.global = window;
+    (function() {
+      try {
+        var saved = localStorage.getItem('theme') || localStorage.getItem('seenomad_theme');
+        var theme = saved === 'light' ? 'light' : 'dark';
+        var isLight = theme === 'light';
+        var targetClass = isLight ? 'theme-light' : 'theme-dark';
+        document.documentElement.classList.add(targetClass, isLight ? 'light' : 'dark');
+        document.documentElement.setAttribute('data-theme', theme);
+      } catch (e) {}
+    })();
   </script>
 </head>
 
