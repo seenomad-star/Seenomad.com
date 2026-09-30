@@ -1,54 +1,56 @@
+/* Horizontal Interactive Dopamine & Retention Action Bar */
 .card-horizontal-actions {
-    display: flex;
-    gap: 0.45rem;
-    padding: 0.55rem 0.75rem;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.35rem;
+    padding: 0.45rem 0.65rem;
     background: rgba(15, 23, 42, 0.45);
     border-top: 1px solid rgba(255, 255, 255, 0.06);
     border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-    overflow-x: auto;
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE/Edge */
+    box-sizing: border-box;
+    width: 100%;
     transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 body.theme-light .card-horizontal-actions,
 .theme-light .card-horizontal-actions {
-    background: rgba(248, 250, 252, 0.75);
+    background: rgba(248, 250, 252, 0.85);
     border-top-color: rgba(0, 0, 0, 0.06);
     border-bottom-color: rgba(0, 0, 0, 0.04);
 }
 
-.card-horizontal-actions::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera */
-}
-
 .horizontal-action-btn {
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    gap: 0.35rem;
-    padding: 0.35rem 0.6rem;
+    justify-content: center;
+    gap: 0.3rem;
+    padding: 0.32rem 0.35rem;
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 8px;
+    border-radius: 7px;
     cursor: pointer;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     white-space: nowrap;
-    flex-shrink: 0;
+    min-width: 0;
     user-select: none;
+    box-sizing: border-box;
 }
 
 body.theme-light .horizontal-action-btn,
 .theme-light .horizontal-action-btn {
     background: #ffffff;
     border-color: rgba(0, 0, 0, 0.08);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
 }
 
 .horizontal-action-btn span {
-    font-size: 0.68rem;
+    font-size: 0.64rem;
     font-weight: 700;
     color: var(--color-text-secondary, #94a3b8);
     transition: color 0.2s ease;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 body.theme-light .horizontal-action-btn span,
@@ -58,57 +60,24 @@ body.theme-light .horizontal-action-btn span,
 
 .horizontal-action-btn:hover {
     transform: translateY(-1px);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-    border-color: rgba(255, 255, 255, 0.18);
     background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.16);
 }
 
 body.theme-light .horizontal-action-btn:hover,
 .theme-light .horizontal-action-btn:hover {
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
-    border-color: rgba(0, 0, 0, 0.15);
-    background: #ffffff;
+    background: rgba(241, 245, 249, 0.95);
+    border-color: rgba(0, 0, 0, 0.12);
 }
 
-/* Dopamine effects */
-.horizontal-action-btn.dopamine:hover {
-    background: rgba(16, 185, 129, 0.12);
-    border-color: rgba(16, 185, 129, 0.35);
-}
-
-.horizontal-action-btn.dopamine:hover span {
-    color: #34d399;
-}
-
-.horizontal-action-btn.monetization:hover {
-    background: rgba(245, 158, 11, 0.12);
-    border-color: rgba(245, 158, 11, 0.35);
-}
-
-.horizontal-action-btn.monetization:hover span {
-    color: #fbbf24;
-}
-
-.horizontal-action-btn.retention:hover {
-    background: rgba(59, 130, 246, 0.12);
-    border-color: rgba(59, 130, 246, 0.35);
-}
-
-.horizontal-action-btn.retention:hover span {
-    color: #60a5fa;
-}
-
-/* Active State */
-.horizontal-action-btn.active {
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-}
-
-/* Micro-animations */
 .horizontal-action-btn:active {
-    transform: scale(0.95);
+    transform: scale(0.96);
 }
 
 .horizontal-action-btn svg {
+    flex-shrink: 0;
+    width: 12px;
+    height: 12px;
     transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
@@ -116,3 +85,42 @@ body.theme-light .horizontal-action-btn:hover,
     transform: scale(1.15);
 }
 
+/* Specific Active State Styling */
+.horizontal-action-btn.active {
+    border-width: 1px;
+    font-weight: 800;
+}
+
+.horizontal-action-btn.active span {
+    font-weight: 800;
+}
+
+/* Dopamine Pulsing & Special Effects */
+.horizontal-action-btn.dopamine.active {
+    box-shadow: 0 0 12px rgba(16, 185, 129, 0.25);
+}
+
+.horizontal-action-btn.retention.active {
+    box-shadow: 0 0 12px rgba(59, 130, 246, 0.25);
+}
+
+@media (max-width: 480px) {
+    .card-horizontal-actions {
+        padding: 0.35rem 0.5rem;
+        gap: 0.25rem;
+    }
+    
+    .horizontal-action-btn {
+        padding: 0.3rem 0.2rem;
+        gap: 0.2rem;
+    }
+    
+    .horizontal-action-btn span {
+        font-size: 0.58rem;
+    }
+    
+    .horizontal-action-btn svg {
+        width: 11px;
+        height: 11px;
+    }
+}

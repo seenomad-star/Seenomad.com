@@ -1,83 +1,123 @@
-/* Card Top Monetization Ribbon - High-End Travel OS Layer */
+/* Card Top VIP Monetization Ribbon - Nomad Intelligence OS */
 .card-top-monetization {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.45rem 0.85rem;
-    background: rgba(15, 23, 42, 0.65);
-    -webkit-backdrop-filter: blur(12px);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    padding: 0.35rem 0.75rem;
+    background: linear-gradient(90deg, rgba(245, 158, 11, 0.08) 0%, rgba(15, 23, 42, 0.7) 45%, rgba(168, 85, 247, 0.08) 100%);
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     position: relative;
     z-index: 10;
-    transition: background 0.3s ease, border-color 0.3s ease;
+    transition: all 0.28s ease;
+    box-sizing: border-box;
+    width: 100%;
 }
 
 body.theme-light .card-top-monetization,
 .theme-light .card-top-monetization {
-    background: rgba(248, 250, 252, 0.85);
+    background: linear-gradient(90deg, rgba(245, 158, 11, 0.06) 0%, rgba(248, 250, 252, 0.9) 45%, rgba(168, 85, 247, 0.06) 100%);
     border-bottom-color: rgba(0, 0, 0, 0.06);
+}
+
+.monetization-divider {
+    width: 1px;
+    height: 14px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+body.theme-light .monetization-divider,
+.theme-light .monetization-divider {
+    background: rgba(0, 0, 0, 0.08);
 }
 
 .monetization-btn {
     display: inline-flex;
     align-items: center;
-    gap: 0.35rem;
+    gap: 0.4rem;
     background: transparent;
     border: none;
     cursor: pointer;
-    font-size: 0.68rem;
-    font-weight: 700;
-    letter-spacing: 0.02em;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    padding: 0.2rem 0.5rem;
+    padding: 0.2rem 0.45rem;
     border-radius: 6px;
     white-space: nowrap;
     user-select: none;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.monetization-btn.unlock {
+.monetize-icon-wrap {
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
+}
+
+.monetize-icon-wrap.amber {
+    background: rgba(245, 158, 11, 0.15);
     color: #f59e0b;
 }
 
-.monetization-btn.unlock:hover {
-    background: rgba(245, 158, 11, 0.12);
-    color: #fbbf24;
-}
-
-.monetization-btn.premium {
-    color: #a855f7;
-}
-
-.monetization-btn.premium:hover {
-    background: rgba(168, 85, 247, 0.12);
+.monetize-icon-wrap.purple {
+    background: rgba(168, 85, 247, 0.15);
     color: #c084fc;
 }
 
-body.theme-light .monetization-btn.unlock,
-.theme-light .monetization-btn.unlock {
-    color: #d97706;
+.monetize-label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    color: var(--color-text-secondary, #cbd5e1);
+    transition: color 0.2s ease;
 }
 
-body.theme-light .monetization-btn.premium,
-.theme-light .monetization-btn.premium {
-    color: #7c3aed;
+body.theme-light .monetize-label,
+.theme-light .monetize-label {
+    color: #475569;
 }
 
-.monetization-btn svg {
-    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+.monetize-pill {
+    font-size: 0.55rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    padding: 0.08rem 0.32rem;
+    border-radius: 4px;
+    line-height: 1;
 }
 
-.monetization-btn:hover svg {
-    transform: scale(1.15) translateY(-0.5px);
+.monetize-pill.vip {
+    background: rgba(245, 158, 11, 0.2);
+    color: #f59e0b;
+    border: 1px solid rgba(245, 158, 11, 0.4);
+}
+
+.monetize-pill.pro {
+    background: rgba(168, 85, 247, 0.2);
+    color: #c084fc;
+    border: 1px solid rgba(168, 85, 247, 0.4);
+}
+
+.monetization-btn.unlock:hover .monetize-label {
+    color: #fbbf24;
+}
+
+.monetization-btn.unlock:hover .monetize-icon-wrap {
+    transform: scale(1.1);
+    background: rgba(245, 158, 11, 0.25);
+}
+
+.monetization-btn.premium:hover .monetize-label {
+    color: #d8b4fe;
+}
+
+.monetization-btn.premium:hover .monetize-icon-wrap {
+    transform: scale(1.1);
+    background: rgba(168, 85, 247, 0.25);
 }
 
 .monetization-btn:active {
     transform: scale(0.96);
-}
-
-/* List view specific adjustments */
-.destination-list-item .card-top-monetization,
-.destination-card.list-view .card-top-monetization {
-    padding: 0.35rem 0.85rem;
 }
