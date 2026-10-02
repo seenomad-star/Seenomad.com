@@ -11,6 +11,7 @@ import CardActionBar from './CardActionBar';
 import CardHorizontalActions from './CardHorizontalActions';
 import CardTopMonetization from './CardTopMonetization';
 import DestinationIntelligenceDrawer from './DestinationIntelligenceDrawer';
+import DestinationShareDialog from './DestinationShareDialog';
 import useLiveActivity from '../../../../hooks/useLiveActivity';
 import useCardActions from '../../../../hooks/useCardActions';
 import { UGCImage } from '../../../../components/common/Image';
@@ -21,6 +22,7 @@ const DestinationCard = ({ dest, viewMode }) => {
     const navigate = useNavigate();
     const [isFollowed, setIsFollowed] = useState(false);
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+    const [isShareOpen, setIsShareOpen] = useState(false);
 
     // Standardized slug generation for destination navigation
     const toSlug = (text) => (text || '').toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
@@ -136,7 +138,7 @@ const DestinationCard = ({ dest, viewMode }) => {
                             }}
                             onShare={(e) => {
                                 e.stopPropagation();
-                                handlers.shareContent(e, dest?.name);
+                                setIsShareOpen(true);
                             }}
                             onComment={(e) => {
                                 e.stopPropagation();
@@ -327,7 +329,7 @@ const DestinationCard = ({ dest, viewMode }) => {
                                             className="quick-action-icon-btn share-btn"
                                             onClick={(e) => {
                                                 e.stopPropagation();
-                                                handlers.shareContent(e, dest?.name);
+                                                setIsShareOpen(true);
                                             }}
                                             aria-label={`Share ${dest?.name} travel details and link`}
                                             aria-describedby={`tooltip-share-${destKey}`}
@@ -405,6 +407,13 @@ const DestinationCard = ({ dest, viewMode }) => {
                 dest={dest}
                 isOpen={isDrawerOpen}
                 onClose={() => setIsDrawerOpen(false)}
+            />
+
+            {/* Custom Share Dialog with Direct Link & Native Sharing */}
+            <DestinationShareDialog
+                dest={dest}
+                isOpen={isShareOpen}
+                onClose={() => setIsShareOpen(false)}
             />
         </>
     );

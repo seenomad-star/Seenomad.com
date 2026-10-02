@@ -46,12 +46,19 @@ const curatedCityData = {
             totalEstimated: '$1,350',
             currency: 'USD',
             rating: 'Budget Friendly',
+            trend: {
+                direction: 'rising',
+                change: '+4.2%',
+                period: 'vs last quarter',
+                label: 'High Season Surge',
+                description: 'Seasonal demand for private villas has driven up central Canggu rentals by 5%, while local food and scooters remain stable.'
+            },
             breakdown: [
-                { category: 'Private 1BR / Villa', amount: '$650/mo', note: 'Pool & A/C in Canggu/Pererenan' },
-                { category: 'Coworking Membership', amount: '$160/mo', note: '24/7 access + fiber backup' },
-                { category: 'Food & Dining Out', amount: '$320/mo', note: 'Warungs & Western cafes' },
-                { category: 'Scooter Rental & Fuel', amount: '$80/mo', note: 'Honda Scoopy or Vario 125' },
-                { category: 'Coffee & Daily Drinks', amount: '$2.50/cup', note: 'Specialty cafe flat white' }
+                { category: 'Private 1BR / Villa', amount: '$650/mo', note: 'Pool & A/C in Canggu/Pererenan', trend: { direction: 'rising', change: '+5.4%', label: 'Rental Surge', detail: 'Increased high-season villa demand' } },
+                { category: 'Coworking Membership', amount: '$160/mo', note: '24/7 access + fiber backup', trend: { direction: 'stable', change: '0.0%', label: 'Stable Rate', detail: 'Annual pass tariffs locked' } },
+                { category: 'Food & Dining Out', amount: '$320/mo', note: 'Warungs & Western cafes', trend: { direction: 'rising', change: '+2.1%', label: 'Modest Rise', detail: 'Imported food goods inflation' } },
+                { category: 'Scooter Rental & Fuel', amount: '$80/mo', note: 'Honda Scoopy or Vario 125', trend: { direction: 'falling', change: '-1.5%', label: 'Fuel Subsidy', detail: 'Competitive long-term rental rates' } },
+                { category: 'Coffee & Daily Drinks', amount: '$2.50/cup', note: 'Specialty cafe flat white', trend: { direction: 'stable', change: '0.0%', label: 'Stable', detail: 'Cafe pricing consistent' } }
             ]
         },
         lifestyle: {
@@ -98,12 +105,19 @@ const curatedCityData = {
             totalEstimated: '$2,300',
             currency: 'USD',
             rating: 'Moderate Europe',
+            trend: {
+                direction: 'rising',
+                change: '+3.6%',
+                period: 'YoY shift',
+                label: 'Urban Inflation',
+                description: 'Historic city center housing pressure continues to apply upward cost pressure, mitigated by subsidized public transit cards.'
+            },
             breakdown: [
-                { category: '1BR Apartment in Center', amount: '$1,300/mo', note: 'Alfama / Príncipe Real' },
-                { category: 'Coworking Desk', amount: '$220/mo', note: 'Ergonomic hot-desk pass' },
-                { category: 'Groceries & Dining', amount: '$520/mo', note: 'Pastéis, fresh seafood & wine' },
-                { category: 'Public Transit Pass', amount: '$45/mo', note: 'Metro, bus, & vintage trams' },
-                { category: 'Espresso / Bica', amount: '$1.00/cup', note: 'Traditional Portuguese cafe' }
+                { category: '1BR Apartment in Center', amount: '$1,300/mo', note: 'Alfama / Príncipe Real', trend: { direction: 'rising', change: '+4.8%', label: 'High Demand', detail: 'Peak European nomad demand' } },
+                { category: 'Coworking Desk', amount: '$220/mo', note: 'Ergonomic hot-desk pass', trend: { direction: 'rising', change: '+2.0%', label: 'Capacity Tightening', detail: 'High occupancy across central spaces' } },
+                { category: 'Groceries & Dining', amount: '$520/mo', note: 'Pastéis, fresh seafood & wine', trend: { direction: 'falling', change: '-1.2%', label: 'Seasonal Relief', detail: 'Lower summer vegetable & seafood prices' } },
+                { category: 'Public Transit Pass', amount: '$45/mo', note: 'Metro, bus, & vintage trams', trend: { direction: 'stable', change: '0.0%', label: 'Capped Tariff', detail: 'Municipal transit subsidy capped at €40' } },
+                { category: 'Espresso / Bica', amount: '$1.00/cup', note: 'Traditional Portuguese cafe', trend: { direction: 'stable', change: '0.0%', label: 'Cultural Constant', detail: 'Protected local cafe rates' } }
             ]
         },
         lifestyle: {
@@ -150,12 +164,19 @@ const curatedCityData = {
             totalEstimated: '$1,250',
             currency: 'USD',
             rating: 'Very Affordable',
+            trend: {
+                direction: 'falling',
+                change: '-2.8%',
+                period: 'vs last quarter',
+                label: 'Currency Advantage',
+                description: 'A stronger USD against the Colombian Peso has created a favorable downward cost shift for foreign remote earners.'
+            },
             breakdown: [
-                { category: 'Modern 1BR in Laureles', amount: '$600/mo', note: 'Balcony with mountain views' },
-                { category: 'Coworking Membership', amount: '$125/mo', note: 'Unlimited specialty coffee' },
-                { category: 'Dining & Street Eats', amount: '$320/mo', note: 'Bandeja paisa & fresh juices' },
-                { category: 'Metro & Rideshares', amount: '$65/mo', note: 'World-famous Metro cable system' },
-                { category: 'Tinto / Cafe Con Leche', amount: '$1.20/cup', note: 'Locally grown Colombian beans' }
+                { category: 'Modern 1BR in Laureles', amount: '$600/mo', note: 'Balcony with mountain views', trend: { direction: 'falling', change: '-3.2%', label: 'Favorable FX', detail: 'Exchange rate reduces USD equivalent' } },
+                { category: 'Coworking Membership', amount: '$125/mo', note: 'Unlimited specialty coffee', trend: { direction: 'stable', change: '0.0%', label: 'Fixed Rate', detail: 'Competitive pricing across hubs' } },
+                { category: 'Dining & Street Eats', amount: '$320/mo', note: 'Bandeja paisa & fresh juices', trend: { direction: 'falling', change: '-2.4%', label: 'Local Savings', detail: 'Abundant domestic agricultural supply' } },
+                { category: 'Metro & Rideshares', amount: '$65/mo', note: 'World-famous Metro cable system', trend: { direction: 'stable', change: '0.0%', label: 'Fixed Tariff', detail: 'Civic transit flat rate' } },
+                { category: 'Tinto / Cafe Con Leche', amount: '$1.20/cup', note: 'Locally grown Colombian beans', trend: { direction: 'stable', change: '0.0%', label: 'Direct Trade', detail: 'Locally roasted origin coffee' } }
             ]
         },
         lifestyle: {
@@ -202,12 +223,19 @@ const curatedCityData = {
             totalEstimated: '$950',
             currency: 'USD',
             rating: 'Budget Nomad Capital',
+            trend: {
+                direction: 'stable',
+                change: '+0.4%',
+                period: 'Quarterly shift',
+                label: 'Remarkable Stability',
+                description: 'Northern Thailand continues to offer benchmark pricing stability with ample modern condo developments keeping rents low.'
+            },
             breakdown: [
-                { category: 'Modern Condo in Nimman', amount: '$420/mo', note: 'Gym, pool, and high-speed Wi-Fi' },
-                { category: 'Coworking Membership', amount: '$110/mo', note: '24/7 access with fiber' },
-                { category: 'Thai Food & Street Night Mkts', amount: '$240/mo', note: 'Khao Soi, pad thai & smoothies' },
-                { category: 'Scooter / Grab Transit', amount: '$50/mo', note: 'Easy city navigation' },
-                { category: 'Iced Thai Milk Tea / Coffee', amount: '$1.40/cup', note: 'Fresh roast arabica' }
+                { category: 'Modern Condo in Nimman', amount: '$420/mo', note: 'Gym, pool, and high-speed Wi-Fi', trend: { direction: 'stable', change: '+0.5%', label: 'Steady Market', detail: 'High condo supply matches demand' } },
+                { category: 'Coworking Membership', amount: '$110/mo', note: '24/7 access with fiber', trend: { direction: 'falling', change: '-1.0%', label: 'Hub Promos', detail: 'Multi-month nomad discounts' } },
+                { category: 'Thai Food & Street Night Mkts', amount: '$240/mo', note: 'Khao Soi, pad thai & smoothies', trend: { direction: 'stable', change: '0.0%', label: 'Benchmark Price', detail: 'Night market food prices unchanged' } },
+                { category: 'Scooter / Grab Transit', amount: '$50/mo', note: 'Easy city navigation', trend: { direction: 'stable', change: '0.0%', label: 'Standard Rate', detail: 'Flat rental rates across Nimman' } },
+                { category: 'Iced Thai Milk Tea / Coffee', amount: '$1.40/cup', note: 'Fresh roast arabica', trend: { direction: 'rising', change: '+1.5%', label: 'Specialty Beans', detail: 'Growth in craft micro-roasters' } }
             ]
         },
         lifestyle: {
@@ -281,7 +309,7 @@ export const getDestinationIntelligence = (dest = {}) => {
     const uploadMbps = Math.round(downloadMbps * 0.45);
     const pingMs = 10 + (nameSeed % 20);
 
-    // Dynamic Cost Breakdown
+    // Dynamic Cost Breakdown & Economic Shift Telemetry
     const parsedPrice = dest.price ? parseInt(dest.price.replace(/[^0-9]/g, ''), 10) : 1500;
     const monthlyTotal = isNaN(parsedPrice) || parsedPrice < 400 ? 1450 : parsedPrice;
 
@@ -293,6 +321,45 @@ export const getDestinationIntelligence = (dest = {}) => {
     let costRating = 'Moderate';
     if (monthlyTotal < 1100) costRating = 'Very Affordable';
     else if (monthlyTotal > 2200) costRating = 'High-End / Western';
+
+    // Economic shift trend calculations
+    const trendSeed = (nameSeed + monthlyTotal) % 3;
+    let overallTrendDirection = 'stable';
+    let overallTrendChange = '+0.5%';
+    let overallTrendPeriod = 'vs last quarter';
+    let overallTrendLabel = 'Stable Economic Index';
+    let overallTrendDesc = 'Consistent local inflation and balanced nomad accommodation rates across the city.';
+    let rentTrend = { direction: 'stable', change: '+0.5%', label: 'Stable Rents', detail: 'Market supply matches incoming demand' };
+    let coworkTrend = { direction: 'stable', change: '0.0%', label: 'Fixed Pricing', detail: 'Consistent monthly hot-desk fees' };
+    let foodTrend = { direction: 'stable', change: '0.0%', label: 'Balanced Prices', detail: 'Stable dining and market groceries' };
+    let transitTrend = { direction: 'stable', change: '0.0%', label: 'Regulated Fares', detail: 'Consistent public transit rates' };
+    let coffeeTrend = { direction: 'stable', change: '0.0%', label: 'Benchmark', detail: 'Standardized cafe pricing' };
+
+    if (trendSeed === 0) {
+        overallTrendDirection = 'falling';
+        const dropVal = (1.5 + (nameSeed % 28) / 10).toFixed(1);
+        overallTrendChange = `-${dropVal}%`;
+        overallTrendPeriod = 'vs last quarter';
+        overallTrendLabel = 'Favorable Downward Shift';
+        overallTrendDesc = 'Favorable foreign currency conditions and off-peak seasonal cooling have lowered remote living costs.';
+        rentTrend = { direction: 'falling', change: `-${(parseFloat(dropVal) + 0.8).toFixed(1)}%`, label: 'Seasonal Discount', detail: 'Landlords offering longer lease incentives' };
+        coworkTrend = { direction: 'falling', change: '-1.0%', label: 'Promo Tariffs', detail: 'Seasonal coliving/cowork discounts' };
+        foodTrend = { direction: 'falling', change: `-${(parseFloat(dropVal) * 0.6).toFixed(1)}%`, label: 'Market Easing', detail: 'Lower agricultural and dining expenses' };
+        transitTrend = { direction: 'stable', change: '0.0%', label: 'Flat Fare', detail: 'Fixed municipal transport price' };
+        coffeeTrend = { direction: 'stable', change: '0.0%', label: 'Steady', detail: 'Local coffee prices unchanged' };
+    } else if (trendSeed === 1) {
+        overallTrendDirection = 'rising';
+        const riseVal = (2.2 + (nameSeed % 35) / 10).toFixed(1);
+        overallTrendChange = `+${riseVal}%`;
+        overallTrendPeriod = 'vs last quarter';
+        overallTrendLabel = 'In-Demand Upward Shift';
+        overallTrendDesc = 'Rising seasonal popularity and influx of remote workers have increased short-term apartment demand.';
+        rentTrend = { direction: 'rising', change: `+${(parseFloat(riseVal) + 1.2).toFixed(1)}%`, label: 'High Demand', detail: 'Tight rental availability in popular quarters' };
+        coworkTrend = { direction: 'rising', change: '+1.5%', label: 'High Occupancy', detail: 'Peak hot-desk reservations' };
+        foodTrend = { direction: 'rising', change: `+${(parseFloat(riseVal) * 0.5).toFixed(1)}%`, label: 'Modest Inflation', detail: 'General consumer price inflation' };
+        transitTrend = { direction: 'stable', change: '0.0%', label: 'Capped Tariff', detail: 'Public transport rates protected' };
+        coffeeTrend = { direction: 'rising', change: '+1.0%', label: 'Specialty Premium', detail: 'Craft cafe bean price adjustment' };
+    }
 
     return {
         name: dest.name,
@@ -335,12 +402,19 @@ export const getDestinationIntelligence = (dest = {}) => {
             totalEstimated: `$${monthlyTotal.toLocaleString()}`,
             currency: 'USD',
             rating: costRating,
+            trend: {
+                direction: overallTrendDirection,
+                change: overallTrendChange,
+                period: overallTrendPeriod,
+                label: overallTrendLabel,
+                description: overallTrendDesc
+            },
             breakdown: [
-                { category: 'Private Nomad Apartment / Studio', amount: `$${rentCost.toLocaleString()}/mo`, note: 'Furnished with high-speed Wi-Fi & utilities' },
-                { category: 'Dedicated Coworking Hot Desk', amount: `$${coworkCost.toLocaleString()}/mo`, note: 'Ergonomic seating, monitor bays & meeting booths' },
-                { category: 'Dining, Groceries & Local Markets', amount: `$${foodCost.toLocaleString()}/mo`, note: 'Mix of healthy local food & specialty dining' },
-                { category: 'Local Transportation & Rides', amount: `$${transitCost.toLocaleString()}/mo`, note: 'Public transit cards, scooters or ride hailing' },
-                { category: 'Specialty Coffee / Tea', amount: `$${(2.0 + (nameSeed % 15) / 10).toFixed(2)}/cup`, note: 'Cafe workstation standard beverage' }
+                { category: 'Private Nomad Apartment / Studio', amount: `$${rentCost.toLocaleString()}/mo`, note: 'Furnished with high-speed Wi-Fi & utilities', trend: rentTrend },
+                { category: 'Dedicated Coworking Hot Desk', amount: `$${coworkCost.toLocaleString()}/mo`, note: 'Ergonomic seating, monitor bays & meeting booths', trend: coworkTrend },
+                { category: 'Dining, Groceries & Local Markets', amount: `$${foodCost.toLocaleString()}/mo`, note: 'Mix of healthy local food & specialty dining', trend: foodTrend },
+                { category: 'Local Transportation & Rides', amount: `$${transitCost.toLocaleString()}/mo`, note: 'Public transit cards, scooters or ride hailing', trend: transitTrend },
+                { category: 'Specialty Coffee / Tea', amount: `$${(2.0 + (nameSeed % 15) / 10).toFixed(2)}/cup`, note: 'Cafe workstation standard beverage', trend: coffeeTrend }
             ]
         },
         lifestyle: {

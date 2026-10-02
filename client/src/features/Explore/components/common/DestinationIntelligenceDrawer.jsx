@@ -5,8 +5,9 @@ import { useNavigate } from 'react-router-dom';
 import {
     X, MapPin, Star, Wifi, DollarSign, CloudSun, Sun, CloudRain, Wind,
     ShieldCheck, Users, Activity, Globe, Heart, Share2, ExternalLink,
-    TrendingUp, Zap, Check, ArrowRight, Sparkles, Building2, Coffee,
-    Smartphone, Compass
+    TrendingUp, TrendingDown, ArrowUpRight, ArrowDownRight, MoveRight,
+    Zap, Check, ArrowRight, Sparkles, Building2, Coffee,
+    Smartphone, Compass, Info
 } from 'lucide-react';
 import { getDestinationIntelligence } from '../../../../utils/destinationIntelligenceUtils';
 import { getDestinationDomainName, getDestinationDomainStatus } from '../../../../utils/destinationDomainUtils';
@@ -96,6 +97,15 @@ const DestinationIntelligenceDrawer = ({ dest, isOpen, onClose }) => {
     const multiplier = getMultiplier();
     const baseMonthly = parseInt(intel.costs.totalEstimated.replace(/[^0-9]/g, ''), 10) || 1400;
     const adjustedTotal = Math.round(baseMonthly * multiplier);
+
+    // Economic shift & cost velocity telemetry
+    const costTrend = intel.costs?.trend || {
+        direction: 'stable',
+        change: '±0.0%',
+        period: 'Quarterly',
+        label: 'Stable Economic Index',
+        description: 'Consistent local inflation and balanced nomad accommodation rates.'
+    };
 
     const drawerContent = (
         <div className="intelligence-drawer-portal">
@@ -454,10 +464,18 @@ const DestinationIntelligenceDrawer = ({ dest, isOpen, onClose }) => {
                                         <DollarSign size={16} className="section-icon amber" />
                                         <h4>Living Cost Breakdown</h4>
                                     </div>
-                                    <span className="cost-tier-badge">{intel.costs.rating}</span>
+                                    <div className="heading-badges-row">
+                                        <span className="cost-tier-badge">{intel.costs.rating}</span>
+                                        <span className={`heading-trend-pill trend-${costTrend.direction}`}>
+                                            {costTrend.direction === 'rising' && <ArrowUpRight size={12} className="trend-arrow rising" />}
+                                            {costTrend.direction === 'falling' && <ArrowDownRight size={12} className="trend-arrow falling" />}
+                                            {costTrend.direction === 'stable' && <MoveRight size={11} className="trend-arrow stable" />}
+                                            <span>{costTrend.change}</span>
+                                        </span>
+                                    </div>
                                 </div>
 
-                                {/* Total Budget Box */}
+                                {/* Total Budget Box with Visual Trend Indicator */}
                                 <div className="cost-summary-card">
                                     <div className="cost-summary-left">
                                         <span className="cost-summary-label">Estimated Monthly Living Cost</span>
@@ -465,6 +483,26 @@ const DestinationIntelligenceDrawer = ({ dest, isOpen, onClose }) => {
                                             <span className="currency-symbol">$</span>
                                             <span className="cost-number">{adjustedTotal.toLocaleString()}</span>
                                             <span className="cost-period">/month</span>
+                                        </div>
+
+                                        {/* Visual Trend Indicator (Rising / Falling / Stable) */}
+                                        <div 
+                                            className={`cost-trend-badge trend-${costTrend.direction}`}
+                                            title={`${costTrend.label}: ${costTrend.description} (${costTrend.change} ${costTrend.period})`}
+                                            aria-label={`Living cost trend: ${costTrend.change} ${costTrend.direction} ${costTrend.period}`}
+                                        >
+                                            <div className="trend-indicator-icon-box">
+                                                {costTrend.direction === 'rising' && <ArrowUpRight size={13} className="trend-icon rising" />}
+                                                {costTrend.direction === 'falling' && <ArrowDownRight size={13} className="trend-icon falling" />}
+                                                {costTrend.direction === 'stable' && <MoveRight size={12} className="trend-icon stable" />}
+                                            </div>
+                                            <div className="trend-badge-text-wrap">
+                                                <span className="trend-change-val">{costTrend.change}</span>
+                                                <span className="trend-direction-label">
+                                                    {costTrend.direction === 'rising' ? 'Rising Trend' : costTrend.direction === 'falling' ? 'Falling (Savings)' : 'Stable Index'}
+                                                </span>
+                                                <span className="trend-period-text">· {costTrend.period}</span>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -497,9 +535,31 @@ const DestinationIntelligenceDrawer = ({ dest, isOpen, onClose }) => {
                                     </div>
                                 </div>
 
-                                {/* Granular Itemized Breakdown */}
+                                {/* Economic Shift Telemetry Callout */}
+                                {costTrend.description && (
+                                    <div className={`economic-shift-banner trend-${costTrend.direction}`}>
+                                        <div className="shift-banner-top">
+                                            <div className="shift-banner-title-wrap">
+                                                {costTrend.direction === 'rising' && <TrendingUp size={14} className="shift-trend-icon rising" />}
+                                                {costTrend.direction === 'falling' && <TrendingDown size={14} className="shift-trend-icon falling" />}
+                                                {costTrend.direction === 'stable' && <MoveRight size={13} className="shift-trend-icon stable" />}
+                                                <span className="shift-title">Economic Shift: {costTrend.label}</span>
+                                            </div>
+                                            <span className="shift-tag-pill">{costTrend.period}</span>
+                                        </div>
+                                        <p className="shift-desc-text">{costTrend.description}</p>
+                                    </div>
+                                )}
+
+                                {/* Granular Itemized Breakdown with Line-Item Trend Indicators */}
                                 <div className="expense-breakdown-list">
-                                    <h5>Itemized Monthly Averages</h5>
+                                    <div className="expense-list-header">
+                                        <h5>Itemized Monthly Averages</h5>
+                                        <span className="expense-velocity-hint">
+                                            <TrendingUp size={11} className="hint-icon" />
+                                            <span>Quarterly shift indicators</span>
+                                        </span>
+                                    </div>
                                     {intel.costs.breakdown.map((item, idx) => {
                                         // Adjust numeric amount if monthly
                                         let displayAmount = item.amount;
@@ -510,13 +570,29 @@ const DestinationIntelligenceDrawer = ({ dest, isOpen, onClose }) => {
                                             }
                                         }
 
+                                        const itemTrend = item.trend || { direction: 'stable', change: '0.0%', label: 'Stable' };
+
                                         return (
                                             <div key={idx} className="expense-row-item">
                                                 <div className="expense-info">
                                                     <span className="expense-category">{item.category}</span>
                                                     <span className="expense-note">{item.note}</span>
                                                 </div>
-                                                <span className="expense-amount-tag">{displayAmount}</span>
+                                                <div className="expense-right-cluster">
+                                                    <span className="expense-amount-tag">{displayAmount}</span>
+                                                    {item.trend && (
+                                                        <span 
+                                                            className={`item-trend-indicator trend-${itemTrend.direction}`}
+                                                            title={`${itemTrend.label || 'Trend'}: ${itemTrend.detail || ''} (${itemTrend.change})`}
+                                                            aria-label={`${item.category} trend: ${itemTrend.change} ${itemTrend.direction}`}
+                                                        >
+                                                            {itemTrend.direction === 'rising' && <ArrowUpRight size={11} className="item-arrow rising" />}
+                                                            {itemTrend.direction === 'falling' && <ArrowDownRight size={11} className="item-arrow falling" />}
+                                                            {itemTrend.direction === 'stable' && <MoveRight size={10} className="item-arrow stable" />}
+                                                            <span className="item-trend-text">{itemTrend.change}</span>
+                                                        </span>
+                                                    )}
+                                                </div>
                                             </div>
                                         );
                                     })}
@@ -603,6 +679,18 @@ const DestinationIntelligenceDrawer = ({ dest, isOpen, onClose }) => {
                         <div className="footer-cost-row">
                             <span className="cost-val">${adjustedTotal.toLocaleString()}</span>
                             <span className="cost-unit">/mo</span>
+                            {costTrend && (
+                                <span 
+                                    className={`footer-cost-trend trend-${costTrend.direction}`}
+                                    title={`Economic Shift: ${costTrend.change} ${costTrend.period} (${costTrend.label})`}
+                                    aria-label={`Living cost trend: ${costTrend.change} ${costTrend.direction}`}
+                                >
+                                    {costTrend.direction === 'rising' && <ArrowUpRight size={11} className="ft-arrow" />}
+                                    {costTrend.direction === 'falling' && <ArrowDownRight size={11} className="ft-arrow" />}
+                                    {costTrend.direction === 'stable' && <MoveRight size={10} className="ft-arrow" />}
+                                    <span>{costTrend.change}</span>
+                                </span>
+                            )}
                         </div>
                     </div>
 

@@ -837,6 +837,59 @@ body.theme-light .cw-price-pill {
     letter-spacing: 0.02em;
 }
 
+.heading-badges-row {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+}
+
+.heading-trend-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.18rem 0.45rem;
+    border-radius: 6px;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+}
+
+.heading-trend-pill.trend-rising {
+    background: rgba(244, 63, 94, 0.16);
+    border: 1px solid rgba(244, 63, 94, 0.35);
+    color: #fb7185;
+}
+
+.heading-trend-pill.trend-falling {
+    background: rgba(16, 185, 129, 0.16);
+    border: 1px solid rgba(16, 185, 129, 0.35);
+    color: #34d399;
+}
+
+.heading-trend-pill.trend-stable {
+    background: rgba(56, 189, 248, 0.14);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    color: #38bdf8;
+}
+
+body.theme-light .heading-trend-pill.trend-rising {
+    background: #ffe4e6;
+    border-color: #fda4af;
+    color: #e11d48;
+}
+
+body.theme-light .heading-trend-pill.trend-falling {
+    background: #dcfce7;
+    border-color: #86efac;
+    color: #059669;
+}
+
+body.theme-light .heading-trend-pill.trend-stable {
+    background: #e0f2fe;
+    border-color: #7dd3fc;
+    color: #0284c7;
+}
+
 .cost-summary-card {
     background: linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(30, 41, 59, 0.85) 100%);
     border: 1px solid rgba(245, 158, 11, 0.25);
@@ -859,7 +912,7 @@ body.theme-light .cost-summary-card {
 .cost-summary-left {
     display: flex;
     flex-direction: column;
-    gap: 0.3rem;
+    gap: 0.45rem;
 }
 
 .cost-summary-label {
@@ -901,6 +954,188 @@ body.theme-light .cost-summary-label {
     margin-left: 0.25rem;
 }
 
+/* Prominent Visual Trend Indicator Badge inside Cost Summary */
+.cost-trend-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.3rem 0.65rem;
+    border-radius: 9999px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    width: fit-content;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease;
+}
+
+.cost-trend-badge:hover {
+    transform: translateY(-1px);
+}
+
+.cost-trend-badge.trend-rising {
+    background: rgba(244, 63, 94, 0.16);
+    border: 1px solid rgba(244, 63, 94, 0.35);
+    color: #fb7185;
+}
+
+.cost-trend-badge.trend-falling {
+    background: rgba(16, 185, 129, 0.16);
+    border: 1px solid rgba(16, 185, 129, 0.35);
+    color: #34d399;
+}
+
+.cost-trend-badge.trend-stable {
+    background: rgba(56, 189, 248, 0.14);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    color: #38bdf8;
+}
+
+body.theme-light .cost-trend-badge.trend-rising {
+    background: #ffe4e6;
+    border-color: #f43f5e;
+    color: #e11d48;
+}
+
+body.theme-light .cost-trend-badge.trend-falling {
+    background: #dcfce7;
+    border-color: #10b981;
+    color: #059669;
+}
+
+body.theme-light .cost-trend-badge.trend-stable {
+    background: #e0f2fe;
+    border-color: #0284c7;
+    color: #0284c7;
+}
+
+.trend-indicator-icon-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.trend-icon.rising {
+    color: #f43f5e;
+}
+
+.trend-icon.falling {
+    color: #10b981;
+}
+
+.trend-icon.stable {
+    color: #38bdf8;
+}
+
+.trend-badge-text-wrap {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.3rem;
+}
+
+.trend-change-val {
+    font-weight: 900;
+    letter-spacing: -0.01em;
+}
+
+.trend-direction-label {
+    font-weight: 800;
+}
+
+.trend-period-text {
+    font-size: 0.63rem;
+    font-weight: 600;
+    opacity: 0.8;
+}
+
+/* Economic Shift Telemetry Callout Card */
+.economic-shift-banner {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: 0.75rem 0.95rem;
+    border-radius: 12px;
+    background: rgba(15, 23, 42, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.economic-shift-banner.trend-rising {
+    border-left: 3px solid #f43f5e;
+}
+
+.economic-shift-banner.trend-falling {
+    border-left: 3px solid #10b981;
+}
+
+.economic-shift-banner.trend-stable {
+    border-left: 3px solid #38bdf8;
+}
+
+body.theme-light .economic-shift-banner {
+    background: #f8fafc;
+    border-color: rgba(0, 0, 0, 0.08);
+}
+
+.shift-banner-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.shift-banner-title-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.shift-trend-icon.rising {
+    color: #f43f5e;
+}
+
+.shift-trend-icon.falling {
+    color: #10b981;
+}
+
+.shift-trend-icon.stable {
+    color: #38bdf8;
+}
+
+.shift-title {
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    color: var(--color-text-primary, #f8fafc);
+}
+
+body.theme-light .shift-title {
+    color: #0f172a;
+}
+
+.shift-tag-pill {
+    font-size: 0.62rem;
+    font-weight: 700;
+    color: #94a3b8;
+    background: rgba(255, 255, 255, 0.06);
+    padding: 0.15rem 0.45rem;
+    border-radius: 4px;
+}
+
+body.theme-light .shift-tag-pill {
+    background: rgba(0, 0, 0, 0.05);
+    color: #64748b;
+}
+
+.shift-desc-text {
+    margin: 0;
+    font-size: 0.72rem;
+    line-height: 1.45;
+    color: #cbd5e1;
+}
+
+body.theme-light .shift-desc-text {
+    color: #475569;
+}
+
 .budget-mode-selector {
     display: inline-flex;
     background: rgba(255, 255, 255, 0.06);
@@ -938,13 +1173,42 @@ body.theme-light .budget-mode-selector {
     gap: 0.5rem;
 }
 
-.expense-breakdown-list h5 {
-    margin: 0 0 0.25rem 0;
+.expense-list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.15rem;
+}
+
+.expense-list-header h5 {
+    margin: 0;
     font-size: 0.78rem;
     font-weight: 800;
     color: var(--color-text-secondary, #94a3b8);
     text-transform: uppercase;
     letter-spacing: 0.04em;
+}
+
+.expense-velocity-hint {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.62rem;
+    font-weight: 700;
+    color: #94a3b8;
+}
+
+body.theme-light .expense-velocity-hint {
+    color: #64748b;
+}
+
+.expense-velocity-hint .hint-icon {
+    color: #38bdf8;
+}
+
+body.theme-light .expense-velocity-hint .hint-icon {
+    color: #0284c7;
 }
 
 .expense-row-item {
@@ -984,6 +1248,13 @@ body.theme-light .expense-category {
     color: #94a3b8;
 }
 
+.expense-right-cluster {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    flex-shrink: 0;
+}
+
 .expense-amount-tag {
     font-size: 0.82rem;
     font-weight: 900;
@@ -993,6 +1264,72 @@ body.theme-light .expense-category {
 
 body.theme-light .expense-amount-tag {
     color: #d97706;
+}
+
+/* Item-Level Directional Trend Indicator Pill */
+.item-trend-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+    padding: 0.15rem 0.4rem;
+    border-radius: 5px;
+    font-size: 0.63rem;
+    font-weight: 800;
+    line-height: 1;
+    cursor: default;
+    transition: transform 0.15s ease;
+}
+
+.item-trend-indicator:hover {
+    transform: scale(1.05);
+}
+
+.item-trend-indicator.trend-rising {
+    background: rgba(244, 63, 94, 0.14);
+    border: 1px solid rgba(244, 63, 94, 0.3);
+    color: #fb7185;
+}
+
+.item-trend-indicator.trend-falling {
+    background: rgba(16, 185, 129, 0.14);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    color: #34d399;
+}
+
+.item-trend-indicator.trend-stable {
+    background: rgba(56, 189, 248, 0.12);
+    border: 1px solid rgba(56, 189, 248, 0.25);
+    color: #38bdf8;
+}
+
+body.theme-light .item-trend-indicator.trend-rising {
+    background: #ffe4e6;
+    border-color: #fda4af;
+    color: #e11d48;
+}
+
+body.theme-light .item-trend-indicator.trend-falling {
+    background: #dcfce7;
+    border-color: #86efac;
+    color: #059669;
+}
+
+body.theme-light .item-trend-indicator.trend-stable {
+    background: #e0f2fe;
+    border-color: #7dd3fc;
+    color: #0284c7;
+}
+
+.item-trend-indicator .item-arrow.rising {
+    color: #f43f5e;
+}
+
+.item-trend-indicator .item-arrow.falling {
+    color: #10b981;
+}
+
+.item-trend-indicator .item-arrow.stable {
+    color: #38bdf8;
 }
 
 /* ==========================================================================
@@ -1144,6 +1481,52 @@ body.theme-light .footer-cost-row .cost-val {
     font-size: 0.68rem;
     font-weight: 700;
     color: #94a3b8;
+}
+
+.footer-cost-trend {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.18rem;
+    padding: 0.12rem 0.38rem;
+    border-radius: 4px;
+    font-size: 0.6rem;
+    font-weight: 800;
+    margin-left: 0.35rem;
+    line-height: 1;
+}
+
+.footer-cost-trend.trend-rising {
+    background: rgba(244, 63, 94, 0.16);
+    color: #fb7185;
+}
+
+.footer-cost-trend.trend-falling {
+    background: rgba(16, 185, 129, 0.16);
+    color: #34d399;
+}
+
+.footer-cost-trend.trend-stable {
+    background: rgba(56, 189, 248, 0.14);
+    color: #38bdf8;
+}
+
+body.theme-light .footer-cost-trend.trend-rising {
+    background: #ffe4e6;
+    color: #e11d48;
+}
+
+body.theme-light .footer-cost-trend.trend-falling {
+    background: #dcfce7;
+    color: #059669;
+}
+
+body.theme-light .footer-cost-trend.trend-stable {
+    background: #e0f2fe;
+    color: #0284c7;
+}
+
+.footer-cost-trend .ft-arrow {
+    flex-shrink: 0;
 }
 
 .footer-actions-group {
