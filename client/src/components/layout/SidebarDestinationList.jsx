@@ -113,7 +113,7 @@ const SidebarDestinationList = ({
                 <button
                     type="button"
                     className="sidebar-destination-toggle-btn"
-                    onClick={() => setIsExpanded(!isExpanded)}
+                    onClick={() => setIsExpanded((expanded) => !expanded)}
                     aria-expanded={isExpanded}
                     aria-label={isExpanded ? "Collapse destination list items" : "Expand destination list items"}
                 >

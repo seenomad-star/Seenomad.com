@@ -36,6 +36,26 @@ body.theme-light .sidebar-domain-filter-group:hover,
     padding: 0 0.15rem;
 }
 
+.domain-filter-toggle-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex: 1;
+    min-height: 36px;
+    padding: 0;
+    color: inherit;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    text-align: left;
+}
+
+.domain-filter-toggle-btn:focus-visible {
+    outline: 2px solid #0284c7;
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
 .domain-filter-title-wrap {
     display: flex;
     align-items: center;
