@@ -49,6 +49,16 @@ const ROUTE_INFO = {
         icon: Compass,
         badge: 'Side-by-Side'
     },
+    'embassy': {
+        name: 'Embassy Directory',
+        icon: Shield,
+        badge: 'Global'
+    },
+    'seenomad-multi': {
+        name: 'SeeNomad Multi-Part Expedition Studio',
+        icon: Compass,
+        badge: 'Multi-City'
+    },
     'visa': {
         name: 'Visa Intelligence',
         icon: Shield,

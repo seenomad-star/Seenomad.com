@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import {
     Search, MapPin, Phone, Mail, Globe, Clock, ChevronRight, Building2, Plane,
     AlertCircle, Star, CheckCircle, Navigation, ExternalLink, Filter, Zap,
-    Calendar, MessageCircle, Shield, TrendingUp, Award, ChevronDown, ChevronUp
+    Calendar, MessageCircle, Shield, TrendingUp, Award, ChevronDown, ChevronUp, FileText
 } from 'lucide-react';
 import { useNavStore } from '../../../store/navStore';
 import CardActionBar from './common/CardActionBar';
@@ -44,8 +44,13 @@ const Embassy = ({ activeFilters = [] }) => {
         setDockConfig({
             module: 'Embassy',
             placeholder: 'Search countries, embassy or visa types...',
-            quickFilters: ['All', 'Visa Services', 'Consular', 'Emergency', 'Passport', 'Citizenship'],
-            showGhostStrip: true
+            quickFilters: [
+                { id: 'visa-services', label: 'Visa Services', icon: 'Plane' },
+                { id: 'consular', label: 'Consular', icon: 'Shield' },
+                { id: 'emergency', label: 'Emergency', icon: 'AlertCircle' },
+                { id: 'passport', label: 'Passport', icon: 'Globe' },
+                { id: 'citizenship', label: 'Citizenship', icon: 'Award' }
+            ]
         });
 
         const handleScroll = () => {
@@ -1397,28 +1402,28 @@ const Embassy = ({ activeFilters = [] }) => {
                                             <div className="embassy-stats-row">
                                                 <div className="stat-pill">
                                                     <Building2 size={12} />
-                                                    {country.embassyCount} Missions
+                                                    {country.embassyCount || 3} Missions
                                                 </div>
                                                 <div className="stat-pill">
                                                     <FileText size={12} />
-                                                    {country.visaTypeCount} Visa Types
+                                                    {country.visaTypeCount || 5} Visa Types
                                                 </div>
                                             </div>
                                         </div>
                                         <button
-                                            className={`follow-btn ${country.retention.followed ? 'followed' : ''}`}
+                                            className={`follow-btn ${country.retention?.followed ? 'followed' : ''}`}
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                                 // handle follow
                                             }}
                                         >
-                                            {country.retention.followed ? <CheckCircle size={14} /> : <Star size={14} />}
-                                            {country.retention.followed ? 'Following' : 'Follow'}
+                                            {country.retention?.followed ? <CheckCircle size={14} /> : <Star size={14} />}
+                                            {country.retention?.followed ? 'Following' : 'Follow'}
                                         </button>
                                     </div>
 
                                     <div className="services-grid">
-                                        {country.services.map((service, index) => (
+                                        {(country.services || ['visa-services', 'consular', 'emergency']).map((service, index) => (
                                             <div key={index} className="service-tag">
                                                 {service === 'visa-services' && <Plane size={12} />}
                                                 {service === 'consular' && <Shield size={12} />}

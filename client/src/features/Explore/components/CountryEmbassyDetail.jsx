@@ -12,7 +12,8 @@ import CardActionBar from './common/CardActionBar';
 import './CountryEmbassyDetail.css';
 
 const CountryEmbassyDetail = () => {
-    const { '*': subModule } = useParams();
+    const params = useParams();
+    const rawParam = params.countrySlug || params['*'] || '';
     const navigate = useNavigate();
     const [searchQuery, setSearchQuery] = useState('');
     const [activeAction, setActiveAction] = useState('My Embassies Abroad');
@@ -32,8 +33,8 @@ const CountryEmbassyDetail = () => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    // Extract country name from slug: embassy/embassy-of-afghanistan -> Afghanistan
-    const countrySlug = subModule.replace('embassy/embassy-of-', '');
+    // Extract country name from slug: embassy-of-afghanistan -> afghanistan -> Afghanistan
+    const countrySlug = rawParam.replace(/^embassy\/embassy-of-/, '').replace(/^embassy-of-/, '');
     const countryName = countrySlug.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
 
     const handleBack = () => {

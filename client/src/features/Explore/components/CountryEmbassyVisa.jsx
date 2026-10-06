@@ -7,11 +7,12 @@ import {
 import './CountryEmbassyVisa.css';
 
 const CountryEmbassyVisa = () => {
-    const { '*': subModule } = useParams();
+    const params = useParams();
     const navigate = useNavigate();
 
     // Extract country name from slug: embassy/embassy-of-afghanistan/afghanistanembassyvisa -> Afghanistan
-    const countrySlug = subModule.split('/').filter(Boolean).pop().replace('embassyvisa', '');
+    const rawSegment = params.visaSlug || params.countrySlug || params['*'] || 'afghanistan';
+    const countrySlug = rawSegment.split('/').filter(Boolean).pop().replace(/^embassy-of-/, '').replace(/embassyvisa$/, '');
     const countryName = countrySlug.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
 
     const handleBack = () => {

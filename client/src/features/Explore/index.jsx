@@ -63,6 +63,7 @@ const Explore = () => {
     const navItems = [
         { label: 'Destinations', slug: 'destinations', icon: <Palmtree size={18} /> },
         { label: 'Compare Destinations', slug: 'compare-destinations', icon: <Compass size={18} /> },
+        { label: 'Embassy', slug: 'embassy', icon: <Landmark size={18} /> },
         { label: 'SeeNomad Multi', slug: 'seenomad-multi', icon: <Map size={18} /> },
         { label: 'Triipper AI', slug: 'triipper', icon: <Sparkles size={18} /> },
         { label: 'Cultural Compass', slug: 'cultural-compass', icon: <Compass size={18} /> },
@@ -112,6 +113,8 @@ const Explore = () => {
                     <Route path="compare-destinations" element={<CompareDestinationsModal standalone={true} isOpen={true} />} />
                     <Route path="compare" element={<CompareDestinationsModal standalone={true} isOpen={true} />} />
                     <Route path="embassy" element={<Embassy activeFilters={activeFilters} />} />
+                    <Route path="embassy/:countrySlug" element={<CountryEmbassyDetail />} />
+                    <Route path="embassy/:countrySlug/:visaSlug" element={<CountryEmbassyVisa />} />
                     <Route path="visa" element={<VisaIntelligenceHub />} />
                     <Route path="speed-test" element={<SpeedTestMap />} />
                     <Route path="speed-test-map" element={<SpeedTestMap />} />
