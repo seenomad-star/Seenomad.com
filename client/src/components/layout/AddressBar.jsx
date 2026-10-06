@@ -69,6 +69,11 @@ const ROUTE_INFO = {
         icon: Globe2,
         badge: '2026 Guide'
     },
+    'trip-builder': {
+        name: 'Trip Builder & Resource Studio',
+        icon: Compass,
+        badge: 'Modular OS'
+    },
     'coliving': {
         name: 'Coliving Hubs',
         icon: Compass

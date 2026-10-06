@@ -319,19 +319,20 @@ const EXPLORE_PAGE_FILTER_CATALOG = {
         ]
     },
     'trip-builder': {
-        title: 'Modular Trip Builder Workspace',
+        title: 'Modular Trip Builder & Resource Studio',
         icon: Palmtree,
-        placeholder: 'Filter accommodation blocks, coworking & flights...',
+        placeholder: 'Search flights, coliving, 24/7 coworking, visa & insurance...',
         filters: [
-            { id: 'all', label: 'All Modules' },
-            { id: 'coliving', label: 'Coliving Stays' },
-            { id: 'coworking', label: '24/7 Fiber Workspaces' },
-            { id: 'transit', label: 'Flights & Rail' },
-            { id: 'insurance', label: 'Visa & Medical Cover' }
+            { id: 'all', label: 'All Resource Modules' },
+            { id: 'transit', label: 'Flights & Rail Transit' },
+            { id: 'coliving', label: 'Coliving & Verified Stays' },
+            { id: 'coworking', label: '24/7 Fiber & eSIMs' },
+            { id: 'insurance', label: 'Visa & Medical Cover' },
+            { id: 'activities', label: 'Local Fixers & Immersion' }
         ],
         metrics: [
-            { val: 'Sync', lbl: 'Live Budget Total' },
-            { val: 'Export', lbl: 'PDF & Calendar' }
+            { val: 'Live', lbl: 'Budget & Burn Sync' },
+            { val: 'Verified', lbl: 'Nomad Resource Hub' }
         ]
     }
 };

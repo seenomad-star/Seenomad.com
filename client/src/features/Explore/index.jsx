@@ -66,6 +66,7 @@ const Explore = () => {
         { label: 'Embassy', slug: 'embassy', icon: <Landmark size={18} /> },
         { label: 'SeeNomad Multi', slug: 'seenomad-multi', icon: <Map size={18} /> },
         { label: 'Visa', slug: 'visa', icon: <ShieldCheck size={18} /> },
+        { label: 'Trip Builder', slug: 'trip-builder', icon: <Backpack size={18} /> },
         { label: 'Triipper AI', slug: 'triipper', icon: <Sparkles size={18} /> },
         { label: 'Cultural Compass', slug: 'cultural-compass', icon: <Compass size={18} /> },
         { label: 'Story Studio', slug: 'story-studio', icon: <Rocket size={18} /> },
@@ -81,8 +82,7 @@ const Explore = () => {
         { label: 'Trivenly Market', slug: 'trivenly', icon: <Briefcase size={18} /> },
         { label: 'Speed Test Map', slug: 'speed-test', icon: <Wifi size={18} /> },
         { label: 'Flights & Visa', slug: 'flights-visa', icon: <Plane size={18} /> },
-        { label: 'Travel Bug (AI)', slug: 'travel-bug', icon: <Zap size={18} /> },
-        { label: 'Trip Builder', slug: 'trip-builder', icon: <Palmtree size={18} /> }
+        { label: 'Travel Bug (AI)', slug: 'travel-bug', icon: <Zap size={18} /> }
     ];
 
     useEffect(() => {
