@@ -1,0 +1,104 @@
+# SeeNomad Robots.txt
+# https://seenomad.com/robots.txt
+
+User-agent: *
+# Prioritized Public Exploration & Content
+Allow: /
+Allow: /popular
+Allow: /explore
+Allow: /explore/destinations
+Allow: /explore/visa
+Allow: /explore/embassy
+Allow: /explore/coworking
+Allow: /explore/coliving
+Allow: /ai-agents
+Allow: /travel-games
+Allow: /community
+Allow: /creator-studio
+Allow: /event-festival
+Allow: /learning-voluntourism
+Allow: /insights-analytics
+Allow: /business-partner
+Allow: /partner-with-us
+Allow: /about
+Allow: /legal
+Allow: /support-utility
+Allow: /download-app
+
+# Disallow Private, Auth, User-Specific & Sensitive Paths
+Disallow: /settings
+Disallow: /settings/
+Disallow: /user
+Disallow: /user/
+Disallow: /user-hub
+Disallow: /saved
+Disallow: /favorites
+Disallow: /wallet
+Disallow: /notifications
+Disallow: /api/
+Disallow: /cdn-cgi/
+Disallow: /*?*preview=true
+Disallow: /*?*token=*
+Disallow: /*?*session=*
+Disallow: /*?*auth=*
+
+# Allow Static Assets for Visual & Social Snippet Rendering
+Allow: /seenomad-logo.svg
+Allow: /seenomad-logo.jpg
+Allow: /favicon.ico
+Allow: /manifest.json
+Allow: /*.css$
+Allow: /*.js$
+Allow: /*.png$
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.svg$
+Allow: /*.webp$
+
+# Crawl Delay for polite bots
+Crawl-delay: 1
+
+# Google Search Crawlers
+User-agent: Googlebot
+Allow: /
+Disallow: /settings
+Disallow: /user
+Disallow: /user/
+Disallow: /saved
+Disallow: /favorites
+Disallow: /wallet
+Disallow: /notifications
+Disallow: /api/
+
+User-agent: Googlebot-Image
+Allow: /*.png$
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.svg$
+Allow: /*.webp$
+
+# Google AdSense / Monetization Compliance
+User-agent: Mediapartners-Google
+Allow: /
+
+User-agent: AdsBot-Google
+Allow: /
+
+User-agent: AdsBot-Google-Mobile
+Allow: /
+
+# Bing & Other Search Engines
+User-agent: Bingbot
+Allow: /
+Disallow: /settings
+Disallow: /user
+Disallow: /user/
+Disallow: /saved
+Disallow: /favorites
+Disallow: /wallet
+Disallow: /notifications
+Disallow: /api/
+Crawl-delay: 1
+
+# Sitemap Location
+Sitemap: https://seenomad.com/sitemap.xml

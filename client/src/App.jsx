@@ -1,5 +1,6 @@
 import React, { Suspense, lazy } from 'react';
 import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import MainLayout from './layouts/MainLayout';
 import PageTransition, { pageTransitionVariants, pageReducedMotionVariants } from './components/common/PageTransition';
 import SocialFeed from './features/SocialFeed';
@@ -89,6 +90,7 @@ function App() {
             <Route path="*" element={<Navigate to="/" replace />} />
           </Route>
         </Routes>
+        <SpeedInsights />
       </SEOManager>
     </ErrorBoundary>
   );
