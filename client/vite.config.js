@@ -9,6 +9,13 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 function syncDistPlugin() {
   return {
     name: 'sync-dist-plugin',
+    transformIndexHtml(html) {
+      const buildTimestamp = new Date().toISOString();
+      return html.replace(
+        '<meta charset="UTF-8" />',
+        `<meta charset="UTF-8" />\n  <meta name="build-version" content="${buildTimestamp}" />\n  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />\n  <meta http-equiv="Pragma" content="no-cache" />\n  <meta http-equiv="Expires" content="0" />`
+      );
+    },
     closeBundle() {
       try {
         const clientDist = path.resolve(__dirname, 'dist');
