@@ -619,6 +619,11 @@ const TripBuilder = () => {
     const [copiedBlueprint, setCopiedBlueprint] = useState(false);
     const [isShareModalOpen, setIsShareModalOpen] = useState(false);
     const [isCommentsOpen, setIsCommentsOpen] = useState(false);
+    const [collaborators, setCollaborators] = useState([
+        { id: 'c-1', name: 'Alex Rivera', email: 'alex@seenomad.com', role: 'Editor', status: 'Active Now', color: '#38BDF8' },
+        { id: 'c-2', name: 'Sarah Chen', email: 'sarah@nomad.io', role: 'Commenter', status: 'Accepted', color: '#10B981' },
+        { id: 'c-3', name: 'Marcus Vance', email: 'marcus@roam.co', role: 'Viewer', status: 'Pending Invite', color: '#A855F7' }
+    ]);
 
     // Combine local search/category with NomadDock Vertical Pill filters
     const effectiveSearch = (localSearch || globalSearchQuery || '').trim().toLowerCase();
@@ -948,7 +953,7 @@ const TripBuilder = () => {
                             onClick={() => setIsShareModalOpen(true)}
                         >
                             <Share2 size={15} />
-                            <span>Collaborate</span>
+                            <span>Collaborate ({collaborators.length})</span>
                         </button>
                         <button
                             type="button"
@@ -1810,7 +1815,9 @@ const TripBuilder = () => {
                     {isCommentsOpen && (
                         <div className="tb-discussion-drawer">
                             <CommentSidebar onClose={() => setIsCommentsOpen(false)} />
-                            <SuggestedEditsPanel />
+                            <SuggestedEditsPanel
+                                onApprove={(modPayload) => handleAddModule(modPayload)}
+                            />
                         </div>
                     )}
                 </aside>
@@ -1818,6 +1825,13 @@ const TripBuilder = () => {
 
             <ShareDraftModal
                 isOpen={isShareModalOpen}
+                itineraryId={activeBlueprintId}
+                tripTitle={tripTitle}
+                collaborators={collaborators}
+                onCollaboratorsChange={(nextList) => {
+                    setCollaborators(nextList);
+                    setTravelers(Math.max(1, nextList.length));
+                }}
                 onClose={() => setIsShareModalOpen(false)}
             />
         </div>
