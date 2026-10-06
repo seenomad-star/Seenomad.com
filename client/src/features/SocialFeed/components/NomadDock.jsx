@@ -37,13 +37,304 @@ import {
     X,
     ArrowUpDown,
     LayoutGrid,
-    List
+    List,
+    Landmark,
+    Phone,
+    FileText,
+    Plane,
+    Map,
+    Cpu,
+    Dna,
+    ShoppingBag,
+    Briefcase,
+    Rocket,
+    ShieldCheck,
+    AlertCircle
 } from 'lucide-react';
 import { useNomadOSStore } from '../../../store/nomadOSStore';
 import { useDestinationStore } from '../../../store/destinationFilterStore';
 import { useNavStore } from '../../../store/navStore';
 import { allDestinations } from '../../../data/destinationsData';
 import './NomadDock.css';
+
+// Explore Sub-Feature Metadata & Specific Filter Catalog for Vertical Pill • Page Filters
+const EXPLORE_PAGE_FILTER_CATALOG = {
+    'seenomad-multi': {
+        title: 'Multi-Part Expedition Studio',
+        icon: Map,
+        placeholder: 'Search circuit templates, cities, transit legs...',
+        filters: [
+            { id: 'all', label: 'All Circuits' },
+            { id: 'europe-schengen', label: 'Schengen 90d Safe' },
+            { id: 'asia-corridor', label: 'Asia Fiber Corridor' },
+            { id: 'americas-loop', label: 'Americas Timezone' },
+            { id: 'rail-friendly', label: 'High-Speed Rail' },
+            { id: 'under-2500', label: 'Under $2,500/mo Avg' }
+        ],
+        metrics: [
+            { val: '4-Leg', lbl: 'Consecutive Routing' },
+            { val: '90/180d', lbl: 'Schengen Guard' }
+        ]
+    },
+    'triipper': {
+        title: 'Triipper AI Itinerary Copilot',
+        icon: Sparkles,
+        placeholder: 'Search AI trip templates, durations, styles...',
+        filters: [
+            { id: 'all', label: 'All AI Plans' },
+            { id: 'workcation', label: 'Deep Workcation' },
+            { id: 'adventure', label: 'Adventure & Surf' },
+            { id: 'cultural', label: 'Cultural Immersion' },
+            { id: 'budget-lean', label: 'Lean Backpacker' },
+            { id: 'luxury-exec', label: 'Executive Retreat' }
+        ],
+        metrics: [
+            { val: 'Instant', lbl: 'Day-by-Day Plan' },
+            { val: '98%', lbl: 'Budget Accuracy' }
+        ]
+    },
+    'cultural-compass': {
+        title: 'Cultural Compass & Etiquette',
+        icon: Compass,
+        placeholder: 'Search local customs, tipping, dress codes...',
+        filters: [
+            { id: 'all', label: 'All Guides' },
+            { id: 'etiquette', label: 'Social Etiquette' },
+            { id: 'tipping', label: 'Tipping & Payments' },
+            { id: 'phrases', label: 'Essential Phrases' },
+            { id: 'taboos', label: 'Local Laws & Taboos' },
+            { id: 'business', label: 'Business Culture' }
+        ],
+        metrics: [
+            { val: '195+', lbl: 'Cultural Briefs' },
+            { val: 'Verified', lbl: 'Local Guardians' }
+        ]
+    },
+    'story-studio': {
+        title: 'Nomad Story Studio',
+        icon: Rocket,
+        placeholder: 'Search creator templates, reels, travelogs...',
+        filters: [
+            { id: 'all', label: 'All Formats' },
+            { id: 'reels', label: '9:16 Vertical Reels' },
+            { id: 'photo-essay', label: 'Photo Journals' },
+            { id: 'cost-breakdown', label: 'Monthly Spend Logs' },
+            { id: 'gear-setup', label: 'Nomad Tech Desk' }
+        ],
+        metrics: [
+            { val: '4K HDR', lbl: 'Creator Export' },
+            { val: '+250 XP', lbl: 'Per Published Story' }
+        ]
+    },
+    'guardians': {
+        title: 'Local Guardians Network',
+        icon: ShieldCheck,
+        placeholder: 'Search verified local fixers, translators, hosts...',
+        filters: [
+            { id: 'all', label: 'All Guardians' },
+            { id: 'emergency-fixer', label: '24/7 Emergency Fixers' },
+            { id: 'housing-scout', label: 'Lease & Apartment Scouts' },
+            { id: 'translator', label: 'Legal & Medical Translators' },
+            { id: 'verified-pro', label: 'Identity Verified' }
+        ],
+        metrics: [
+            { val: '< 10m', lbl: 'Avg Response Time' },
+            { val: '4.9★', lbl: 'Trust Rating' }
+        ]
+    },
+    'super-agent': {
+        title: 'Super Agent Autonomous Hub',
+        icon: Cpu,
+        placeholder: 'Search autonomous travel tasks, flight monitors...',
+        filters: [
+            { id: 'all', label: 'All Agents' },
+            { id: 'flight-sniper', label: 'Fare Drop Sniper' },
+            { id: 'visa-monitor', label: 'Embassy Slot Monitor' },
+            { id: 'accommodation', label: 'Coliving Negotiator' },
+            { id: 'tax-residency', label: '183-Day Tax Tracker' }
+        ],
+        metrics: [
+            { val: '24/7', lbl: 'Autonomous Watch' },
+            { val: 'Active', lbl: 'Multi-Agent Mesh' }
+        ]
+    },
+    'challenges': {
+        title: 'Viral Nomad Challenges',
+        icon: Trophy,
+        placeholder: 'Search active bounties, streaks, city quests...',
+        filters: [
+            { id: 'all', label: 'All Challenges' },
+            { id: 'high-xp', label: '1,000+ XP Bounties' },
+            { id: 'photo-quest', label: 'Landmark Verification' },
+            { id: 'speed-test', label: 'Wi-Fi Speed Bounties' },
+            { id: 'culinary', label: 'Street Food Quests' }
+        ],
+        metrics: [
+            { val: '2.5x', lbl: 'XP Multiplier' },
+            { val: 'Live', lbl: 'Global Leaderboard' }
+        ]
+    },
+    'perks': {
+        title: 'Nomad Perks & Partner Deals',
+        icon: ShoppingBag,
+        placeholder: 'Search eSIMs, lounge passes, coliving discounts...',
+        filters: [
+            { id: 'all', label: 'All Perks' },
+            { id: 'esim', label: 'Global Data eSIMs' },
+            { id: 'coworking-pass', label: 'Coworking Day Passes' },
+            { id: 'coliving-deals', label: 'Monthly Stay Discounts' },
+            { id: 'insurance', label: 'Nomad Health & Gear' },
+            { id: 'lounge', label: 'Airport Lounge Access' }
+        ],
+        metrics: [
+            { val: 'Up to 40%', lbl: 'Member Savings' },
+            { val: 'Instant', lbl: 'Code Redemption' }
+        ]
+    },
+    'discovery': {
+        title: 'Discovery Hub & Hidden Gems',
+        icon: Rocket,
+        placeholder: 'Search emerging hubs, off-grid islands, towns...',
+        filters: [
+            { id: 'all', label: 'All Gems' },
+            { id: 'emerging-2026', label: 'Emerging 2026 Hubs' },
+            { id: 'under-1000', label: 'Under $1,000/mo' },
+            { id: 'coastal-quiet', label: 'Uncrowded Coastlines' },
+            { id: 'mountain-retreat', label: 'Alpine & Highland' }
+        ],
+        metrics: [
+            { val: '120+', lbl: 'Off-Grid Spots' },
+            { val: 'Starlink', lbl: 'Verified Ready' }
+        ]
+    },
+    'dna': {
+        title: 'Nomad DNA & Persona Profile',
+        icon: Dna,
+        placeholder: 'Filter compatibility traits, climate & pace...',
+        filters: [
+            { id: 'all', label: 'Full DNA Matrix' },
+            { id: 'chronotype', label: 'Timezone & Chronotype' },
+            { id: 'climate-match', label: 'Biometric Climate Fit' },
+            { id: 'budget-velocity', label: 'Spend Velocity' },
+            { id: 'social-density', label: 'Community Density' }
+        ],
+        metrics: [
+            { val: '96%', lbl: 'Match Precision' },
+            { val: 'Dynamic', lbl: 'Trait Weighting' }
+        ]
+    },
+    'events': {
+        title: 'Nomad Events & Pop-Up Villages',
+        icon: Users,
+        placeholder: 'Search pop-up cities, hacker houses, meetups...',
+        filters: [
+            { id: 'all', label: 'All Gatherings' },
+            { id: 'popup-city', label: 'Pop-Up Villages' },
+            { id: 'conferences', label: 'Nomad Summits' },
+            { id: 'cowork-meetup', label: 'Weekly Coffee & Cowork' },
+            { id: 'founder-dinner', label: 'Founder Masterminds' }
+        ],
+        metrics: [
+            { val: '85+', lbl: 'Active Cities' },
+            { val: 'Verified', lbl: 'RSVP Guestlists' }
+        ]
+    },
+    'passport': {
+        title: 'Nomad Sovereign Passport & Vault',
+        icon: Shield,
+        placeholder: 'Search stamps, residency days, tax thresholds...',
+        filters: [
+            { id: 'all', label: 'All Records' },
+            { id: 'schengen-clock', label: 'Schengen 90/180 Clock' },
+            { id: 'tax-183', label: '183-Day Tax Thresholds' },
+            { id: 'visa-expiry', label: 'Visa Renewal Alerts' },
+            { id: 'stamps', label: 'Verified NFT Stamps' }
+        ],
+        metrics: [
+            { val: 'AES-256', lbl: 'Zero-Knowledge Vault' },
+            { val: 'Live', lbl: 'Day Counter' }
+        ]
+    },
+    'twin': {
+        title: 'AI Digital Twin Simulation',
+        icon: Cpu,
+        placeholder: 'Simulate relocation scenarios, cost & lifestyle...',
+        filters: [
+            { id: 'all', label: 'All Simulations' },
+            { id: 'cost-projection', label: '12-Month Savings Sim' },
+            { id: 'tax-optimization', label: 'Tax Residency Comparison' },
+            { id: 'quality-of-life', label: 'Wellness & Productivity' }
+        ],
+        metrics: [
+            { val: '10,000x', lbl: 'Monte Carlo Runs' },
+            { val: 'Real-Time', lbl: 'Telemetry Sync' }
+        ]
+    },
+    'trivenly': {
+        title: 'Trivenly Creator & Guide Market',
+        icon: Briefcase,
+        placeholder: 'Search vetted local guides, lut packs, blueprints...',
+        filters: [
+            { id: 'all', label: 'All Marketplace' },
+            { id: 'city-playbooks', label: 'Nomad City Playbooks' },
+            { id: 'relocation-consult', label: '1-on-1 Visa Consults' },
+            { id: 'apartment-tours', label: 'Live Video Flat Checks' },
+            { id: 'top-rated', label: '4.9★ Top Creators' }
+        ],
+        metrics: [
+            { val: 'Escrow', lbl: 'Protected Booking' },
+            { val: '100%', lbl: 'Verified Locals' }
+        ]
+    },
+    'flights-visa': {
+        title: 'Flights & Visa Pairing Matrix',
+        icon: Plane,
+        placeholder: 'Search routes, onward tickets, transit rules...',
+        filters: [
+            { id: 'all', label: 'All Routes' },
+            { id: 'visa-free-hops', label: 'Visa-Free Direct Hops' },
+            { id: 'onward-ticket', label: 'Verifiable Onward Ticket' },
+            { id: 'no-transit-visa', label: 'Zero Transit Visa Needed' },
+            { id: 'star-alliance', label: 'Nomad Frequent Flyer' }
+        ],
+        metrics: [
+            { val: 'Live', lbl: 'IATA Timatic Sync' },
+            { val: 'Instant', lbl: 'Route Clearance' }
+        ]
+    },
+    'travel-bug': {
+        title: 'Travel Bug AI Discovery Engine',
+        icon: Zap,
+        placeholder: 'Search spontaneous flight drops, mystery hops...',
+        filters: [
+            { id: 'all', label: 'All Sparks' },
+            { id: 'weekend-escape', label: '72-Hour Micro-Trips' },
+            { id: 'error-fares', label: 'Flash Fare Anomalies' },
+            { id: 'warm-now', label: '28°C+ Right Now' },
+            { id: 'high-match', label: '95%+ AI Vibe Match' }
+        ],
+        metrics: [
+            { val: 'Real-Time', lbl: 'Anomaly Scanner' },
+            { val: 'Instant', lbl: '1-Click Pack List' }
+        ]
+    },
+    'trip-builder': {
+        title: 'Modular Trip Builder Workspace',
+        icon: Palmtree,
+        placeholder: 'Filter accommodation blocks, coworking & flights...',
+        filters: [
+            { id: 'all', label: 'All Modules' },
+            { id: 'coliving', label: 'Coliving Stays' },
+            { id: 'coworking', label: '24/7 Fiber Workspaces' },
+            { id: 'transit', label: 'Flights & Rail' },
+            { id: 'insurance', label: 'Visa & Medical Cover' }
+        ],
+        metrics: [
+            { val: 'Sync', lbl: 'Live Budget Total' },
+            { val: 'Export', lbl: 'PDF & Calendar' }
+        ]
+    }
+};
 
 const NomadDock = () => {
     const location = useLocation();
@@ -74,6 +365,7 @@ const NomadDock = () => {
     } = useDestinationStore();
 
     const {
+        globalSearchQuery,
         globalActiveFilters,
         setGlobalActiveFilters,
         setGlobalSearchQuery
@@ -83,6 +375,16 @@ const NomadDock = () => {
     const [pinnedTool, setPinnedTool] = useState(null);
     const [destinationsFoundCount, setDestinationsFoundCount] = useState(allDestinations.length);
 
+    // Embassy-specific filter state synced with Embassy.jsx via custom events
+    const [embassyFilters, setEmbassyFilters] = useState({
+        search: '',
+        region: 'All Regions',
+        service: 'all',
+        citizenPassport: 'Global Nomad Passport',
+        waitTime: 'all',
+        count: 10
+    });
+
     // Sync live destinations count from Destinations page
     useEffect(() => {
         const handleCountUpdate = (e) => {
@@ -90,9 +392,26 @@ const NomadDock = () => {
                 setDestinationsFoundCount(e.detail.count);
             }
         };
+        const handleEmbassyCount = (e) => {
+            if (typeof e.detail?.count === 'number') {
+                setEmbassyFilters((prev) => ({ ...prev, count: e.detail.count }));
+            }
+        };
         window.addEventListener('destinations:count', handleCountUpdate);
-        return () => window.removeEventListener('destinations:count', handleCountUpdate);
+        window.addEventListener('embassy:count', handleEmbassyCount);
+        return () => {
+            window.removeEventListener('destinations:count', handleCountUpdate);
+            window.removeEventListener('embassy:count', handleEmbassyCount);
+        };
     }, []);
+
+    const updateEmbassyFilter = (patch) => {
+        setEmbassyFilters((prev) => {
+            const next = { ...prev, ...patch };
+            window.dispatchEvent(new CustomEvent('embassy:filter-change', { detail: next }));
+            return next;
+        });
+    };
 
     const dailyGoal = 100;
     const progress = Math.min((dailyXP / dailyGoal) * 100, 100);
@@ -117,11 +436,29 @@ const NomadDock = () => {
 
     const pathname = location.pathname.toLowerCase();
 
-    // Determine page context for page-specific filters
+    // Determine exact page context for every Explore navbar feature and global module
     const getPageContext = () => {
+        if (pathname.includes('/explore/embassy')) return 'embassy';
         if (pathname.includes('/compare')) return 'compare';
         if (pathname.includes('/explore/visa') || pathname.startsWith('/visa')) return 'visa';
         if (pathname.includes('/explore/speed-test')) return 'speed-test';
+        if (pathname.includes('/explore/seenomad-multi') || pathname.includes('/explore/multi-')) return 'seenomad-multi';
+        if (pathname.includes('/explore/triipper')) return 'triipper';
+        if (pathname.includes('/explore/cultural-compass')) return 'cultural-compass';
+        if (pathname.includes('/explore/story-studio')) return 'story-studio';
+        if (pathname.includes('/explore/guardians') || pathname.includes('/explore/local-guardians')) return 'guardians';
+        if (pathname.includes('/explore/super-agent')) return 'super-agent';
+        if (pathname.includes('/explore/challenges') || pathname.includes('/explore/viral-challenges')) return 'challenges';
+        if (pathname.includes('/explore/perks') || pathname.includes('/explore/nomad-perks')) return 'perks';
+        if (pathname.includes('/explore/discovery')) return 'discovery';
+        if (pathname.includes('/explore/dna') || pathname.includes('/explore/nomad-dna')) return 'dna';
+        if (pathname.includes('/explore/events') || pathname.includes('/explore/nomad-events')) return 'events-explore';
+        if (pathname.includes('/explore/passport') || pathname.includes('/explore/nomad-passport')) return 'passport';
+        if (pathname.includes('/explore/twin') || pathname.includes('/explore/ai-digital-twin')) return 'twin';
+        if (pathname.includes('/explore/trivenly')) return 'trivenly';
+        if (pathname.includes('/explore/flights-visa')) return 'flights-visa';
+        if (pathname.includes('/explore/travel-bug')) return 'travel-bug';
+        if (pathname.includes('/explore/trip-builder')) return 'trip-builder';
         if (pathname.startsWith('/explore') || pathname.startsWith('/destinations')) return 'destinations';
         if (pathname === '/' || pathname.startsWith('/feed')) return 'feed';
         if (pathname.startsWith('/popular')) return 'popular';
@@ -144,7 +481,6 @@ const NomadDock = () => {
             : [...globalActiveFilters, filterId];
         setGlobalActiveFilters(next);
 
-        // Dispatch a custom event so page-specific views across all modules react immediately
         window.dispatchEvent(new CustomEvent('nomaddock:filter', { detail: { filterId, pageContext } }));
     };
 
@@ -152,6 +488,18 @@ const NomadDock = () => {
         resetFilters();
         setGlobalActiveFilters([]);
         setGlobalSearchQuery('');
+        if (pageContext === 'embassy') {
+            const resetEmb = {
+                search: '',
+                region: 'All Regions',
+                service: 'all',
+                citizenPassport: 'Global Nomad Passport',
+                waitTime: 'all',
+                count: 10
+            };
+            setEmbassyFilters(resetEmb);
+            window.dispatchEvent(new CustomEvent('embassy:filter-change', { detail: resetEmb }));
+        }
         window.dispatchEvent(new CustomEvent('nomaddock:reset', { detail: { pageContext } }));
     };
 
@@ -162,19 +510,218 @@ const NomadDock = () => {
     const minInternetSpeed = advancedFilters?.minInternetSpeed ?? 0;
     const maxMonthlyCost = advancedFilters?.maxMonthlyCost ?? 5000;
 
+    const embassyActiveCount =
+        (embassyFilters.search ? 1 : 0) +
+        (embassyFilters.region !== 'All Regions' ? 1 : 0) +
+        (embassyFilters.service !== 'all' ? 1 : 0) +
+        (embassyFilters.waitTime !== 'all' ? 1 : 0) +
+        (embassyFilters.citizenPassport !== 'Global Nomad Passport' ? 1 : 0);
+
     const totalActiveFilters =
-        selectedFilters.length +
-        climates.length +
-        budgetRanges.length +
-        internetSpeeds.length +
-        regions.length +
-        (minInternetSpeed > 0 ? 1 : 0) +
-        (maxMonthlyCost < 5000 ? 1 : 0) +
-        (domainStatus && domainStatus !== 'all' ? 1 : 0) +
-        (searchQuery ? 1 : 0);
+        pageContext === 'embassy'
+            ? embassyActiveCount
+            : selectedFilters.length +
+              globalActiveFilters.length +
+              climates.length +
+              budgetRanges.length +
+              internetSpeeds.length +
+              regions.length +
+              (minInternetSpeed > 0 ? 1 : 0) +
+              (maxMonthlyCost < 5000 ? 1 : 0) +
+              (domainStatus && domainStatus !== 'all' ? 1 : 0) +
+              (searchQuery || globalSearchQuery ? 1 : 0);
 
     // Build page-specific filter tools dynamically based on current route
     const getPageSpecificFilterTools = () => {
+        // 1. EMBASSY DIRECTORY & CONSULAR INTELLIGENCE SPECIFIC VERTICAL PILL FILTERS
+        if (pageContext === 'embassy') {
+            return [
+                {
+                    id: 'filter-embassy-search',
+                    icon: Search,
+                    badgeCount: (embassyFilters.search ? 1 : 0) + (embassyFilters.citizenPassport !== 'Global Nomad Passport' ? 1 : 0),
+                    label: 'Global Embassy Search & Passport',
+                    subtitle: `${embassyFilters.count} Diplomatic Jurisdictions Active`,
+                    content: (
+                        <div className="dock-filter-panel">
+                            <div className="dock-search-input-wrap">
+                                <Search size={14} className="dock-search-icon" />
+                                <input
+                                    type="text"
+                                    value={embassyFilters.search}
+                                    onChange={(e) => updateEmbassyFilter({ search: e.target.value })}
+                                    placeholder="Search country, chancery, D8, DTV..."
+                                    className="dock-search-input"
+                                />
+                                {embassyFilters.search && (
+                                    <button
+                                        type="button"
+                                        className="dock-search-clear"
+                                        onClick={() => updateEmbassyFilter({ search: '' })}
+                                        aria-label="Clear embassy search"
+                                    >
+                                        <X size={13} />
+                                    </button>
+                                )}
+                            </div>
+
+                            <div className="dock-sub-label">CITIZENSHIP / PASSPORT ORIGIN</div>
+                            <div className="dock-filter-chips-grid">
+                                {[
+                                    'Global Nomad Passport',
+                                    'United States',
+                                    'United Kingdom',
+                                    'European Union',
+                                    'India',
+                                    'Canada / Australia'
+                                ].map((pass) => {
+                                    const isSelected = embassyFilters.citizenPassport === pass;
+                                    return (
+                                        <button
+                                            key={pass}
+                                            type="button"
+                                            className={`dock-filter-chip ${isSelected ? 'active' : ''}`}
+                                            onClick={() => updateEmbassyFilter({ citizenPassport: pass })}
+                                        >
+                                            <span>{pass === 'Global Nomad Passport' ? 'All Passports' : pass}</span>
+                                            {isSelected && <Check size={11} />}
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    )
+                },
+                {
+                    id: 'filter-embassy-services',
+                    icon: Landmark,
+                    badgeCount: embassyFilters.service !== 'all' ? 1 : 0,
+                    label: 'Consular & Visa Services Filter',
+                    subtitle: 'Filter Missions by Diplomatic Capability',
+                    content: (
+                        <div className="dock-filter-panel">
+                            <div className="dock-filter-list">
+                                {[
+                                    { id: 'all', label: 'All Diplomatic Missions', sub: 'Full Global Embassy Directory', icon: Globe },
+                                    { id: 'nomad-visa', label: 'Digital Nomad Visa Desks', sub: 'D8, DTV, E33G, VITEM XIV, Startup Law', icon: Plane },
+                                    { id: 'visa-services', label: 'Fast-Track e-Visa Hubs', sub: 'Online visa issuance & biometric slots', icon: FileText },
+                                    { id: 'emergency', label: '24/7 Emergency Citizen Desk', sub: 'Lost passport & crisis evacuation', icon: AlertCircle },
+                                    { id: 'passport', label: 'Passport Renewal & Notary', sub: 'Apostille, legalization & extra pages', icon: ShieldCheck },
+                                    { id: 'citizenship', label: 'Residency & Golden Visa', sub: 'Long-term PR & Golden Visa desks', icon: Crown }
+                                ].map((srv) => {
+                                    const Icon = srv.icon;
+                                    const isSelected = embassyFilters.service === srv.id;
+                                    return (
+                                        <button
+                                            key={srv.id}
+                                            type="button"
+                                            className={`dock-filter-row-btn ${isSelected ? 'active' : ''}`}
+                                            onClick={() => updateEmbassyFilter({ service: srv.id })}
+                                        >
+                                            <Icon size={14} className="row-icon" />
+                                            <div className="row-text">
+                                                <span className="row-title">{srv.label}</span>
+                                                <span className="row-sub">{srv.sub}</span>
+                                            </div>
+                                            {isSelected && <Check size={13} className="row-check" />}
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    )
+                },
+                {
+                    id: 'filter-embassy-regions',
+                    icon: Globe,
+                    badgeCount: (embassyFilters.region !== 'All Regions' ? 1 : 0) + (embassyFilters.waitTime !== 'all' ? 1 : 0),
+                    label: 'Jurisdiction Region & Wait Time',
+                    subtitle: 'Filter by World Region & Processing Speed',
+                    content: (
+                        <div className="dock-filter-panel">
+                            <div className="dock-sub-label">DIPLOMATIC JURISDICTION REGION</div>
+                            <div className="dock-filter-chips-grid">
+                                {['All Regions', 'Europe', 'Asia', 'Americas', 'Middle East'].map((reg) => {
+                                    const isSelected = embassyFilters.region === reg;
+                                    return (
+                                        <button
+                                            key={reg}
+                                            type="button"
+                                            className={`dock-filter-chip ${isSelected ? 'active' : ''}`}
+                                            onClick={() => updateEmbassyFilter({ region: reg })}
+                                        >
+                                            <span>{reg}</span>
+                                            {isSelected && <Check size={11} />}
+                                        </button>
+                                    );
+                                })}
+                            </div>
+
+                            <div className="dock-sub-label" style={{ marginTop: '0.6rem' }}>APPOINTMENT & PROCESSING SPEED</div>
+                            <div className="dock-filter-chips-grid">
+                                {[
+                                    { id: 'all', label: 'Any Speed' },
+                                    { id: 'instant', label: 'Instant / 72h e-Visa' },
+                                    { id: 'fast', label: 'Under 10 Days' },
+                                    { id: 'high-approval', label: '95%+ Approval Rate' }
+                                ].map((wt) => {
+                                    const isSelected = embassyFilters.waitTime === wt.id;
+                                    return (
+                                        <button
+                                            key={wt.id}
+                                            type="button"
+                                            className={`dock-filter-chip ${isSelected ? 'active' : ''}`}
+                                            onClick={() => updateEmbassyFilter({ waitTime: wt.id })}
+                                        >
+                                            <span>{wt.label}</span>
+                                            {isSelected && <Check size={11} />}
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    )
+                },
+                {
+                    id: 'filter-embassy-hotlines',
+                    icon: Phone,
+                    badgeCount: 0,
+                    label: 'Emergency Consular Hotlines',
+                    subtitle: 'Direct 24/7 Diplomatic Dispatch Numbers',
+                    content: (
+                        <div className="dock-filter-panel">
+                            <div className="dock-filter-list">
+                                {[
+                                    { country: '🇵🇹 Portugal Chancery', phone: '+351 21 792 9700' },
+                                    { country: '🇯🇵 Japan MOFA Consular', phone: '+81 3-3580-3311' },
+                                    { country: '🇮🇩 Indonesia Kemlu Desk', phone: '+62 21 344 1508' },
+                                    { country: '🇹🇭 Thailand Consular Call', phone: '+66 2 203 5000' },
+                                    { country: '🇪🇸 Spain MAEC Emergency', phone: '+34 91 379 9700' }
+                                ].map((item, idx) => (
+                                    <button
+                                        key={idx}
+                                        type="button"
+                                        className="dock-filter-row-btn"
+                                        onClick={() => {
+                                            navigator.clipboard?.writeText(item.phone);
+                                        }}
+                                        title="Click to copy emergency number"
+                                    >
+                                        <Phone size={13} className="row-icon" />
+                                        <div className="row-text">
+                                            <span className="row-title">{item.country}</span>
+                                            <span className="row-sub">{item.phone} (Click to copy)</span>
+                                        </div>
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    )
+                }
+            ];
+        }
+
+        // 2. DESTINATIONS & COMPARE DESTINATIONS SPECIFIC VERTICAL PILL FILTERS
         if (pageContext === 'destinations' || pageContext === 'compare') {
             return [
                 {
@@ -185,7 +732,6 @@ const NomadDock = () => {
                     subtitle: `${destinationsFoundCount} ${destinationsFoundCount === 1 ? 'destination' : 'destinations'} found`,
                     content: (
                         <div className="dock-filter-panel">
-                            {/* Search Input Bar transferred into Vertical Bar */}
                             <div className="dock-search-input-wrap">
                                 <Search size={14} className="dock-search-icon" />
                                 <input
@@ -213,7 +759,6 @@ const NomadDock = () => {
                                 )}
                             </div>
 
-                            {/* Live Count + Compare Cities Row */}
                             <div className="dock-status-meta-row">
                                 <span className="dock-results-count-pill">
                                     <strong>{destinationsFoundCount}</strong> destinations found
@@ -232,7 +777,6 @@ const NomadDock = () => {
                                 </button>
                             </div>
 
-                            {/* Selected Cities for Side-by-Side Comparison */}
                             {compareDestinations && compareDestinations.length > 0 && (
                                 <div className="dock-compare-slots-box">
                                     <div className="dock-compare-slots-row">
@@ -265,7 +809,6 @@ const NomadDock = () => {
                                 </div>
                             )}
 
-                            {/* Sort Dropdown & Grid/List View Toggle */}
                             <div className="dock-sub-label">SORT & VIEW LAYOUT</div>
                             <div className="dock-sort-view-row">
                                 <div className="dock-sort-select-wrap">
@@ -593,6 +1136,122 @@ const NomadDock = () => {
                                     <span>Reset All Active Filters ({totalActiveFilters})</span>
                                 </button>
                             )}
+                        </div>
+                    )
+                }
+            ];
+        }
+
+        // 3. OTHER EXPLORE NAVBAR PAGES (SeeNomad Multi, Triipper AI, Cultural Compass, Story Studio, Local Guardians, Super Agent, Viral Challenges, Nomad Perks, Discovery Hub, Nomad DNA, Nomad Events, Nomad Passport, AI Digital Twin, Trivenly Market, Flights & Visa, Travel Bug, Trip Builder)
+        const exploreCatalogKey = pageContext === 'events-explore' ? 'events' : pageContext;
+        if (EXPLORE_PAGE_FILTER_CATALOG[exploreCatalogKey]) {
+            const cfg = EXPLORE_PAGE_FILTER_CATALOG[exploreCatalogKey];
+            const FeatureIcon = cfg.icon;
+            return [
+                {
+                    id: `filter-${exploreCatalogKey}-search`,
+                    icon: Search,
+                    badgeCount: globalSearchQuery ? 1 : 0,
+                    label: `${cfg.title} Search`,
+                    subtitle: 'Instant Page-Specific Keyword Filter',
+                    content: (
+                        <div className="dock-filter-panel">
+                            <div className="dock-search-input-wrap">
+                                <Search size={14} className="dock-search-icon" />
+                                <input
+                                    type="text"
+                                    value={globalSearchQuery || ''}
+                                    onChange={(e) => setGlobalSearchQuery(e.target.value)}
+                                    placeholder={cfg.placeholder}
+                                    className="dock-search-input"
+                                />
+                                {globalSearchQuery && (
+                                    <button
+                                        type="button"
+                                        className="dock-search-clear"
+                                        onClick={() => setGlobalSearchQuery('')}
+                                        aria-label="Clear search"
+                                    >
+                                        <X size={13} />
+                                    </button>
+                                )}
+                            </div>
+                            <div className="dock-domain-kpi-grid" style={{ marginTop: '0.5rem' }}>
+                                {cfg.metrics.map((m, i) => (
+                                    <div key={i} className="dock-kpi-card">
+                                        <span className="dock-kpi-value">{m.val}</span>
+                                        <span className="dock-kpi-label">{m.lbl}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )
+                },
+                {
+                    id: `filter-${exploreCatalogKey}-pills`,
+                    icon: FeatureIcon,
+                    badgeCount: globalActiveFilters.length,
+                    label: `${cfg.title} Filters`,
+                    subtitle: 'Page-Specific Filter Controls',
+                    content: (
+                        <div className="dock-filter-panel">
+                            <div className="dock-filter-chips-grid">
+                                {cfg.filters.map((f) => {
+                                    const isActive = f.id === 'all'
+                                        ? globalActiveFilters.length === 0
+                                        : globalActiveFilters.includes(f.id);
+                                    return (
+                                        <button
+                                            key={f.id}
+                                            type="button"
+                                            className={`dock-filter-chip ${isActive ? 'active' : ''}`}
+                                            onClick={() => {
+                                                if (f.id === 'all') {
+                                                    setGlobalActiveFilters([]);
+                                                } else {
+                                                    handleToggleQuickFilter(f.id);
+                                                }
+                                            }}
+                                        >
+                                            <span>{f.label}</span>
+                                            {isActive && f.id !== 'all' && <Check size={11} />}
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    )
+                },
+                {
+                    id: `filter-${exploreCatalogKey}-regions`,
+                    icon: Globe,
+                    badgeCount: regions.length,
+                    label: 'Target Region Filter',
+                    subtitle: `Filter ${cfg.title} by Region`,
+                    content: (
+                        <div className="dock-filter-panel">
+                            <div className="dock-filter-chips-grid">
+                                {[
+                                    { id: 'asia', label: 'Asia' },
+                                    { id: 'europe', label: 'Europe' },
+                                    { id: 'americas', label: 'Americas' },
+                                    { id: 'africa', label: 'Africa' },
+                                    { id: 'oceania', label: 'Oceania' }
+                                ].map((reg) => {
+                                    const isSelected = regions.includes(reg.id);
+                                    return (
+                                        <button
+                                            key={reg.id}
+                                            type="button"
+                                            className={`dock-filter-chip ${isSelected ? 'active' : ''}`}
+                                            onClick={() => toggleAdvancedFilter('regions', reg.id)}
+                                        >
+                                            <span>{reg.label}</span>
+                                            {isSelected && <Check size={11} />}
+                                        </button>
+                                    );
+                                })}
+                            </div>
                         </div>
                     )
                 }
@@ -928,9 +1587,64 @@ const NomadDock = () => {
                     <Activity size={17} className="intel-activity-icon" />
                 </div>
             ),
-            label: 'Explore Global Destinations & Nomad Hubs',
-            subtitle: 'Live Travel Intelligence • Verified 2026',
-            content: (
+            label: pageContext === 'embassy'
+                ? 'Global Embassy Directory & Consular Intelligence'
+                : 'Explore Global Destinations & Nomad Hubs',
+            subtitle: pageContext === 'embassy'
+                ? 'Diplomatic Missions • Verified 2026'
+                : 'Live Travel Intelligence • Verified 2026',
+            content: pageContext === 'embassy' ? (
+                <div className="tool-detail dock-domain-hub-panel">
+                    <div className="intel-verified-pill">
+                        <span className="live-pulse-dot-dock"></span>
+                        <span>Diplomatic & Consular Intelligence • 2026</span>
+                    </div>
+                    <p className="dock-domain-desc">
+                        Instant access to 1,420+ embassies, high commissions, 24/7 citizen emergency hotlines, and digital nomad visa desks worldwide.
+                    </p>
+                    <div className="dock-domain-kpi-grid">
+                        <div className="dock-kpi-card">
+                            <span className="dock-kpi-value">1,420+</span>
+                            <span className="dock-kpi-label">Global Missions</span>
+                        </div>
+                        <div className="dock-kpi-card highlight">
+                            <span className="dock-kpi-value">96.4%</span>
+                            <span className="dock-kpi-label">Nomad Visa Rate</span>
+                        </div>
+                        <div className="dock-kpi-card">
+                            <span className="dock-kpi-value">58+</span>
+                            <span className="dock-kpi-label">Nomad Visas</span>
+                        </div>
+                        <div className="dock-kpi-card">
+                            <span className="dock-kpi-value">24/7</span>
+                            <span className="dock-kpi-label">Emergency Desks</span>
+                        </div>
+                    </div>
+                    <div className="dock-sub-label" style={{ marginTop: '0.35rem' }}>QUICK CONSULAR FILTERS:</div>
+                    <div className="dock-filter-chips-grid">
+                        {[
+                            { id: 'nomad-visa', label: 'Nomad Visa Desks' },
+                            { id: 'visa-services', label: 'Fast e-Visa' },
+                            { id: 'emergency', label: '24/7 Emergency' },
+                            { id: 'passport', label: 'Passport & Notary' },
+                            { id: 'citizenship', label: 'Golden Visa / PR' }
+                        ].map((item) => {
+                            const isSelected = embassyFilters.service === item.id;
+                            return (
+                                <button
+                                    key={item.id}
+                                    type="button"
+                                    className={`dock-filter-chip ${isSelected ? 'active' : ''}`}
+                                    onClick={() => updateEmbassyFilter({ service: isSelected ? 'all' : item.id })}
+                                >
+                                    <span>{item.label}</span>
+                                    {isSelected && <Check size={11} />}
+                                </button>
+                            );
+                        })}
+                    </div>
+                </div>
+            ) : (
                 <div className="tool-detail dock-domain-hub-panel">
                     <div className="intel-verified-pill">
                         <span className="live-pulse-dot-dock"></span>
@@ -940,7 +1654,6 @@ const NomadDock = () => {
                         Discover verified cost-of-living data, fiber internet speeds, community vibes, and real-time visa guidelines for nomadic explorers and global citizens.
                     </p>
 
-                    {/* 4 Key Metric Counters transferred from DestinationDomainHeader */}
                     <div className="dock-domain-kpi-grid">
                         <div className="dock-kpi-card">
                             <span className="dock-kpi-value">195+</span>
@@ -960,7 +1673,6 @@ const NomadDock = () => {
                         </div>
                     </div>
 
-                    {/* Quick Discovery Presets transferred from DestinationDomainHeader */}
                     <div className="dock-sub-label" style={{ marginTop: '0.35rem' }}>QUICK DISCOVERY:</div>
                     <div className="dock-filter-chips-grid">
                         {[
@@ -995,7 +1707,6 @@ const NomadDock = () => {
                         })}
                     </div>
 
-                    {/* 6 Domain Feature Actions transferred from DestinationDomainHeader */}
                     <div className="dock-sub-label" style={{ marginTop: '0.35rem' }}>EXPLORE TOOLS & HUBS:</div>
                     <div className="dock-domain-actions-list">
                         <button
@@ -1021,6 +1732,18 @@ const NomadDock = () => {
                         >
                             <ArrowRightLeft size={13} />
                             <span>Compare Destinations</span>
+                        </button>
+                        <button
+                            type="button"
+                            className="dock-domain-action-btn"
+                            onClick={() => {
+                                navigate('/explore/embassy');
+                                setPinnedTool(null);
+                                setActiveTool(null);
+                            }}
+                        >
+                            <Landmark size={13} />
+                            <span>Global Embassy Directory</span>
                         </button>
                         <button
                             type="button"
@@ -1119,7 +1842,6 @@ const NomadDock = () => {
             aria-label="Vertical Pill / Vertical Bar — Page-Specific Filters & Live Travel Intelligence"
         >
             <div className="nomad-dock vertical-pill-container">
-                {/* Vertical Pill / Vertical Bar Header Tag (Compact Icon-Badge) */}
                 <div
                     className="vertical-pill-header-badge"
                     title="Vertical Pill / Vertical Bar — Live Travel Intelligence • Verified 2026"
@@ -1210,7 +1932,6 @@ const NomadDock = () => {
                     );
                 })}
 
-                {/* Quick Reset Button on the Vertical Pill when any filter is active */}
                 {totalActiveFilters > 0 && (
                     <button
                         type="button"

@@ -41,8 +41,73 @@ const CountryEmbassyDetail = () => {
         navigate('/explore/embassy');
     };
 
-    // Get data for the current country from the centralized store
-    const currentCountryData = embassyData[countrySlug] || { embassies: [], embassiesAbroad: [] };
+    // Get data for the current country from the centralized store, or generate complete fallback missions for any country card
+    const fallbackMissions = {
+        embassies: [
+            {
+                id: 1,
+                name: `${countryName} Embassy`,
+                location: 'New Delhi',
+                countryCode: countryName.slice(0, 2).toUpperCase(),
+                type: 'Embassy',
+                status: 'Open Now - Closes 5:00 PM',
+                image: 'https://images.unsplash.com/photo-1582159328034-ad031275d88e?w=800&q=80'
+            },
+            {
+                id: 2,
+                name: `${countryName} Consulate General`,
+                location: 'Mumbai',
+                countryCode: countryName.slice(0, 2).toUpperCase(),
+                type: 'Consulate',
+                status: 'Open Now - Closes 4:30 PM',
+                image: 'https://images.unsplash.com/photo-1566552881560-0be862a7c445?w=800&q=80'
+            }
+        ],
+        embassiesAbroad: [
+            {
+                id: 101,
+                name: `Embassy of ${countryName} in Washington, D.C.`,
+                location: 'Washington, D.C.',
+                destinationCountry: 'United States',
+                countryCode: 'US',
+                type: 'Embassy',
+                status: 'Open Now',
+                image: 'https://images.unsplash.com/photo-1501466044931-62695aada8e9?w=800&q=80'
+            },
+            {
+                id: 102,
+                name: `Embassy of ${countryName} in London`,
+                location: 'London',
+                destinationCountry: 'United Kingdom',
+                countryCode: 'GB',
+                type: 'Embassy',
+                status: 'Open Now',
+                image: 'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=800&q=80'
+            },
+            {
+                id: 103,
+                name: `Embassy of ${countryName} in Tokyo`,
+                location: 'Tokyo',
+                destinationCountry: 'Japan',
+                countryCode: 'JP',
+                type: 'Embassy',
+                status: 'Open Now',
+                image: 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=800&q=80'
+            },
+            {
+                id: 104,
+                name: `Embassy of ${countryName} in Berlin`,
+                location: 'Berlin',
+                destinationCountry: 'Germany',
+                countryCode: 'DE',
+                type: 'Embassy',
+                status: 'Open Now',
+                image: 'https://images.unsplash.com/photo-1560969184-10fe8719e047?w=800&q=80'
+            }
+        ]
+    };
+
+    const currentCountryData = embassyData[countrySlug] || fallbackMissions;
     const embassies = currentCountryData.embassies;
     const embassiesAbroad = currentCountryData.embassiesAbroad;
 

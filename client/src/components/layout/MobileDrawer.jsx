@@ -20,6 +20,7 @@ import {
     Plus,
     X,
     ChevronRight,
+    Landmark,
     Bookmark,
     Flame
 } from 'lucide-react';
@@ -179,6 +180,7 @@ const MobileDrawer = ({ isOpen: propIsOpen, onClose: propOnClose }) => {
         {
             title: 'Plan & Travel',
             items: [
+                { icon: Landmark, label: 'Embassy & Consular', to: '/explore/embassy', badge: 'Visas', badgeType: 'info', description: 'Diplomatic missions & consular intel' },
                 { icon: Bot, label: 'AI Concierge', to: '/ai-agents', badge: 'AI', badgeType: 'ai', description: 'Smart itineraries & visa help' },
                 { icon: Tag, label: 'Deals & Stays', to: '/business-partner', badge: 'Perks', badgeType: 'success', description: 'Nomad stays & partner discounts' },
                 { icon: Leaf, label: 'Eco Voluntourism', to: '/learning-voluntourism', description: 'Impact journeys & retreats' },
