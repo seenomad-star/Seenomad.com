@@ -5,25 +5,7 @@
   "outputDirectory": "dist",
   "headers": [
     {
-      "source": "/(seenomad-logo\\.(svg|jpg)|favicon\\.ico|.*\\.(png|jpg|jpeg|svg|webp|ico))",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=604800, stale-while-revalidate=86400"
-        }
-      ]
-    },
-    {
-      "source": "/(manifest\\.json|robots\\.txt|sitemap\\.xml)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=86400, stale-while-revalidate=43200"
-        }
-      ]
-    },
-    {
-      "source": "/assets/(.*)",
+      "source": "/assets/:path*",
       "headers": [
         {
           "key": "Cache-Control",
@@ -37,31 +19,6 @@
         {
           "key": "Cache-Control",
           "value": "no-cache, no-store, max-age=0, must-revalidate"
-        },
-        {
-          "key": "CDN-Cache-Control",
-          "value": "no-store"
-        },
-        {
-          "key": "Vercel-CDN-Cache-Control",
-          "value": "no-store"
-        }
-      ]
-    },
-    {
-      "source": "/((?!assets/).*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "no-cache, no-store, max-age=0, must-revalidate"
-        },
-        {
-          "key": "CDN-Cache-Control",
-          "value": "no-store"
-        },
-        {
-          "key": "Vercel-CDN-Cache-Control",
-          "value": "no-store"
         }
       ]
     }
