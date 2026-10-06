@@ -407,9 +407,9 @@ const DestinationCard = ({ dest, viewMode }) => {
                                     className="expand-details-btn"
                                     onClick={(e) => {
                                         e.stopPropagation();
-                                        setIsDrawerOpen(true);
+                                        handleNavigate();
                                     }}
-                                    title={`Expand in-depth intelligence for ${dest?.name} (weather, internet, costs)`}
+                                    title={`Expand in-depth details page for ${dest?.name}`}
                                     aria-label={`Expand details for ${dest?.name}`}
                                 >
                                     <SlidersHorizontal size={12} className="expand-sliders-icon" />
