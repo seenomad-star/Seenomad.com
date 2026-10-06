@@ -1,0 +1,459 @@
+/* ==========================================================================
+   ConsularFAQ.css — Consular FAQ & Appointment Procedures Section
+   Used on CountryEmbassyDetail & CountryEmbassyVisa pages
+   ========================================================================== */
+
+.consular-faq-section {
+    max-width: 1200px;
+    margin: 2.5rem auto 1.5rem;
+    padding: 1.75rem 2rem;
+    border-radius: 22px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    color: #0f172a;
+}
+
+.dark .consular-faq-section,
+body.theme-dark .consular-faq-section {
+    background: rgba(15, 23, 42, 0.88);
+    border-color: rgba(56, 189, 248, 0.22);
+    color: #f8fafc;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.32);
+}
+
+.cfaq-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.cfaq-header-left {
+    flex: 1;
+    min-width: 280px;
+}
+
+.cfaq-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.28rem 0.75rem;
+    border-radius: 999px;
+    background: rgba(2, 132, 199, 0.1);
+    border: 1px solid rgba(2, 132, 199, 0.25);
+    color: #0284c7;
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.55rem;
+}
+
+.dark .cfaq-eyebrow,
+body.theme-dark .cfaq-eyebrow {
+    background: rgba(56, 189, 248, 0.14);
+    border-color: rgba(56, 189, 248, 0.32);
+    color: #38bdf8;
+}
+
+.cfaq-title {
+    margin: 0 0 0.35rem;
+    font-size: 1.35rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+.cfaq-subtitle {
+    margin: 0;
+    font-size: 0.86rem;
+    color: #64748b;
+    line-height: 1.5;
+}
+
+.dark .cfaq-subtitle,
+body.theme-dark .cfaq-subtitle {
+    color: #94a3b8;
+}
+
+.cfaq-quick-telemetry {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.cfaq-tel-item {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.6rem 0.9rem;
+    border-radius: 12px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+}
+
+.dark .cfaq-tel-item,
+body.theme-dark .cfaq-tel-item {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.09);
+}
+
+.cfaq-tel-icon {
+    color: #0284c7;
+    flex-shrink: 0;
+}
+
+.dark .cfaq-tel-icon,
+body.theme-dark .cfaq-tel-icon {
+    color: #38bdf8;
+}
+
+.cfaq-tel-item div {
+    display: flex;
+    flex-direction: column;
+}
+
+.cfaq-tel-item span {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: #64748b;
+}
+
+.cfaq-tel-item strong {
+    font-size: 0.78rem;
+    font-weight: 800;
+}
+
+/* 3-Step Appointment Procedure Strip */
+.cfaq-procedure-strip {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.85rem;
+    padding: 0.95rem 1.1rem;
+    border-radius: 14px;
+    background: linear-gradient(135deg, rgba(2, 132, 199, 0.06), rgba(16, 185, 129, 0.06));
+    border: 1px solid rgba(2, 132, 199, 0.18);
+}
+
+@media (max-width: 900px) {
+    .cfaq-procedure-strip {
+        grid-template-columns: 1fr;
+    }
+}
+
+.cfaq-proc-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.65rem;
+}
+
+.proc-num {
+    width: 26px;
+    height: 26px;
+    border-radius: 8px;
+    background: #0284c7;
+    color: #ffffff;
+    font-size: 0.72rem;
+    font-weight: 800;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.cfaq-proc-step div {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.cfaq-proc-step strong {
+    font-size: 0.8rem;
+    font-weight: 800;
+}
+
+.cfaq-proc-step span {
+    font-size: 0.72rem;
+    color: #64748b;
+    line-height: 1.35;
+}
+
+.dark .cfaq-proc-step span,
+body.theme-dark .cfaq-proc-step span {
+    color: #94a3b8;
+}
+
+/* Controls Row */
+.cfaq-controls-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.85rem;
+    flex-wrap: wrap;
+}
+
+.cfaq-category-pills {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+}
+
+.cfaq-cat-btn {
+    border: 1px solid #e2e8f0;
+    background: #f8fafc;
+    color: #475569;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.42rem 0.85rem;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.16s ease;
+}
+
+.dark .cfaq-cat-btn,
+body.theme-dark .cfaq-cat-btn {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.1);
+    color: #94a3b8;
+}
+
+.cfaq-cat-btn.active {
+    background: #0284c7;
+    border-color: #0284c7;
+    color: #ffffff;
+}
+
+.cfaq-right-tools {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    flex-wrap: wrap;
+}
+
+.cfaq-search-box {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.42rem 0.78rem;
+    border-radius: 10px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    min-width: 240px;
+}
+
+.dark .cfaq-search-box,
+body.theme-dark .cfaq-search-box {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
+.cfaq-search-box input {
+    border: none;
+    outline: none;
+    background: transparent;
+    color: inherit;
+    font-size: 0.78rem;
+    width: 100%;
+}
+
+.cfaq-expand-btn {
+    border: 1px solid #e2e8f0;
+    background: #f8fafc;
+    color: inherit;
+    font-size: 0.74rem;
+    font-weight: 700;
+    padding: 0.42rem 0.78rem;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.dark .cfaq-expand-btn,
+body.theme-dark .cfaq-expand-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
+/* Accordion Items */
+.cfaq-accordion-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+}
+
+.cfaq-item {
+    border-radius: 14px;
+    border: 1px solid #e2e8f0;
+    background: #f8fafc;
+    overflow: hidden;
+    transition: border-color 0.18s ease;
+}
+
+.dark .cfaq-item,
+body.theme-dark .cfaq-item {
+    background: rgba(255, 255, 255, 0.03);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+.cfaq-item.is-open {
+    border-color: rgba(2, 132, 199, 0.45);
+}
+
+.cfaq-question-btn {
+    width: 100%;
+    border: none;
+    background: transparent;
+    color: inherit;
+    padding: 0.95rem 1.15rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    text-align: left;
+    cursor: pointer;
+}
+
+.cfaq-q-left {
+    display: flex;
+    flex-direction: column;
+    gap: 0.28rem;
+}
+
+.cfaq-topic-badge {
+    width: fit-content;
+    font-size: 0.64rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #0284c7;
+}
+
+.dark .cfaq-topic-badge,
+body.theme-dark .cfaq-topic-badge {
+    color: #38bdf8;
+}
+
+.cfaq-q-left h3 {
+    margin: 0;
+    font-size: 0.94rem;
+    font-weight: 800;
+    line-height: 1.35;
+}
+
+.cfaq-chevron {
+    color: #64748b;
+    flex-shrink: 0;
+}
+
+.cfaq-answer-body {
+    padding: 0 1.15rem 1.1rem;
+    border-top: 1px solid rgba(148, 163, 184, 0.15);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.cfaq-answer-text {
+    margin: 0.75rem 0 0;
+    font-size: 0.84rem;
+    line-height: 1.6;
+    color: #334155;
+}
+
+.dark .cfaq-answer-text,
+body.theme-dark .cfaq-answer-text {
+    color: #cbd5e1;
+}
+
+.cfaq-key-steps {
+    padding: 0.75rem 0.95rem;
+    border-radius: 10px;
+    background: rgba(16, 185, 129, 0.07);
+    border: 1px solid rgba(16, 185, 129, 0.22);
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.steps-label {
+    font-size: 0.68rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #059669;
+}
+
+.dark .steps-label,
+body.theme-dark .steps-label {
+    color: #34d399;
+}
+
+.cfaq-key-steps ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.cfaq-key-steps li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.45rem;
+    font-size: 0.78rem;
+    line-height: 1.4;
+}
+
+.step-chk {
+    color: #10b981;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+/* Footer Bar */
+.cfaq-footer-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    padding-top: 0.85rem;
+    border-top: 1px solid rgba(148, 163, 184, 0.2);
+    font-size: 0.78rem;
+}
+
+.cfaq-footer-left {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #64748b;
+}
+
+.dark .cfaq-footer-left,
+body.theme-dark .cfaq-footer-left {
+    color: #94a3b8;
+}
+
+.cfaq-shield {
+    color: #10b981;
+    flex-shrink: 0;
+}
+
+.cfaq-portal-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 0.95rem;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #0284c7, #2563eb);
+    color: #ffffff;
+    font-size: 0.76rem;
+    font-weight: 700;
+    text-decoration: none;
+}

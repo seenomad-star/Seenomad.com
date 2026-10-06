@@ -9,6 +9,7 @@ import {
 import { embassyData } from '../data/embassyData';
 import SearchFilterBar from '../../../components/common/SearchFilterBar';
 import CardActionBar from './common/CardActionBar';
+import ConsularFAQ from './ConsularFAQ';
 import './CountryEmbassyDetail.css';
 
 const CountryEmbassyDetail = () => {
@@ -226,6 +227,9 @@ const CountryEmbassyDetail = () => {
                     </div>
                 ))}
             </div>
+
+            {/* Consular FAQ & Appointment Procedures Section */}
+            <ConsularFAQ countrySlug={countrySlug} countryName={countryName} />
 
             <div className="smart-assistant-floating">
                 <div className="assistant-content">

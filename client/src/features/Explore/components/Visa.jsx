@@ -10,6 +10,7 @@ import {
 import { useNavStore } from '../../../store/navStore';
 import { useToastStore } from '../../../store/toastStore';
 import { GLOBAL_EMBASSY_COUNTRIES } from '../data/globalEmbassyCountries';
+import VisaRequirementSummary from './VisaRequirementSummary';
 import './Visa.css';
 
 const PASSPORT_TIERS = [
@@ -198,6 +199,8 @@ const Visa = () => {
     const [taxDaysInHost, setTaxDaysInHost] = useState(62);
     const [showCalculator, setShowCalculator] = useState(false);
     const [copiedText, setCopiedText] = useState('');
+    const [summaryCountryIds, setSummaryCountryIds] = useState(['portugal', 'japan', 'thailand']);
+    const [activeSummaryId, setActiveSummaryId] = useState('portugal');
 
     useEffect(() => {
         setDockConfig({
@@ -379,6 +382,45 @@ const Visa = () => {
 
     const schengenRemaining = Math.max(0, 90 - schengenDaysUsed);
     const taxSafeRemaining = Math.max(0, 183 - taxDaysInHost);
+
+    const selectedSummaryDestinations = useMemo(() => {
+        const list = summaryCountryIds
+            .map((id) => allVisaCountries.find((c) => c.id === id))
+            .filter(Boolean);
+        return list.length > 0 ? list : allVisaCountries.slice(0, 3);
+    }, [summaryCountryIds, allVisaCountries]);
+
+    const activeSummaryCountry = useMemo(() => {
+        if (searchQuery.trim() && filteredVisaCountries.length > 0) {
+            return filteredVisaCountries[0];
+        }
+        return allVisaCountries.find((c) => c.id === activeSummaryId) || selectedSummaryDestinations[0] || allVisaCountries[0];
+    }, [searchQuery, filteredVisaCountries, allVisaCountries, activeSummaryId, selectedSummaryDestinations]);
+
+    const handleSelectSummaryCountry = (country) => {
+        setActiveSummaryId(country.id);
+        setSummaryCountryIds((prev) => (prev.includes(country.id) ? prev : [country.id, ...prev.slice(0, 3)]));
+    };
+
+    const handleTogglePinToSummary = (e, country) => {
+        if (e && e.stopPropagation) e.stopPropagation();
+        setSummaryCountryIds((prev) => {
+            if (prev.includes(country.id)) {
+                if (prev.length <= 1) return prev;
+                const next = prev.filter((id) => id !== country.id);
+                if (activeSummaryId === country.id) {
+                    setActiveSummaryId(next[0]);
+                }
+                return next;
+            }
+            const next = [country.id, ...prev].slice(0, 4);
+            setActiveSummaryId(country.id);
+            addToast(`Added ${country.name} to Visa Requirement Summary`, 'success');
+            return next;
+        });
+    };
+
+    const activePassportLabel = (PASSPORT_TIERS.find((p) => p.id === selectedPassport) || PASSPORT_TIERS[0]).label;
 
     return (
         <div className="visa-intel-page">
@@ -651,6 +693,19 @@ const Visa = () => {
                 </div>
             </section>
 
+            {/* 2.5 Dynamic Visa Requirement Summary Component */}
+            <VisaRequirementSummary
+                allVisaCountries={allVisaCountries}
+                selectedDestinations={selectedSummaryDestinations}
+                activeSummaryCountry={activeSummaryCountry}
+                onSelectCountry={handleSelectSummaryCountry}
+                onToggleCompareDestination={(country) => handleTogglePinToSummary(null, country)}
+                onOpenFullDossier={(country) => setSelectedVisaCountry(country)}
+                onNavigateEmbassy={(country) => navigate(`/explore/embassy/embassy-of-${country.id}`)}
+                onNavigateMultiPart={(country) => navigate(`/explore/seenomad-multi?country=${encodeURIComponent(country.name)}`)}
+                passportLabel={activePassportLabel}
+            />
+
             {/* 3. Comprehensive Country Visa Cards Grid */}
             <section className="visa-cards-grid" aria-label="Global Country Visa Cards">
                 {filteredVisaCountries.map((country) => (
@@ -767,14 +822,12 @@ const Visa = () => {
                             <div className="visa-card-footer">
                                 <button
                                     type="button"
-                                    className="visa-card-btn-secondary"
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        navigate(`/explore/embassy/embassy-of-${country.id}`);
-                                    }}
+                                    className={`visa-card-btn-summary ${summaryCountryIds.includes(country.id) ? 'active' : ''}`}
+                                    onClick={(e) => handleTogglePinToSummary(e, country)}
+                                    title="Pin or inspect in Visa Requirement Summary"
                                 >
-                                    <Landmark size={13} />
-                                    <span>Embassy ({country.embassyCount})</span>
+                                    <Sparkles size={12} />
+                                    <span>{summaryCountryIds.includes(country.id) ? 'In Summary' : '+ Summary'}</span>
                                 </button>
 
                                 <button
@@ -786,7 +839,7 @@ const Visa = () => {
                                     }}
                                 >
                                     <FileText size={13} />
-                                    <span>Full Requirements</span>
+                                    <span>Full Dossier</span>
                                 </button>
 
                                 <a

@@ -4,6 +4,7 @@ import {
     ChevronLeft, Building2, Clock, Globe, Phone, Mail,
     FileText, CreditCard, AlertCircle, CheckCircle2
 } from 'lucide-react';
+import ConsularFAQ from './ConsularFAQ';
 import './CountryEmbassyVisa.css';
 
 const CountryEmbassyVisa = () => {
@@ -168,6 +169,8 @@ const CountryEmbassyVisa = () => {
                     <p>Please note: Fees and requirements are subject to change without prior notice.</p>
                 </div>
             </div>
+
+            <ConsularFAQ countrySlug={countrySlug} countryName={countryName} />
         </div>
     );
 };
