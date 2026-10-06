@@ -38,7 +38,6 @@ const DomainStatusFilterGroup = ({
             onStatusChange(nextStatus);
         }
 
-        // If not already in destinations exploration, navigate to destinations page
         const isDestinationsRoute =
             location.pathname.startsWith('/explore/destinations') ||
             location.pathname === '/explore' ||
@@ -47,7 +46,6 @@ const DomainStatusFilterGroup = ({
         if (!isDestinationsRoute) {
             navigate(`/explore/destinations${nextStatus !== 'all' ? `?domainStatus=${nextStatus}` : ''}`);
         } else {
-            // Update search params in URL without full reload
             const searchParams = new URLSearchParams(location.search);
             if (nextStatus === 'all') {
                 searchParams.delete('domainStatus');
@@ -90,7 +88,7 @@ const DomainStatusFilterGroup = ({
         );
     };
 
-    // Compact collapsed sidebar version
+    // Compact collapsed sidebar version (icon-badge button)
     if (collapsed) {
         const nextStatusToCycle =
             effectiveStatus === 'all' ? 'available' :
@@ -100,7 +98,7 @@ const DomainStatusFilterGroup = ({
         return (
             <div
                 className={`sidebar-domain-filter-collapsed ${className}`}
-                title={`Destination Domain Status: ${effectiveStatus.toUpperCase()} (Click to toggle)`}
+                title={`Domain Filter: ${effectiveStatus.toUpperCase()} (Click to cycle)`}
             >
                 <button
                     type="button"
@@ -114,7 +112,7 @@ const DomainStatusFilterGroup = ({
                     }}
                     aria-label={`Toggle destination domain status. Current: ${effectiveStatus}`}
                 >
-                    <Layers size={17} />
+                    <Layers size={15} />
                     <span className={`collapsed-status-indicator status-dot-${effectiveStatus}`}></span>
                 </button>
             </div>
@@ -123,35 +121,15 @@ const DomainStatusFilterGroup = ({
 
     return (
         <div
-            className={`sidebar-domain-filter-group ${className}`}
+            className={`sidebar-domain-filter-group compact-icon-badge-mode ${className}`}
             role="region"
             aria-label="Filter destinations by domain status"
         >
-            <div className="domain-filter-header">
-                <div className="domain-filter-title-wrap">
-                    <Globe size={14} className="domain-filter-icon" />
-                    <span className="domain-filter-title">Domain Status</span>
-                </div>
-                {effectiveStatus !== 'all' && (
-                    <button
-                        type="button"
-                        onClick={handleClear}
-                        className="domain-filter-reset-btn"
-                        title="Clear domain status filter"
-                        aria-label="Clear domain status filter"
-                    >
-                        <span>Reset</span>
-                        <X size={12} />
-                    </button>
-                )}
-            </div>
+            <div className="domain-icon-badge-bar" role="group" aria-label="Destination domain status icon badges">
+                <span className="domain-mini-label" title="Filter by Domain Status">
+                    <Globe size={12} className="domain-filter-icon" />
+                </span>
 
-            {/* Filter Button Group */}
-            <div
-                className="domain-status-buttons"
-                role="group"
-                aria-label="Destination domain status toggle group"
-            >
                 {DOMAIN_STATUS_OPTIONS.map((option) => {
                     const isActive = effectiveStatus === option.id;
                     const Icon = STATUS_ICONS[option.id] || Sparkles;
@@ -162,28 +140,29 @@ const DomainStatusFilterGroup = ({
                             key={option.id}
                             type="button"
                             onClick={() => handleToggle(option.id)}
-                            className={`domain-status-btn status-${option.id} ${isActive ? 'active' : ''}`}
+                            className={`domain-icon-badge-btn status-${option.id} ${isActive ? 'active' : ''}`}
                             aria-pressed={isActive}
-                            title={`${option.tooltip} (${count} destinations)`}
+                            aria-label={`${option.label} (${count} destinations)`}
+                            title={`${option.label}: ${option.tooltip} (${count} destinations)`}
                         >
-                            <span className="domain-status-dot-wrap">
-                                <span className={`domain-status-dot dot-${option.id}`}></span>
-                            </span>
-                            <span className="domain-status-label">{option.label}</span>
-                            <span className="domain-status-count">{count}</span>
+                            <Icon size={13} className="badge-status-icon" />
+                            <span className="badge-short-label">{option.label}</span>
+                            <span className="badge-count-pill">{count}</span>
                         </button>
                     );
                 })}
-            </div>
 
-            {/* Micro summary subtitle */}
-            <div className="domain-filter-footer">
-                <span className="footer-status-text">
-                    {effectiveStatus === 'all'
-                        ? 'Filter 195+ destinations by domain availability'
-                        : `Showing ${effectiveStatus.charAt(0).toUpperCase() + effectiveStatus.slice(1)} destinations (${counts[effectiveStatus] || 0})`
-                    }
-                </span>
+                {effectiveStatus !== 'all' && (
+                    <button
+                        type="button"
+                        onClick={handleClear}
+                        className="domain-icon-reset-badge"
+                        title="Reset domain filter"
+                        aria-label="Clear domain status filter"
+                    >
+                        <X size={12} />
+                    </button>
+                )}
             </div>
         </div>
     );

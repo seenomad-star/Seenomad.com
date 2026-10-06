@@ -383,7 +383,7 @@ const MobileDrawer = ({ isOpen: propIsOpen, onClose: propOnClose }) => {
                                                         activeDomainStatus={domainStatus}
                                                         onSelectDestination={handleClose}
                                                         isMobile={true}
-                                                        defaultExpanded={true}
+                                                        defaultExpanded={false}
                                                     />
                                                 </>
                                             )}

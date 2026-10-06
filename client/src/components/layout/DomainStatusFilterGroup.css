@@ -1,335 +1,169 @@
-/* Domain Status Filter Button Group Styles for Sidebar */
+/* ==========================================================================
+   DomainStatusFilterGroup.css
+   Compact, Space-Efficient Icon-Based Badge System within Vertical Sidebar
+   Optimized for vertical screen real estate on mobile and desktop devices.
+   ========================================================================== */
 
-.sidebar-domain-filter-group {
-    margin: 0.4rem 0.5rem 0.75rem 0.5rem;
-    padding: 0.65rem 0.65rem 0.55rem;
-    background: rgba(15, 23, 42, 0.55);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 14px;
-    transition: all 0.25s ease;
-}
-
-body.theme-light .sidebar-domain-filter-group,
-.theme-light .sidebar-domain-filter-group {
-    background: rgba(241, 245, 249, 0.85);
-    border-color: rgba(0, 0, 0, 0.07);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
-}
-
-.sidebar-domain-filter-group:hover {
-    border-color: rgba(59, 130, 246, 0.25);
-    background: rgba(15, 23, 42, 0.7);
-}
-
-body.theme-light .sidebar-domain-filter-group:hover,
-.theme-light .sidebar-domain-filter-group:hover {
-    background: rgba(248, 250, 252, 0.95);
-    border-color: rgba(59, 130, 246, 0.2);
-}
-
-/* Header line */
-.domain-filter-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 0.5rem;
-    padding: 0 0.15rem;
-}
-
-.domain-filter-title-wrap {
-    display: flex;
-    align-items: center;
-    gap: 0.35rem;
-    color: #94a3b8;
-}
-
-body.theme-light .domain-filter-title-wrap,
-.theme-light .domain-filter-title-wrap {
-    color: #64748b;
-}
-
-.domain-filter-icon {
-    color: #60a5fa;
-}
-
-body.theme-light .domain-filter-icon,
-.theme-light .domain-filter-icon {
-    color: #2563eb;
-}
-
-.domain-filter-title {
-    font-size: 0.72rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: #cbd5e1;
-}
-
-body.theme-light .domain-filter-title,
-.theme-light .domain-filter-title {
-    color: #334155;
-}
-
-.domain-filter-reset-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-    font-size: 0.72rem;
-    font-weight: 600;
-    color: #f43f5e;
-    background: rgba(244, 63, 94, 0.1);
-    border: 1px solid rgba(244, 63, 94, 0.25);
-    padding: 0.35rem 0.65rem;
-    min-height: 36px;
-    border-radius: 8px;
-    cursor: pointer;
-    touch-action: manipulation;
-    transition: all 0.15s ease;
-}
-
-.domain-filter-reset-btn:hover {
-    background: rgba(244, 63, 94, 0.2);
-    border-color: rgba(244, 63, 94, 0.4);
-    transform: scale(1.02);
-}
-
-.domain-filter-reset-btn:active {
-    transform: scale(0.96);
-}
-
-/* Filter Button Group */
-.domain-status-buttons {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.4rem;
-    background: rgba(0, 0, 0, 0.25);
-    padding: 0.35rem;
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-body.theme-light .domain-status-buttons,
-.theme-light .domain-status-buttons {
-    background: rgba(0, 0, 0, 0.04);
-    border-color: rgba(0, 0, 0, 0.06);
-}
-
-.domain-status-btn {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 0.25rem;
-    min-height: 48px; /* Touch friendly: >= 48px */
-    padding: 0.55rem 0.35rem;
-    border-radius: 10px;
-    background: transparent;
-    border: 1px solid transparent;
-    color: #94a3b8;
-    cursor: pointer;
-    font-size: 0.8rem;
-    font-weight: 600;
-    touch-action: manipulation;
-    transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
-    outline: none;
-    user-select: none;
-    -webkit-tap-highlight-color: transparent;
-}
-
-body.theme-light .domain-status-btn,
-.theme-light .domain-status-btn {
-    color: #64748b;
-}
-
-.domain-status-btn:hover {
-    background: rgba(255, 255, 255, 0.08);
-    color: #f8fafc;
-}
-
-body.theme-light .domain-status-btn:hover,
-.theme-light .domain-status-btn:hover {
-    background: rgba(255, 255, 255, 0.9);
-    color: #0f172a;
-}
-
-.domain-status-dot-wrap {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 12px;
-}
-
-.domain-status-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
+.sidebar-domain-filter-group.compact-icon-badge-mode {
+    margin: 0.25rem 0.5rem 0.35rem 0.5rem;
+    padding: 0.25rem 0.35rem;
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(251, 191, 36, 0.22);
+    border-radius: 999px;
     transition: all 0.2s ease;
 }
 
-.domain-status-dot.dot-available {
-    background: #10b981;
-    box-shadow: 0 0 6px rgba(16, 185, 129, 0.6);
+body.theme-light .sidebar-domain-filter-group.compact-icon-badge-mode,
+.theme-light .sidebar-domain-filter-group.compact-icon-badge-mode {
+    background: rgba(241, 245, 249, 0.92);
+    border-color: rgba(217, 119, 6, 0.25);
 }
 
-.domain-status-dot.dot-taken {
-    background: #94a3b8;
+.domain-icon-badge-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.22rem;
+    width: 100%;
 }
 
-.domain-status-dot.dot-premium {
-    background: #a855f7;
-    box-shadow: 0 0 6px rgba(168, 85, 247, 0.6);
+.domain-mini-label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    color: #fbbf24;
+    flex-shrink: 0;
 }
 
-.domain-status-label {
-    line-height: 1.1;
-    font-size: 0.76rem;
+.domain-filter-icon {
+    color: #fbbf24;
+}
+
+.domain-icon-badge-btn {
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.2rem;
+    height: 24px;
+    min-height: 24px;
+    padding: 0 0.32rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #cbd5e1;
+    font-size: 0.62rem;
     font-weight: 700;
-    letter-spacing: -0.01em;
+    cursor: pointer;
+    transition: all 0.16s ease;
+    white-space: nowrap;
+    min-width: 0;
 }
 
-.domain-status-count {
-    font-size: 0.68rem;
-    font-weight: 700;
-    color: rgba(255, 255, 255, 0.55);
-    background: rgba(255, 255, 255, 0.09);
-    padding: 0.08rem 0.42rem;
-    border-radius: 100px;
-    line-height: 1.1;
+body.theme-light .domain-icon-badge-btn,
+.theme-light .domain-icon-badge-btn {
+    background: rgba(15, 23, 42, 0.04);
+    border-color: rgba(15, 23, 42, 0.08);
+    color: #334155;
 }
 
-body.theme-light .domain-status-count,
-.theme-light .domain-status-count {
-    color: #475569;
-    background: rgba(0, 0, 0, 0.07);
+.domain-icon-badge-btn:hover {
+    background: rgba(245, 158, 11, 0.16);
+    border-color: rgba(251, 191, 36, 0.45);
+    color: #fde68a;
 }
 
-/* Active State: Available */
-.domain-status-btn.status-available.active {
-    background: rgba(16, 185, 129, 0.16);
-    border-color: rgba(16, 185, 129, 0.45);
-    color: #34d399;
-    box-shadow: 0 0 12px rgba(16, 185, 129, 0.2);
+.badge-status-icon {
+    flex-shrink: 0;
 }
 
-body.theme-light .domain-status-btn.status-available.active,
-.theme-light .domain-status-btn.status-available.active {
-    background: rgba(16, 185, 129, 0.12);
-    border-color: rgba(16, 185, 129, 0.35);
-    color: #059669;
+.domain-icon-badge-btn.status-available .badge-status-icon {
+    color: #10b981;
 }
 
-.domain-status-btn.status-available.active .domain-status-dot {
-    transform: scale(1.3);
-}
-
-.domain-status-btn.status-available.active .domain-status-count {
-    background: rgba(16, 185, 129, 0.25);
-    color: #6ee7b7;
-}
-
-body.theme-light .domain-status-btn.status-available.active .domain-status-count,
-.theme-light .domain-status-btn.status-available.active .domain-status-count {
-    background: rgba(16, 185, 129, 0.2);
-    color: #047857;
-}
-
-/* Active State: Taken */
-.domain-status-btn.status-taken.active {
-    background: rgba(148, 163, 184, 0.18);
-    border-color: rgba(148, 163, 184, 0.4);
-    color: #f1f5f9;
-    box-shadow: 0 0 10px rgba(148, 163, 184, 0.15);
-}
-
-body.theme-light .domain-status-btn.status-taken.active,
-.theme-light .domain-status-btn.status-taken.active {
-    background: rgba(100, 116, 139, 0.15);
-    border-color: rgba(100, 116, 139, 0.3);
-    color: #1e293b;
-}
-
-.domain-status-btn.status-taken.active .domain-status-dot {
-    transform: scale(1.3);
-    background: #cbd5e1;
-}
-
-body.theme-light .domain-status-btn.status-taken.active .domain-status-dot,
-.theme-light .domain-status-btn.status-taken.active .domain-status-dot {
-    background: #475569;
-}
-
-.domain-status-btn.status-taken.active .domain-status-count {
-    background: rgba(255, 255, 255, 0.2);
-    color: #ffffff;
-}
-
-body.theme-light .domain-status-btn.status-taken.active .domain-status-count,
-.theme-light .domain-status-btn.status-taken.active .domain-status-count {
-    background: rgba(0, 0, 0, 0.12);
-    color: #0f172a;
-}
-
-/* Active State: Premium */
-.domain-status-btn.status-premium.active {
-    background: linear-gradient(135deg, rgba(168, 85, 247, 0.2) 0%, rgba(236, 72, 153, 0.15) 100%);
-    border-color: rgba(168, 85, 247, 0.45);
-    color: #d8b4fe;
-    box-shadow: 0 0 12px rgba(168, 85, 247, 0.25);
-}
-
-body.theme-light .domain-status-btn.status-premium.active,
-.theme-light .domain-status-btn.status-premium.active {
-    background: linear-gradient(135deg, rgba(168, 85, 247, 0.12) 0%, rgba(236, 72, 153, 0.08) 100%);
-    border-color: rgba(168, 85, 247, 0.35);
-    color: #7e22ce;
-}
-
-.domain-status-btn.status-premium.active .domain-status-dot {
-    transform: scale(1.3);
-}
-
-.domain-status-btn.status-premium.active .domain-status-count {
-    background: rgba(168, 85, 247, 0.25);
-    color: #f3e8ff;
-}
-
-body.theme-light .domain-status-btn.status-premium.active .domain-status-count,
-.theme-light .domain-status-btn.status-premium.active .domain-status-count {
-    background: rgba(168, 85, 247, 0.2);
-    color: #6b21a8;
-}
-
-/* Micro Footer Text */
-.domain-filter-footer {
-    margin-top: 0.4rem;
-    padding: 0 0.15rem;
-    text-align: center;
-}
-
-.footer-status-text {
-    font-size: 0.64rem;
+.domain-icon-badge-btn.status-taken .badge-status-icon {
     color: #94a3b8;
-    line-height: 1.2;
 }
 
-body.theme-light .footer-status-text,
-.theme-light .footer-status-text {
-    color: #64748b;
+.domain-icon-badge-btn.status-premium .badge-status-icon {
+    color: #fbbf24;
+}
+
+.badge-short-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 0.58rem;
+}
+
+.badge-count-pill {
+    padding: 0 4px;
+    height: 14px;
+    border-radius: 999px;
+    background: rgba(245, 158, 11, 0.22);
+    color: #fbbf24;
+    font-size: 0.54rem;
+    font-weight: 800;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+/* Active Yellow/Emerald/Purple Icon-Badge States */
+.domain-icon-badge-btn.status-available.active {
+    background: rgba(16, 185, 129, 0.2);
+    border-color: #10b981;
+    color: #34d399;
+    box-shadow: 0 0 8px rgba(16, 185, 129, 0.25);
+}
+
+.domain-icon-badge-btn.status-taken.active {
+    background: rgba(148, 163, 184, 0.22);
+    border-color: #94a3b8;
+    color: #f8fafc;
+}
+
+.domain-icon-badge-btn.status-premium.active {
+    background: rgba(245, 158, 11, 0.22);
+    border-color: #fbbf24;
+    color: #fde68a;
+    box-shadow: 0 0 8px rgba(245, 158, 11, 0.28);
+}
+
+.domain-icon-reset-badge {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: rgba(239, 68, 68, 0.16);
+    border: 1px solid rgba(239, 68, 68, 0.4);
+    color: #f87171;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+    flex-shrink: 0;
+}
+
+.domain-icon-reset-badge:hover {
+    background: rgba(239, 68, 68, 0.3);
+    color: #ffffff;
 }
 
 /* Collapsed Mini Button */
 .sidebar-domain-filter-collapsed {
     display: flex;
     justify-content: center;
-    margin: 0.4rem 0;
+    margin: 0.25rem 0;
 }
 
 .domain-status-collapsed-btn {
     position: relative;
-    width: 38px;
-    height: 38px;
-    border-radius: 10px;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255, 255, 255, 0.08);
     color: #94a3b8;
@@ -340,43 +174,24 @@ body.theme-light .footer-status-text,
     transition: all 0.2s ease;
 }
 
-body.theme-light .domain-status-collapsed-btn,
-.theme-light .domain-status-collapsed-btn {
-    background: rgba(0, 0, 0, 0.03);
-    border-color: rgba(0, 0, 0, 0.08);
-    color: #64748b;
-}
-
-.domain-status-collapsed-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: #ffffff;
-    border-color: rgba(59, 130, 246, 0.3);
-}
-
-body.theme-light .domain-status-collapsed-btn:hover,
-.theme-light .domain-status-collapsed-btn:hover {
-    background: rgba(0, 0, 0, 0.07);
-    color: #0f172a;
+.domain-status-collapsed-btn.active {
+    background: rgba(245, 158, 11, 0.18);
+    border-color: #fbbf24;
+    color: #fbbf24;
 }
 
 .collapsed-status-indicator {
     position: absolute;
-    top: 4px;
-    right: 4px;
+    top: 2px;
+    right: 2px;
     width: 7px;
     height: 7px;
     border-radius: 50%;
     border: 1.5px solid #0f172a;
 }
 
-body.theme-light .collapsed-status-indicator,
-.theme-light .collapsed-status-indicator {
-    border-color: #ffffff;
-}
-
 .collapsed-status-indicator.status-dot-available {
     background: #10b981;
-    box-shadow: 0 0 6px #10b981;
 }
 
 .collapsed-status-indicator.status-dot-taken {
@@ -384,85 +199,29 @@ body.theme-light .collapsed-status-indicator,
 }
 
 .collapsed-status-indicator.status-dot-premium {
-    background: #a855f7;
-    box-shadow: 0 0 6px #a855f7;
+    background: #fbbf24;
 }
 
 .collapsed-status-indicator.status-dot-all {
     display: none;
 }
 
-/* ==========================================================================
-   Small Screens Responsive Rules for Domain Filter Group
-   ========================================================================== */
+/* Mobile Screen Vertical Space Optimization */
 @media (max-width: 900px) {
-    .sidebar-domain-filter-group {
-        margin: 0.5rem 0.4rem 0.85rem 0.4rem;
-        padding: 0.75rem 0.65rem 0.65rem;
+    .sidebar-domain-filter-group.compact-icon-badge-mode {
+        margin: 0.2rem 0.35rem 0.3rem;
+        padding: 0.2rem 0.3rem;
     }
 
-    .domain-filter-title {
-        font-size: 0.78rem;
+    /* Icon + Count Badge only on mobile to maximize space efficiency */
+    .badge-short-label {
+        display: none;
     }
 
-    .domain-filter-reset-btn {
-        font-size: 0.74rem;
-        padding: 0.35rem 0.65rem;
-        min-height: 38px;
-        touch-action: manipulation;
-        -webkit-tap-highlight-color: transparent;
-    }
-
-    .domain-status-buttons {
-        gap: 0.35rem;
-        padding: 0.3rem;
-    }
-
-    .domain-status-btn {
-        min-height: 50px; /* Touch target >= 48px */
-        padding: 0.55rem 0.3rem;
-    }
-
-    .domain-status-label {
-        font-size: 0.78rem;
-    }
-
-    .domain-status-count {
-        font-size: 0.7rem;
-        padding: 0.1rem 0.45rem;
-    }
-
-    .footer-status-text {
-        font-size: 0.72rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .sidebar-domain-filter-group {
-        margin: 0.5rem 0.25rem 0.85rem 0.25rem;
-        padding: 0.7rem 0.55rem 0.65rem;
-    }
-
-    .domain-filter-reset-btn {
-        font-size: 0.72rem;
-        padding: 0.35rem 0.55rem;
-        min-height: 38px;
-    }
-
-    .domain-status-buttons {
-        gap: 0.35rem;
-    }
-
-    .domain-status-btn {
-        min-height: 50px;
-        padding: 0.5rem 0.25rem;
-    }
-
-    .domain-status-label {
-        font-size: 0.74rem;
-    }
-
-    .domain-status-count {
-        font-size: 0.68rem;
+    .domain-icon-badge-btn {
+        height: 24px;
+        min-height: 24px;
+        padding: 0 0.35rem;
+        gap: 0.25rem;
     }
 }

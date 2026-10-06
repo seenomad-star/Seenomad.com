@@ -1085,48 +1085,55 @@ const NomadDock = () => {
             aria-label="Vertical Pill / Vertical Bar — Page-Specific Filters & Live Travel Intelligence"
         >
             <div className="nomad-dock vertical-pill-container">
-                {/* Vertical Pill / Vertical Bar Header Tag */}
+                {/* Vertical Pill / Vertical Bar Header Tag (Compact Icon-Badge) */}
                 <div
                     className="vertical-pill-header-badge"
                     title="Vertical Pill / Vertical Bar — Live Travel Intelligence • Verified 2026"
                 >
                     <span className="live-pulse-dot-dock"></span>
-                    <span className="vertical-pill-tag-text">2026</span>
+                    <span className="vertical-pill-tag-text">26</span>
                 </div>
 
                 {tools.map((tool) => {
                     const isOpen = currentOpenTool === tool.id;
-                    const hasBadge = tool.badgeCount && tool.badgeCount > 0;
+                    const badgeCount = Number(tool.badgeCount || 0);
+                    const hasBadge = badgeCount > 0;
 
                     return (
                         <div
                             key={tool.id}
                             className={`dock-item-container ${isOpen ? 'active' : ''} ${hasBadge ? 'has-active-filters' : ''} ${tool.id === 'user' ? 'user-top' : ''} ${tool.id === 'live-intel' ? 'live-intel-top' : ''} ${tool.id}`}
                             onMouseEnter={() => {
-                                if (!pinnedTool) setActiveTool(tool.id);
+                                if (!pinnedTool && window.innerWidth > 900) setActiveTool(tool.id);
                             }}
                             onMouseLeave={() => {
-                                if (!pinnedTool) setActiveTool(null);
+                                if (!pinnedTool && window.innerWidth > 900) setActiveTool(null);
                             }}
                         >
                             <motion.button
                                 type="button"
                                 className={`dock-item ${tool.id} ${hasBadge ? 'filter-active' : ''}`}
-                                whileHover={{ scale: 1.08, x: 3 }}
+                                whileHover={{ scale: 1.06, x: 2 }}
                                 whileTap={{ scale: 0.94 }}
                                 onClick={() => {
                                     setPinnedTool((prev) => (prev === tool.id ? null : tool.id));
-                                    setActiveTool(tool.id);
+                                    setActiveTool((prev) => (prev === tool.id && pinnedTool === tool.id ? null : tool.id));
                                 }}
                                 style={{
                                     color: tool.id === 'live-intel' ? '#10b981' : 'inherit'
                                 }}
-                                aria-label={tool.label}
+                                aria-label={hasBadge ? `${tool.label} (${badgeCount} active)` : tool.label}
+                                title={hasBadge ? `${tool.label} • ${badgeCount} active` : tool.label}
                                 aria-expanded={isOpen}
                             >
-                                {typeof tool.icon === 'function' ? <tool.icon /> : <tool.icon size={18} />}
+                                {typeof tool.icon === 'function' ? <tool.icon /> : <tool.icon size={16} />}
                                 {hasBadge && (
-                                    <span className="dock-filter-count-badge">{tool.badgeCount}</span>
+                                    <span
+                                        className="dock-filter-count-badge"
+                                        aria-label={`${badgeCount} active filters`}
+                                    >
+                                        {badgeCount > 9 ? '9+' : badgeCount}
+                                    </span>
                                 )}
                             </motion.button>
 

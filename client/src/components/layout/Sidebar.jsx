@@ -293,7 +293,7 @@ const Sidebar = ({ isCollapsed, toggleSidebar, isMobileOpen, isMobile }) => {
                                                             if (isMobile && toggleSidebar) toggleSidebar();
                                                         }}
                                                         isMobile={Boolean(isMobile)}
-                                                        defaultExpanded={true}
+                                                        defaultExpanded={!isMobile}
                                                     />
                                                 )}
                                             </>
