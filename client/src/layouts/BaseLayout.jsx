@@ -124,6 +124,10 @@ const BaseLayout = ({ children }) => {
     const hideGhostDock = location.pathname === '/' || 
         location.pathname === '/popular' || 
         location.pathname.startsWith('/feed') || 
+        location.pathname.startsWith('/explore') || 
+        location.pathname.startsWith('/destinations') || 
+        location.pathname.startsWith('/compare') || 
+        location.pathname.startsWith('/visa') || 
         location.pathname === '/community/meetups';
     
     // Hide large static footer on feed and endless stream pages
