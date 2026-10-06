@@ -11,6 +11,9 @@ interface FilterState {
         durations: string[];
         climates: string[];
         categories: string[];
+        internetSpeeds: string[];
+        minInternetSpeed: number;
+        maxMonthlyCost: number;
     };
     viewMode: 'grid' | 'list' | 'map';
     sortBy: string;
@@ -20,6 +23,9 @@ interface FilterState {
     streak: number;
     lastVisit: string | null;
     monetizationExposure: number;
+    compareDestinations: number[];
+    isCompareModalOpen: boolean;
+    isFilterDrawerOpen: boolean;
 
     setSearchQuery: (query: string) => void;
     setSelectedFilters: (filters: string[]) => void;
@@ -27,7 +33,10 @@ interface FilterState {
     toggleDomainStatus: (status: 'available' | 'taken' | 'premium') => void;
     setSortBy: (sort: string) => void;
     toggleFilter: (filterId: string) => void;
-    toggleAdvancedFilter: (category: keyof FilterState['advancedFilters'], value: string) => void;
+    toggleAdvancedFilter: (category: 'regions' | 'budgetRanges' | 'durations' | 'climates' | 'categories' | 'internetSpeeds', value: string) => void;
+    setMinInternetSpeed: (speed: number) => void;
+    setMaxMonthlyCost: (cost: number) => void;
+    setIsFilterDrawerOpen: (isOpen: boolean) => void;
     setViewMode: (mode: 'grid' | 'list' | 'map') => void;
     addSearchHistory: (query: string) => void;
     unlockFeature: (featureId: string) => void;
@@ -35,6 +44,10 @@ interface FilterState {
     updateStreak: () => void;
     incrementMonetizationExposure: () => void;
     resetFilters: () => void;
+    toggleCompareDestination: (destId: number) => void;
+    setCompareDestinations: (ids: number[]) => void;
+    clearCompareDestinations: () => void;
+    setIsCompareModalOpen: (isOpen: boolean) => void;
 }
 
 export const useDestinationStore = create<FilterState>()(
@@ -49,6 +62,9 @@ export const useDestinationStore = create<FilterState>()(
                 durations: [],
                 climates: [],
                 categories: [],
+                internetSpeeds: [],
+                minInternetSpeed: 0,
+                maxMonthlyCost: 5000,
             },
             viewMode: 'grid',
             sortBy: 'featured',
@@ -58,6 +74,9 @@ export const useDestinationStore = create<FilterState>()(
             streak: 0,
             lastVisit: null,
             monetizationExposure: 0,
+            compareDestinations: [601, 812],
+            isCompareModalOpen: false,
+            isFilterDrawerOpen: false,
 
             setSearchQuery: (query) => set({ searchQuery: query }),
 
@@ -77,14 +96,33 @@ export const useDestinationStore = create<FilterState>()(
                     : [...state.selectedFilters, filterId]
             })),
 
-            toggleAdvancedFilter: (category, value) => set((state) => ({
+            toggleAdvancedFilter: (category, value) => set((state) => {
+                const currentList = state.advancedFilters[category] || [];
+                return {
+                    advancedFilters: {
+                        ...state.advancedFilters,
+                        [category]: currentList.includes(value)
+                            ? currentList.filter(v => v !== value)
+                            : [...currentList, value]
+                    }
+                };
+            }),
+
+            setMinInternetSpeed: (speed) => set((state) => ({
                 advancedFilters: {
                     ...state.advancedFilters,
-                    [category]: state.advancedFilters[category].includes(value)
-                        ? state.advancedFilters[category].filter(v => v !== value)
-                        : [...state.advancedFilters[category], value]
+                    minInternetSpeed: speed
                 }
             })),
+
+            setMaxMonthlyCost: (cost) => set((state) => ({
+                advancedFilters: {
+                    ...state.advancedFilters,
+                    maxMonthlyCost: cost
+                }
+            })),
+
+            setIsFilterDrawerOpen: (isOpen) => set({ isFilterDrawerOpen: isOpen }),
 
             setViewMode: (mode) => set({ viewMode: mode }),
 
@@ -134,8 +172,34 @@ export const useDestinationStore = create<FilterState>()(
                     durations: [],
                     climates: [],
                     categories: [],
+                    internetSpeeds: [],
+                    minInternetSpeed: 0,
+                    maxMonthlyCost: 5000,
                 }
             }),
+
+            toggleCompareDestination: (destId) => set((state) => {
+                const exists = state.compareDestinations.includes(destId);
+                if (exists) {
+                    return {
+                        compareDestinations: state.compareDestinations.filter((id) => id !== destId)
+                    };
+                }
+                if (state.compareDestinations.length >= 2) {
+                    return {
+                        compareDestinations: [state.compareDestinations[1], destId]
+                    };
+                }
+                return {
+                    compareDestinations: [...state.compareDestinations, destId]
+                };
+            }),
+
+            setCompareDestinations: (ids) => set({ compareDestinations: ids.slice(0, 2) }),
+
+            clearCompareDestinations: () => set({ compareDestinations: [601, 812] }),
+
+            setIsCompareModalOpen: (isOpen) => set({ isCompareModalOpen: isOpen }),
         }),
         {
             name: 'destination-storage',

@@ -19,8 +19,6 @@ import {
     Settings as SettingsIcon,
     LifeBuoy,
     Plus,
-    PanelLeftClose,
-    PanelLeftOpen,
     Plane,
     ChevronRight,
     MapPin,
@@ -90,7 +88,7 @@ const Sidebar = ({ isCollapsed, toggleSidebar, isMobileOpen, isMobile }) => {
             items: [
                 { icon: Compass, label: 'Travel Feed', to: '/', exact: true, description: 'Live nomad stories & updates' },
                 { icon: Globe, label: 'Destinations', to: '/explore/destinations', badge: '195+', badgeType: 'info', description: 'City guides & hidden gems' },
-                { icon: Bookmark, label: 'Saved Wishlist', to: '/saved', badge: savedCount > 0 ? `${savedCount}` : null, badgeType: 'accent', description: 'Bookmarked spots & stays' },
+                { icon: Bookmark, label: 'My Favorites', to: '/saved', badge: savedCount > 0 ? `${savedCount}` : null, badgeType: 'accent', description: 'Saved in your local profile' },
                 { icon: Map, label: 'Interactive Map', to: '/explore?view=map', badge: 'Live', badgeType: 'accent', description: 'Pins & route visualization' },
                 { icon: Flame, label: 'Trending & Popular', to: '/popular', badge: 'Hot', badgeType: 'hot', description: 'Hot discussions & top community stories' },
                 { icon: Calendar, label: 'Festivals & Events', to: '/event-festival', description: 'Global cultural gatherings' },
@@ -207,58 +205,6 @@ const Sidebar = ({ isCollapsed, toggleSidebar, isMobileOpen, isMobile }) => {
 
     return (
         <aside className={sidebarClass} aria-label="Main Navigation">
-            {/* Sidebar Action / Control Header (Brand is anchored in preferred Top Navbar) */}
-            <div className={`travel-sidebar-header ${effectiveCollapsed ? 'collapsed-header' : ''}`}>
-                {!effectiveCollapsed ? (
-                    <>
-                        <div className="sidebar-header-label-wrapper">
-                            <span className="sidebar-header-label">Workspace</span>
-                        </div>
-
-                        {!isMobile && (
-                            <button
-                                type="button"
-                                className="sidebar-toggle-btn sidebar-collapse-toggle"
-                                onClick={toggleSidebar}
-                                title="Collapse sidebar (⌘B)"
-                                aria-label="Collapse sidebar"
-                            >
-                                <PanelLeftClose size={16} />
-                            </button>
-                        )}
-                        {isMobile && (
-                            <button
-                                type="button"
-                                className="sidebar-close-mobile-btn"
-                                onClick={toggleSidebar}
-                                title="Close navigation menu"
-                                aria-label="Close navigation menu"
-                            >
-                                <PanelLeftClose size={18} />
-                            </button>
-                        )}
-                    </>
-                ) : (
-                    <div className="sidebar-collapsed-header-inner">
-                        {!isMobile && (
-                            <button
-                                type="button"
-                                className="sidebar-toggle-btn sidebar-collapse-toggle collapsed-toggle"
-                                onClick={() => {
-                                    hideTooltip();
-                                    toggleSidebar();
-                                }}
-                                onMouseEnter={(e) => showTooltip(e, 'Expand Sidebar', { subtext: 'Shortcut: ⌘B' })}
-                                onMouseLeave={hideTooltip}
-                                aria-label="Expand sidebar"
-                            >
-                                <PanelLeftOpen size={16} />
-                            </button>
-                        )}
-                    </div>
-                )}
-            </div>
-
             {/* Navigation Sections */}
             <nav className="travel-sidebar-nav">
                 {navSections.map((section, sectionIdx) => (

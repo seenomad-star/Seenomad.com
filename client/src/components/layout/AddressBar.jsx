@@ -26,15 +26,33 @@ import {
     FileText
 } from 'lucide-react';
 import { useDestinationStore } from '../../store/destinationFilterStore';
-import SidebarToggle from '../common/SidebarToggle';
 import '../../styles/AddressBar.css';
 
 // Rich route metadata for clean, accurate travel breadcrumbs
 const ROUTE_INFO = {
     'explore': {
-        name: 'Explore Destinations',
+        name: 'Explore',
+        icon: Compass
+    },
+    'destinations': {
+        name: 'Global Destinations',
+        icon: Globe2,
+        badge: '195+'
+    },
+    'compare-destinations': {
+        name: 'Compare Destinations',
         icon: Compass,
-        badge: '120+ Cities'
+        badge: 'Side-by-Side'
+    },
+    'compare': {
+        name: 'Compare Destinations',
+        icon: Compass,
+        badge: 'Side-by-Side'
+    },
+    'visa': {
+        name: 'Visa Intelligence',
+        icon: Shield,
+        badge: '2026'
     },
     'visas': {
         name: 'Nomad Visas',
@@ -136,7 +154,6 @@ const AddressBar = ({ isSidebarCollapsed }) => {
         >
             {/* History & Quick Traversal Controls */}
             <div className="address-bar-nav-btns">
-                <SidebarToggle variant="inline" className="address-bar-sidebar-toggle" />
                 <button
                     className="addr-btn"
                     onClick={() => navigate(-1)}

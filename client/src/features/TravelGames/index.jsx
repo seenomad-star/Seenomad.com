@@ -3,7 +3,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import {
     Search, Filter, Grid, List, ChevronDown, ChevronUp
 } from 'lucide-react';
-import ModuleNavbar from '../../components/common/ModuleNavbar';
+import { useNavStore } from '../../store/navStore';
 import AdCard from './components/AdCard';
 import AdSenseBanner from './components/AdSenseBanner';
 import TournamentsView from './components/TournamentsView';
@@ -18,11 +18,17 @@ import {
 import '../../styles/TravelGames.css';
 
 const TravelGames = () => {
+    const { setModuleNav } = useNavStore();
     // Navigation items
     const navItems = [
         'All Games', 'RPG', 'Puzzle', 'Simulation', 'Strategy',
         'Action', 'Tournaments', 'Leaderboard', 'Rewards'
     ];
+
+    useEffect(() => {
+        setModuleNav(navItems, '/travel-games');
+        return () => setModuleNav([], '');
+    }, []);
 
     // State Management
     const [viewMode, setViewMode] = useState('grid');
@@ -48,6 +54,36 @@ const TravelGames = () => {
             setLiveTickerIndex((prev) => (prev + 1) % liveTickerMessages.length);
         }, 4000);
         return () => clearInterval(interval);
+    }, []);
+
+    // Sync with Vertical NomadDock page-specific filters
+    useEffect(() => {
+        const handleDockFilter = (e) => {
+            const filterId = e.detail?.filterId;
+            if (!filterId) return;
+            if (filterId === 'multiplayer') {
+                setAdvancedFilters(prev => ({ ...prev, multiplayer: !prev.multiplayer }));
+            } else {
+                setActiveFilters(prev =>
+                    prev.includes(filterId) ? prev.filter(id => id !== filterId) : [...prev, filterId]
+                );
+            }
+        };
+        const handleDockReset = () => {
+            setActiveFilters([]);
+            setSelectedType('all');
+            setSelectedDifficulty('all');
+            setSelectedReward('all');
+            setSelectedPlayers('all');
+            setAdvancedFilters({ multiplayer: false, offline: false, vr: false, crossPlatform: false });
+            setSearchQuery('');
+        };
+        window.addEventListener('nomaddock:filter', handleDockFilter);
+        window.addEventListener('nomaddock:reset', handleDockReset);
+        return () => {
+            window.removeEventListener('nomaddock:filter', handleDockFilter);
+            window.removeEventListener('nomaddock:reset', handleDockReset);
+        };
     }, []);
 
     // XP Tracking
@@ -220,8 +256,6 @@ const TravelGames = () => {
 
     return (
         <div className="travel-games-container-premium">
-            <ModuleNavbar items={navItems} basePath="/travel-games" />
-
             {/* Live Ticker */}
             <div className="live-ticker-bar">
                 <div className="ticker-label">LIVE</div>

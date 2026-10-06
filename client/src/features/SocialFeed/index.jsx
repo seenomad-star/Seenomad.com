@@ -551,6 +551,26 @@ const SocialFeed = () => {
         return () => clearTimeout(timer);
     }, []);
 
+    // Listen to NomadDock Vertical Pill page-specific filter and reset events
+    useEffect(() => {
+        const handleDockFilter = (e) => {
+            const filterId = e.detail?.filterId;
+            if (filterId && ['trending', 'following', 'recent', 'vlogs', 'events', 'foryou', 'live', 'shorts', 'challenges', 'exchange'].includes(filterId)) {
+                setActiveTab(filterId);
+                addToast(`Filtered feed by ${filterId.charAt(0).toUpperCase() + filterId.slice(1)} via Vertical NomadDock`, 'info');
+            }
+        };
+        const handleDockReset = () => {
+            setActiveTab('trending');
+        };
+        window.addEventListener('nomaddock:filter', handleDockFilter);
+        window.addEventListener('nomaddock:reset', handleDockReset);
+        return () => {
+            window.removeEventListener('nomaddock:filter', handleDockFilter);
+            window.removeEventListener('nomaddock:reset', handleDockReset);
+        };
+    }, [addToast]);
+
     // Random new post ticker for "Recent" tab
     useEffect(() => {
         if (activeTab === 'recent' || activeTab === 'latest') {

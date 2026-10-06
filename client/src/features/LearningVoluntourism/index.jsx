@@ -140,6 +140,26 @@ const LearningVoluntourism = () => {
         };
     }, []);
 
+    useEffect(() => {
+        const handleDockFilter = (e) => {
+            const filterId = e.detail?.filterId;
+            if (!filterId) return;
+            setActiveFilters(prev =>
+                prev.includes(filterId) ? prev.filter(id => id !== filterId) : [...prev, filterId]
+            );
+        };
+        const handleDockReset = () => {
+            setActiveFilters([]);
+            setSearchQuery('');
+        };
+        window.addEventListener('nomaddock:filter', handleDockFilter);
+        window.addEventListener('nomaddock:reset', handleDockReset);
+        return () => {
+            window.removeEventListener('nomaddock:filter', handleDockFilter);
+            window.removeEventListener('nomaddock:reset', handleDockReset);
+        };
+    }, []);
+
     const toggleFilter = (filterId) => {
         setActiveFilters(prev =>
             prev.includes(filterId)
@@ -157,6 +177,11 @@ const LearningVoluntourism = () => {
         const filteredData = MOCK_LEARNING_DATA.filter(item => {
             if (category !== 'all' && item.category.toLowerCase() !== category.toLowerCase()) return false;
             if (searchQuery && !item.title.toLowerCase().includes(searchQuery.toLowerCase())) return false;
+            if (activeFilters.length > 0) {
+                const catSlug = item.category.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+                const matches = activeFilters.some(f => catSlug.includes(f) || f.includes(catSlug));
+                if (!matches) return false;
+            }
             return true;
         });
 

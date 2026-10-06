@@ -15,6 +15,7 @@ import BudgetTracker from './components/BudgetTracker';
 import ReferralHub from './components/ReferralHub';
 import DopamineDashboard from './components/DopamineDashboard';
 import TravelMap from './components/TravelMap';
+import SavedDestinationsHub from '../Saved/SavedDestinationsHub';
 import ViralShareModal from '../Growth/components/ViralShareModal';
 import '../../styles/UserHub.css';
 
@@ -39,6 +40,8 @@ const UserHub = () => {
                     <Route path="/" element={<Navigate to="wallet" replace />} />
                     <Route path="wallet/*" element={<WalletModule />} />
                     <Route path="profile" element={<NomadProfile />} />
+                    <Route path="favorites" element={<SavedDestinationsHub />} />
+                    <Route path="saved" element={<SavedDestinationsHub />} />
                     <Route path="budget" element={<BudgetTracker />} />
                     <Route path="referrals" element={<ReferralHub />} />
                     <Route path="impact" element={<DopamineDashboard />} />

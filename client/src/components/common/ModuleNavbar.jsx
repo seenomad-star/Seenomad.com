@@ -1,17 +1,63 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useNavStore } from '../../store/navStore';
 import '../../features/Explore/styles/ExploreNavbar.css';
 
-const ModuleNavbar = ({ isSidebarCollapsed }) => {
+const ModuleNavbar = ({ isSidebarCollapsed, items, basePath }) => {
     const { moduleNavItems, moduleBasePath } = useNavStore();
+    const resolvedItems = items && items.length > 0 ? items : moduleNavItems;
+    const resolvedBasePath = basePath || moduleBasePath;
     const scrollContainerRef = useRef(null);
     const location = useLocation();
+    const [canScrollLeft, setCanScrollLeft] = useState(false);
+    const [canScrollRight, setCanScrollRight] = useState(true);
+
+    const updateScrollState = useCallback(() => {
+        const el = scrollContainerRef.current;
+        if (!el) return;
+        const { scrollLeft, scrollWidth, clientWidth } = el;
+        setCanScrollLeft(scrollLeft > 4);
+        setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 4);
+    }, []);
+
+    useEffect(() => {
+        const el = scrollContainerRef.current;
+        if (!el) return;
+        updateScrollState();
+
+        // Allow vertical mouse wheel over the pill strip to smoothly scroll horizontally
+        const handleWheel = (e) => {
+            if (Math.abs(e.deltaY) > Math.abs(e.deltaX) && el.scrollWidth > el.clientWidth) {
+                e.preventDefault();
+                el.scrollLeft += e.deltaY * 0.85;
+            }
+        };
+
+        el.addEventListener('scroll', updateScrollState, { passive: true });
+        el.addEventListener('wheel', handleWheel, { passive: false });
+        window.addEventListener('resize', updateScrollState);
+        return () => {
+            el.removeEventListener('scroll', updateScrollState);
+            el.removeEventListener('wheel', handleWheel);
+            window.removeEventListener('resize', updateScrollState);
+        };
+    }, [resolvedItems, updateScrollState]);
+
+    // Automatically center active item inside horizontal ribbon on route change
+    useEffect(() => {
+        const el = scrollContainerRef.current;
+        if (!el) return;
+        const activeLink = el.querySelector('.module-nav-item.active');
+        if (activeLink) {
+            activeLink.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        }
+        setTimeout(updateScrollState, 180);
+    }, [location.pathname, updateScrollState]);
 
     const scroll = (direction) => {
         if (scrollContainerRef.current) {
-            const scrollAmount = 200;
+            const scrollAmount = Math.max(220, scrollContainerRef.current.clientWidth * 0.55);
             scrollContainerRef.current.scrollBy({
                 left: direction === 'left' ? -scrollAmount : scrollAmount,
                 behavior: 'smooth'
@@ -19,24 +65,32 @@ const ModuleNavbar = ({ isSidebarCollapsed }) => {
         }
     };
 
-    if (!moduleNavItems || moduleNavItems.length === 0) return null;
+    if (!resolvedItems || resolvedItems.length === 0) return null;
 
     return (
-        <div className={`module-navbar ${!isSidebarCollapsed ? 'left-sidebar-expanded' : 'left-sidebar-collapsed'}`}>
-            <div className="module-nav-group">
+        <nav
+            className={`module-navbar ${!isSidebarCollapsed ? 'left-sidebar-expanded' : 'left-sidebar-collapsed'}`}
+            aria-label="Section sub-navigation"
+        >
+            <div className={`module-nav-group ${canScrollLeft ? 'can-scroll-left' : ''} ${canScrollRight ? 'can-scroll-right' : ''}`}>
                 <button
-                    className="module-scroll-btn left"
+                    type="button"
+                    className={`module-scroll-btn left ${!canScrollLeft ? 'is-disabled' : ''}`}
                     onClick={() => scroll('left')}
-                    aria-label="Scroll left"
+                    disabled={!canScrollLeft}
+                    aria-label="Scroll navigation left"
+                    title="Scroll left"
                 >
-                    <ChevronLeft size={16} />
+                    <ChevronLeft size={14} />
                 </button>
 
                 <div className="module-nav-scroll-container" ref={scrollContainerRef}>
-                    {moduleNavItems.map((item, index) => {
+                    {resolvedItems.map((item, index) => {
+                        const toSlug = (text) => text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
                         if (typeof item === 'string') {
-                            const slug = item.toLowerCase().replace(/\s+/g, '-');
-                            const path = `${moduleBasePath}/${slug}`;
+                            const slug = toSlug(item);
+                            const path = `${resolvedBasePath}/${slug}`;
                             return (
                                 <NavLink
                                     key={index}
@@ -52,8 +106,8 @@ const ModuleNavbar = ({ isSidebarCollapsed }) => {
                             return (
                                 <React.Fragment key={index}>
                                     {item.subItems.map((subItem, subIndex) => {
-                                        const slug = subItem.label.toLowerCase().replace(/\s+/g, '-');
-                                        const path = `${moduleBasePath}/${slug}`;
+                                        const slug = subItem.slug || toSlug(subItem.label);
+                                        const path = subItem.path || `${resolvedBasePath}/${slug}`;
                                         return (
                                             <NavLink
                                                 key={`${index}-${subIndex}`}
@@ -62,7 +116,7 @@ const ModuleNavbar = ({ isSidebarCollapsed }) => {
                                             >
                                                 {subItem.icon && (
                                                     <span className="module-nav-icon">
-                                                        {React.cloneElement(subItem.icon, { size: 14 })}
+                                                        {React.cloneElement(subItem.icon, { size: 13 })}
                                                     </span>
                                                 )}
                                                 <span className="module-nav-label">{subItem.label}</span>
@@ -73,8 +127,8 @@ const ModuleNavbar = ({ isSidebarCollapsed }) => {
                             );
                         }
 
-                        const slug = item.label.toLowerCase().replace(/\s+/g, '-');
-                        const path = `${moduleBasePath}/${slug}`;
+                        const slug = item.slug || toSlug(item.label);
+                        const path = item.path || `${resolvedBasePath}/${slug}`;
                         return (
                             <NavLink
                                 key={index}
@@ -83,7 +137,7 @@ const ModuleNavbar = ({ isSidebarCollapsed }) => {
                             >
                                 {item.icon && (
                                     <span className="module-nav-icon">
-                                        {React.cloneElement(item.icon, { size: 14 })}
+                                        {React.cloneElement(item.icon, { size: 13 })}
                                     </span>
                                 )}
                                 <span className="module-nav-label">{item.label}</span>
@@ -93,14 +147,17 @@ const ModuleNavbar = ({ isSidebarCollapsed }) => {
                 </div>
 
                 <button
-                    className="module-scroll-btn right"
+                    type="button"
+                    className={`module-scroll-btn right ${!canScrollRight ? 'is-disabled' : ''}`}
                     onClick={() => scroll('right')}
-                    aria-label="Scroll right"
+                    disabled={!canScrollRight}
+                    aria-label="Scroll navigation right"
+                    title="Scroll right"
                 >
-                    <ChevronRight size={16} />
+                    <ChevronRight size={14} />
                 </button>
             </div>
-        </div>
+        </nav>
     );
 };
 

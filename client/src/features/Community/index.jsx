@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { useNavStore } from '../../store/navStore';
 import { useNomadOSStore } from '../../store/nomadOSStore';
+import ModuleNavbar from '../../components/common/ModuleNavbar';
 import '../../styles/CreatorCommunity.css';
 import VibeCheck from '../UserHub/VibeCheck';
 
@@ -144,8 +145,7 @@ const Community = () => {
             <ShortsViewer isOpen={isShortsOpen} onClose={() => setIsShortsOpen(false)} />
             <VibeCheck isOpen={isVibeOpen} onClose={() => setIsVibeOpen(false)} />
 
-            {/* Sub-Module Navigation */}
-            {/* Global ModuleNavbar is now in NavbarV3 */}
+            {/* Sub-Module Navigation is fixed below the breadcrumb in NavbarV3 */}
 
             {/* Search & Global Filters are now handled by NomadGhostDock */}
 

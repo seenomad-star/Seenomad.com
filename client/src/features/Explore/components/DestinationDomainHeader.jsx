@@ -10,11 +10,14 @@ import {
     Zap,
     MapPin,
     ArrowRight,
+    ArrowLeftRight,
+    SlidersHorizontal,
     Palmtree,
     Mountain,
     Laptop,
     CheckCircle2
 } from 'lucide-react';
+import { useDestinationStore } from '../../../store/destinationFilterStore';
 import './DestinationDomainHeader.css';
 
 const QUICK_PRESETS = [
@@ -33,27 +36,12 @@ const DestinationDomainHeader = ({
     totalDestinations = 195
 }) => {
     const navigate = useNavigate();
+    const { setIsCompareModalOpen, setIsFilterDrawerOpen } = useDestinationStore();
 
     return (
         <header className="destination-domain-hero" role="banner" aria-label="Destinations Domain Overview">
             <div className="domain-hero-glow aura-blue"></div>
             <div className="domain-hero-glow aura-purple"></div>
-
-            <div className="domain-hero-topline">
-                <div className="domain-breadcrumb">
-                    <span className="domain-pill-badge">
-                        <Globe size={13} className="spin-slow" />
-                        <span>Destinations Domain</span>
-                    </span>
-                    <span className="domain-divider">/</span>
-                    <span className="domain-sub-badge">195+ Countries & Territories</span>
-                </div>
-
-                <div className="domain-live-intel">
-                    <span className="live-pulse-dot"></span>
-                    <span className="live-intel-text">Live Travel Intelligence • Verified 2026</span>
-                </div>
-            </div>
 
             <div className="domain-hero-main">
                 <div className="domain-title-content">
@@ -116,6 +104,24 @@ const DestinationDomainHeader = ({
             {/* Domain Feature Navigation Bar */}
             <div className="domain-feature-nav-bar">
                 <div className="feature-nav-links">
+                    <button
+                        type="button"
+                        onClick={() => setIsFilterDrawerOpen(true)}
+                        className="feature-nav-btn ai-special"
+                    >
+                        <SlidersHorizontal size={14} />
+                        <span>Filter by Climate, Cost & Speed</span>
+                        <ArrowRight size={12} className="arrow" />
+                    </button>
+                    <button
+                        type="button"
+                        onClick={() => setIsCompareModalOpen(true)}
+                        className="feature-nav-btn ai-special"
+                    >
+                        <ArrowLeftRight size={14} />
+                        <span>Compare Destinations</span>
+                        <ArrowRight size={12} className="arrow" />
+                    </button>
                     <button
                         type="button"
                         onClick={() => navigate('/explore/visa')}

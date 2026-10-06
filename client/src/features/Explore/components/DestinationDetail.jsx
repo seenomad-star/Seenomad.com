@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { allDestinations } from '../../../data/destinationsData';
 import { useNomadOSStore } from '../../../store/nomadOSStore';
+import { useSavedStore } from '../../../store/savedStore';
 import SEOManager, { useDestinationOGPreview } from '../../../components/SEOManager';
 import OGPreviewCard from '../../../components/common/OGPreviewCard';
 import { Image, UGCImage } from '../../../components/common/Image';
@@ -21,7 +22,6 @@ const DestinationDetail = () => {
     const navigate = useNavigate();
     const { destinationInsights } = useNomadOSStore();
     const [liked, setLiked] = useState(false);
-    const [isSaved, setIsSaved] = useState(false);
     const [activeTab, setActiveTab] = useState('overview');
     const [showShareModal, setShowShareModal] = useState(false);
     const [copiedLink, setCopiedLink] = useState(false);
@@ -29,6 +29,8 @@ const DestinationDetail = () => {
 
     const toSlug = (text) => text.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
     const destination = allDestinations.find(d => toSlug(d.name) === id);
+    const isSaved = useSavedStore((state) => destination ? state.isSaved(destination.id || destination.name) : false);
+    const toggleSave = useSavedStore((state) => state.toggleSave);
     const insights = destination ? destinationInsights[toSlug(destination.name)] : null;
     const ogPreview = useDestinationOGPreview(destination);
 
@@ -125,9 +127,13 @@ const DestinationDetail = () => {
                             <ThumbsUp size={18} fill={liked ? "currentColor" : "none"} />
                             <span>{liked ? '1.3k' : 'Like'}</span>
                         </button>
-                        <button className={`action-pill ${isSaved ? 'active' : ''}`} onClick={() => setIsSaved(!isSaved)}>
+                        <button
+                            className={`action-pill ${isSaved ? 'active' : ''}`}
+                            onClick={() => toggleSave(destination)}
+                            title={isSaved ? 'Remove from My Favorites' : 'Save to My Favorites'}
+                        >
                             <Bookmark size={18} fill={isSaved ? "currentColor" : "none"} />
-                            <span>Save</span>
+                            <span>{isSaved ? 'In My Favorites' : 'Save to Favorites'}</span>
                         </button>
                         <button className="action-pill" onClick={() => setShowShareModal(true)}>
                             <Share2 size={18} />

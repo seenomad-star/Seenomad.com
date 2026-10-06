@@ -9,7 +9,7 @@
 }
 
 .destinations-page {
-    padding: 1.5rem;
+    padding: 0.35rem 1.5rem 1.5rem;
     max-width: 1800px;
     margin: 0 auto;
     min-height: 100vh;
@@ -38,8 +38,8 @@
 .destinations-main-layout {
     display: grid;
     grid-template-columns: minmax(0, 1fr) 340px;
-    gap: 1.75rem;
-    margin-top: 1rem;
+    gap: 1.5rem;
+    margin-top: 0.35rem;
     align-items: start;
     width: 100%;
     max-width: 100%;

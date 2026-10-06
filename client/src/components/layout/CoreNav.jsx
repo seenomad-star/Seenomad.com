@@ -3,7 +3,8 @@ import { useNavigate, Link } from 'react-router-dom';
 import {
     Menu, Compass, Search, Bell, MessageSquare, Star, Wallet,
     User, MoreVertical, ChevronRight, Bookmark, Settings as SettingsIcon,
-    Shield, Award, Sparkles, X, ArrowLeft, Globe, MapPin, Cpu, Calendar, TrendingUp
+    Shield, Award, Sparkles, X, ArrowLeft, Globe, MapPin, Cpu, Calendar, TrendingUp,
+    PanelLeftOpen, PanelLeftClose
 } from 'lucide-react';
 import { useNavStore } from '../../store/navStore';
 import { useSavedStore } from '../../store/savedStore';
@@ -61,7 +62,7 @@ const CoreNav = ({ toggleSidebar, toggleRightSidebar, currentTheme, onThemeChang
     const searchContainerRef = useRef(null);
     const profileDropdownRef = useRef(null);
 
-    // Global keyboard shortcut: Cmd+K / Ctrl+K to focus search input
+    // Global keyboard shortcut: Cmd+K / Ctrl+K to focus search input, Cmd+B / Ctrl+B to toggle sidebar
     useEffect(() => {
         const handleKeyDown = (e) => {
             if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
@@ -69,6 +70,9 @@ const CoreNav = ({ toggleSidebar, toggleRightSidebar, currentTheme, onThemeChang
                 searchInputRef.current?.focus();
                 setIsSearchFocused(true);
                 setIsSearchDropdownOpen(true);
+            } else if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'b') {
+                e.preventDefault();
+                if (toggleSidebar) toggleSidebar();
             } else if (e.key === 'Escape') {
                 setIsSearchDropdownOpen(false);
                 setIsMobileSearchActive(false);
@@ -78,7 +82,7 @@ const CoreNav = ({ toggleSidebar, toggleRightSidebar, currentTheme, onThemeChang
 
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
-    }, []);
+    }, [toggleSidebar]);
 
     // Close search dropdown when clicking outside
     useEffect(() => {
@@ -269,10 +273,16 @@ const CoreNav = ({ toggleSidebar, toggleRightSidebar, currentTheme, onThemeChang
                             aria-expanded={isMobileScreen ? isMobileSidebarOpen : !isSidebarCollapsed}
                             aria-controls="mobile-navigation-drawer"
                         >
-                            {isMobileScreen && isMobileSidebarOpen ? (
-                                <X size={22} className="nav-hamburger-icon open-icon" strokeWidth={2.4} />
+                            {isMobileScreen ? (
+                                isMobileSidebarOpen ? (
+                                    <X size={22} className="nav-hamburger-icon open-icon" strokeWidth={2.4} />
+                                ) : (
+                                    <Menu size={22} className="nav-hamburger-icon" strokeWidth={2.2} />
+                                )
+                            ) : isSidebarCollapsed ? (
+                                <PanelLeftOpen size={20} className="nav-hamburger-icon" strokeWidth={2.1} />
                             ) : (
-                                <Menu size={22} className="nav-hamburger-icon" strokeWidth={2.2} />
+                                <PanelLeftClose size={20} className="nav-hamburger-icon" strokeWidth={2.1} />
                             )}
                         </button>
 

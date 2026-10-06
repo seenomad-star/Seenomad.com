@@ -88,8 +88,27 @@ const SpeedTestMap = () => {
     const [filter, setFilter] = useState('all');
     const [justContributed, setJustContributed] = useState(false);
 
+    React.useEffect(() => {
+        const handleDockFilter = (e) => {
+            if (e.detail?.filterId) {
+                setFilter((prev) => (prev === e.detail.filterId ? 'all' : e.detail.filterId));
+            }
+        };
+        const handleDockReset = () => setFilter('all');
+        window.addEventListener('nomaddock:filter', handleDockFilter);
+        window.addEventListener('nomaddock:reset', handleDockReset);
+        return () => {
+            window.removeEventListener('nomaddock:filter', handleDockFilter);
+            window.removeEventListener('nomaddock:reset', handleDockReset);
+        };
+    }, []);
+
     const allSpots = [...speedTestData, ...contributed];
-    const filteredSpots = filter === 'all' ? allSpots : allSpots.filter(s => s.type === filter);
+    const filteredSpots = filter === 'all'
+        ? allSpots
+        : filter === '100mbps'
+            ? allSpots.filter(s => s.download >= 100)
+            : allSpots.filter(s => s.type === filter);
 
     const handleContribute = (data) => {
         const newSpot = { ...data, id: Date.now(), lat: 40 + Math.random() * 30, lng: 30 + Math.random() * 40, download: parseInt(data.download), upload: parseInt(data.upload), ping: parseInt(data.ping) || 20, rating: 4.5, reviews: 1, color: getSpeedColor(parseInt(data.download)) };

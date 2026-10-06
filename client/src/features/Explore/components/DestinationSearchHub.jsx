@@ -12,6 +12,7 @@ import './DestinationSearchHub.css';
 
 export const CATEGORY_PILLS = [
     { id: 'all', label: 'All', icon: Globe2 },
+    { id: 'my-favorites', label: 'My Favorites', icon: Star },
     { id: 'cheap', label: 'Cheap', icon: DollarSign, sublabel: '<$1k' },
     { id: 'fast-internet', label: 'Fast Internet', icon: Wifi, sublabel: '100+ Mbps' },
     { id: 'warm-climate', label: 'Warm Climate', icon: Sun, sublabel: '25°C+' },
@@ -68,13 +69,18 @@ const DestinationSearchHub = ({ totalResults = 0, onSelectDestination }) => {
         setDomainStatus,
         advancedFilters,
         toggleAdvancedFilter,
+        setMinInternetSpeed,
+        setMaxMonthlyCost,
+        isFilterDrawerOpen,
+        setIsFilterDrawerOpen,
         viewMode,
         setViewMode,
         sortBy,
         setSortBy,
         searchHistory,
         addSearchHistory,
-        resetFilters
+        resetFilters,
+        setIsCompareModalOpen
     } = useDestinationStore();
 
     const {
@@ -83,7 +89,6 @@ const DestinationSearchHub = ({ totalResults = 0, onSelectDestination }) => {
     } = useNavStore();
 
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const [isFilterPanelOpen, setIsFilterPanelOpen] = useState(false);
     const searchContainerRef = useRef(null);
     const inputRef = useRef(null);
 
@@ -95,7 +100,6 @@ const DestinationSearchHub = ({ totalResults = 0, onSelectDestination }) => {
                 inputRef.current?.focus();
             } else if (e.key === 'Escape') {
                 setIsDropdownOpen(false);
-                setIsFilterPanelOpen(false);
                 inputRef.current?.blur();
             }
         };
@@ -157,10 +161,19 @@ const DestinationSearchHub = ({ totalResults = 0, onSelectDestination }) => {
     };
 
     // Calculate active filter count
+    const climatesList = advancedFilters.climates || [];
+    const internetSpeedsList = advancedFilters.internetSpeeds || [];
+    const minInternetSpeed = advancedFilters.minInternetSpeed ?? 0;
+    const maxMonthlyCost = advancedFilters.maxMonthlyCost ?? 5000;
+
     const activeFilterCount = (selectedFilters.length) +
         (advancedFilters.regions.length) +
         (advancedFilters.budgetRanges.length) +
         (advancedFilters.categories.length) +
+        (climatesList.length) +
+        (internetSpeedsList.length) +
+        (minInternetSpeed > 0 ? 1 : 0) +
+        (maxMonthlyCost < 5000 ? 1 : 0) +
         (domainStatus && domainStatus !== 'all' ? 1 : 0) +
         (searchQuery ? 1 : 0);
 
@@ -210,16 +223,16 @@ const DestinationSearchHub = ({ totalResults = 0, onSelectDestination }) => {
                     <button
                         id="destination-filter-toggle-btn"
                         type="button"
-                        onClick={() => setIsFilterPanelOpen(!isFilterPanelOpen)}
-                        className={`search-hub-filter-toggle ${isFilterPanelOpen || activeFilterCount > 0 ? 'active' : ''}`}
-                        aria-expanded={isFilterPanelOpen}
+                        onClick={() => setIsFilterDrawerOpen(!isFilterDrawerOpen)}
+                        className={`search-hub-filter-toggle ${isFilterDrawerOpen || activeFilterCount > 0 ? 'active' : ''}`}
+                        aria-expanded={isFilterDrawerOpen}
                     >
                         <SlidersHorizontal size={16} />
                         <span>Filters</span>
                         {activeFilterCount > 0 && (
                             <span className="search-hub-filter-badge">{activeFilterCount}</span>
                         )}
-                        <ChevronDown size={14} className={`search-hub-chevron ${isFilterPanelOpen ? 'rotated' : ''}`} />
+                        <ChevronDown size={14} className={`search-hub-chevron ${isFilterDrawerOpen ? 'rotated' : ''}`} />
                     </button>
                 </div>
 
@@ -347,68 +360,6 @@ const DestinationSearchHub = ({ totalResults = 0, onSelectDestination }) => {
                 </div>
             </div>
 
-            {/* Expandable Advanced Refine Drawer */}
-            {isFilterPanelOpen && (
-                <div className="search-hub-refine-panel" id="search-hub-refine-panel">
-                    <div className="refine-panel-grid">
-                        {/* Region Filter */}
-                        <div className="refine-group">
-                            <span className="refine-group-label">Region</span>
-                            <div className="refine-options">
-                                {REGIONS.map((region) => {
-                                    const isChecked = advancedFilters.regions.includes(region.id);
-                                    return (
-                                        <button
-                                            key={region.id}
-                                            type="button"
-                                            onClick={() => toggleAdvancedFilter('regions', region.id)}
-                                            className={`refine-pill ${isChecked ? 'active' : ''}`}
-                                        >
-                                            {isChecked && <Check size={12} className="check-icon" />}
-                                            <span>{region.label}</span>
-                                        </button>
-                                    );
-                                })}
-                            </div>
-                        </div>
-
-                        {/* Budget Filter */}
-                        <div className="refine-group">
-                            <span className="refine-group-label">Budget</span>
-                            <div className="refine-options">
-                                {BUDGET_OPTIONS.map((b) => {
-                                    const isChecked = advancedFilters.budgetRanges.includes(b.id);
-                                    return (
-                                        <button
-                                            key={b.id}
-                                            type="button"
-                                            onClick={() => toggleAdvancedFilter('budgetRanges', b.id)}
-                                            className={`refine-pill ${isChecked ? 'active' : ''}`}
-                                        >
-                                            {isChecked && <Check size={12} className="check-icon" />}
-                                            <span>{b.label}</span>
-                                        </button>
-                                    );
-                                })}
-                            </div>
-                        </div>
-
-                        {/* Reset and Apply Actions */}
-                        <div className="refine-actions">
-                            <button
-                                id="search-hub-reset-btn"
-                                type="button"
-                                onClick={handleResetAll}
-                                className="refine-reset-btn"
-                            >
-                                <RotateCcw size={14} />
-                                <span>Reset All Filters</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
-
             {/* Status & Controls Bar */}
             <div className="search-hub-status-bar">
                 <div className="status-bar-left">
@@ -437,18 +388,50 @@ const DestinationSearchHub = ({ totalResults = 0, onSelectDestination }) => {
                                 </span>
                             );
                         })}
-                        {advancedFilters.regions.map((reg) => (
-                            <span key={reg} className="active-tag-chip region">
-                                {reg.toUpperCase()}
-                                <button type="button" onClick={() => toggleAdvancedFilter('regions', reg)} title="Remove region">
+                        {climatesList.map((climateId) => (
+                            <span key={climateId} className="active-tag-chip climate">
+                                Climate: {climateId.charAt(0).toUpperCase() + climateId.slice(1)}
+                                <button type="button" onClick={() => toggleAdvancedFilter('climates', climateId)} title="Remove climate filter">
                                     <X size={12} />
                                 </button>
                             </span>
                         ))}
                         {advancedFilters.budgetRanges.map((b) => (
                             <span key={b} className="active-tag-chip budget">
-                                {b}
-                                <button type="button" onClick={() => toggleAdvancedFilter('budgetRanges', b)} title="Remove budget">
+                                Cost: {b}
+                                <button type="button" onClick={() => toggleAdvancedFilter('budgetRanges', b)} title="Remove cost filter">
+                                    <X size={12} />
+                                </button>
+                            </span>
+                        ))}
+                        {maxMonthlyCost < 5000 && (
+                            <span className="active-tag-chip budget">
+                                ≤ ${maxMonthlyCost.toLocaleString()}/mo
+                                <button type="button" onClick={() => setMaxMonthlyCost(5000)} title="Reset max monthly cost">
+                                    <X size={12} />
+                                </button>
+                            </span>
+                        )}
+                        {internetSpeedsList.map((spd) => (
+                            <span key={spd} className="active-tag-chip wifi">
+                                Net: {spd === 'ultrafast' ? '250+ Mbps' : spd === 'fast' ? '150+ Mbps' : '50+ Mbps'}
+                                <button type="button" onClick={() => toggleAdvancedFilter('internetSpeeds', spd)} title="Remove internet tier">
+                                    <X size={12} />
+                                </button>
+                            </span>
+                        ))}
+                        {minInternetSpeed > 0 && (
+                            <span className="active-tag-chip wifi">
+                                ≥ {minInternetSpeed} Mbps
+                                <button type="button" onClick={() => setMinInternetSpeed(0)} title="Reset minimum internet speed">
+                                    <X size={12} />
+                                </button>
+                            </span>
+                        )}
+                        {advancedFilters.regions.map((reg) => (
+                            <span key={reg} className="active-tag-chip region">
+                                {reg.toUpperCase()}
+                                <button type="button" onClick={() => toggleAdvancedFilter('regions', reg)} title="Remove region">
                                     <X size={12} />
                                 </button>
                             </span>
@@ -474,6 +457,15 @@ const DestinationSearchHub = ({ totalResults = 0, onSelectDestination }) => {
                 </div>
 
                 <div className="status-bar-right">
+                    <button
+                        type="button"
+                        onClick={() => setIsCompareModalOpen(true)}
+                        className="clear-all-text-btn"
+                        title="Compare two destinations side-by-side"
+                    >
+                        Compare Cities
+                    </button>
+
                     {/* Sort Dropdown */}
                     <div className="sort-dropdown-container">
                         <ArrowUpDown size={14} className="sort-icon" />

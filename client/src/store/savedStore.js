@@ -1,6 +1,26 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { useToastStore } from './toastStore';
+import { getDestinationIntelligence } from '../utils/destinationIntelligenceUtils';
+
+const PROFILE_FAVORITES_STORAGE_KEY = 'seenomad_user_profile_favorites';
+
+const syncProfileFavoritesStorage = (favoritesList) => {
+    try {
+        if (typeof window !== 'undefined' && window.localStorage) {
+            const payload = {
+                profileId: 'local_nomad_profile',
+                collectionName: 'My Favorites',
+                updatedAt: new Date().toISOString(),
+                count: favoritesList.length,
+                items: favoritesList
+            };
+            window.localStorage.setItem(PROFILE_FAVORITES_STORAGE_KEY, JSON.stringify(payload));
+        }
+    } catch (err) {
+        console.warn('Failed to sync favorites to local profile storage:', err);
+    }
+};
 
 const INITIAL_SAVED = [
     {
@@ -15,6 +35,7 @@ const INITIAL_SAVED = [
         xp: '+1000 XP',
         visaFriendly: true,
         wifi: '85 Mbps',
+        collection: 'My Favorites',
         tags: ['Island', 'Sunset Views', 'Nomad Hub']
     },
     {
@@ -29,6 +50,7 @@ const INITIAL_SAVED = [
         xp: '+600 XP',
         visaFriendly: true,
         wifi: '65 Mbps',
+        collection: 'My Favorites',
         tags: ['Tropical', 'Diving', 'Visa-Free']
     },
     {
@@ -43,6 +65,7 @@ const INITIAL_SAVED = [
         xp: '+450 XP',
         visaFriendly: false,
         wifi: '110 Mbps',
+        collection: 'My Favorites',
         tags: ['Surfing', 'Volcanoes', 'Nature']
     },
     {
@@ -57,6 +80,7 @@ const INITIAL_SAVED = [
         xp: '+500 XP',
         visaFriendly: true,
         wifi: '45 Mbps',
+        collection: 'My Favorites',
         tags: ['Luxury', 'Overwater Villas', 'Lagoon']
     }
 ];
@@ -65,10 +89,14 @@ export const useSavedStore = create(
     persist(
         (set, get) => ({
             savedDestinations: INITIAL_SAVED,
+            collectionName: 'My Favorites',
 
-            isSaved: (id) => {
+            isSaved: (idOrName) => {
+                if (!idOrName) return false;
                 return get().savedDestinations.some(
-                    item => String(item.id) === String(id) || item.name?.toLowerCase() === String(id).toLowerCase()
+                    item =>
+                        String(item.id) === String(idOrName) ||
+                        item.name?.toLowerCase() === String(idOrName).toLowerCase()
                 );
             },
 
@@ -76,39 +104,48 @@ export const useSavedStore = create(
                 if (!dest) return false;
                 const { savedDestinations } = get();
                 const exists = savedDestinations.some(
-                    item => String(item.id) === String(dest.id) || (dest.name && item.name?.toLowerCase() === dest.name?.toLowerCase())
+                    item =>
+                        String(item.id) === String(dest.id) ||
+                        (dest.name && item.name?.toLowerCase() === dest.name?.toLowerCase())
                 );
 
                 const toast = useToastStore.getState().addToast;
 
                 if (exists) {
-                    set({
-                        savedDestinations: savedDestinations.filter(
-                            item => String(item.id) !== String(dest.id) && item.name?.toLowerCase() !== dest.name?.toLowerCase()
-                        )
-                    });
-                    toast(`Removed "${dest.name || 'Destination'}" from Saved`, 'info');
+                    const updated = savedDestinations.filter(
+                        item =>
+                            String(item.id) !== String(dest.id) &&
+                            item.name?.toLowerCase() !== dest.name?.toLowerCase()
+                    );
+                    set({ savedDestinations: updated });
+                    syncProfileFavoritesStorage(updated);
+                    toast(`Removed "${dest.name || 'Destination'}" from My Favorites`, 'info');
                     return false;
                 } else {
+                    const intel = getDestinationIntelligence(dest);
+                    const wifiSpeed = dest.wifi || (intel?.internet?.downloadMbps ? `${intel.internet.downloadMbps} Mbps` : '120 Mbps');
+                    const costEst = dest.price || intel?.costs?.totalEstimated || '$1,350/mo';
+
                     const newItem = {
                         id: dest.id || Date.now(),
                         name: dest.name || 'Unknown City',
                         location: dest.location || dest.country || 'Global',
                         category: dest.category || 'Destination',
                         image: dest.image || 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600',
-                        price: dest.price || '$1,200/mo',
+                        price: costEst,
                         rating: dest.rating || 4.8,
                         liveViewers: dest.liveViewers || '500+',
                         xp: dest.xp || '+500 XP',
                         visaFriendly: dest.visaFriendly ?? true,
-                        wifi: dest.wifi || '75 Mbps',
-                        tags: dest.tags || [dest.category || 'Travel', 'Explore'],
+                        wifi: wifiSpeed,
+                        collection: 'My Favorites',
+                        tags: dest.tags || dest.highlights || [dest.category || 'Travel', 'Explore'],
                         savedAt: new Date().toISOString()
                     };
-                    set({
-                        savedDestinations: [newItem, ...savedDestinations]
-                    });
-                    toast(`Saved "${newItem.name}" to your Bookmarks! 🔖`, 'success');
+                    const updated = [newItem, ...savedDestinations];
+                    set({ savedDestinations: updated });
+                    syncProfileFavoritesStorage(updated);
+                    toast(`Saved "${newItem.name}" to My Favorites in your local profile! 🔖`, 'success');
                     return true;
                 }
             },
@@ -118,32 +155,35 @@ export const useSavedStore = create(
                 const itemToRemove = savedDestinations.find(
                     item => String(item.id) === String(id) || item.name?.toLowerCase() === String(id).toLowerCase()
                 );
-                set({
-                    savedDestinations: savedDestinations.filter(
-                        item => String(item.id) !== String(id) && item.name?.toLowerCase() !== String(id).toLowerCase()
-                    )
-                });
+                const updated = savedDestinations.filter(
+                    item => String(item.id) !== String(id) && item.name?.toLowerCase() !== String(id).toLowerCase()
+                );
+                set({ savedDestinations: updated });
+                syncProfileFavoritesStorage(updated);
                 if (itemToRemove) {
-                    useToastStore.getState().addToast(`Removed "${itemToRemove.name}" from Saved`, 'info');
+                    useToastStore.getState().addToast(`Removed "${itemToRemove.name}" from My Favorites`, 'info');
                 }
             },
 
             addSaved: (dest) => {
-                const { savedDestinations, isSaved } = get();
-                if (isSaved(dest.id)) return;
-                set({
-                    savedDestinations: [dest, ...savedDestinations]
-                });
-                useToastStore.getState().addToast(`Added "${dest.name}" to Saved!`, 'success');
+                const { savedDestinations, isSaved, toggleSave } = get();
+                if (isSaved(dest.id || dest.name)) return;
+                toggleSave(dest);
             },
 
             clearAll: () => {
                 set({ savedDestinations: [] });
-                useToastStore.getState().addToast('Cleared all saved destinations', 'info');
+                syncProfileFavoritesStorage([]);
+                useToastStore.getState().addToast('Cleared all destinations from My Favorites', 'info');
             }
         }),
         {
-            name: 'seenomad_saved_destinations'
+            name: 'seenomad_saved_destinations',
+            onRehydrateStorage: () => (state) => {
+                if (state?.savedDestinations) {
+                    syncProfileFavoritesStorage(state.savedDestinations);
+                }
+            }
         }
     )
 );

@@ -15,8 +15,6 @@ import ScrollProgressBar from '../components/common/ScrollProgressBar';
 import Footer from '../components/layout/Footer';
 import CookieConsentBanner from '../components/common/CookieConsentBanner';
 import EarlyAccessBanner from '../components/common/EarlyAccessBanner';
-import SidebarToggle from '../components/common/SidebarToggle';
-import Breadcrumbs from '../components/common/Breadcrumbs';
 import ScrollToTop from '../components/common/ScrollToTop';
 import { trackPageView } from '../lib/analytics';
 import { useNavStore } from '../store/navStore';
@@ -138,9 +136,11 @@ const BaseLayout = ({ children }) => {
         location.pathname.startsWith('/ai-agents') ||
         location.pathname.startsWith('/travel-games');
     
-    // Calculate header height dynamically based on active subnav modules
+    // Calculate header height dynamically (CoreNav 60px + AddressBar 38px + ModuleNavbar 30px = 128px when active)
     const hasModuleNav = moduleNavItems && moduleNavItems.length > 0;
-    const currentHeaderHeight = isMobile ? '60px' : (hasModuleNav ? '138px' : '98px');
+    const currentHeaderHeight = isMobile
+        ? (hasModuleNav ? '118px' : '94px')
+        : (hasModuleNav ? '128px' : '98px');
     const currentSidebarWidth = isMobile ? '0px' : (isSidebarCollapsed ? '76px' : '255px');
     const currentRightSidebarWidth = isRightDocked ? '320px' : '0px';
 
@@ -201,13 +201,6 @@ const BaseLayout = ({ children }) => {
                 onThemeChange={handleThemeChange}
             />
 
-            {/* Persistent edge toggle interacting with sidebar and .main-content */}
-            <SidebarToggle
-                variant="edge"
-                className="base-layout-edge-toggle"
-                ariaLabel={isSidebarCollapsed ? "Expand sidebar (⌘B)" : "Collapse sidebar (⌘B)"}
-            />
-
             {/* 3. Global Command Overlays */}
             <SearchDropdown />
             <NomadLaunchpad />
@@ -228,9 +221,6 @@ const BaseLayout = ({ children }) => {
 
                 {/* Content Wrapper */}
                 <div className="base-layout-content-wrapper content-wrapper">
-                    {/* Dynamic Contextual Breadcrumb Navigation */}
-                    <Breadcrumbs />
-
                     {children ? (
                         children
                     ) : (

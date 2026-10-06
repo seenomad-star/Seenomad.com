@@ -4,9 +4,11 @@ import { motion } from 'framer-motion';
 import {
     MapPin, Star, Users, ShieldCheck, Sparkles,
     CheckCircle, Plus, Globe, TrendingUp, Activity, Zap,
-    Heart, Share2, ArrowRight, SlidersHorizontal
+    Heart, Share2, ArrowRight, SlidersHorizontal, ArrowLeftRight
 } from 'lucide-react';
 import { getDestinationDomainStatus, getDestinationDomainName } from '../../../../utils/destinationDomainUtils';
+import { useDestinationStore } from '../../../../store/destinationFilterStore';
+import { useToastStore } from '../../../../store/toastStore';
 import CardActionBar from './CardActionBar';
 import CardHorizontalActions from './CardHorizontalActions';
 import CardTopMonetization from './CardTopMonetization';
@@ -23,6 +25,9 @@ const DestinationCard = ({ dest, viewMode }) => {
     const [isFollowed, setIsFollowed] = useState(false);
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [isShareOpen, setIsShareOpen] = useState(false);
+    const { compareDestinations, toggleCompareDestination, setIsCompareModalOpen } = useDestinationStore();
+    const { addToast } = useToastStore();
+    const isCompared = compareDestinations.includes(dest?.id);
 
     // Standardized slug generation for destination navigation
     const toSlug = (text) => (text || '').toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
@@ -300,7 +305,7 @@ const DestinationCard = ({ dest, viewMode }) => {
 
                                 {/* Small Icon-based Quick Actions with Descriptive Accessible Tooltips */}
                                 <div className="quick-actions-strip" role="group" aria-label="Quick destination actions">
-                                    {/* 1. Save to Wishlist Action */}
+                                    {/* 1. Save to My Favorites Collection Action */}
                                     <div className="quick-action-wrapper">
                                         <button
                                             type="button"
@@ -309,15 +314,15 @@ const DestinationCard = ({ dest, viewMode }) => {
                                                 e.stopPropagation();
                                                 handlers.toggleSave(e);
                                             }}
-                                            aria-label={state.isSaved ? `Remove ${dest?.name} from saved wishlist` : `Save ${dest?.name} to wishlist`}
+                                            aria-label={state.isSaved ? `Remove ${dest?.name} from My Favorites` : `Save ${dest?.name} to My Favorites`}
                                             aria-describedby={`tooltip-save-${destKey}`}
-                                            title={state.isSaved ? `Remove ${dest?.name} from Saved` : `Save ${dest?.name} to Wishlist`}
+                                            title={state.isSaved ? `Remove ${dest?.name} from My Favorites` : `Save ${dest?.name} to My Favorites`}
                                         >
                                             <Heart size={14} fill={state.isSaved ? "#ef4444" : "none"} color={state.isSaved ? "#ef4444" : "currentColor"} />
                                         </button>
                                         <div className="quick-action-tooltip" role="tooltip" id={`tooltip-save-${destKey}`}>
-                                            <span className="tooltip-title">{state.isSaved ? 'Saved to Wishlist' : 'Save Destination'}</span>
-                                            <span className="tooltip-desc">{state.isSaved ? 'Click to remove from saved list' : 'Bookmark & track price drops'}</span>
+                                            <span className="tooltip-title">{state.isSaved ? 'In My Favorites' : 'Save to My Favorites'}</span>
+                                            <span className="tooltip-desc">{state.isSaved ? 'Stored in your local profile' : 'Bookmark to local profile collection'}</span>
                                             <span className="tooltip-arrow" aria-hidden="true" />
                                         </div>
                                     </div>
@@ -361,6 +366,34 @@ const DestinationCard = ({ dest, viewMode }) => {
                                         <div className="quick-action-tooltip" role="tooltip" id={`tooltip-map-${destKey}`}>
                                             <span className="tooltip-title">Open Google Maps</span>
                                             <span className="tooltip-desc">View live street map & directions</span>
+                                            <span className="tooltip-arrow" aria-hidden="true" />
+                                        </div>
+                                    </div>
+
+                                    {/* 4. Compare Destination Action */}
+                                    <div className="quick-action-wrapper">
+                                        <button
+                                            type="button"
+                                            className={`quick-action-icon-btn compare-btn ${isCompared ? 'is-saved' : ''}`}
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                toggleCompareDestination(dest.id);
+                                                addToast(
+                                                    isCompared
+                                                        ? `Removed ${dest?.name} from comparison`
+                                                        : `Added ${dest?.name} to Compare Destinations`,
+                                                    'info'
+                                                );
+                                            }}
+                                            aria-label={isCompared ? `Remove ${dest?.name} from comparison` : `Compare ${dest?.name} side-by-side`}
+                                            aria-describedby={`tooltip-compare-${destKey}`}
+                                            title={isCompared ? `Comparing ${dest?.name} (Click to remove)` : `Add ${dest?.name} to Compare Destinations`}
+                                        >
+                                            <ArrowLeftRight size={14} color={isCompared ? '#38bdf8' : 'currentColor'} />
+                                        </button>
+                                        <div className="quick-action-tooltip" role="tooltip" id={`tooltip-compare-${destKey}`}>
+                                            <span className="tooltip-title">{isCompared ? 'Selected for Compare' : 'Compare Destination'}</span>
+                                            <span className="tooltip-desc">Side-by-side costs & climate</span>
                                             <span className="tooltip-arrow" aria-hidden="true" />
                                         </div>
                                     </div>

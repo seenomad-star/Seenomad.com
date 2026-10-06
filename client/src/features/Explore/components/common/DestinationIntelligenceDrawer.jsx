@@ -67,13 +67,18 @@ const DestinationIntelligenceDrawer = ({ dest, isOpen, onClose }) => {
         setTimeout(() => setCopiedShare(false), 2000);
     };
 
-    // Temperature formatting helper
+    // Temperature formatting helper with clean Celsius <-> Fahrenheit conversion
     const renderTemp = (celsius, fahrenheit) => {
+        if (celsius === undefined || celsius === null) return '--';
+        const cNum = typeof celsius === 'number' ? celsius : parseInt(String(celsius).replace(/[^0-9.-]/g, ''), 10);
+        if (isNaN(cNum)) return celsius;
         if (tempUnit === 'C') {
-            return typeof celsius === 'number' ? `${celsius}°C` : celsius;
+            return `${cNum}°C`;
         }
-        const f = typeof fahrenheit === 'number' ? fahrenheit : Math.round((parseInt(celsius, 10) * 9) / 5 + 32);
-        return `${f}°F`;
+        const fNum = typeof fahrenheit === 'number' 
+            ? fahrenheit 
+            : Math.round((cNum * 9) / 5 + 32);
+        return `${fNum}°F`;
     };
 
     // Weather icon selector
@@ -280,11 +285,14 @@ const DestinationIntelligenceDrawer = ({ dest, isOpen, onClose }) => {
                                         <CloudSun size={16} className="section-icon blue" />
                                         <h4>Local Climate & Forecast</h4>
                                     </div>
-                                    <div className="unit-toggle" role="group" aria-label="Temperature unit">
+                                    <div className="unit-toggle" role="group" aria-label="Temperature unit scale">
                                         <button
                                             type="button"
                                             className={`unit-btn ${tempUnit === 'C' ? 'active' : ''}`}
                                             onClick={() => setTempUnit('C')}
+                                            title="Switch temperature display to Celsius (°C)"
+                                            aria-pressed={tempUnit === 'C'}
+                                            aria-label="Display in Celsius"
                                         >
                                             °C
                                         </button>
@@ -292,6 +300,9 @@ const DestinationIntelligenceDrawer = ({ dest, isOpen, onClose }) => {
                                             type="button"
                                             className={`unit-btn ${tempUnit === 'F' ? 'active' : ''}`}
                                             onClick={() => setTempUnit('F')}
+                                            title="Switch temperature display to Fahrenheit (°F)"
+                                            aria-pressed={tempUnit === 'F'}
+                                            aria-label="Display in Fahrenheit"
                                         >
                                             °F
                                         </button>
@@ -302,9 +313,14 @@ const DestinationIntelligenceDrawer = ({ dest, isOpen, onClose }) => {
                                 <div className="weather-primary-card">
                                     <div className="weather-main-row">
                                         <div className="weather-temp-block">
-                                            <span className="weather-temp-number">
-                                                {renderTemp(intel.weather.tempC, intel.weather.tempF)}
-                                            </span>
+                                            <div className="weather-temp-display-wrap">
+                                                <span className="weather-temp-number">
+                                                    {renderTemp(intel.weather.tempC, intel.weather.tempF)}
+                                                </span>
+                                                <span className="weather-scale-indicator">
+                                                    {tempUnit === 'C' ? 'Celsius' : 'Fahrenheit'}
+                                                </span>
+                                            </div>
                                             <span className="weather-condition-text">{intel.weather.condition}</span>
                                         </div>
                                         <div className="weather-hero-icon-wrap">
@@ -695,6 +711,18 @@ const DestinationIntelligenceDrawer = ({ dest, isOpen, onClose }) => {
                     </div>
 
                     <div className="footer-actions-group">
+                        <button
+                            type="button"
+                            className={`drawer-secondary-cta ${state.isSaved ? 'active-saved' : ''}`}
+                            onClick={(e) => {
+                                handlers.toggleSave(e);
+                            }}
+                            title={state.isSaved ? 'Remove from My Favorites' : 'Save to My Favorites in your local profile'}
+                        >
+                            <Bookmark size={14} fill={state.isSaved ? 'currentColor' : 'none'} />
+                            <span>{state.isSaved ? 'In My Favorites' : 'Save to Favorites'}</span>
+                        </button>
+
                         <button
                             type="button"
                             className="drawer-secondary-cta"

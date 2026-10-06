@@ -2,15 +2,17 @@ import React, { useEffect, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { allDestinations } from '../../../data/destinationsData';
 import { useDestinationStore } from '../../../store/destinationFilterStore';
+import { useSavedStore } from '../../../store/savedStore';
 import DestinationCard from './common/DestinationCard';
 import AdCard from './common/AdCard';
 import MysteryCard from './common/MysteryCard';
 import IntelligenceSidecar from './sidecar/IntelligenceSidecar';
-import DestinationSearchHub from './DestinationSearchHub';
-import DestinationDomainHeader from './DestinationDomainHeader';
+import CompareDestinationsModal from './CompareDestinationsModal';
+import ExploreFilterSlidePanel from './ExploreFilterSlidePanel';
 import { useNavStore } from '../../../store/navStore';
 import { getDestinationDomainStatus } from '../../../utils/destinationDomainUtils';
-import { Compass, RotateCcw } from 'lucide-react';
+import { getDestinationIntelligence } from '../../../utils/destinationIntelligenceUtils';
+import { Compass, RotateCcw, ArrowLeftRight } from 'lucide-react';
 import './Destinations.css';
 
 const Destinations = () => {
@@ -26,7 +28,10 @@ const Destinations = () => {
         setSearchQuery,
         setSelectedFilters,
         setDomainStatus,
-        resetFilters
+        resetFilters,
+        compareDestinations,
+        isCompareModalOpen,
+        setIsCompareModalOpen
     } = useDestinationStore();
 
     const {
@@ -36,6 +41,8 @@ const Destinations = () => {
         setGlobalActiveFilters,
         setDockConfig
     } = useNavStore();
+
+    const savedDestinations = useSavedStore((state) => state.savedDestinations);
 
     // Register Dock Configuration for Destinations Module
     useEffect(() => {
@@ -121,6 +128,15 @@ const Destinations = () => {
                     const locLower = (dest.name + ' ' + dest.location).toLowerCase();
 
                     switch (filterId) {
+                        case 'my-favorites':
+                        case 'saved':
+                        case 'favorites': {
+                            return savedDestinations.some(
+                                (item) =>
+                                    String(item.id) === String(dest.id) ||
+                                    item.name?.toLowerCase() === dest.name?.toLowerCase()
+                            );
+                        }
                         case 'cheap':
                         case 'budget': {
                             const priceNum = parseInt(String(dest.price || '').replace(/[^0-9]/g, ''), 10);
@@ -218,16 +234,87 @@ const Destinations = () => {
                 if (!matchesRegion) return false;
             }
 
-            // Advanced Filters: Budget
+            // Advanced Filters: Budget / Cost-of-Living Index Tiers
             if (advancedFilters.budgetRanges.length > 0) {
-                const price = parseInt(dest.price.replace(/[^0-9]/g, ''), 10) || 0;
+                const intel = getDestinationIntelligence(dest);
+                const estMonthly = parseInt(String(intel?.costs?.totalEstimated || dest.price || '').replace(/[^0-9]/g, ''), 10) || 1450;
                 const matchesBudget = advancedFilters.budgetRanges.some(range => {
-                    if (range === 'budget') return price <= 1000;
-                    if (range === 'mid-range') return price > 1000 && price <= 3000;
-                    if (range === 'luxury') return price > 3000;
+                    if (range === 'budget') return estMonthly <= 1200;
+                    if (range === 'mid-range') return estMonthly > 1200 && estMonthly <= 2200;
+                    if (range === 'luxury') return estMonthly > 2200;
                     return true;
                 });
                 if (!matchesBudget) return false;
+            }
+
+            // Advanced Filters: Max Monthly Cost Slider
+            if (advancedFilters.maxMonthlyCost && advancedFilters.maxMonthlyCost < 5000) {
+                const intel = getDestinationIntelligence(dest);
+                const estMonthly = parseInt(String(intel?.costs?.totalEstimated || dest.price || '').replace(/[^0-9]/g, ''), 10) || 1450;
+                if (estMonthly > advancedFilters.maxMonthlyCost) return false;
+            }
+
+            // Advanced Filters: Climate Type
+            if (advancedFilters.climates && advancedFilters.climates.length > 0) {
+                const intel = getDestinationIntelligence(dest);
+                const tempC = intel?.weather?.tempC ?? 24;
+                const catLower = (dest.category || '').toLowerCase();
+                const locLower = `${dest.name} ${dest.location}`.toLowerCase();
+
+                const matchesClimate = advancedFilters.climates.some(climateId => {
+                    if (climateId === 'tropical') {
+                        return catLower.includes('beach') || catLower.includes('island') ||
+                            locLower.includes('bali') || locLower.includes('thailand') ||
+                            locLower.includes('indonesia') || locLower.includes('vietnam') ||
+                            locLower.includes('philippines') || locLower.includes('maldives') ||
+                            locLower.includes('caribbean') || locLower.includes('fiji') ||
+                            locLower.includes('bora bora') || (tempC >= 26 && !catLower.includes('desert'));
+                    }
+                    if (climateId === 'temperate') {
+                        return (tempC >= 18 && tempC <= 26 && !catLower.includes('desert')) ||
+                            locLower.includes('lisbon') || locLower.includes('medellin') ||
+                            locLower.includes('barcelona') || locLower.includes('italy') ||
+                            locLower.includes('greece') || locLower.includes('france') ||
+                            locLower.includes('japan');
+                    }
+                    if (climateId === 'arid') {
+                        return catLower.includes('desert') || locLower.includes('dubai') ||
+                            locLower.includes('cairo') || locLower.includes('marrakech') ||
+                            locLower.includes('egypt') || locLower.includes('morocco') ||
+                            locLower.includes('jordan') || locLower.includes('uae') || tempC >= 31;
+                    }
+                    if (climateId === 'alpine') {
+                        return catLower.includes('mountain') || catLower.includes('snow') ||
+                            locLower.includes('alps') || locLower.includes('swiss') ||
+                            locLower.includes('zermatt') || locLower.includes('aspen') ||
+                            locLower.includes('whistler') || locLower.includes('banff') ||
+                            locLower.includes('lapland') || tempC <= 17;
+                    }
+                    return true;
+                });
+                if (!matchesClimate) return false;
+            }
+
+            // Advanced Filters: Internet Speed Tiers & Minimum Speed Slider
+            const internetTiers = advancedFilters.internetSpeeds || [];
+            const minSpeedSlider = advancedFilters.minInternetSpeed || 0;
+            if (internetTiers.length > 0 || minSpeedSlider > 0) {
+                const intel = getDestinationIntelligence(dest);
+                const downMbps = intel?.internet?.downloadMbps || 120;
+
+                if (minSpeedSlider > 0 && downMbps < minSpeedSlider) {
+                    return false;
+                }
+
+                if (internetTiers.length > 0) {
+                    const matchesTier = internetTiers.some(tier => {
+                        if (tier === 'standard') return downMbps >= 50;
+                        if (tier === 'fast') return downMbps >= 150;
+                        if (tier === 'ultrafast') return downMbps >= 250;
+                        return true;
+                    });
+                    if (!matchesTier) return false;
+                }
             }
 
             // Advanced Filters: Categories
@@ -271,12 +358,13 @@ const Destinations = () => {
             }
             return 0; // 'featured' or default retains data order
         });
-    }, [searchQuery, globalSearchQuery, selectedFilters, globalActiveFilters, advancedFilters, domainStatus, sortBy]);
+    }, [searchQuery, globalSearchQuery, selectedFilters, globalActiveFilters, advancedFilters, domainStatus, sortBy, savedDestinations]);
 
     useEffect(() => {
         if (processedDestinations.length > 0) {
             incrementMonetizationExposure();
         }
+        window.dispatchEvent(new CustomEvent('destinations:count', { detail: { count: processedDestinations.length } }));
     }, [processedDestinations.length, incrementMonetizationExposure]);
 
     const handleReset = () => {
@@ -287,20 +375,8 @@ const Destinations = () => {
 
     return (
         <div className="destinations-page">
-            {/* Domain Hero Command Header */}
-            <DestinationDomainHeader
-                activeFilters={selectedFilters}
-                onSelectPreset={handleSelectPreset}
-                totalDestinations={allDestinations.length}
-            />
-
             <div className="destinations-main-layout">
                 <div className="destinations-feed-column">
-                    {/* Dedicated Search & Filter Hub in Main Content Area */}
-                    <DestinationSearchHub
-                        totalResults={processedDestinations.length}
-                    />
-
                     {/* Destinations Grid (Discovery Canvas) */}
                     <div className={`destinations-grid ${viewMode === 'list' ? 'list-view-container' : ''}`}>
                         {processedDestinations.length > 0 ? (
@@ -360,6 +436,46 @@ const Destinations = () => {
                     <IntelligenceSidecar />
                 </aside>
             </div>
+
+            {/* Floating Compare Destinations Dock */}
+            {compareDestinations && compareDestinations.length > 0 && (
+                <div className="compare-floating-dock" role="region" aria-label="Selected destinations for comparison">
+                    <div className="compare-dock-slots">
+                        {[0, 1].map((slotIdx) => {
+                            const destId = compareDestinations[slotIdx];
+                            const found = allDestinations.find((d) => d.id === Number(destId));
+                            return found ? (
+                                <span key={slotIdx} className="compare-dock-chip">
+                                    {found.name}
+                                </span>
+                            ) : (
+                                <span key={slotIdx} className="compare-dock-chip empty">
+                                    Select 2nd City
+                                </span>
+                            );
+                        })}
+                    </div>
+                    <button
+                        type="button"
+                        className="compare-dock-launch-btn"
+                        onClick={() => setIsCompareModalOpen(true)}
+                    >
+                        <ArrowLeftRight size={14} />
+                        <span>Compare Side-by-Side</span>
+                    </button>
+                </div>
+            )}
+
+            {/* Side-by-Side Compare Destinations Modal */}
+            <CompareDestinationsModal
+                isOpen={isCompareModalOpen}
+                onClose={() => setIsCompareModalOpen(false)}
+            />
+
+            {/* Slide-Out Filter Panel (Climate, Cost-of-Living Index & Internet Speed) */}
+            <ExploreFilterSlidePanel
+                totalResults={processedDestinations.length}
+            />
         </div>
     );
 };

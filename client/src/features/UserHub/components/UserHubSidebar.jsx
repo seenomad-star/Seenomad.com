@@ -3,15 +3,19 @@ import { NavLink } from 'react-router-dom';
 import {
     Wallet, Tag, Award, Map, Zap, TrendingUp,
     ChevronRight, Star, Gift, Target, Briefcase, UserCheck, Globe, DollarSign,
-    Heart, Share2
+    Heart, Share2, Bookmark
 } from 'lucide-react';
+import { useSavedStore } from '../../../store/savedStore';
 
 const UserHubSidebar = () => {
+    const savedCount = useSavedStore((state) => state.savedDestinations.length);
+
     const navItems = [
         { id: 'wallet', label: 'Wallet', icon: Wallet, to: '/user/wallet' },
+        { id: 'favorites', label: 'My Favorites', icon: Bookmark, to: '/user/favorites', badge: savedCount > 0 ? String(savedCount) : null },
+        { id: 'nomad-cv', label: 'Professional Profile', icon: UserCheck, to: '/user/profile' },
         { id: 'impact', label: 'Impact & XP', icon: Target, to: '/user/impact' },
         { id: 'referrals', label: 'Referral Hub', icon: Share2, to: '/user/referrals' },
-        { id: 'nomad-cv', label: 'Professional Profile', icon: UserCheck, to: '/user/profile' },
         { id: 'budget', label: 'AI Budgeting', icon: DollarSign, to: '/user/budget' },
         { id: 'nomad-gigs', label: 'Professional Gigs', icon: Briefcase, to: '/user/gigs' },
         { id: 'travel-journey', label: 'Travel Journey', icon: Globe, to: '/user/travel-journey' },

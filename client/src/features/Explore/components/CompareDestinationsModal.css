@@ -1,0 +1,1144 @@
+/* ==========================================================================
+   CompareDestinationsModal.css
+   Side-by-side destination comparison workstation for Cost of Living & Climate
+   ========================================================================== */
+
+.compare-destinations-shell.is-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 2200;
+    background: rgba(2, 6, 23, 0.78);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.25rem;
+    box-sizing: border-box;
+    animation: cmpFadeIn 0.2s ease-out;
+}
+
+.compare-destinations-shell.is-standalone {
+    width: 100%;
+    max-width: 1800px;
+    margin: 0 auto;
+    padding: 0.75rem 1.5rem 2.5rem;
+    box-sizing: border-box;
+}
+
+@keyframes cmpFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.compare-destinations-card {
+    width: 100%;
+    max-width: 1120px;
+    max-height: 90vh;
+    background: #0f172a;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.65);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    color: #f8fafc;
+}
+
+.compare-destinations-shell.is-standalone .compare-destinations-card {
+    max-width: 100%;
+    max-height: none;
+}
+
+body.theme-light .compare-destinations-card,
+:root:not(.dark) .compare-destinations-card {
+    background: #ffffff;
+    border-color: rgba(15, 23, 42, 0.1);
+    color: #0f172a;
+    box-shadow: 0 20px 50px -12px rgba(15, 23, 42, 0.15);
+}
+
+/* ==========================================================================
+   Header Bar
+   ========================================================================== */
+.compare-header-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.1rem 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(15, 23, 42, 0.9);
+    flex-wrap: wrap;
+}
+
+body.theme-light .compare-header-bar,
+:root:not(.dark) .compare-header-bar {
+    background: #f8fafc;
+    border-bottom-color: rgba(15, 23, 42, 0.08);
+}
+
+.compare-header-title-cluster {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+}
+
+.compare-brand-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: rgba(56, 189, 248, 0.14);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    color: #38bdf8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+body.theme-light .compare-brand-icon,
+:root:not(.dark) .compare-brand-icon {
+    background: rgba(2, 132, 199, 0.1);
+    border-color: rgba(2, 132, 199, 0.25);
+    color: #0284c7;
+}
+
+.compare-main-heading {
+    margin: 0;
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+.compare-sub-heading {
+    margin: 0.15rem 0 0;
+    font-size: 0.78rem;
+    color: #94a3b8;
+}
+
+body.theme-light .compare-sub-heading,
+:root:not(.dark) .compare-sub-heading {
+    color: #64748b;
+}
+
+.compare-header-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.compare-presets-row {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+}
+
+.presets-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #94a3b8;
+    margin-right: 0.15rem;
+}
+
+.compare-preset-btn {
+    padding: 0.32rem 0.65rem;
+    border-radius: 7px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    color: #cbd5e1;
+    cursor: pointer;
+    transition: all 0.16s ease;
+}
+
+body.theme-light .compare-preset-btn,
+:root:not(.dark) .compare-preset-btn {
+    background: #ffffff;
+    border-color: rgba(15, 23, 42, 0.12);
+    color: #475569;
+}
+
+.compare-preset-btn:hover,
+.compare-preset-btn.active {
+    background: rgba(56, 189, 248, 0.15);
+    border-color: rgba(56, 189, 248, 0.4);
+    color: #38bdf8;
+}
+
+body.theme-light .compare-preset-btn:hover,
+body.theme-light .compare-preset-btn.active,
+:root:not(.dark) .compare-preset-btn:hover,
+:root:not(.dark) .compare-preset-btn.active {
+    background: rgba(2, 132, 199, 0.1);
+    border-color: #0284c7;
+    color: #0284c7;
+}
+
+.compare-unit-toggle {
+    display: inline-flex;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 2px;
+}
+
+body.theme-light .compare-unit-toggle,
+:root:not(.dark) .compare-unit-toggle {
+    background: #e2e8f0;
+    border-color: rgba(15, 23, 42, 0.08);
+}
+
+.cmp-unit-btn {
+    padding: 0.25rem 0.55rem;
+    font-size: 0.74rem;
+    font-weight: 700;
+    border: none;
+    background: transparent;
+    color: #94a3b8;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.cmp-unit-btn.active {
+    background: #0284c7;
+    color: #ffffff;
+}
+
+.compare-close-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+    color: #cbd5e1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+body.theme-light .compare-close-btn,
+:root:not(.dark) .compare-close-btn {
+    background: #ffffff;
+    border-color: rgba(15, 23, 42, 0.12);
+    color: #475569;
+}
+
+.compare-close-btn:hover {
+    background: rgba(239, 68, 68, 0.15);
+    border-color: rgba(239, 68, 68, 0.4);
+    color: #f87171;
+}
+
+/* ==========================================================================
+   Destination Selectors & Hero Strip
+   ========================================================================== */
+.compare-selectors-grid {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 0.85rem;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    background: rgba(30, 41, 59, 0.45);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+body.theme-light .compare-selectors-grid,
+:root:not(.dark) .compare-selectors-grid {
+    background: #f1f5f9;
+    border-bottom-color: rgba(15, 23, 42, 0.08);
+}
+
+.compare-city-selector-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    min-width: 0;
+}
+
+.selector-top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.6rem;
+}
+
+.city-slot-tag {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #38bdf8;
+    white-space: nowrap;
+}
+
+body.theme-light .city-slot-tag,
+:root:not(.dark) .city-slot-tag {
+    color: #0284c7;
+}
+
+.compare-city-select {
+    flex: 1;
+    padding: 0.42rem 0.7rem;
+    border-radius: 8px;
+    background: rgba(15, 23, 42, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    color: #f8fafc;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    outline: none;
+    min-width: 0;
+}
+
+body.theme-light .compare-city-select,
+:root:not(.dark) .compare-city-select {
+    background: #ffffff;
+    border-color: rgba(15, 23, 42, 0.15);
+    color: #0f172a;
+}
+
+.compare-city-select:focus {
+    border-color: #38bdf8;
+}
+
+.city-hero-banner {
+    position: relative;
+    height: 92px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.city-banner-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.city-banner-scrim {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(2, 6, 23, 0.88) 0%, rgba(2, 6, 23, 0.25) 100%);
+}
+
+.city-banner-meta {
+    position: absolute;
+    bottom: 0.6rem;
+    left: 0.85rem;
+    right: 0.85rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    color: #ffffff;
+}
+
+.city-banner-title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+}
+
+.city-banner-title-row h3 {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.city-rating-inline {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.76rem;
+    font-weight: 700;
+    color: #fbbf24;
+}
+
+.city-banner-sub {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.72rem;
+    color: #cbd5e1;
+}
+
+.compare-swap-divider {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+}
+
+.compare-swap-circle-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(56, 189, 248, 0.14);
+    border: 1px solid rgba(56, 189, 248, 0.35);
+    color: #38bdf8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+body.theme-light .compare-swap-circle-btn,
+:root:not(.dark) .compare-swap-circle-btn {
+    background: #ffffff;
+    border-color: rgba(2, 132, 199, 0.3);
+    color: #0284c7;
+}
+
+.compare-swap-circle-btn:hover {
+    transform: rotate(180deg) scale(1.06);
+    background: #0284c7;
+    color: #ffffff;
+}
+
+.vs-badge {
+    font-size: 0.65rem;
+    font-weight: 800;
+    color: #64748b;
+    letter-spacing: 0.06em;
+}
+
+/* ==========================================================================
+   Scrollable Comparison Content
+   ========================================================================== */
+.compare-body-scroll {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.compare-verdict-banner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+    background: rgba(16, 185, 129, 0.08);
+    border: 1px solid rgba(16, 185, 129, 0.22);
+    font-size: 0.8rem;
+}
+
+body.theme-light .compare-verdict-banner,
+:root:not(.dark) .compare-verdict-banner {
+    background: #f0fdf4;
+    border-color: #bbf7d0;
+    color: #0f172a;
+}
+
+.verdict-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.verdict-icon.emerald { color: #10b981; }
+.verdict-icon.sky { color: #38bdf8; }
+.verdict-icon.indigo { color: #818cf8; }
+
+.verdict-sep {
+    color: rgba(148, 163, 184, 0.4);
+}
+
+/* Section Blocks */
+.compare-section-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+}
+
+.compare-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+body.theme-light .compare-section-header,
+:root:not(.dark) .compare-section-header {
+    border-bottom-color: rgba(15, 23, 42, 0.08);
+}
+
+.section-title-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.section-title-group h3 {
+    margin: 0;
+    font-size: 0.98rem;
+    font-weight: 700;
+}
+
+.sec-icon.amber { color: #f59e0b; }
+.sec-icon.sky { color: #38bdf8; }
+.sec-icon.purple { color: #a855f7; }
+
+.section-meta-caption {
+    font-size: 0.75rem;
+    color: #94a3b8;
+}
+
+/* Lifestyle Mode Tabs */
+.compare-lifestyle-tabs {
+    display: inline-flex;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 2px;
+    gap: 2px;
+}
+
+body.theme-light .compare-lifestyle-tabs,
+:root:not(.dark) .compare-lifestyle-tabs {
+    background: #f1f5f9;
+    border-color: rgba(15, 23, 42, 0.08);
+}
+
+.lifestyle-tab-btn {
+    padding: 0.3rem 0.65rem;
+    border-radius: 6px;
+    border: none;
+    background: transparent;
+    color: #94a3b8;
+    font-size: 0.73rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.lifestyle-tab-btn.active {
+    background: #0284c7;
+    color: #ffffff;
+}
+
+/* Monthly Cost Summary Cards */
+.compare-cost-totals-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.cost-total-box {
+    padding: 1rem 1.15rem;
+    border-radius: 14px;
+    background: rgba(30, 41, 59, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+body.theme-light .cost-total-box,
+:root:not(.dark) .cost-total-box {
+    background: #f8fafc;
+    border-color: rgba(15, 23, 42, 0.08);
+}
+
+.cost-total-box.is-favorable {
+    border-color: rgba(16, 185, 129, 0.35);
+    background: rgba(16, 185, 129, 0.06);
+}
+
+.cost-box-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+}
+
+.cost-city-name {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #94a3b8;
+}
+
+.favorable-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #10b981;
+}
+
+.cost-box-MainVal {
+    display: flex;
+    align-items: baseline;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+}
+
+.big-price {
+    font-size: 1.55rem;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    color: #f8fafc;
+}
+
+body.theme-light .big-price,
+:root:not(.dark) .big-price {
+    color: #0f172a;
+}
+
+.price-per {
+    font-size: 0.76rem;
+    color: #94a3b8;
+}
+
+.cost-box-note {
+    margin: 0;
+    font-size: 0.73rem;
+    color: #94a3b8;
+}
+
+/* Trend Indicator */
+.cmp-trend-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.15rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+
+.cmp-trend-badge.trend-rising { color: #fb7185; }
+.cmp-trend-badge.trend-falling { color: #34d399; }
+.cmp-trend-badge.trend-stable { color: #38bdf8; }
+
+body.theme-light .cmp-trend-badge.trend-rising,
+:root:not(.dark) .cmp-trend-badge.trend-rising { color: #e11d48; }
+body.theme-light .cmp-trend-badge.trend-falling,
+:root:not(.dark) .cmp-trend-badge.trend-falling { color: #059669; }
+body.theme-light .cmp-trend-badge.trend-stable,
+:root:not(.dark) .cmp-trend-badge.trend-stable { color: #0284c7; }
+
+/* Breakdown Table */
+.compare-breakdown-table {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+}
+
+.compare-expense-row {
+    display: grid;
+    grid-template-columns: 1fr 170px 1fr;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.65rem 0.9rem;
+    border-radius: 10px;
+    background: rgba(15, 23, 42, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+body.theme-light .compare-expense-row,
+:root:not(.dark) .compare-expense-row {
+    background: #ffffff;
+    border-color: rgba(15, 23, 42, 0.07);
+}
+
+.expense-col {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    min-width: 0;
+}
+
+.expense-col.side-b {
+    align-items: flex-end;
+    text-align: right;
+}
+
+.exp-val-line {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+}
+
+.exp-amount {
+    font-size: 0.88rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+
+.exp-amount.cheaper-highlight {
+    color: #34d399;
+}
+
+body.theme-light .exp-amount.cheaper-highlight,
+:root:not(.dark) .exp-amount.cheaper-highlight {
+    color: #059669;
+}
+
+.exp-sub-note {
+    font-size: 0.68rem;
+    color: #94a3b8;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+.exp-bar-track {
+    width: 100%;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.07);
+    border-radius: 999px;
+    overflow: hidden;
+    display: flex;
+}
+
+body.theme-light .exp-bar-track,
+:root:not(.dark) .exp-bar-track {
+    background: #e2e8f0;
+}
+
+.exp-bar-track.right-align {
+    justify-content: flex-end;
+}
+
+.exp-bar-fill {
+    height: 100%;
+    border-radius: 999px;
+    transition: width 0.3s ease;
+}
+
+.exp-bar-fill.fill-emerald {
+    background: #10b981;
+}
+
+.exp-bar-fill.fill-slate {
+    background: #64748b;
+}
+
+.expense-center-label {
+    text-align: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #cbd5e1;
+}
+
+body.theme-light .expense-center-label,
+:root:not(.dark) .expense-center-label {
+    color: #475569;
+}
+
+/* ==========================================================================
+   Climate & Weather Comparison Grid
+   ========================================================================== */
+.compare-climate-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.climate-comparison-card {
+    padding: 1rem 1.15rem;
+    border-radius: 14px;
+    background: rgba(30, 41, 59, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+}
+
+body.theme-light .climate-comparison-card,
+:root:not(.dark) .climate-comparison-card {
+    background: #f8fafc;
+    border-color: rgba(15, 23, 42, 0.08);
+}
+
+.climate-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+}
+
+.climate-city-label {
+    font-size: 0.74rem;
+    font-weight: 600;
+    color: #94a3b8;
+}
+
+.climate-main-temp {
+    display: flex;
+    align-items: baseline;
+    gap: 0.55rem;
+    font-size: 1.5rem;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    margin-top: 0.15rem;
+}
+
+.climate-condition-text {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #38bdf8;
+}
+
+body.theme-light .climate-condition-text,
+:root:not(.dark) .climate-condition-text {
+    color: #0284c7;
+}
+
+.climate-icon-orb {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: rgba(56, 189, 248, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fbbf24;
+}
+
+.cmp-weather-icon.sun { color: #fbbf24; }
+.cmp-weather-icon.rain { color: #38bdf8; }
+.cmp-weather-icon.wind { color: #94a3b8; }
+.cmp-weather-icon.cloud-sun { color: #f59e0b; }
+
+.climate-metrics-matrix {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+}
+
+.climate-metric-cell {
+    padding: 0.5rem 0.65rem;
+    border-radius: 8px;
+    background: rgba(15, 23, 42, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+}
+
+body.theme-light .climate-metric-cell,
+:root:not(.dark) .climate-metric-cell {
+    background: #ffffff;
+    border-color: rgba(15, 23, 42, 0.06);
+}
+
+.cm-label {
+    font-size: 0.66rem;
+    color: #94a3b8;
+}
+
+.cm-val {
+    font-size: 0.8rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+
+.climate-season-row {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.75rem;
+    color: #cbd5e1;
+}
+
+body.theme-light .climate-season-row,
+:root:not(.dark) .climate-season-row {
+    color: #334155;
+}
+
+.season-icon {
+    color: #38bdf8;
+    flex-shrink: 0;
+}
+
+.climate-forecast-strip {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.35rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+body.theme-light .climate-forecast-strip,
+:root:not(.dark) .climate-forecast-strip {
+    border-top-color: rgba(15, 23, 42, 0.06);
+}
+
+.forecast-mini-day {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+    padding: 0.35rem 0.2rem;
+    border-radius: 7px;
+    background: rgba(15, 23, 42, 0.35);
+}
+
+body.theme-light .forecast-mini-day,
+:root:not(.dark) .forecast-mini-day {
+    background: #ffffff;
+}
+
+.f-day {
+    font-size: 0.64rem;
+    color: #94a3b8;
+}
+
+.f-temp {
+    font-size: 0.72rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+
+/* ==========================================================================
+   Connectivity & Specs Table
+   ========================================================================== */
+.compare-specs-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+}
+
+.spec-comparison-row {
+    display: grid;
+    grid-template-columns: 1fr 170px 1fr;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.6rem 0.9rem;
+    border-radius: 9px;
+    background: rgba(15, 23, 42, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    font-size: 0.78rem;
+}
+
+body.theme-light .spec-comparison-row,
+:root:not(.dark) .spec-comparison-row {
+    background: #f8fafc;
+    border-color: rgba(15, 23, 42, 0.07);
+}
+
+.spec-val.side-b {
+    text-align: right;
+}
+
+.spec-label {
+    text-align: center;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #94a3b8;
+}
+
+/* ==========================================================================
+   Footer Bar
+   ========================================================================== */
+.compare-footer-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.9rem 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(15, 23, 42, 0.95);
+    flex-wrap: wrap;
+}
+
+body.theme-light .compare-footer-bar,
+:root:not(.dark) .compare-footer-bar {
+    background: #f8fafc;
+    border-top-color: rgba(15, 23, 42, 0.08);
+}
+
+.compare-reset-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 0.9rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: transparent;
+    color: #94a3b8;
+    font-size: 0.76rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+body.theme-light .compare-reset-btn,
+:root:not(.dark) .compare-reset-btn {
+    border-color: rgba(15, 23, 42, 0.15);
+    color: #475569;
+}
+
+.compare-reset-btn:hover {
+    color: #f8fafc;
+    border-color: rgba(255, 255, 255, 0.25);
+}
+
+body.theme-light .compare-reset-btn:hover,
+:root:not(.dark) .compare-reset-btn:hover {
+    color: #0f172a;
+    border-color: #0f172a;
+}
+
+.compare-footer-ctas {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.compare-explore-city-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.52rem 1rem;
+    border-radius: 9px;
+    border: 1px solid rgba(56, 189, 248, 0.35);
+    background: rgba(56, 189, 248, 0.12);
+    color: #38bdf8;
+    font-size: 0.78rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.18s ease;
+}
+
+.compare-explore-city-btn.primary {
+    background: #0284c7;
+    border-color: #0284c7;
+    color: #ffffff;
+}
+
+.compare-explore-city-btn:hover {
+    transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   Floating Compare Tray (Shown on Destinations Page when items are selected)
+   ========================================================================== */
+.compare-floating-dock {
+    position: fixed;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1800;
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(56, 189, 248, 0.35);
+    border-radius: 14px;
+    padding: 0.65rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+    color: #f8fafc;
+}
+
+body.theme-light .compare-floating-dock,
+:root:not(.dark) .compare-floating-dock {
+    background: rgba(255, 255, 255, 0.96);
+    border-color: rgba(2, 132, 199, 0.35);
+    color: #0f172a;
+    box-shadow: 0 12px 32px rgba(15, 23, 42, 0.15);
+}
+
+.compare-dock-slots {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.compare-dock-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.3rem 0.65rem;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.76rem;
+    font-weight: 600;
+}
+
+body.theme-light .compare-dock-chip,
+:root:not(.dark) .compare-dock-chip {
+    background: #f1f5f9;
+    border-color: rgba(15, 23, 42, 0.1);
+}
+
+.compare-dock-chip.empty {
+    border-style: dashed;
+    color: #94a3b8;
+}
+
+.compare-dock-launch-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.45rem 0.95rem;
+    border-radius: 8px;
+    border: none;
+    background: #0284c7;
+    color: #ffffff;
+    font-size: 0.78rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.compare-dock-launch-btn:hover {
+    background: #0369a1;
+}
+
+@media (max-width: 768px) {
+    .compare-selectors-grid,
+    .compare-cost-totals-grid,
+    .compare-climate-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .compare-swap-divider {
+        flex-direction: row;
+    }
+
+    .compare-expense-row,
+    .spec-comparison-row {
+        grid-template-columns: 1fr;
+        text-align: left;
+    }
+
+    .expense-col.side-b,
+    .spec-val.side-b {
+        align-items: flex-start;
+        text-align: left;
+    }
+
+    .expense-center-label,
+    .spec-label {
+        text-align: left;
+        order: -1;
+    }
+}

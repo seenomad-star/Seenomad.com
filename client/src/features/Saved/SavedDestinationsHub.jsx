@@ -37,6 +37,22 @@ const SavedDestinationsHub = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [activeCategory, setActiveCategory] = useState('all');
 
+    // Sync with Vertical NomadDock page-specific filter selection
+    React.useEffect(() => {
+        const handleDockFilter = (e) => {
+            if (e.detail?.pageContext === 'saved' && e.detail?.filterId) {
+                setActiveCategory((prev) => (prev === e.detail.filterId ? 'all' : e.detail.filterId));
+            }
+        };
+        const handleDockReset = () => setActiveCategory('all');
+        window.addEventListener('nomaddock:filter', handleDockFilter);
+        window.addEventListener('nomaddock:reset', handleDockReset);
+        return () => {
+            window.removeEventListener('nomaddock:filter', handleDockFilter);
+            window.removeEventListener('nomaddock:reset', handleDockReset);
+        };
+    }, []);
+
     // Filter & search logic
     const filteredDestinations = useMemo(() => {
         return savedDestinations.filter((dest) => {
@@ -105,19 +121,26 @@ const SavedDestinationsHub = () => {
                         </div>
                         <div>
                             <h1 className="saved-hub-title">
-                                Saved Destinations
+                                My Favorites Collection
                                 <span className="saved-hub-counter-pill">{savedDestinations.length}</span>
                             </h1>
                             <p className="saved-hub-subtitle">
-                                Quick access to your curated wishlist, bookmarked cities, and nomad hubs.
+                                Stored in your local Nomad Profile — quick access to your bookmarked destinations, cost-of-living specs, and visa hubs.
                             </p>
                         </div>
                     </div>
 
                     <div className="saved-hub-actions">
                         <button
+                            className="saved-hub-btn secondary"
+                            onClick={() => navigate('/user/profile')}
+                            title="View Local Nomad Profile"
+                        >
+                            <span>My Profile</span>
+                        </button>
+                        <button
                             className="saved-hub-btn primary"
-                            onClick={() => navigate('/explore')}
+                            onClick={() => navigate('/explore/destinations')}
                             title="Explore More Places"
                         >
                             <Compass size={16} />
@@ -127,7 +150,7 @@ const SavedDestinationsHub = () => {
                             <button
                                 className="saved-hub-btn secondary"
                                 onClick={clearAll}
-                                title="Clear All Wishlists"
+                                title="Clear All Favorites"
                             >
                                 <Trash2 size={15} />
                                 <span>Clear All</span>

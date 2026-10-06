@@ -1,8 +1,23 @@
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import {
+    UserCheck, Mail, ExternalLink, Globe, Award, Star,
+    Briefcase, MapPin, Bookmark, Trash2, Compass
+} from 'lucide-react';
 import { useNomadOSStore } from '../../../store/nomadOSStore';
+import { useSavedStore } from '../../../store/savedStore';
 import '../styles/Professional.css';
 
 const NomadProfile = () => {
-    const { skills, endorsements, addEndorsement } = useNomadOSStore();
+    const navigate = useNavigate();
+    const { userSkills = {}, endorseSkill } = useNomadOSStore();
+    const { savedDestinations, removeSaved } = useSavedStore();
+    const skills = Object.keys(userSkills).length > 0
+        ? Object.keys(userSkills)
+        : ['Itinerary Planning', 'Local Spoken', 'Photography'];
+    const endorsements = userSkills;
+    const addEndorsement = endorseSkill;
     
     return (
         <div className="professional-container">
@@ -103,6 +118,93 @@ const NomadProfile = () => {
                                 <p>Stay until: March 30, 2026</p>
                             </div>
                         </div>
+                    </section>
+
+                    <section className="profile-card mt-8" id="profile-my-favorites-collection">
+                        <div className="flex items-center justify-between mb-4">
+                            <h2 className="card-title" style={{ marginBottom: 0 }}>
+                                <Bookmark size={20} className="text-blue-400" /> My Favorites ({savedDestinations.length})
+                            </h2>
+                            <button
+                                type="button"
+                                onClick={() => navigate('/saved')}
+                                className="btn-hub-outline"
+                                style={{ padding: '0.35rem 0.75rem', fontSize: '0.78rem' }}
+                            >
+                                View Collection
+                            </button>
+                        </div>
+
+                        {savedDestinations.length > 0 ? (
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
+                                {savedDestinations.slice(0, 5).map((dest) => {
+                                    const slug = (dest.name || '').toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
+                                    return (
+                                        <div
+                                            key={dest.id}
+                                            style={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'space-between',
+                                                gap: '0.75rem',
+                                                padding: '0.55rem 0.7rem',
+                                                borderRadius: '12px',
+                                                background: 'rgba(15, 23, 42, 0.55)',
+                                                border: '1px solid rgba(255, 255, 255, 0.08)'
+                                            }}
+                                        >
+                                            <div
+                                                onClick={() => navigate(`/explore/destinations/${slug}`)}
+                                                style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', cursor: 'pointer', flex: 1, minWidth: 0 }}
+                                            >
+                                                <img
+                                                    src={dest.image}
+                                                    alt={dest.name}
+                                                    style={{ width: '42px', height: '42px', borderRadius: '8px', objectFit: 'cover', flexShrink: 0 }}
+                                                />
+                                                <div style={{ minWidth: 0 }}>
+                                                    <h4 style={{ margin: 0, fontSize: '0.88rem', fontWeight: 700, color: '#f8fafc' }}>{dest.name}</h4>
+                                                    <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>
+                                                        {dest.location} • {dest.price || '$1,350/mo'}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <button
+                                                type="button"
+                                                onClick={() => removeSaved(dest.id)}
+                                                title={`Remove ${dest.name} from My Favorites`}
+                                                style={{
+                                                    background: 'rgba(239, 68, 68, 0.12)',
+                                                    border: '1px solid rgba(239, 68, 68, 0.25)',
+                                                    color: '#f87171',
+                                                    borderRadius: '8px',
+                                                    width: '30px',
+                                                    height: '30px',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center',
+                                                    cursor: 'pointer'
+                                                }}
+                                            >
+                                                <Trash2 size={14} />
+                                            </button>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        ) : (
+                            <div style={{ textAlign: 'center', padding: '1rem 0', color: '#94a3b8', fontSize: '0.84rem' }}>
+                                <p style={{ marginBottom: '0.6rem' }}>No destinations in your My Favorites collection yet.</p>
+                                <button
+                                    type="button"
+                                    onClick={() => navigate('/explore/destinations')}
+                                    className="btn-hub-primary"
+                                    style={{ margin: '0 auto' }}
+                                >
+                                    <Compass size={15} /> Explore Destinations
+                                </button>
+                            </div>
+                        )}
                     </section>
                 </div>
             </div>
