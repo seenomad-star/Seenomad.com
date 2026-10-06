@@ -1188,22 +1188,6 @@ const NomadDock = () => {
                         <span>{totalActiveFilters}</span>
                     </button>
                 )}
-
-                {/* Vertical Spine Text inside Vertical Pill / Vertical Bar */}
-                <div
-                    className="vertical-pill-live-spine"
-                    onMouseEnter={() => {
-                        if (!pinnedTool) setActiveTool('live-intel');
-                    }}
-                    onMouseLeave={() => {
-                        if (!pinnedTool) setActiveTool(null);
-                    }}
-                    onClick={() => setPinnedTool((prev) => (prev === 'live-intel' ? null : 'live-intel'))}
-                    title="Live Travel Intelligence • Verified 2026 (Vertical Pill / Vertical Bar)"
-                >
-                    <span className="live-pulse-dot-dock"></span>
-                    <span className="vertical-spine-label">LIVE INTEL • 2026</span>
-                </div>
             </div>
         </aside>
     );

@@ -29,8 +29,6 @@ import { useNomadOSStore } from '../../store/nomadOSStore';
 import { useSavedStore } from '../../store/savedStore';
 import { useDestinationStore } from '../../store/destinationFilterStore';
 import ThemeToggle from '../common/ThemeToggle';
-import DomainStatusFilterGroup from './DomainStatusFilterGroup';
-import SidebarDestinationList from './SidebarDestinationList';
 import '../../styles/MobileDrawer.css';
 
 /**
@@ -369,23 +367,6 @@ const MobileDrawer = ({ isOpen: propIsOpen, onClose: propOnClose }) => {
                                                         </span>
                                                     )}
                                                 </NavLink>
-                                            )}
-                                            {isDestinations && (
-                                                <>
-                                                    <DomainStatusFilterGroup
-                                                        activeStatus={domainStatus}
-                                                        onSelectStatus={handleDomainStatusFilter}
-                                                        onClear={handleClearDomainFilter}
-                                                        onStatusChange={handleClose}
-                                                        className="drawer-domain-filter"
-                                                    />
-                                                    <SidebarDestinationList
-                                                        activeDomainStatus={domainStatus}
-                                                        onSelectDestination={handleClose}
-                                                        isMobile={true}
-                                                        defaultExpanded={false}
-                                                    />
-                                                </>
                                             )}
                                         </li>
                                     );

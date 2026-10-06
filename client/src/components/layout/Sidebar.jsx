@@ -30,8 +30,6 @@ import { useNomadOSStore } from '../../store/nomadOSStore';
 import { useSavedStore } from '../../store/savedStore';
 import { useDestinationStore } from '../../store/destinationFilterStore';
 import ThemeToggle from '../common/ThemeToggle';
-import DomainStatusFilterGroup from './DomainStatusFilterGroup';
-import SidebarDestinationList from './SidebarDestinationList';
 import '../../styles/Sidebar.css';
 
 const Sidebar = ({ isCollapsed, toggleSidebar, isMobileOpen, isMobile }) => {
@@ -275,29 +273,6 @@ const Sidebar = ({ isCollapsed, toggleSidebar, isMobileOpen, isMobile }) => {
                                                 </div>
                                             )}
                                         </NavLink>
-                                        {isDestinations && (
-                                            <>
-                                                <DomainStatusFilterGroup
-                                                    collapsed={effectiveCollapsed}
-                                                    activeStatus={domainStatus}
-                                                    onSelectStatus={handleDomainStatusFilter}
-                                                    onClear={handleClearDomainFilter}
-                                                    onStatusChange={() => {
-                                                        if (isMobile) toggleSidebar();
-                                                    }}
-                                                />
-                                                {!effectiveCollapsed && (
-                                                    <SidebarDestinationList
-                                                        activeDomainStatus={domainStatus}
-                                                        onSelectDestination={() => {
-                                                            if (isMobile && toggleSidebar) toggleSidebar();
-                                                        }}
-                                                        isMobile={Boolean(isMobile)}
-                                                        defaultExpanded={!isMobile}
-                                                    />
-                                                )}
-                                            </>
-                                        )}
                                     </li>
                                 );
                             })}
