@@ -65,6 +65,7 @@ const Explore = () => {
         { label: 'Compare Destinations', slug: 'compare-destinations', icon: <Compass size={18} /> },
         { label: 'Embassy', slug: 'embassy', icon: <Landmark size={18} /> },
         { label: 'SeeNomad Multi', slug: 'seenomad-multi', icon: <Map size={18} /> },
+        { label: 'Visa', slug: 'visa', icon: <ShieldCheck size={18} /> },
         { label: 'Triipper AI', slug: 'triipper', icon: <Sparkles size={18} /> },
         { label: 'Cultural Compass', slug: 'cultural-compass', icon: <Compass size={18} /> },
         { label: 'Story Studio', slug: 'story-studio', icon: <Rocket size={18} /> },
@@ -115,7 +116,9 @@ const Explore = () => {
                     <Route path="embassy" element={<Embassy activeFilters={activeFilters} />} />
                     <Route path="embassy/:countrySlug" element={<CountryEmbassyDetail />} />
                     <Route path="embassy/:countrySlug/:visaSlug" element={<CountryEmbassyVisa />} />
-                    <Route path="visa" element={<VisaIntelligenceHub />} />
+                    <Route path="visa" element={<Visa />} />
+                    <Route path="visas" element={<Visa />} />
+                    <Route path="visa-intelligence" element={<VisaIntelligenceHub />} />
                     <Route path="speed-test" element={<SpeedTestMap />} />
                     <Route path="speed-test-map" element={<SpeedTestMap />} />
                     <Route path="travel-bug" element={<TravelBug />} />

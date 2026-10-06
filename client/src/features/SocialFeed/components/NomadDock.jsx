@@ -1268,20 +1268,58 @@ const NomadDock = () => {
         if (pageContext === 'visa') {
             return [
                 {
+                    id: 'visa-search-filter',
+                    icon: Search,
+                    badgeCount: globalSearchQuery ? 1 : 0,
+                    label: 'Search Country Visas & Permits',
+                    subtitle: 'Filter by Country, Permit Type or Capital',
+                    content: (
+                        <div className="dock-filter-panel">
+                            <div className="dock-search-input-wrap">
+                                <Search size={14} className="dock-search-icon" />
+                                <input
+                                    type="text"
+                                    value={globalSearchQuery || ''}
+                                    onChange={(e) => {
+                                        setGlobalSearchQuery(e.target.value);
+                                        window.dispatchEvent(new CustomEvent('visa:filter-change', { detail: { search: e.target.value } }));
+                                    }}
+                                    placeholder="Search country visa, nomad permit, e-Visa..."
+                                    className="dock-search-input"
+                                />
+                                {globalSearchQuery && (
+                                    <button
+                                        type="button"
+                                        className="dock-search-clear"
+                                        onClick={() => {
+                                            setGlobalSearchQuery('');
+                                            window.dispatchEvent(new CustomEvent('visa:filter-change', { detail: { search: '' } }));
+                                        }}
+                                        aria-label="Clear visa search"
+                                    >
+                                        <X size={13} />
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+                    )
+                },
+                {
                     id: 'visa-status-filters',
-                    icon: Shield,
+                    icon: ShieldCheck,
                     badgeCount: selectedFilters.length,
-                    label: 'Visa Entry Filters',
-                    subtitle: 'Page-Specific Visa Requirements',
+                    label: 'Visa Pathway & Tax Filters',
+                    subtitle: 'Digital Nomad, Visa-Free, e-Visa & 0% Tax',
                     content: (
                         <div className="dock-filter-panel">
                             <div className="dock-filter-list">
                                 {[
-                                    { id: 'all', label: 'All Countries (195)', sub: 'Global Passport Index' },
-                                    { id: 'visa-free', label: 'Visa Free (58)', sub: 'Instant entry on arrival' },
-                                    { id: 'evisa', label: 'e-Visa (24)', sub: 'Online approval in 24-72h' },
-                                    { id: 'voa', label: 'Visa on Arrival (32)', sub: 'Stamped at airport' },
-                                    { id: 'nomad-visa', label: 'Digital Nomad Visas', sub: '1–2 year remote work stays' }
+                                    { id: 'all', label: 'All Visa Pathways (85+)', sub: 'Global Sovereign Visa Directory' },
+                                    { id: 'nomad-visa', label: 'Digital Nomad Visas (1–5 Yr)', sub: 'Remote work residency permits' },
+                                    { id: 'visa-free', label: 'Visa-Free / Instant eTA', sub: 'Immediate airport entry' },
+                                    { id: 'e-visa', label: 'Fast-Track Online e-Visa', sub: '24–72h electronic approval' },
+                                    { id: 'voa', label: 'Visa on Arrival (VOA)', sub: 'Stamped at international arrival' },
+                                    { id: 'zero-tax', label: '0% Foreign Income Tax', sub: 'Territorial / tax-exempt regimes' }
                                 ].map((v) => {
                                     const isSelected = selectedFilters.includes(v.id);
                                     return (
@@ -1289,7 +1327,10 @@ const NomadDock = () => {
                                             key={v.id}
                                             type="button"
                                             className={`dock-filter-row-btn ${isSelected ? 'active' : ''}`}
-                                            onClick={() => handleToggleQuickFilter(v.id)}
+                                            onClick={() => {
+                                                handleToggleQuickFilter(v.id);
+                                                window.dispatchEvent(new CustomEvent('visa:filter-change', { detail: { category: v.id } }));
+                                            }}
                                         >
                                             <Shield size={14} className="row-icon" />
                                             <div className="row-text">
@@ -1300,6 +1341,48 @@ const NomadDock = () => {
                                         </button>
                                     );
                                 })}
+                            </div>
+                        </div>
+                    )
+                },
+                {
+                    id: 'visa-region-speed-filters',
+                    icon: Globe,
+                    badgeCount: 0,
+                    label: 'Region & Approval Speed',
+                    subtitle: 'Filter by World Region or Schengen 90/180d',
+                    content: (
+                        <div className="dock-filter-panel">
+                            <div className="dock-sub-label">WORLD REGIONS</div>
+                            <div className="dock-filter-chips-grid">
+                                {['All Regions', 'Europe', 'Asia', 'Americas', 'Middle East', 'Africa', 'Oceania'].map((reg) => (
+                                    <button
+                                        key={reg}
+                                        type="button"
+                                        className="dock-filter-chip"
+                                        onClick={() => window.dispatchEvent(new CustomEvent('visa:filter-change', { detail: { region: reg } }))}
+                                    >
+                                        <span>{reg}</span>
+                                    </button>
+                                ))}
+                            </div>
+                            <div className="dock-sub-label" style={{ marginTop: '0.6rem' }}>APPROVAL SPEED & ZONE</div>
+                            <div className="dock-filter-chips-grid">
+                                {[
+                                    { id: 'all', label: 'All Speeds' },
+                                    { id: 'instant', label: 'Instant / 24–72h' },
+                                    { id: 'under-7d', label: 'Under 7 Days' },
+                                    { id: 'schengen', label: 'Schengen 90/180d' }
+                                ].map((sp) => (
+                                    <button
+                                        key={sp.id}
+                                        type="button"
+                                        className="dock-filter-chip"
+                                        onClick={() => window.dispatchEvent(new CustomEvent('visa:filter-change', { detail: { speed: sp.id } }))}
+                                    >
+                                        <span>{sp.label}</span>
+                                    </button>
+                                ))}
                             </div>
                         </div>
                     )
