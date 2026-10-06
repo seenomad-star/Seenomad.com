@@ -302,17 +302,65 @@ const RAW_COUNTRIES = [
     { name: 'Zimbabwe', flag: '🇿🇼', capital: 'Harare', region: 'Africa', code: '+263', image: 'https://images.unsplash.com/photo-1516426122078-c23e76319801?w=800&q=80', visaSuccess: '95.1%', time: '24–48 Hours', nomad: false }
 ];
 
-export const GLOBAL_EMBASSY_COUNTRIES = RAW_COUNTRIES.map((c) => {
+const REGION_COORDS = {
+    'Europe': { lat: 48.85, lng: 9.35 },
+    'Asia': { lat: 28.60, lng: 103.80 },
+    'Americas': { lat: 14.60, lng: -78.40 },
+    'Middle East': { lat: 25.28, lng: 49.55 },
+    'Africa': { lat: -1.29, lng: 24.80 },
+    'Oceania': { lat: -33.86, lng: 151.20 }
+};
+
+const CAPITAL_COORDS = {
+    'Lisbon': { lat: 38.7223, lng: -9.1393 },
+    'Tokyo': { lat: 35.6762, lng: 139.6503 },
+    'Jakarta / Bali': { lat: -6.2088, lng: 106.8456 },
+    'Madrid': { lat: 40.4168, lng: -3.7038 },
+    'Bangkok': { lat: 13.7563, lng: 100.5018 },
+    'Abu Dhabi / Dubai': { lat: 24.4539, lng: 54.3773 },
+    'Washington, D.C.': { lat: 38.9072, lng: -77.0369 },
+    'London': { lat: 51.5074, lng: -0.1278 },
+    'Berlin': { lat: 52.5200, lng: 13.4050 },
+    'Mexico City': { lat: 19.4326, lng: -99.1332 },
+    'Paris': { lat: 48.8566, lng: 2.3522 },
+    'Rome': { lat: 41.9028, lng: 12.4964 },
+    'New Delhi': { lat: 28.6139, lng: 77.2090 },
+    'Seoul': { lat: 37.5665, lng: 126.9780 },
+    'Singapore': { lat: 1.3521, lng: 103.8198 },
+    'Ottawa': { lat: 45.4215, lng: -75.6972 },
+    'Brasília': { lat: -15.7975, lng: -47.8919 },
+    'Buenos Aires': { lat: -34.6037, lng: -58.3816 },
+    'Canberra': { lat: -35.2809, lng: 149.1300 },
+    'Wellington / Auckland': { lat: -41.2866, lng: 174.7756 },
+    'Cape Town / Pretoria': { lat: -33.9249, lng: 18.4241 },
+    'Nairobi': { lat: -1.2921, lng: 36.8219 },
+    'Cairo': { lat: 30.0444, lng: 31.2357 },
+    'Riyadh': { lat: 24.7136, lng: 46.6753 },
+    'Hanoi': { lat: 21.0285, lng: 105.8542 },
+    'Kuala Lumpur': { lat: 3.1390, lng: 101.6869 },
+    'Manila': { lat: 14.5995, lng: 120.9842 },
+    'Taipei': { lat: 25.0330, lng: 121.5654 }
+};
+
+export const GLOBAL_EMBASSY_COUNTRIES = RAW_COUNTRIES.map((c, index) => {
     const slug = c.name.toLowerCase().replace(/\s+/g, '-');
     const featured = FEATURED_EMBASSIES[slug];
     const domainTld = slug.slice(0, 2);
+    const capitalName = featured?.capital || c.capital;
+    const regionName = featured?.region || c.region;
+    const baseCoord = CAPITAL_COORDS[capitalName] || REGION_COORDS[regionName] || { lat: 25.0, lng: 15.0 };
+    const latOffset = CAPITAL_COORDS[capitalName] ? 0 : ((index % 7) - 3) * 2.8;
+    const lngOffset = CAPITAL_COORDS[capitalName] ? 0 : ((index % 9) - 4) * 3.5;
+    const homeLat = Number((baseCoord.lat + latOffset).toFixed(4));
+    const homeLng = Number((baseCoord.lng + lngOffset).toFixed(4));
 
     return {
         id: slug,
         name: c.name,
         flag: c.flag,
-        region: featured?.region || c.region,
-        capital: featured?.capital || c.capital,
+        region: regionName,
+        capital: capitalName,
+        coordinates: { lat: homeLat, lng: homeLng },
         image: featured?.image || c.image,
         visaPathway: featured?.visaPathway || c.pathway || (c.nomad ? `${c.name} Digital Nomad & Long-Stay Visa` : `${c.name} e-Visa & Consular Entry Permit`),
         visaApprovalRate: featured?.visaApprovalRate || c.visaSuccess,
@@ -321,7 +369,7 @@ export const GLOBAL_EMBASSY_COUNTRIES = RAW_COUNTRIES.map((c) => {
         emergencyHotline: featured?.emergencyHotline || `${c.code} 112 800 4400`,
         consularEmail: featured?.consularEmail || `consular@${slug}-mfa.gov.${domainTld}`,
         officialPortal: featured?.officialPortal || `https://www.mfa.gov.${domainTld}/visa`,
-        address: featured?.address || `Diplomatic Quarter, Chancery Avenue, ${c.capital}, ${c.name}`,
+        address: featured?.address || `Diplomatic Quarter, Chancery Avenue, ${capitalName}, ${c.name}`,
         operatingHours: featured?.operatingHours || 'Mon–Fri · 09:00 – 16:30 Local Time',
         appointmentWait: featured?.appointmentWait || (c.time.includes('Hour') || c.time.includes('Instant') ? 'Instant Online e-Portal' : '3–6 Business Days'),
         embassyCount: featured?.embassyCount || ((c.name.length * 9) % 70) + 45,
@@ -339,12 +387,15 @@ export const GLOBAL_EMBASSY_COUNTRIES = RAW_COUNTRIES.map((c) => {
             'Notary & Passport Renewal'
         ],
         missionsAbroad: [
-            { city: 'Washington, D.C.', country: 'United States', phone: '+1 202-555-0192', type: 'Embassy', status: 'Open · Appointments Active' },
-            { city: 'London', country: 'United Kingdom', phone: '+44 20 7946 0821', type: 'Embassy / High Commission', status: 'Open · Consular Desk Active' },
-            { city: 'New Delhi', country: 'India', phone: '+91 11 2415 8800', type: 'Embassy', status: 'Open · E-Visa & Biometrics' },
-            { city: 'Tokyo', country: 'Japan', phone: '+81 3-5550-1920', type: 'Embassy', status: 'Open · Fast-Track Available' },
-            { city: 'Berlin', country: 'Germany', phone: '+49 30 2045 8100', type: 'Embassy', status: 'Open · Schengen & Notary' },
-            { city: 'Singapore', country: 'Singapore', phone: '+65 6734 9200', type: 'High Commission / Consulate', status: 'Open · Same-Week Slots' }
+            { id: `${slug}-chancery`, city: capitalName, country: c.name, lat: homeLat, lng: homeLng, address: featured?.address || `Diplomatic Quarter, Chancery Avenue, ${capitalName}`, phone: featured?.emergencyHotline || `${c.code} 112 800 4400`, type: 'Home Ministry & Principal Chancery', status: '24/7 Flagship Diplomatic HQ', isChancery: true },
+            { id: `${slug}-dc`, city: 'Washington, D.C.', country: 'United States', lat: 38.9121, lng: -77.0516, address: `2400 Massachusetts Ave NW, Embassy Row, Washington, D.C.`, phone: '+1 202-555-0192', type: 'Embassy & Consular Section', status: 'Open · Appointments Active' },
+            { id: `${slug}-lon`, city: 'London', country: 'United Kingdom', lat: 51.4995, lng: -0.1545, address: `11 Belgrave Square, Knightsbridge, London SW1X 8PH`, phone: '+44 20 7946 0821', type: 'Embassy / High Commission', status: 'Open · Consular Desk Active' },
+            { id: `${slug}-ber`, city: 'Berlin', country: 'Germany', lat: 52.5079, lng: 13.3532, address: `Tiergartenstraße 18, Diplomatic Quarter, 10785 Berlin`, phone: '+49 30 2045 8100', type: 'Embassy & Schengen Visa Hub', status: 'Open · Schengen & Notary' },
+            { id: `${slug}-dxb`, city: 'Dubai / Abu Dhabi', country: 'United Arab Emirates', lat: 25.2285, lng: 55.3273, address: `Consulate District, Bur Dubai / Diplomatic Area`, phone: '+971 4 397 1100', type: 'Consulate General', status: 'Open · Express Biometrics' },
+            { id: `${slug}-del`, city: 'New Delhi', country: 'India', lat: 28.5983, lng: 77.1847, address: `Shantipath, Chanakyapuri, New Delhi 110021`, phone: '+91 11 2415 8800', type: 'Embassy & E-Visa Center', status: 'Open · E-Visa & Biometrics' },
+            { id: `${slug}-sin`, city: 'Singapore', country: 'Singapore', lat: 1.3048, lng: 103.8238, address: `390 Orchard Road, Palais Renaissance, Singapore`, phone: '+65 6734 9200', type: 'High Commission / Consulate', status: 'Open · Same-Week Slots' },
+            { id: `${slug}-tyo`, city: 'Tokyo', country: 'Japan', lat: 35.6581, lng: 139.7315, address: `Minato-ku, Moto-Azabu Diplomatic Precinct, Tokyo`, phone: '+81 3-5550-1920', type: 'Embassy & Citizen Services', status: 'Open · Fast-Track Available' },
+            { id: `${slug}-syd`, city: 'Sydney / Canberra', country: 'Australia', lat: -33.8688, lng: 151.2093, address: `Level 18, 44 Market Street, Sydney NSW 2000`, phone: '+61 2 9262 1144', type: 'Consulate General', status: 'Open · Regional Hub' }
         ],
         checklist: [
             `Original Passport (valid at least 6 months beyond stay in ${c.name})`,

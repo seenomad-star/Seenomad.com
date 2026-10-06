@@ -397,11 +397,18 @@ const NomadDock = () => {
                 setEmbassyFilters((prev) => ({ ...prev, count: e.detail.count }));
             }
         };
+        const handleEmbassySearchSync = (e) => {
+            if (typeof e.detail?.search === 'string') {
+                setEmbassyFilters((prev) => ({ ...prev, search: e.detail.search }));
+            }
+        };
         window.addEventListener('destinations:count', handleCountUpdate);
         window.addEventListener('embassy:count', handleEmbassyCount);
+        window.addEventListener('embassy:search-sync', handleEmbassySearchSync);
         return () => {
             window.removeEventListener('destinations:count', handleCountUpdate);
             window.removeEventListener('embassy:count', handleEmbassyCount);
+            window.removeEventListener('embassy:search-sync', handleEmbassySearchSync);
         };
     }, []);
 
