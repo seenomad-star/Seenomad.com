@@ -437,35 +437,6 @@ const Destinations = () => {
                 </aside>
             </div>
 
-            {/* Floating Compare Destinations Dock */}
-            {compareDestinations && compareDestinations.length > 0 && (
-                <div className="compare-floating-dock" role="region" aria-label="Selected destinations for comparison">
-                    <div className="compare-dock-slots">
-                        {[0, 1].map((slotIdx) => {
-                            const destId = compareDestinations[slotIdx];
-                            const found = allDestinations.find((d) => d.id === Number(destId));
-                            return found ? (
-                                <span key={slotIdx} className="compare-dock-chip">
-                                    {found.name}
-                                </span>
-                            ) : (
-                                <span key={slotIdx} className="compare-dock-chip empty">
-                                    Select 2nd City
-                                </span>
-                            );
-                        })}
-                    </div>
-                    <button
-                        type="button"
-                        className="compare-dock-launch-btn"
-                        onClick={() => setIsCompareModalOpen(true)}
-                    >
-                        <ArrowLeftRight size={14} />
-                        <span>Compare Side-by-Side</span>
-                    </button>
-                </div>
-            )}
-
             {/* Side-by-Side Compare Destinations Modal */}
             <CompareDestinationsModal
                 isOpen={isCompareModalOpen}

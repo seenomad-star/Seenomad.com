@@ -69,6 +69,7 @@ const NomadDock = () => {
         setSortBy,
         resetFilters,
         setIsFilterDrawerOpen,
+        compareDestinations,
         setIsCompareModalOpen
     } = useDestinationStore();
 
@@ -227,9 +228,42 @@ const NomadDock = () => {
                                     }}
                                 >
                                     <ArrowRightLeft size={12} />
-                                    <span>Compare Cities</span>
+                                    <span>Compare Side-by-Side</span>
                                 </button>
                             </div>
+
+                            {/* Selected Cities for Side-by-Side Comparison */}
+                            {compareDestinations && compareDestinations.length > 0 && (
+                                <div className="dock-compare-slots-box">
+                                    <div className="dock-compare-slots-row">
+                                        {[0, 1].map((slotIdx) => {
+                                            const destId = compareDestinations[slotIdx];
+                                            const found = allDestinations.find((d) => d.id === Number(destId));
+                                            return found ? (
+                                                <span key={slotIdx} className="dock-compare-slot-chip">
+                                                    {found.name}
+                                                </span>
+                                            ) : (
+                                                <span key={slotIdx} className="dock-compare-slot-chip empty">
+                                                    Select 2nd City
+                                                </span>
+                                            );
+                                        })}
+                                    </div>
+                                    <button
+                                        type="button"
+                                        className="dock-compare-side-by-side-btn"
+                                        onClick={() => {
+                                            setIsCompareModalOpen(true);
+                                            setPinnedTool(null);
+                                            setActiveTool(null);
+                                        }}
+                                    >
+                                        <ArrowRightLeft size={12} />
+                                        <span>Compare Side-by-Side</span>
+                                    </button>
+                                </div>
+                            )}
 
                             {/* Sort Dropdown & Grid/List View Toggle */}
                             <div className="dock-sub-label">SORT & VIEW LAYOUT</div>
