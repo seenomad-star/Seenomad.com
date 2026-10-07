@@ -10,10 +10,8 @@ import CountryEmbassyDetail from './components/CountryEmbassyDetail';
 import CountryEmbassyVisa from './components/CountryEmbassyVisa';
 import DestinationDetail from './components/DestinationDetail';
 import FlightVisaWidget from './components/FlightVisaWidget';
-import TravelBug from '../TravelBug/TravelBug';
 import DIYHub from '../DIY/DIYHub';
 import TrivenlyHub from '../Marketplace/TrivenlyHub';
-import TriipperPlanner from '../Planner/TriipperPlanner';
 import MultiCityPlanner from '../Planner/MultiCityPlanner';
 import SeeNomadMultiPart from './components/SeeNomadMultiPart';
 import CompareDestinationsModal from './components/CompareDestinationsModal';
@@ -23,7 +21,6 @@ import SpeedTestMap from './components/SpeedTestMap';
 import CulturalCompass from './components/CulturalCompass';
 import StoryStudio from '../Community/StoryStudio';
 import GuardianConnect from '../Community/GuardianConnect';
-import SuperAgentDashboard from '../AIAgents/SuperAgentDashboard';
 import DiscoveryHub from '../Growth/DiscoveryHub';
 import NomadDNA from '../Growth/NomadDNA';
 import ViralChallenges from '../Growth/ViralChallenges';
@@ -42,13 +39,13 @@ import NomadShortsFeed from '../Social/NomadShortsFeed';
 import GlobalLeaderboard from '../Social/GlobalLeaderboard';
 import ReferralBounty from '../Social/ReferralBounty';
 import PassportVault from '../Security/PassportVault';
-import AIConciergeVera from '../AI/AIConciergeVera';
 import ARRealityHub from './ARRealityHub';
 import ShadowConcierge from '../VIP/ShadowConcierge';
 import RiskIntelligenceMap from '../Security/RiskIntelligenceMap';
 import NomadEventsHub from '../Social/NomadEventsHub';
 import NomadPassport from '../Security/NomadPassport';
-import AIDigitalTwin from '../AI/AIDigitalTwin';
+import NomadAIStudio from './components/NomadAIStudio';
+import ConsolidatedExploreSuites from './components/ConsolidatedExploreSuites';
 import './styles/Explore.css';
 
 const Explore = () => {
@@ -56,9 +53,6 @@ const Explore = () => {
     const location = useLocation();
     const [activeFilters, setActiveFilters] = useState([]);
     const { setModuleNav, isSidebarCollapsed } = useNavStore();
-    const [isVeraVisible, setIsVeraVisible] = useState(false);
-
-    const toggleVera = () => setIsVeraVisible(!isVeraVisible);
 
     const navItems = [
         { label: 'Destinations', slug: 'destinations', icon: <Palmtree size={18} /> },
@@ -67,22 +61,10 @@ const Explore = () => {
         { label: 'SeeNomad Multi', slug: 'seenomad-multi', icon: <Map size={18} /> },
         { label: 'Visa', slug: 'visa', icon: <ShieldCheck size={18} /> },
         { label: 'Trip Builder', slug: 'trip-builder', icon: <Backpack size={18} /> },
-        { label: 'Triipper AI', slug: 'triipper', icon: <Sparkles size={18} /> },
-        { label: 'Cultural Compass', slug: 'cultural-compass', icon: <Compass size={18} /> },
-        { label: 'Story Studio', slug: 'story-studio', icon: <Rocket size={18} /> },
-        { label: 'Local Guardians', slug: 'guardians', icon: <ShieldCheck size={18} /> },
-        { label: 'Super Agent', slug: 'super-agent', icon: <Cpu size={18} /> },
-        { label: 'Viral Challenges', slug: 'challenges', icon: <Trophy size={18} /> },
-        { label: 'Nomad Perks', slug: 'perks', icon: <ShoppingBag size={18} /> },
-        { label: 'Discovery Hub', slug: 'discovery', icon: <Rocket size={18} /> },
-        { label: 'Nomad DNA', slug: 'dna', icon: <Dna size={18} /> },
-        { label: 'Nomad Events', slug: 'events', icon: <Users size={18} /> },
-        { label: 'Nomad Passport', slug: 'passport', icon: <Shield size={18} /> },
-        { label: 'AI Digital Twin', slug: 'twin', icon: <Cpu size={18} /> },
-        { label: 'Trivenly Market', slug: 'trivenly', icon: <Briefcase size={18} /> },
-        { label: 'Speed Test Map', slug: 'speed-test', icon: <Wifi size={18} /> },
-        { label: 'Flights & Visa', slug: 'flights-visa', icon: <Plane size={18} /> },
-        { label: 'Travel Bug (AI)', slug: 'travel-bug', icon: <Zap size={18} /> }
+        { label: 'Nomad AI Studio', slug: 'ai-studio', icon: <Sparkles size={18} /> },
+        { label: 'Culture & Guardians', slug: 'culture-community', icon: <Users size={18} /> },
+        { label: 'Passport, DNA & Perks', slug: 'passport-perks', icon: <Shield size={18} /> },
+        { label: 'Connectivity & Market', slug: 'connectivity-market', icon: <Wifi size={18} /> }
     ];
 
     useEffect(() => {
@@ -119,33 +101,38 @@ const Explore = () => {
                     <Route path="visa" element={<Visa />} />
                     <Route path="visas" element={<Visa />} />
                     <Route path="visa-intelligence" element={<VisaIntelligenceHub />} />
-                    <Route path="speed-test" element={<SpeedTestMap />} />
-                    <Route path="speed-test-map" element={<SpeedTestMap />} />
-                    <Route path="travel-bug" element={<TravelBug />} />
-                    <Route path="travel-bug-ai" element={<TravelBug />} />
-                    <Route path="triipper/*" element={<TriipperPlanner />} />
-                    <Route path="triipper-ai/*" element={<TriipperPlanner />} />
+                    <Route path="culture-community" element={<ConsolidatedExploreSuites suiteKey="culture-community" defaultTab="all" />} />
+                    <Route path="passport-perks" element={<ConsolidatedExploreSuites suiteKey="passport-perks" defaultTab="all" />} />
+                    <Route path="connectivity-market" element={<ConsolidatedExploreSuites suiteKey="connectivity-market" defaultTab="all" />} />
+                    <Route path="speed-test" element={<ConsolidatedExploreSuites suiteKey="connectivity-market" defaultTab="speed-test" />} />
+                    <Route path="speed-test-map" element={<ConsolidatedExploreSuites suiteKey="connectivity-market" defaultTab="speed-test" />} />
+                    <Route path="ai-studio" element={<NomadAIStudio defaultEngine="all" />} />
+                    <Route path="nomad-ai" element={<NomadAIStudio defaultEngine="all" />} />
+                    <Route path="travel-bug" element={<NomadAIStudio defaultEngine="travel-bug" />} />
+                    <Route path="travel-bug-ai" element={<NomadAIStudio defaultEngine="travel-bug" />} />
+                    <Route path="triipper/*" element={<NomadAIStudio defaultEngine="triipper" />} />
+                    <Route path="triipper-ai/*" element={<NomadAIStudio defaultEngine="triipper" />} />
                     <Route path="seenomad-multi" element={<SeeNomadMultiPart />} />
                     <Route path="seenomad-multi-part" element={<SeeNomadMultiPart />} />
                     <Route path="multi-part" element={<SeeNomadMultiPart />} />
                     <Route path="multi-city" element={<SeeNomadMultiPart />} />
-                    <Route path="cultural-compass" element={<CulturalCompass />} />
-                    <Route path="story-studio" element={<StoryStudio />} />
-                    <Route path="guardians" element={<GuardianConnect />} />
-                    <Route path="local-guardians" element={<GuardianConnect />} />
-                    <Route path="super-agent" element={<SuperAgentDashboard />} />
-                    <Route path="challenges" element={<ViralChallenges />} />
-                    <Route path="viral-challenges" element={<ViralChallenges />} />
-                    <Route path="perks" element={<NomadPerks />} />
-                    <Route path="nomad-perks" element={<NomadPerks />} />
-                    <Route path="discovery" element={<DiscoveryHub />} />
-                    <Route path="discovery-hub" element={<DiscoveryHub />} />
-                    <Route path="dna" element={<NomadDNA />} />
-                    <Route path="nomad-dna" element={<NomadDNA />} />
-                    <Route path="trivenly/*" element={<TrivenlyHub />} />
-                    <Route path="trivenly-market/*" element={<TrivenlyHub />} />
+                    <Route path="cultural-compass" element={<ConsolidatedExploreSuites suiteKey="culture-community" defaultTab="cultural-compass" />} />
+                    <Route path="story-studio" element={<ConsolidatedExploreSuites suiteKey="culture-community" defaultTab="story-studio" />} />
+                    <Route path="guardians" element={<ConsolidatedExploreSuites suiteKey="culture-community" defaultTab="guardians" />} />
+                    <Route path="local-guardians" element={<ConsolidatedExploreSuites suiteKey="culture-community" defaultTab="guardians" />} />
+                    <Route path="super-agent" element={<NomadAIStudio defaultEngine="super-agent" />} />
+                    <Route path="challenges" element={<ConsolidatedExploreSuites suiteKey="passport-perks" defaultTab="challenges" />} />
+                    <Route path="viral-challenges" element={<ConsolidatedExploreSuites suiteKey="passport-perks" defaultTab="challenges" />} />
+                    <Route path="perks" element={<ConsolidatedExploreSuites suiteKey="passport-perks" defaultTab="perks" />} />
+                    <Route path="nomad-perks" element={<ConsolidatedExploreSuites suiteKey="passport-perks" defaultTab="perks" />} />
+                    <Route path="discovery" element={<ConsolidatedExploreSuites suiteKey="connectivity-market" defaultTab="discovery" />} />
+                    <Route path="discovery-hub" element={<ConsolidatedExploreSuites suiteKey="connectivity-market" defaultTab="discovery" />} />
+                    <Route path="dna" element={<ConsolidatedExploreSuites suiteKey="passport-perks" defaultTab="dna" />} />
+                    <Route path="nomad-dna" element={<ConsolidatedExploreSuites suiteKey="passport-perks" defaultTab="dna" />} />
+                    <Route path="trivenly/*" element={<ConsolidatedExploreSuites suiteKey="connectivity-market" defaultTab="trivenly" />} />
+                    <Route path="trivenly-market/*" element={<ConsolidatedExploreSuites suiteKey="connectivity-market" defaultTab="trivenly" />} />
                     <Route path="diy/*" element={<DIYHub />} />
-                    <Route path="flights-visa" element={<FlightVisaWidget />} />
+                    <Route path="flights-visa" element={<ConsolidatedExploreSuites suiteKey="connectivity-market" defaultTab="flights-visa" />} />
                     <Route path="planner" element={<NomadPlanner />} />
                     <Route path="trip-builder" element={<TripBuilder />} />
                     <Route path="shorts" element={<NomadShortsFeed />} />
@@ -156,16 +143,14 @@ const Explore = () => {
                     <Route path="ar-hub" element={<ARRealityHub />} />
                     <Route path="concierge" element={<ShadowConcierge />} />
                     <Route path="risk" element={<RiskIntelligenceMap />} />
-                    <Route path="events" element={<NomadEventsHub />} />
-                    <Route path="nomad-events" element={<NomadEventsHub />} />
-                    <Route path="passport" element={<NomadPassport />} />
-                    <Route path="nomad-passport" element={<NomadPassport />} />
-                    <Route path="twin" element={<AIDigitalTwin />} />
-                    <Route path="ai-digital-twin" element={<AIDigitalTwin />} />
+                    <Route path="events" element={<ConsolidatedExploreSuites suiteKey="culture-community" defaultTab="events" />} />
+                    <Route path="nomad-events" element={<ConsolidatedExploreSuites suiteKey="culture-community" defaultTab="events" />} />
+                    <Route path="passport" element={<ConsolidatedExploreSuites suiteKey="passport-perks" defaultTab="passport" />} />
+                    <Route path="nomad-passport" element={<ConsolidatedExploreSuites suiteKey="passport-perks" defaultTab="passport" />} />
+                    <Route path="twin" element={<NomadAIStudio defaultEngine="digital-twin" />} />
+                    <Route path="ai-digital-twin" element={<NomadAIStudio defaultEngine="digital-twin" />} />
                 </Routes>
             </div>
-
-            <AIConciergeVera isVisible={isVeraVisible} onClose={toggleVera} />
         </div>
     );
 };

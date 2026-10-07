@@ -15,6 +15,7 @@ import { useToastStore } from '../../../../store/toastStore';
 import ShareDraftModal from './ShareDraftModal';
 import CommentSidebar from './CommentSidebar';
 import SuggestedEditsPanel from './SuggestedEditsPanel';
+import ItineraryTemplatesLibrary, { ITINERARY_TEMPLATES_LIBRARY } from './ItineraryTemplatesLibrary';
 import '../../../../styles/TripBuilder.css';
 
 // Category Metadata
@@ -570,6 +571,7 @@ const TripBuilder = () => {
     const { advancedFilters } = useDestinationStore();
 
     // Active Blueprint & Trip Header State
+    const [templatesLibrary, setTemplatesLibrary] = useState(ITINERARY_TEMPLATES_LIBRARY);
     const [activeBlueprintId, setActiveBlueprintId] = useState('japan-fiber-sprint');
     const [tripTitle, setTripTitle] = useState('Tokyo & Kyoto Fiber Sprint');
     const [passport, setPassport] = useState('United States (US)');
@@ -737,7 +739,56 @@ const TripBuilder = () => {
 
         setItineraryItems(loaded);
         if (addToast) {
-            addToast(`Loaded "${bp.name}" blueprint (${loaded.length} modules)`, 'success');
+            addToast(`Loaded "${bp.name}" template (${loaded.length} modules)`, 'success');
+        }
+    };
+
+    const handleAppendTemplate = (bp) => {
+        const appended = bp.itemIds
+            .map((entry, idx) => {
+                const found = catalog.find((c) => c.id === entry.id);
+                if (!found) return null;
+                return {
+                    ...found,
+                    instanceId: `append-${bp.id}-${idx}-${Date.now()}`,
+                    qty: entry.qty || 1
+                };
+            })
+            .filter(Boolean);
+
+        setItineraryItems((prev) => [...prev, ...appended]);
+        setDurationDays((d) => d + Math.round(bp.durationDays / 2));
+        setBudgetLimit((b) => b + Math.round(bp.budgetLimit * 0.75));
+        if (addToast) {
+            addToast(`Appended ${appended.length} modules from "${bp.name}"`, 'success');
+        }
+    };
+
+    const handleSaveCurrentAsTemplate = () => {
+        if (itineraryItems.length === 0) return;
+        const newTemplate = {
+            id: `custom-tpl-${Date.now()}`,
+            name: `${tripTitle} (Saved)`,
+            subtitle: `Custom ${durationDays}-Day Expedition Blueprint`,
+            routeSummary: `${itineraryItems.length} Curated Modules • ${passport}`,
+            flag: '✨',
+            region: 'Asia',
+            style: 'Deep Workcation',
+            durationDays,
+            budgetLimit,
+            estimatedCost: totalCost,
+            avgWifiMbps: avgWifiSpeed,
+            timezone: 'Multi-Zone',
+            visaBadge: 'Custom Consular Track',
+            travelers,
+            passport,
+            highlights: itineraryItems.slice(0, 4).map((i) => i.title.slice(0, 26)),
+            itemIds: itineraryItems.map((i) => ({ id: i.id, qty: i.qty || 1 }))
+        };
+        setTemplatesLibrary((prev) => [newTemplate, ...prev]);
+        setActiveBlueprintId(newTemplate.id);
+        if (addToast) {
+            addToast(`Saved "${newTemplate.name}" to your Itinerary Templates Library`, 'success');
         }
     };
 
@@ -1123,6 +1174,16 @@ const TripBuilder = () => {
                     </div>
                 </div>
             </header>
+
+            {/* 1.5 Pre-Set Itinerary Templates Library */}
+            <ItineraryTemplatesLibrary
+                templates={templatesLibrary}
+                activeTemplateId={activeBlueprintId}
+                onLoadTemplate={handleLoadBlueprint}
+                onAppendTemplate={handleAppendTemplate}
+                onSaveCurrentAsTemplate={handleSaveCurrentAsTemplate}
+                currentItemsCount={itineraryItems.length}
+            />
 
             {/* 2. Main Three-Column Studio Workspace */}
             <div className="tb-workspace-grid">

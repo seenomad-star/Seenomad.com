@@ -21,12 +21,7 @@ const AIConciergeVera = ({ isVisible, onClose }) => {
         setResponse(txt);
     };
 
-    if (!isVisible) return (
-        <div className="vera-launcher" onClick={onClose}>
-            <div className="vera-orb-mini"></div>
-            <Sparkles size={14} className="vera-spark" />
-        </div>
-    );
+    if (!isVisible) return null;
 
     return (
         <div className="vera-overlay">

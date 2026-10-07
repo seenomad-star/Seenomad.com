@@ -334,6 +334,70 @@ const EXPLORE_PAGE_FILTER_CATALOG = {
             { val: 'Live', lbl: 'Budget & Burn Sync' },
             { val: 'Verified', lbl: 'Nomad Resource Hub' }
         ]
+    },
+    'ai-studio': {
+        title: 'Nomad AI Command Studio (4-in-1)',
+        icon: Sparkles,
+        placeholder: 'Filter AI engines: Triipper, Super Agent, Twin, Travel Bug...',
+        filters: [
+            { id: 'all', label: 'All 4 AI Engines' },
+            { id: 'triipper', label: 'Triipper AI Planner' },
+            { id: 'super-agent', label: 'Super Agent & Vault' },
+            { id: 'digital-twin', label: 'AI Digital Twin' },
+            { id: 'travel-bug', label: 'Travel Bug (Link-to-Map)' }
+        ],
+        metrics: [
+            { val: '4-in-1', lbl: 'Unified AI Mesh' },
+            { val: '24/7', lbl: 'Autopilot Active' }
+        ]
+    },
+    'culture-community': {
+        title: 'Culture, Local Guardians & Events Suite (4-in-1)',
+        icon: Users,
+        placeholder: 'Filter Cultural Compass, Guardians, Events & Story Studio...',
+        filters: [
+            { id: 'all', label: 'All 4 Community Modules' },
+            { id: 'cultural-compass', label: 'Cultural Compass' },
+            { id: 'guardians', label: 'Local Guardians' },
+            { id: 'events', label: 'Nomad Events' },
+            { id: 'story-studio', label: 'Story Studio' }
+        ],
+        metrics: [
+            { val: '4-in-1', lbl: 'Community Suite' },
+            { val: '195+', lbl: 'Verified Briefs' }
+        ]
+    },
+    'passport-perks': {
+        title: 'Passport, DNA, Perks & Challenges Suite (4-in-1)',
+        icon: Shield,
+        placeholder: 'Filter Nomad Passport, DNA Matrix, Perks & Challenges...',
+        filters: [
+            { id: 'all', label: 'All 4 Identity Modules' },
+            { id: 'passport', label: 'Nomad Passport' },
+            { id: 'dna', label: 'Nomad DNA' },
+            { id: 'perks', label: 'Nomad Perks' },
+            { id: 'challenges', label: 'Viral Challenges' }
+        ],
+        metrics: [
+            { val: '4-in-1', lbl: 'Identity & Perks' },
+            { val: 'Up to 40%', lbl: 'Partner Savings' }
+        ]
+    },
+    'connectivity-market': {
+        title: 'Connectivity, Discovery & Market Suite (4-in-1)',
+        icon: Wifi,
+        placeholder: 'Filter Speed Test Map, Discovery, Trivenly & Flights...',
+        filters: [
+            { id: 'all', label: 'All 4 Infrastructure Modules' },
+            { id: 'speed-test', label: 'Speed Test Map' },
+            { id: 'discovery', label: 'Discovery Hub' },
+            { id: 'trivenly', label: 'Trivenly Market' },
+            { id: 'flights-visa', label: 'Flights & Visa' }
+        ],
+        metrics: [
+            { val: '4-in-1', lbl: 'Connectivity Suite' },
+            { val: '100+ Mbps', lbl: 'Verified Fiber' }
+        ]
     }
 };
 
@@ -451,7 +515,8 @@ const NomadDock = () => {
         if (pathname.includes('/explore/visa') || pathname.startsWith('/visa')) return 'visa';
         if (pathname.includes('/explore/speed-test')) return 'speed-test';
         if (pathname.includes('/explore/seenomad-multi') || pathname.includes('/explore/multi-')) return 'seenomad-multi';
-        if (pathname.includes('/explore/triipper')) return 'triipper';
+        if (pathname.includes('/explore/ai-studio') || pathname.includes('/explore/nomad-ai')) return 'ai-studio';
+        if (pathname.includes('/explore/triipper')) return 'ai-studio';
         if (pathname.includes('/explore/cultural-compass')) return 'cultural-compass';
         if (pathname.includes('/explore/story-studio')) return 'story-studio';
         if (pathname.includes('/explore/guardians') || pathname.includes('/explore/local-guardians')) return 'guardians';

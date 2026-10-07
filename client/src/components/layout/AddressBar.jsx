@@ -74,6 +74,26 @@ const ROUTE_INFO = {
         icon: Compass,
         badge: 'Modular OS'
     },
+    'ai-studio': {
+        name: 'Nomad AI Studio',
+        icon: Sparkles,
+        badge: '4-in-1 AI'
+    },
+    'culture-community': {
+        name: 'Culture, Guardians & Events Hub',
+        icon: Users,
+        badge: '4-in-1 Suite'
+    },
+    'passport-perks': {
+        name: 'Passport, DNA, Perks & Challenges',
+        icon: Shield,
+        badge: '4-in-1 Suite'
+    },
+    'connectivity-market': {
+        name: 'Connectivity, Discovery & Market Hub',
+        icon: Compass,
+        badge: '4-in-1 Suite'
+    },
     'coliving': {
         name: 'Coliving Hubs',
         icon: Compass

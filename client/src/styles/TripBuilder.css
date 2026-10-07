@@ -1362,6 +1362,418 @@
     color: #38BDF8;
 }
 
+/* 1.5 Pre-Set Itinerary Templates Library */
+.tb-templates-library {
+    background: linear-gradient(145deg, rgba(15, 23, 42, 0.86), rgba(30, 41, 59, 0.74));
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(168, 85, 247, 0.26);
+    border-radius: 20px;
+    padding: 1.35rem 1.65rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.15rem;
+}
+
+.tb-lib-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.tb-lib-title-group {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.85rem;
+    flex: 1;
+    min-width: 280px;
+}
+
+.tb-lib-icon-badge {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: rgba(168, 85, 247, 0.16);
+    border: 1px solid rgba(168, 85, 247, 0.35);
+    color: #C084FC;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.tb-lib-title-row {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.2rem;
+}
+
+.tb-lib-title-row h2 {
+    font-size: 1.12rem;
+    font-weight: 800;
+    margin: 0;
+    color: #FFFFFF;
+}
+
+.tb-lib-count-pill {
+    font-size: 0.7rem;
+    font-weight: 800;
+    padding: 0.18rem 0.6rem;
+    border-radius: 999px;
+    background: rgba(168, 85, 247, 0.16);
+    color: #D8B4FE;
+    border: 1px solid rgba(168, 85, 247, 0.32);
+}
+
+.tb-lib-title-group p {
+    font-size: 0.8rem;
+    color: #94A3B8;
+    margin: 0;
+}
+
+.tb-lib-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+}
+
+.tb-lib-save-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 0.9rem;
+    border-radius: 10px;
+    font-size: 0.76rem;
+    font-weight: 800;
+    background: rgba(16, 185, 129, 0.15);
+    color: #34D399;
+    border: 1px solid rgba(16, 185, 129, 0.35);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.tb-lib-save-btn:hover {
+    background: #10B981;
+    color: #0F172A;
+}
+
+.tb-lib-collapse-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 0.9rem;
+    border-radius: 10px;
+    font-size: 0.76rem;
+    font-weight: 700;
+    background: rgba(255, 255, 255, 0.06);
+    color: #E2E8F0;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    cursor: pointer;
+}
+
+.tb-lib-body {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    overflow: hidden;
+}
+
+.tb-lib-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    flex-wrap: wrap;
+    padding: 0.75rem 0.95rem;
+    border-radius: 14px;
+    background: rgba(2, 6, 23, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.tb-lib-search {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    background: rgba(15, 23, 42, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 9px;
+    padding: 0.4rem 0.7rem;
+    min-width: 260px;
+    flex: 1;
+}
+
+.tb-lib-search-icon {
+    color: #94A3B8;
+}
+
+.tb-lib-search input {
+    background: transparent;
+    border: none;
+    color: #F8FAFC;
+    font-size: 0.8rem;
+    width: 100%;
+}
+
+.tb-lib-search input:focus {
+    outline: none;
+}
+
+.tb-lib-search-clear {
+    background: transparent;
+    border: none;
+    color: #94A3B8;
+    cursor: pointer;
+}
+
+.tb-lib-filter-group {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+}
+
+.tb-lib-filter-lbl {
+    font-size: 0.68rem;
+    font-weight: 800;
+    color: #64748B;
+    margin-right: 0.15rem;
+}
+
+.tb-lib-chip {
+    padding: 0.28rem 0.6rem;
+    border-radius: 8px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    background: rgba(255, 255, 255, 0.05);
+    color: #CBD5E1;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    cursor: pointer;
+}
+
+.tb-lib-chip.active {
+    background: rgba(168, 85, 247, 0.2);
+    color: #E9D5FF;
+    border-color: rgba(168, 85, 247, 0.45);
+}
+
+.tb-lib-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+    gap: 0.9rem;
+}
+
+.tb-tpl-card {
+    background: rgba(2, 6, 23, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 16px;
+    padding: 1rem 1.1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    transition: all 0.2s ease;
+}
+
+.tb-tpl-card:hover {
+    border-color: rgba(56, 189, 248, 0.4);
+    transform: translateY(-2px);
+}
+
+.tb-tpl-card.is-active {
+    border-color: #38BDF8;
+    background: linear-gradient(145deg, rgba(14, 116, 144, 0.16), rgba(2, 6, 23, 0.75));
+    box-shadow: 0 10px 28px rgba(56, 189, 248, 0.15);
+}
+
+.tb-tpl-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.tb-tpl-badges {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.tb-tpl-region-pill {
+    font-size: 0.7rem;
+    font-weight: 800;
+    padding: 0.18rem 0.5rem;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.08);
+    color: #F8FAFC;
+}
+
+.tb-tpl-style-pill {
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 0.18rem 0.5rem;
+    border-radius: 6px;
+    background: rgba(168, 85, 247, 0.14);
+    color: #D8B4FE;
+}
+
+.tb-tpl-loaded-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.68rem;
+    font-weight: 800;
+    padding: 0.18rem 0.55rem;
+    border-radius: 999px;
+    background: rgba(56, 189, 248, 0.2);
+    color: #38BDF8;
+}
+
+.tb-tpl-MainInfo h3 {
+    font-size: 0.96rem;
+    font-weight: 800;
+    color: #FFFFFF;
+    margin: 0 0 0.2rem;
+}
+
+.tb-tpl-route {
+    font-size: 0.75rem;
+    color: #38BDF8;
+    font-weight: 700;
+    margin: 0;
+}
+
+.tb-tpl-metrics {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.4rem;
+    background: rgba(15, 23, 42, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 10px;
+    padding: 0.5rem 0.6rem;
+}
+
+.tb-tpl-metric {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+}
+
+.tb-tpl-metric .m-lbl {
+    font-size: 0.6rem;
+    font-weight: 800;
+    color: #64748B;
+}
+
+.tb-tpl-metric .m-val {
+    font-size: 0.78rem;
+    font-weight: 800;
+    color: #F8FAFC;
+}
+
+.tb-tpl-metric .m-val.text-emerald {
+    color: #34D399;
+}
+
+.tb-tpl-metric .m-val.text-sky {
+    color: #38BDF8;
+}
+
+.tb-tpl-visa-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.7rem;
+}
+
+.tb-tpl-visa-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    color: #34D399;
+    font-weight: 700;
+}
+
+.tb-tpl-tz-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    color: #94A3B8;
+}
+
+.tb-tpl-highlights {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+}
+
+.tb-tpl-hl-chip {
+    font-size: 0.68rem;
+    padding: 0.16rem 0.48rem;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.05);
+    color: #CBD5E1;
+}
+
+.tb-tpl-actions {
+    display: flex;
+    gap: 0.5rem;
+    padding-top: 0.45rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    margin-top: auto;
+}
+
+.tb-tpl-load-btn {
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 0.48rem 0.75rem;
+    border-radius: 9px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    background: rgba(56, 189, 248, 0.18);
+    color: #38BDF8;
+    border: 1px solid rgba(56, 189, 248, 0.38);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.tb-tpl-load-btn:hover {
+    background: #38BDF8;
+    color: #0F172A;
+}
+
+.tb-tpl-load-btn.loaded {
+    background: rgba(16, 185, 129, 0.18);
+    color: #34D399;
+    border-color: rgba(16, 185, 129, 0.4);
+}
+
+.tb-tpl-append-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.48rem 0.75rem;
+    border-radius: 9px;
+    font-size: 0.74rem;
+    font-weight: 700;
+    background: rgba(255, 255, 255, 0.06);
+    color: #E2E8F0;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    cursor: pointer;
+}
+
+.tb-tpl-append-btn:hover {
+    background: rgba(168, 85, 247, 0.2);
+    color: #E9D5FF;
+    border-color: rgba(168, 85, 247, 0.45);
+}
+
 /* Responsive Breakpoints */
 @media (max-width: 1280px) {
     .tb-telemetry-grid {
