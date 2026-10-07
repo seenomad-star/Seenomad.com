@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plane, Shield, Search, Globe, DollarSign, Clock, AlertCircle, CheckCircle, ChevronRight, Zap, Calendar, ArrowRight, TrendingDown } from 'lucide-react';
+import { Plane, Shield, Search, Globe, DollarSign, Clock, AlertCircle, CheckCircle, ChevronRight, Zap, Calendar, ArrowRight, TrendingDown, MapPin } from 'lucide-react';
 import '../../../styles/NomadFeatures.css';
 
 const PASSPORTS = [

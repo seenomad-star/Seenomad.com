@@ -2,34 +2,32 @@ import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import {
+    Home,
     Compass,
-    Globe,
     Map,
     Video,
     Sparkles,
     Calendar,
-    Bot,
     Tag,
-    Leaf,
     TrendingUp,
     Users,
     Trophy,
     Award,
-    Luggage,
     Settings as SettingsIcon,
     LifeBuoy,
     Plus,
     Plane,
     ChevronRight,
-    MapPin,
-    Landmark,
-    Bookmark,
-    Flame
+    Flame,
+    Backpack,
+    ShieldCheck,
+    Building2,
+    Star,
+    Gift,
+    Newspaper
 } from 'lucide-react';
 import { useToastStore } from '../../store/toastStore';
 import { useNomadOSStore } from '../../store/nomadOSStore';
-import { useSavedStore } from '../../store/savedStore';
-import { useDestinationStore } from '../../store/destinationFilterStore';
 import ThemeToggle from '../common/ThemeToggle';
 import '../../styles/Sidebar.css';
 
@@ -37,10 +35,7 @@ const Sidebar = ({ isCollapsed, toggleSidebar, isMobileOpen, isMobile }) => {
     const navigate = useNavigate();
     const location = useLocation();
     const { addToast } = useToastStore();
-    const { rank, level, xp } = useNomadOSStore();
-    const savedDestinations = useSavedStore((state) => state.savedDestinations);
-    const savedCount = savedDestinations.length;
-    const { domainStatus, setDomainStatus } = useDestinationStore();
+    const { rank, level } = useNomadOSStore();
     const [activeTooltip, setActiveTooltip] = useState(null);
 
     // On mobile screens, the drawer must ALWAYS display all options, labels, and badges fully
@@ -55,7 +50,7 @@ const Sidebar = ({ isCollapsed, toggleSidebar, isMobileOpen, isMobile }) => {
             badge: options.badge,
             badgeType: options.badgeType,
             top: rect.top + rect.height / 2,
-            left: rect.right + 12,
+            left: rect.right + 12
         });
     };
 
@@ -63,7 +58,6 @@ const Sidebar = ({ isCollapsed, toggleSidebar, isMobileOpen, isMobile }) => {
         setActiveTooltip(null);
     };
 
-    // Auto-dismiss tooltip when sidebar state changes or window scrolls/resizes
     useEffect(() => {
         if (!effectiveCollapsed) {
             setActiveTooltip(null);
@@ -80,36 +74,187 @@ const Sidebar = ({ isCollapsed, toggleSidebar, isMobileOpen, isMobile }) => {
         };
     }, []);
 
-    // Grouped navigation structure authentic to a premier global travel platform
+    // Minimal, modern travel-themed grouped navigation containing every feature
     const navSections = [
         {
-            title: 'Explore & Discover',
+            title: 'FEED & EXPLORE',
             items: [
-                { icon: Compass, label: 'Travel Feed', to: '/', exact: true, description: 'Live nomad stories & updates' },
-                { icon: Globe, label: 'Destinations', to: '/explore/destinations', badge: '195+', badgeType: 'info', description: 'City guides & hidden gems' },
-                { icon: Bookmark, label: 'My Favorites', to: '/saved', badge: savedCount > 0 ? `${savedCount}` : null, badgeType: 'accent', description: 'Saved in your local profile' },
-                { icon: Map, label: 'Interactive Map', to: '/explore?view=map', badge: 'Live', badgeType: 'accent', description: 'Pins & route visualization' },
-                { icon: Flame, label: 'Trending & Popular', to: '/popular', badge: 'Hot', badgeType: 'hot', description: 'Hot discussions & top community stories' },
-                { icon: Calendar, label: 'Festivals & Events', to: '/event-festival', description: 'Global cultural gatherings' },
+                {
+                    icon: Home,
+                    label: 'Home Feed',
+                    to: '/',
+                    exact: true,
+                    badge: 'Live',
+                    badgeType: 'accent',
+                    description: 'Live traveler stories, photos & dispatches'
+                },
+                {
+                    icon: Compass,
+                    label: 'Explore',
+                    to: '/explore/destinations',
+                    isExploreHero: true,
+                    badge: '195+',
+                    badgeType: 'info',
+                    description: 'Discover 195+ countries, cities & nomad hubs'
+                },
+                {
+                    icon: Flame,
+                    label: 'Trending & Popular',
+                    to: '/popular',
+                    badge: 'Hot',
+                    badgeType: 'hot',
+                    description: 'Trending destinations & viral community posts'
+                },
+                {
+                    icon: Video,
+                    label: 'Reels',
+                    to: '/explore/shorts',
+                    badge: '9:16',
+                    badgeType: 'accent',
+                    description: 'Vertical travel reels & creator shorts'
+                },
+                {
+                    icon: Map,
+                    label: 'Travel Map',
+                    to: '/explore?view=map',
+                    badge: '3D Pin',
+                    badgeType: 'info',
+                    description: 'Interactive global map & route visualization'
+                }
             ]
         },
         {
-            title: 'Plan & Travel',
+            title: 'TRAVEL TOOLS',
+            isFeaturedSection: true,
             items: [
-                { icon: Landmark, label: 'Embassy & Consular', to: '/explore/embassy', badge: 'Visas', badgeType: 'info', description: 'Diplomatic missions & consular intel' },
-                { icon: Bot, label: 'AI Concierge', to: '/ai-agents', badge: 'AI', badgeType: 'ai', description: 'Smart itineraries & visa help' },
-                { icon: Tag, label: 'Deals & Stays', to: '/business-partner', badge: 'Perks', badgeType: 'success', description: 'Nomad stays & partner discounts' },
-                { icon: Leaf, label: 'Eco Voluntourism', to: '/learning-voluntourism', description: 'Impact journeys & retreats' },
-                { icon: TrendingUp, label: 'Travel Trends', to: '/insights-analytics', description: 'Safety & cost of living index' },
+                {
+                    icon: Backpack,
+                    label: 'Trip & Itinerary Builder',
+                    to: '/explore/trip-builder',
+                    isFeaturedTool: true,
+                    badge: 'Studio',
+                    badgeType: 'info',
+                    description: 'Modular itinerary builder, templates & live budget OS'
+                },
+                {
+                    icon: Sparkles,
+                    label: 'Nomad AI Tools',
+                    to: '/explore/ai-studio',
+                    isFeaturedTool: true,
+                    badge: '4-in-1 AI',
+                    badgeType: 'ai',
+                    description: 'Unified Triipper AI, Super Agent, Twin & Travel Bug'
+                },
+                {
+                    icon: ShieldCheck,
+                    label: 'Visa Info',
+                    to: '/explore/visa',
+                    badge: '2026',
+                    badgeType: 'success',
+                    description: 'Visa requirement summary, DNV eligibility & embassy FAQ'
+                },
+                {
+                    icon: Plane,
+                    label: 'Book Travel',
+                    to: '/explore/seenomad-multi',
+                    badge: 'Multi-City',
+                    badgeType: 'info',
+                    description: 'Multi-part expedition booking & Schengen route planner'
+                },
+                {
+                    icon: Plane,
+                    label: 'Flight Tracker',
+                    to: '/explore/flights-visa',
+                    badge: 'Live',
+                    badgeType: 'accent',
+                    description: 'Live flight corridors, onward tickets & transit rules'
+                },
+                {
+                    icon: Building2,
+                    label: 'Hotel Finder',
+                    to: '/explore/compare-destinations',
+                    badge: 'Stays',
+                    badgeType: 'info',
+                    description: 'Compare coliving hubs, hotels, fiber & living costs'
+                }
             ]
         },
         {
-            title: 'Community & Quests',
+            title: 'QUESTS & REWARDS',
             items: [
-                { icon: Users, label: 'Nomad Community', to: '/community', badge: 'Meet', badgeType: 'info', description: 'Travel buddies & city hubs' },
-                { icon: Trophy, label: 'Travel Quests', to: '/travel-games', description: 'Country checklists & challenges' },
-                { icon: Award, label: 'Passport Stamps', to: '/user/achievements', badge: 'XP', badgeType: 'accent', description: 'Milestones & verified stamps' },
-                { icon: Luggage, label: 'My Trips', to: '/user/travel-journey', description: 'Saved routes & bucket list' },
+                {
+                    icon: Trophy,
+                    label: 'Challenges',
+                    to: '/explore/challenges',
+                    badge: 'XP',
+                    badgeType: 'warning',
+                    description: 'Active travel challenges & city quests'
+                },
+                {
+                    icon: Award,
+                    label: 'Milestones',
+                    to: '/user/achievements',
+                    badge: 'Stamps',
+                    badgeType: 'accent',
+                    description: 'Verified passport stamps & travel milestones'
+                },
+                {
+                    icon: TrendingUp,
+                    label: 'Leaderboard',
+                    to: '/explore/rivalry',
+                    badge: 'Rank',
+                    badgeType: 'hot',
+                    description: 'Global traveler leaderboard & rankings'
+                },
+                {
+                    icon: Gift,
+                    label: 'Rewards',
+                    to: '/explore/passport-perks',
+                    badge: 'Perks',
+                    badgeType: 'success',
+                    description: 'Nomad perks, eSIM discounts, DNA & passport vault'
+                }
+            ]
+        },
+        {
+            title: 'COMMUNITY & PULSE',
+            items: [
+                {
+                    icon: Users,
+                    label: 'Community',
+                    to: '/community',
+                    badge: 'Meet',
+                    badgeType: 'info',
+                    description: 'Global traveler community, buddies & city hubs'
+                },
+                {
+                    icon: Star,
+                    label: 'Reviews',
+                    to: '/explore/culture-community',
+                    badge: 'Tips',
+                    badgeType: 'info',
+                    description: 'Verified traveler reviews, local tips & guardians'
+                },
+                {
+                    icon: Newspaper,
+                    label: 'Travel News',
+                    to: '/insights-analytics',
+                    description: 'Global travel news, safety index & cost trends'
+                },
+                {
+                    icon: Tag,
+                    label: 'Travel Deals',
+                    to: '/business-partner',
+                    badge: 'Save',
+                    badgeType: 'success',
+                    description: 'Exclusive flight, hotel & coliving partner deals'
+                },
+                {
+                    icon: Calendar,
+                    label: 'Events',
+                    to: '/event-festival',
+                    description: 'Global cultural festivals, pop-up villages & meetups'
+                }
             ]
         }
     ];
@@ -126,77 +271,8 @@ const Sidebar = ({ isCollapsed, toggleSidebar, isMobileOpen, isMobile }) => {
     const handleQuickPlan = (e) => {
         e.stopPropagation();
         if (isMobile) toggleSidebar();
-        navigate('/ai-agents');
-        addToast('Opening AI Travel Concierge to plan your next journey! 🗺️', 'success');
-    };
-
-    /**
-     * JavaScript logic in Sidebar to filter the list of displayed destinations
-     * based on user selection in the domain status button group (Available, Taken, Premium).
-     * This updates the global filter store and URL parameters, triggering immediate
-     * reactive re-filtering of the displayed destinations list in Destinations.jsx.
-     */
-    const handleDomainStatusFilter = (statusId) => {
-        const nextStatus = domainStatus === statusId ? 'all' : statusId;
-
-        // 1. Update centralized store state
-        setDomainStatus(nextStatus);
-
-        // 2. Sync URL query parameters and navigate if necessary
-        const isDestinationsRoute =
-            location.pathname.startsWith('/explore/destinations') ||
-            location.pathname === '/explore' ||
-            location.pathname.startsWith('/destinations');
-
-        const searchParams = new URLSearchParams(location.search);
-        if (nextStatus === 'all') {
-            searchParams.delete('domainStatus');
-            searchParams.delete('status');
-        } else {
-            searchParams.set('domainStatus', nextStatus);
-        }
-        const newSearch = searchParams.toString();
-        const targetSearch = newSearch ? `?${newSearch}` : '';
-
-        if (!isDestinationsRoute) {
-            navigate(`/explore/destinations${targetSearch}`);
-        } else {
-            navigate(
-                {
-                    pathname: location.pathname,
-                    search: targetSearch
-                },
-                { replace: true }
-            );
-        }
-
-        // Close mobile drawer / sidebar if on small screen
-        if (isMobile && toggleSidebar) {
-            toggleSidebar();
-        }
-    };
-
-    const handleClearDomainFilter = (e) => {
-        if (e && e.stopPropagation) e.stopPropagation();
-        setDomainStatus('all');
-
-        const searchParams = new URLSearchParams(location.search);
-        searchParams.delete('domainStatus');
-        searchParams.delete('status');
-        const newSearch = searchParams.toString();
-        const targetSearch = newSearch ? `?${newSearch}` : '';
-
-        navigate(
-            {
-                pathname: location.pathname,
-                search: targetSearch
-            },
-            { replace: true }
-        );
-
-        if (isMobile && toggleSidebar) {
-            toggleSidebar();
-        }
+        navigate('/explore/trip-builder');
+        addToast('Opening Trip & Itinerary Builder Studio! 🗺️', 'success');
     };
 
     const sidebarClass = isMobile
@@ -208,7 +284,10 @@ const Sidebar = ({ isCollapsed, toggleSidebar, isMobileOpen, isMobile }) => {
             {/* Navigation Sections */}
             <nav className="travel-sidebar-nav">
                 {navSections.map((section, sectionIdx) => (
-                    <div key={sectionIdx} className="nav-section-group">
+                    <div
+                        key={sectionIdx}
+                        className={`nav-section-group ${section.isFeaturedSection ? 'nav-section-featured-tools' : ''}`}
+                    >
                         {!effectiveCollapsed ? (
                             <div className="nav-section-title">
                                 <span>{section.title}</span>
@@ -221,12 +300,13 @@ const Sidebar = ({ isCollapsed, toggleSidebar, isMobileOpen, isMobile }) => {
                             {section.items.map((item, itemIdx) => {
                                 const isHome = item.to === '/';
                                 const isMap = item.to.includes('view=map');
-                                const isDestinations = item.to === '/explore/destinations';
-                                
+                                const isExploreHero = Boolean(item.isExploreHero);
+                                const isFeaturedTool = Boolean(item.isFeaturedTool);
+
                                 return (
-                                    <li 
+                                    <li
                                         key={itemIdx}
-                                        className={`nav-section-item ${isDestinations ? 'destinations-nav-section-item' : ''}`}
+                                        className={`nav-section-item ${isExploreHero ? 'destinations-nav-section-item' : ''} ${isFeaturedTool ? 'featured-tool-nav-item' : ''}`}
                                     >
                                         <NavLink
                                             to={item.to}
@@ -236,39 +316,51 @@ const Sidebar = ({ isCollapsed, toggleSidebar, isMobileOpen, isMobile }) => {
                                                     activeClass = location.search.includes('view=map') ? 'active' : '';
                                                 } else if (isHome) {
                                                     activeClass = location.pathname === '/' ? 'active' : '';
-                                                } else if (isDestinations) {
-                                                    activeClass = (isActive || location.pathname.startsWith('/explore/destinations') || location.pathname === '/explore' || location.pathname.startsWith('/destinations')) ? 'active' : '';
+                                                } else if (isExploreHero) {
+                                                    activeClass =
+                                                        (isActive ||
+                                                            location.pathname.startsWith('/explore/destinations') ||
+                                                            location.pathname === '/explore' ||
+                                                            location.pathname.startsWith('/destinations')) &&
+                                                        !location.search.includes('view=map')
+                                                            ? 'active'
+                                                            : '';
                                                 } else {
                                                     activeClass = isActive ? 'active' : '';
                                                 }
-                                                return `travel-nav-link ${isDestinations ? 'destinations-nav-link' : ''} ${activeClass}`;
+                                                return `travel-nav-link ${isExploreHero ? 'destinations-nav-link' : ''} ${isFeaturedTool ? 'featured-tool-nav-link' : ''} ${activeClass}`;
                                             }}
                                             onClick={() => {
                                                 hideTooltip();
                                                 if (isMobile) toggleSidebar();
                                             }}
-                                            onMouseEnter={(e) => showTooltip(e, item.label, {
-                                                subtext: item.description,
-                                                badge: item.badge,
-                                                badgeType: item.badgeType
-                                            })}
+                                            onMouseEnter={(e) =>
+                                                showTooltip(e, item.label, {
+                                                    subtext: item.description,
+                                                    badge: item.badge,
+                                                    badgeType: item.badgeType
+                                                })
+                                            }
                                             onMouseLeave={hideTooltip}
                                             aria-label={item.label}
                                         >
-                                            <div className={`nav-icon-container ${isDestinations ? 'destinations-icon-container' : ''}`}>
-                                                <item.icon size={isDestinations ? 20 : 19} className="nav-item-icon" />
+                                            <div
+                                                className={`nav-icon-container ${isExploreHero ? 'destinations-icon-container' : ''} ${isFeaturedTool ? 'featured-tool-icon-container' : ''}`}
+                                            >
+                                                <item.icon size={17} className="nav-item-icon" />
                                             </div>
 
                                             {!effectiveCollapsed && (
-                                                <div className={`nav-item-content ${isDestinations ? 'destinations-item-content' : ''}`}>
-                                                    <div className={isDestinations ? 'destinations-text-group' : 'nav-text-group'}>
-                                                        <span className={`nav-item-label ${isDestinations ? 'destinations-item-label' : ''}`}>{item.label}</span>
-                                                        {isDestinations && (
-                                                            <span className="destinations-item-sub">Explore 195+ Countries</span>
-                                                        )}
-                                                    </div>
+                                                <div className="nav-item-content">
+                                                    <span
+                                                        className={`nav-item-label ${isExploreHero ? 'destinations-item-label' : ''}`}
+                                                    >
+                                                        {item.label}
+                                                    </span>
                                                     {item.badge && (
-                                                        <span className={`nav-badge nav-badge-${item.badgeType} ${isDestinations ? 'destinations-badge-pill' : ''}`}>
+                                                        <span
+                                                            className={`nav-badge nav-badge-${item.badgeType} ${isExploreHero ? 'destinations-badge-pill' : ''}`}
+                                                        >
                                                             {item.badge}
                                                         </span>
                                                     )}
@@ -283,27 +375,27 @@ const Sidebar = ({ isCollapsed, toggleSidebar, isMobileOpen, isMobile }) => {
                 ))}
             </nav>
 
-            {/* Travel Action Button (Share Story & Plan Trip) */}
-            <div className="travel-sidebar-actions">
+            {/* Compact Travel Action Strip + Mini Traveler Passport Footer */}
+            <div className="traveler-passport-footer">
                 {!effectiveCollapsed ? (
-                    <div className="action-button-group">
+                    <div className="sidebar-compact-cta-row">
                         <button
                             type="button"
-                            className="travel-primary-action-btn"
+                            className="travel-primary-action-btn compact"
                             onClick={handleCreateAction}
-                            title="Share your travel photos, tips or story"
+                            title="Share your travel story, review or photo"
                         >
-                            <Plus size={18} strokeWidth={2.5} />
-                            <span>Share Travel Story</span>
+                            <Plus size={15} strokeWidth={2.5} />
+                            <span>Share Story</span>
                         </button>
                         <button
                             type="button"
-                            className="travel-secondary-action-btn"
+                            className="travel-secondary-action-btn compact"
                             onClick={handleQuickPlan}
-                            title="Plan your next itinerary with AI Concierge"
+                            title="Open Trip & Itinerary Builder"
                         >
-                            <Plane size={15} />
-                            <span>Plan a Trip</span>
+                            <Plane size={14} />
+                            <span>Plan Trip</span>
                         </button>
                     </div>
                 ) : (
@@ -314,17 +406,16 @@ const Sidebar = ({ isCollapsed, toggleSidebar, isMobileOpen, isMobile }) => {
                             hideTooltip();
                             handleCreateAction();
                         }}
-                        onMouseEnter={(e) => showTooltip(e, 'Share Travel Story', { subtext: 'Post photos, tips or guides' })}
+                        onMouseEnter={(e) =>
+                            showTooltip(e, 'Share Travel Story', { subtext: 'Post photos, tips or guides' })
+                        }
                         onMouseLeave={hideTooltip}
                         aria-label="Share Travel Story"
                     >
-                        <Plus size={20} strokeWidth={2.5} />
+                        <Plus size={18} strokeWidth={2.5} />
                     </button>
                 )}
-            </div>
 
-            {/* Traveler Mini Passport Status Card at Bottom */}
-            <div className="traveler-passport-footer">
                 <NavLink
                     to="/user/profile"
                     className="traveler-passport-card"
@@ -332,7 +423,11 @@ const Sidebar = ({ isCollapsed, toggleSidebar, isMobileOpen, isMobile }) => {
                         hideTooltip();
                         if (isMobile) toggleSidebar();
                     }}
-                    onMouseEnter={(e) => showTooltip(e, 'Traveler Profile', { subtext: `Alex Rover • Lvl ${level || 4} • ${rank || 'Global Explorer'}` })}
+                    onMouseEnter={(e) =>
+                        showTooltip(e, 'Traveler Profile', {
+                            subtext: `Alex Rover • Lvl ${level || 4} • ${rank || 'Global Explorer'}`
+                        })
+                    }
                     onMouseLeave={hideTooltip}
                     aria-label="Traveler Profile: Alex Rover"
                 >
@@ -361,7 +456,7 @@ const Sidebar = ({ isCollapsed, toggleSidebar, isMobileOpen, isMobile }) => {
 
                     {!effectiveCollapsed && (
                         <div className="traveler-arrow">
-                            <ChevronRight size={15} />
+                            <ChevronRight size={14} />
                         </div>
                     )}
                 </NavLink>
@@ -369,41 +464,39 @@ const Sidebar = ({ isCollapsed, toggleSidebar, isMobileOpen, isMobile }) => {
                 {/* Micro Utility Links & Quick Theme Switcher */}
                 {!effectiveCollapsed ? (
                     <div className="sidebar-micro-utilities">
-                        <NavLink 
-                            to="/settings" 
+                        <NavLink
+                            to="/settings"
                             className="micro-util-link"
                             title="Travel Preferences & Settings"
                             onClick={() => isMobile && toggleSidebar()}
                         >
-                            <SettingsIcon size={13} />
+                            <SettingsIcon size={12} />
                             <span>Settings</span>
                         </NavLink>
-                        <span className="micro-util-sep">|</span>
-                        <NavLink 
-                            to="/support-utility" 
+                        <span className="micro-util-sep">•</span>
+                        <NavLink
+                            to="/support-utility"
                             className="micro-util-link"
                             title="Travel Support & SOS"
                             onClick={() => isMobile && toggleSidebar()}
                         >
-                            <LifeBuoy size={13} />
+                            <LifeBuoy size={12} />
                             <span>Help</span>
                         </NavLink>
-                        <span className="micro-util-sep">|</span>
-                        <ThemeToggle 
-                            variant="pill" 
-                            size={13} 
-                            className="sidebar-theme-toggle"
-                        />
+                        <span className="micro-util-sep">•</span>
+                        <ThemeToggle variant="pill" size={12} className="sidebar-theme-toggle" />
                     </div>
                 ) : (
-                    <div 
+                    <div
                         className="sidebar-collapsed-theme-wrap"
-                        onMouseEnter={(e) => showTooltip(e, 'Theme Mode', { subtext: 'Toggle Light / Dark mode' })}
+                        onMouseEnter={(e) =>
+                            showTooltip(e, 'Theme Mode', { subtext: 'Toggle Light / Dark mode' })
+                        }
                         onMouseLeave={hideTooltip}
                     >
-                        <ThemeToggle 
-                            variant="icon" 
-                            size={16} 
+                        <ThemeToggle
+                            variant="icon"
+                            size={15}
                             className="sidebar-collapsed-theme-btn"
                             title=""
                         />
@@ -412,30 +505,35 @@ const Sidebar = ({ isCollapsed, toggleSidebar, isMobileOpen, isMobile }) => {
             </div>
 
             {/* Text-based tooltip rendered via Portal to escape any overflow constraints */}
-            {effectiveCollapsed && typeof document !== 'undefined' && activeTooltip && createPortal(
-                <div
-                    className="sidebar-text-tooltip"
-                    style={{
-                        top: `${activeTooltip.top}px`,
-                        left: `${activeTooltip.left}px`,
-                    }}
-                    role="tooltip"
-                >
-                    <div className="sidebar-tooltip-content">
-                        <span className="sidebar-tooltip-title">{activeTooltip.text}</span>
-                        {activeTooltip.badge && (
-                            <span className={`sidebar-tooltip-badge nav-badge-${activeTooltip.badgeType || 'info'}`}>
-                                {activeTooltip.badge}
-                            </span>
+            {effectiveCollapsed &&
+                typeof document !== 'undefined' &&
+                activeTooltip &&
+                createPortal(
+                    <div
+                        className="sidebar-text-tooltip"
+                        style={{
+                            top: `${activeTooltip.top}px`,
+                            left: `${activeTooltip.left}px`
+                        }}
+                        role="tooltip"
+                    >
+                        <div className="sidebar-tooltip-content">
+                            <span className="sidebar-tooltip-title">{activeTooltip.text}</span>
+                            {activeTooltip.badge && (
+                                <span
+                                    className={`sidebar-tooltip-badge nav-badge-${activeTooltip.badgeType || 'info'}`}
+                                >
+                                    {activeTooltip.badge}
+                                </span>
+                            )}
+                        </div>
+                        {activeTooltip.subtext && (
+                            <span className="sidebar-tooltip-subtext">{activeTooltip.subtext}</span>
                         )}
-                    </div>
-                    {activeTooltip.subtext && (
-                        <span className="sidebar-tooltip-subtext">{activeTooltip.subtext}</span>
-                    )}
-                    <div className="sidebar-tooltip-arrow" />
-                </div>,
-                document.body
-            )}
+                        <div className="sidebar-tooltip-arrow" />
+                    </div>,
+                    document.body
+                )}
         </aside>
     );
 };

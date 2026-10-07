@@ -1178,6 +1178,7 @@ const TripBuilder = () => {
             {/* 1.5 Pre-Set Itinerary Templates Library */}
             <ItineraryTemplatesLibrary
                 templates={templatesLibrary}
+                catalogItems={catalog}
                 activeTemplateId={activeBlueprintId}
                 onLoadTemplate={handleLoadBlueprint}
                 onAppendTemplate={handleAppendTemplate}

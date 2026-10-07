@@ -1495,13 +1495,60 @@ const NomadDock = () => {
             ];
         }
 
-        if (pageContext === 'feed' || pageContext === 'popular' || pageContext === 'community') {
+        if (pageContext === 'popular') {
+            return [
+                {
+                    id: 'popular-discover-filters',
+                    icon: Flame,
+                    badgeCount: globalActiveFilters.length,
+                    label: 'Trending & Popular Hub Filters',
+                    subtitle: 'Switch Sections & Filter by Region',
+                    content: (
+                        <div className="dock-filter-panel">
+                            <div className="dock-sub-label">DISCOVER SECTIONS</div>
+                            <div className="dock-filter-list">
+                                {[
+                                    { id: 'overview', label: 'All Trending & Popular', sub: 'Full 6-in-1 Discover Hub', icon: Compass },
+                                    { id: 'destinations', label: 'Trending Destinations', sub: 'Bali, Kyoto, Santorini & Hot Hubs', icon: Flame },
+                                    { id: 'reviews', label: 'Traveler Reviews', sub: 'Verified Ratings & Experiences', icon: Star },
+                                    { id: 'leaderboard', label: 'Top Travelers Leaderboard', sub: 'XP Rankings & Passport Badges', icon: Trophy },
+                                    { id: 'photos', label: 'Community Photos', sub: 'Curated Travel Photography', icon: Sparkles },
+                                    { id: 'tips', label: 'Travel Tips & Hacks', sub: 'Pro Packing, Money & Safety', icon: ShieldCheck }
+                                ].map((tab) => {
+                                    const Icon = tab.icon;
+                                    const isSelected = globalActiveFilters.includes(tab.id);
+                                    return (
+                                        <button
+                                            key={tab.id}
+                                            type="button"
+                                            className={`dock-filter-row-btn ${isSelected ? 'active' : ''}`}
+                                            onClick={() => {
+                                                setGlobalActiveFilters([tab.id]);
+                                            }}
+                                        >
+                                            <Icon size={14} className="row-icon" />
+                                            <div className="row-text">
+                                                <span className="row-title">{tab.label}</span>
+                                                <span className="row-sub">{tab.sub}</span>
+                                            </div>
+                                            {isSelected && <Check size={13} className="row-check" />}
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    )
+                }
+            ];
+        }
+
+        if (pageContext === 'feed' || pageContext === 'community') {
             return [
                 {
                     id: 'feed-stream-filters',
                     icon: Flame,
                     badgeCount: globalActiveFilters.length,
-                    label: pageContext === 'popular' ? 'Popular Feed Filters' : pageContext === 'community' ? 'Community Hub Filters' : 'Travel Feed Filters',
+                    label: pageContext === 'community' ? 'Community Hub Filters' : 'Travel Feed Filters',
                     subtitle: 'Page-Specific Stream & Content Filters',
                     content: (
                         <div className="dock-filter-panel">

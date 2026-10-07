@@ -1,15 +1,14 @@
 import React, { useEffect, useRef, useCallback } from 'react';
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import {
+    Home,
     Compass,
-    Globe,
     Map,
     Video,
     Sparkles,
     Calendar,
     Bot,
     Tag,
-    Leaf,
     TrendingUp,
     Users,
     Trophy,
@@ -18,37 +17,39 @@ import {
     Settings as SettingsIcon,
     LifeBuoy,
     Plus,
+    Plane,
     X,
     ChevronRight,
-    Landmark,
     Bookmark,
-    Flame
+    Flame,
+    Backpack,
+    ShieldCheck,
+    Wifi,
+    Building2,
+    Star,
+    Gift,
+    Newspaper
 } from 'lucide-react';
 import { useNavStore } from '../../store/navStore';
 import { useToastStore } from '../../store/toastStore';
 import { useNomadOSStore } from '../../store/nomadOSStore';
 import { useSavedStore } from '../../store/savedStore';
-import { useDestinationStore } from '../../store/destinationFilterStore';
 import ThemeToggle from '../common/ThemeToggle';
 import '../../styles/MobileDrawer.css';
 
 /**
  * MobileDrawer Component
- * A mobile-friendly sliding navigation drawer that slides smoothly from the left
- * when the toggle button is triggered. Contains full travel navigation,
- * quick actions, user passport profile, and utility controls.
+ * Synchronized with Sidebar.jsx to provide all grouped features on mobile screens.
  */
 const MobileDrawer = ({ isOpen: propIsOpen, onClose: propOnClose }) => {
     const navigate = useNavigate();
     const location = useLocation();
     const { isMobileSidebarOpen, toggleMobileSidebar } = useNavStore();
     const { addToast } = useToastStore();
-    const { rank, level, xp } = useNomadOSStore();
+    const { rank, level } = useNomadOSStore();
     const savedDestinations = useSavedStore((state) => state.savedDestinations);
-    const { domainStatus, setDomainStatus } = useDestinationStore();
     const savedCount = savedDestinations.length;
 
-    // Support both store-driven and prop-driven state
     const isOpen = propIsOpen !== undefined ? propIsOpen : isMobileSidebarOpen;
     const handleClose = useCallback(() => {
         if (propOnClose) {
@@ -58,69 +59,10 @@ const MobileDrawer = ({ isOpen: propIsOpen, onClose: propOnClose }) => {
         }
     }, [propOnClose, toggleMobileSidebar]);
 
-    /**
-     * Mobile filter logic for Destinations domain status
-     */
-    const handleDomainStatusFilter = (statusId) => {
-        const nextStatus = domainStatus === statusId ? 'all' : statusId;
-        setDomainStatus(nextStatus);
-
-        const isDestinationsRoute =
-            location.pathname.startsWith('/explore/destinations') ||
-            location.pathname === '/explore' ||
-            location.pathname.startsWith('/destinations');
-
-        const searchParams = new URLSearchParams(location.search);
-        if (nextStatus === 'all') {
-            searchParams.delete('domainStatus');
-            searchParams.delete('status');
-        } else {
-            searchParams.set('domainStatus', nextStatus);
-        }
-        const newSearch = searchParams.toString();
-        const targetSearch = newSearch ? `?${newSearch}` : '';
-
-        if (!isDestinationsRoute) {
-            navigate(`/explore/destinations${targetSearch}`);
-        } else {
-            navigate(
-                {
-                    pathname: location.pathname,
-                    search: targetSearch
-                },
-                { replace: true }
-            );
-        }
-
-        handleClose();
-    };
-
-    const handleClearDomainFilter = (e) => {
-        if (e && e.stopPropagation) e.stopPropagation();
-        setDomainStatus('all');
-
-        const searchParams = new URLSearchParams(location.search);
-        searchParams.delete('domainStatus');
-        searchParams.delete('status');
-        const newSearch = searchParams.toString();
-        const targetSearch = newSearch ? `?${newSearch}` : '';
-
-        navigate(
-            {
-                pathname: location.pathname,
-                search: targetSearch
-            },
-            { replace: true }
-        );
-
-        handleClose();
-    };
-
     const drawerRef = useRef(null);
     const touchStartXRef = useRef(null);
     const touchCurrentXRef = useRef(null);
 
-    // Lock body scrolling when drawer is open on mobile
     useEffect(() => {
         if (isOpen) {
             const originalOverflow = document.body.style.overflow;
@@ -131,7 +73,6 @@ const MobileDrawer = ({ isOpen: propIsOpen, onClose: propOnClose }) => {
         }
     }, [isOpen]);
 
-    // Handle Escape key to close
     useEffect(() => {
         const handleKeyDown = (e) => {
             if (e.key === 'Escape' && isOpen) {
@@ -142,7 +83,6 @@ const MobileDrawer = ({ isOpen: propIsOpen, onClose: propOnClose }) => {
         return () => window.removeEventListener('keydown', handleKeyDown);
     }, [isOpen, handleClose]);
 
-    // Touch swipe left to dismiss
     const handleTouchStart = (e) => {
         touchStartXRef.current = e.touches[0].clientX;
         touchCurrentXRef.current = e.touches[0].clientX;
@@ -155,7 +95,6 @@ const MobileDrawer = ({ isOpen: propIsOpen, onClose: propOnClose }) => {
     const handleTouchEnd = () => {
         if (touchStartXRef.current !== null && touchCurrentXRef.current !== null) {
             const diffX = touchCurrentXRef.current - touchStartXRef.current;
-            // Swiped left by at least 45px
             if (diffX < -45) {
                 handleClose();
             }
@@ -164,36 +103,218 @@ const MobileDrawer = ({ isOpen: propIsOpen, onClose: propOnClose }) => {
         touchCurrentXRef.current = null;
     };
 
-    // Grouped navigation structure
+    // Synchronized 4-group navigation structure
     const navSections = [
         {
-            title: 'Explore & Discover',
+            title: 'Feed, Explore & Trending',
             items: [
-                { icon: Compass, label: 'Travel Feed', to: '/', exact: true, description: 'Live nomad stories & updates' },
-                { icon: Globe, label: 'Destinations', to: '/explore/destinations', badge: '195+', badgeType: 'info', description: 'City guides & hidden gems' },
-                { icon: Bookmark, label: 'Saved Wishlist', to: '/saved', badge: savedCount > 0 ? `${savedCount}` : null, badgeType: 'accent', description: 'Bookmarked spots & stays' },
-                { icon: Map, label: 'Interactive Map', to: '/explore?view=map', badge: 'Live', badgeType: 'accent', description: 'Pins & route visualization' },
-                { icon: Flame, label: 'Trending & Popular', to: '/popular', badge: 'Hot', badgeType: 'hot', description: 'Hot discussions & top community stories' },
-                { icon: Calendar, label: 'Festivals & Events', to: '/event-festival', description: 'Global cultural gatherings' },
+                {
+                    icon: Home,
+                    label: 'Home Feed',
+                    to: '/',
+                    exact: true,
+                    badge: 'Live',
+                    badgeType: 'accent',
+                    description: 'Live nomad stories, reviews & updates'
+                },
+                {
+                    icon: Compass,
+                    label: 'Explore',
+                    to: '/explore/destinations',
+                    isExploreHero: true,
+                    badge: '195+',
+                    badgeType: 'info',
+                    description: 'Discover 195+ Countries & Hubs'
+                },
+                {
+                    icon: Flame,
+                    label: 'Trending & Popular',
+                    to: '/popular',
+                    badge: 'Hot',
+                    badgeType: 'hot',
+                    description: 'Hot destinations & top community stories'
+                },
+                {
+                    icon: Video,
+                    label: 'Reels & Shorts',
+                    to: '/explore/shorts',
+                    badge: '9:16',
+                    badgeType: 'accent',
+                    description: 'Vertical travel reels & creator shorts'
+                },
+                {
+                    icon: Map,
+                    label: 'Travel Map',
+                    to: '/explore?view=map',
+                    badge: '3D Pin',
+                    badgeType: 'info',
+                    description: 'Interactive global map & route pins'
+                },
+                {
+                    icon: Bookmark,
+                    label: 'Saved & Favorites',
+                    to: '/saved',
+                    badge: savedCount > 0 ? `${savedCount}` : null,
+                    badgeType: 'accent',
+                    description: 'Bookmarked spots & stays'
+                }
             ]
         },
         {
-            title: 'Plan & Travel',
+            title: 'Travel Tools & AI Studio',
             items: [
-                { icon: Landmark, label: 'Embassy & Consular', to: '/explore/embassy', badge: 'Visas', badgeType: 'info', description: 'Diplomatic missions & consular intel' },
-                { icon: Bot, label: 'AI Concierge', to: '/ai-agents', badge: 'AI', badgeType: 'ai', description: 'Smart itineraries & visa help' },
-                { icon: Tag, label: 'Deals & Stays', to: '/business-partner', badge: 'Perks', badgeType: 'success', description: 'Nomad stays & partner discounts' },
-                { icon: Leaf, label: 'Eco Voluntourism', to: '/learning-voluntourism', description: 'Impact journeys & retreats' },
-                { icon: TrendingUp, label: 'Travel Trends', to: '/insights-analytics', description: 'Safety & cost of living index' },
+                {
+                    icon: Backpack,
+                    label: 'Trip & Itinerary Builder',
+                    to: '/explore/trip-builder',
+                    badge: 'Builder',
+                    badgeType: 'info',
+                    description: 'Modular itinerary studio & templates'
+                },
+                {
+                    icon: Sparkles,
+                    label: 'Nomad AI Tools',
+                    to: '/explore/ai-studio',
+                    badge: '4-in-1 AI',
+                    badgeType: 'ai',
+                    description: 'Triipper, Super Agent, Twin & Travel Bug'
+                },
+                {
+                    icon: ShieldCheck,
+                    label: 'Visa Info & Embassy',
+                    to: '/explore/visa',
+                    badge: '2026',
+                    badgeType: 'success',
+                    description: 'Visa requirement summary & consular FAQ'
+                },
+                {
+                    icon: Plane,
+                    label: 'Book Travel & Multi-City',
+                    to: '/explore/seenomad-multi',
+                    badge: '4-Leg',
+                    badgeType: 'accent',
+                    description: 'Multi-part expedition booking & routing'
+                },
+                {
+                    icon: Plane,
+                    label: 'Flight Tracker & Matrix',
+                    to: '/explore/flights-visa',
+                    badge: 'Live',
+                    badgeType: 'info',
+                    description: 'Flight corridors & onward ticket rules'
+                },
+                {
+                    icon: Building2,
+                    label: 'Hotel & Coliving Finder',
+                    to: '/explore/compare-destinations',
+                    badge: 'Stays',
+                    badgeType: 'info',
+                    description: 'Compare coliving stays, hotels & costs'
+                },
+                {
+                    icon: Wifi,
+                    label: 'Wi-Fi Speed & Market',
+                    to: '/explore/connectivity-market',
+                    badge: 'Fiber',
+                    badgeType: 'success',
+                    description: 'Workspace speed map & local guides'
+                },
+                {
+                    icon: Bot,
+                    label: 'AI Travel Concierge',
+                    to: '/ai-agents',
+                    badge: 'Copilot',
+                    badgeType: 'ai',
+                    description: '24/7 autonomous travel copilot'
+                }
             ]
         },
         {
-            title: 'Community & Quests',
+            title: 'Challenges, Milestones & Rewards',
             items: [
-                { icon: Users, label: 'Nomad Community', to: '/community', badge: 'Meet', badgeType: 'info', description: 'Travel buddies & city hubs' },
-                { icon: Trophy, label: 'Travel Quests', to: '/travel-games', description: 'Country checklists & challenges' },
-                { icon: Award, label: 'Passport Stamps', to: '/user/achievements', badge: 'XP', badgeType: 'accent', description: 'Milestones & verified stamps' },
-                { icon: Luggage, label: 'My Trips', to: '/user/travel-journey', description: 'Saved routes & bucket list' },
+                {
+                    icon: Trophy,
+                    label: 'Challenges',
+                    to: '/explore/challenges',
+                    badge: '2.5x XP',
+                    badgeType: 'warning',
+                    description: 'Viral nomad challenges & city quests'
+                },
+                {
+                    icon: Award,
+                    label: 'Milestones & Passport',
+                    to: '/user/achievements',
+                    badge: 'Stamps',
+                    badgeType: 'accent',
+                    description: 'Verified passport stamps & milestones'
+                },
+                {
+                    icon: TrendingUp,
+                    label: 'Leaderboard',
+                    to: '/explore/rivalry',
+                    badge: 'Rank',
+                    badgeType: 'hot',
+                    description: 'Global explorer leaderboard'
+                },
+                {
+                    icon: Gift,
+                    label: 'Rewards & Perks',
+                    to: '/explore/passport-perks',
+                    badge: '40% Off',
+                    badgeType: 'success',
+                    description: 'Nomad rewards, eSIM deals & perks'
+                }
+            ]
+        },
+        {
+            title: 'Community, News, Deals & Events',
+            items: [
+                {
+                    icon: Users,
+                    label: 'Community & Guardians',
+                    to: '/community',
+                    badge: 'Meet',
+                    badgeType: 'info',
+                    description: 'Traveler community & local guardians'
+                },
+                {
+                    icon: Star,
+                    label: 'Reviews & Travel Tips',
+                    to: '/explore/culture-community',
+                    badge: 'Verified',
+                    badgeType: 'info',
+                    description: 'Traveler reviews, etiquette & local tips'
+                },
+                {
+                    icon: Newspaper,
+                    label: 'Travel News & Trends',
+                    to: '/insights-analytics',
+                    badge: 'Intel',
+                    badgeType: 'info',
+                    description: 'Global travel news & safety analytics'
+                },
+                {
+                    icon: Tag,
+                    label: 'Travel Deals',
+                    to: '/business-partner',
+                    badge: 'Deals',
+                    badgeType: 'success',
+                    description: 'Flight, hotel & coliving partner deals'
+                },
+                {
+                    icon: Calendar,
+                    label: 'Events & Festivals',
+                    to: '/event-festival',
+                    badge: '85+ Cities',
+                    badgeType: 'accent',
+                    description: 'Global cultural gatherings & pop-ups'
+                },
+                {
+                    icon: Luggage,
+                    label: 'My Trips & Journey',
+                    to: '/user/travel-journey',
+                    description: 'Saved routes & bucket list'
+                }
             ]
         }
     ];
@@ -210,8 +331,8 @@ const MobileDrawer = ({ isOpen: propIsOpen, onClose: propOnClose }) => {
     const handleQuickPlan = (e) => {
         e.stopPropagation();
         handleClose();
-        navigate('/ai-agents');
-        addToast('Opening AI Travel Concierge to plan your next journey! 🗺️', 'success');
+        navigate('/explore/trip-builder');
+        addToast('Opening Trip & Itinerary Builder Studio! 🗺️', 'success');
     };
 
     return (
@@ -308,7 +429,7 @@ const MobileDrawer = ({ isOpen: propIsOpen, onClose: propOnClose }) => {
                         onClick={handleQuickPlan}
                     >
                         <Sparkles size={15} />
-                        <span>Plan Trip</span>
+                        <span>Trip Builder</span>
                     </button>
                 </div>
 
@@ -321,39 +442,45 @@ const MobileDrawer = ({ isOpen: propIsOpen, onClose: propOnClose }) => {
                             </div>
                             <ul className="mobile-nav-list">
                                 {section.items.map((item, iIdx) => {
-                                    const isDestinations = item.to === '/explore/destinations';
+                                    const isExploreHero = Boolean(item.isExploreHero);
                                     return (
-                                        <li key={iIdx} className={`mobile-nav-item ${isDestinations ? 'mobile-destinations-item' : ''}`}>
-                                            {isDestinations ? (
+                                        <li
+                                            key={iIdx}
+                                            className={`mobile-nav-item ${isExploreHero ? 'mobile-destinations-item' : ''}`}
+                                        >
+                                            {isExploreHero ? (
                                                 <NavLink
                                                     to={item.to}
                                                     end={false}
                                                     className={({ isActive }) => {
-                                                        const isItemActive = isActive ||
+                                                        const isItemActive =
+                                                            isActive ||
                                                             location.pathname.startsWith('/explore/destinations') ||
                                                             location.pathname === '/explore' ||
                                                             location.pathname.startsWith('/destinations');
                                                         return `mobile-nav-link mobile-destinations-nav-link ${isItemActive ? 'active' : ''}`;
                                                     }}
                                                     onClick={handleClose}
-                                                    aria-label="Destinations - Explore 195+ Countries"
+                                                    aria-label="Explore - Discover 195+ Countries"
                                                 >
                                                     <div className="mobile-nav-icon-wrap mobile-destinations-icon-wrap">
                                                         <item.icon size={20} className="mobile-nav-icon" />
                                                     </div>
                                                     <div className="mobile-destinations-text-group">
-                                                        <span className="mobile-destinations-title">Destinations</span>
-                                                        <span className="mobile-destinations-subtitle">Explore 195+ Countries</span>
+                                                        <span className="mobile-destinations-title">Explore</span>
+                                                        <span className="mobile-destinations-subtitle">
+                                                            Discover 195+ Countries
+                                                        </span>
                                                     </div>
-                                                    <span className="mobile-destinations-badge-pill">
-                                                        195+
-                                                    </span>
+                                                    <span className="mobile-destinations-badge-pill">195+</span>
                                                 </NavLink>
                                             ) : (
                                                 <NavLink
                                                     to={item.to}
                                                     end={item.exact}
-                                                    className={({ isActive }) => `mobile-nav-link ${isActive ? 'active' : ''}`}
+                                                    className={({ isActive }) =>
+                                                        `mobile-nav-link ${isActive ? 'active' : ''}`
+                                                    }
                                                     onClick={handleClose}
                                                 >
                                                     <div className="mobile-nav-icon-wrap">
@@ -364,7 +491,9 @@ const MobileDrawer = ({ isOpen: propIsOpen, onClose: propOnClose }) => {
                                                         <span className="mobile-nav-desc">{item.description}</span>
                                                     </div>
                                                     {item.badge && (
-                                                        <span className={`mobile-nav-badge badge-${item.badgeType || 'default'}`}>
+                                                        <span
+                                                            className={`mobile-nav-badge badge-${item.badgeType || 'default'}`}
+                                                        >
                                                             {item.badge}
                                                         </span>
                                                     )}

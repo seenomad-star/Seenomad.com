@@ -1,137 +1,46 @@
 /* ==========================================================================
-   Sidebar.css - SeeNomad Modern Travel Navigation
+   Sidebar.css - SeeNomad Minimal Modern Travel-Themed Navigation
    ========================================================================== */
 
 .travel-sidebar {
     position: fixed;
-    top: 0;
+    top: var(--current-header-h, 98px);
     left: 0;
-    height: 100vh;
+    height: calc(100vh - var(--current-header-h, 98px));
     width: 255px;
-    background-color: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border-right: 1px solid rgba(226, 232, 240, 0.85);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.98) 100%);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border-right: 1px solid rgba(226, 232, 240, 0.9);
     display: flex;
     flex-direction: column;
-    transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1), transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 1100;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    transition: width 0.22s cubic-bezier(0.4, 0, 0.2, 1), transform 0.22s cubic-bezier(0.4, 0, 0.2, 1), top 0.2s ease, height 0.2s ease;
+    z-index: 1020;
+    box-shadow: 2px 0 16px rgba(15, 23, 42, 0.03);
     user-select: none;
 }
 
 :root.dark .travel-sidebar,
 .theme-dark .travel-sidebar,
 body.dark .travel-sidebar {
-    background-color: rgba(15, 23, 42, 0.95);
-    border-right-color: rgba(255, 255, 255, 0.08);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0.97) 0%, rgba(9, 14, 28, 0.98) 100%);
+    border-right-color: rgba(56, 189, 248, 0.12);
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.35);
 }
 
 /* ==========================================================================
-   Sidebar Top Header (Aligned with AddressBar height = 38px)
-   ========================================================================== */
-.travel-sidebar-header {
-    height: 38px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 0.85rem;
-    border-bottom: 1px solid rgba(226, 232, 240, 0.75);
-    flex-shrink: 0;
-    box-sizing: border-box;
-}
-
-:root.dark .travel-sidebar-header,
-.theme-dark .travel-sidebar-header,
-body.dark .travel-sidebar-header {
-    border-bottom-color: rgba(255, 255, 255, 0.07);
-}
-
-.sidebar-header-label-wrapper {
-    display: flex;
-    align-items: center;
-}
-
-.sidebar-header-label {
-    font-size: 0.68rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--color-text-tertiary, #94a3b8);
-}
-
-:root.dark .sidebar-header-label {
-    color: #64748b;
-}
-
-.sidebar-collapse-toggle,
-.sidebar-toggle-btn,
-.sidebar-close-mobile-btn {
-    width: 26px;
-    height: 26px;
-    border-radius: 6px;
-    background: transparent;
-    border: 1px solid rgba(226, 232, 240, 0.8);
-    color: #64748b;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.15s ease;
-    flex-shrink: 0;
-}
-
-:root.dark .sidebar-collapse-toggle,
-:root.dark .sidebar-close-mobile-btn {
-    border-color: rgba(255, 255, 255, 0.1);
-    color: #94a3b8;
-}
-
-.sidebar-collapse-toggle:hover,
-.sidebar-close-mobile-btn:hover {
-    background: #f1f5f9;
-    color: #0f172a;
-}
-
-:root.dark .sidebar-collapse-toggle:hover,
-:root.dark .sidebar-close-mobile-btn:hover {
-    background: rgba(255, 255, 255, 0.08);
-    color: #f8fafc;
-}
-
-/* Collapsed Header Mode */
-.travel-sidebar-header.collapsed-header {
-    justify-content: center;
-    padding: 0;
-    height: 38px;
-}
-
-.sidebar-collapsed-header-inner {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.sidebar-collapse-toggle.collapsed-toggle {
-    width: 26px;
-    height: 26px;
-    border: 1px solid transparent;
-}
-
-/* ==========================================================================
-   Navigation Sections
+   Navigation Scroll Area — Compact & Clean to Fit All 20 Travel Features
    ========================================================================== */
 .travel-sidebar-nav {
     flex: 1;
-    padding: 0.75rem 0.65rem;
+    padding: 0.55rem 0.6rem;
     overflow-y: auto;
     overflow-x: hidden;
     display: flex;
     flex-direction: column;
-    gap: 0.85rem;
+    gap: 0.55rem;
     scrollbar-width: thin;
-    scrollbar-color: rgba(148, 163, 184, 0.3) transparent;
+    scrollbar-color: rgba(148, 163, 184, 0.25) transparent;
 }
 
 .travel-sidebar-nav::-webkit-scrollbar {
@@ -139,33 +48,38 @@ body.dark .travel-sidebar-header {
 }
 
 .travel-sidebar-nav::-webkit-scrollbar-thumb {
-    background: rgba(148, 163, 184, 0.3);
+    background: rgba(148, 163, 184, 0.25);
     border-radius: 4px;
 }
 
 .nav-section-group {
     display: flex;
     flex-direction: column;
-    gap: 0.2rem;
+    gap: 0.1rem;
 }
 
 .nav-section-title {
-    padding: 0.35rem 0.65rem 0.2rem;
-    font-size: 0.68rem;
+    padding: 0.25rem 0.6rem 0.15rem;
+    font-size: 0.62rem;
     font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.09em;
     color: #94a3b8;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
-:root.dark .nav-section-title {
+:root.dark .nav-section-title,
+.theme-dark .nav-section-title,
+body.dark .nav-section-title {
     color: #64748b;
 }
 
 .nav-section-divider {
     height: 1px;
     background: rgba(226, 232, 240, 0.8);
-    margin: 0.4rem 0.5rem;
+    margin: 0.25rem 0.45rem;
 }
 
 :root.dark .nav-section-divider {
@@ -178,7 +92,7 @@ body.dark .travel-sidebar-header {
     padding: 0;
     display: flex;
     flex-direction: column;
-    gap: 0.18rem;
+    gap: 2px;
 }
 
 .nav-section-item {
@@ -187,19 +101,23 @@ body.dark .travel-sidebar-header {
     position: relative;
 }
 
-/* Navigation Links */
+/* ==========================================================================
+   Minimal Modern Travel Navigation Links (Reference Pill Style)
+   ========================================================================== */
 .travel-nav-link {
     display: flex;
     align-items: center;
-    gap: 0.7rem;
-    padding: 0.52rem 0.65rem;
+    gap: 0.65rem;
+    padding: 0.38rem 0.65rem;
+    min-height: 34px;
     border-radius: 10px;
     color: #475569;
     font-weight: 600;
-    font-size: 0.88rem;
+    font-size: 0.82rem;
     text-decoration: none;
     transition: all 0.15s ease;
     position: relative;
+    border: 1px solid transparent;
 }
 
 :root.dark .travel-nav-link,
@@ -209,8 +127,8 @@ body.dark .travel-nav-link {
 }
 
 .nav-icon-container {
-    width: 28px;
-    height: 28px;
+    width: 24px;
+    height: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -220,7 +138,9 @@ body.dark .travel-nav-link {
     transition: all 0.15s ease;
 }
 
-:root.dark .nav-icon-container {
+:root.dark .nav-icon-container,
+.theme-dark .nav-icon-container,
+body.dark .nav-icon-container {
     color: #94a3b8;
 }
 
@@ -230,17 +150,19 @@ body.dark .travel-nav-link {
     justify-content: space-between;
     flex: 1;
     min-width: 0;
+    gap: 0.35rem;
 }
 
 .nav-item-label {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    line-height: 1.2;
 }
 
 /* Hover States */
 .travel-nav-link:hover {
-    background-color: #f8fafc;
+    background-color: #f1f5f9;
     color: #0f172a;
 }
 
@@ -255,13 +177,16 @@ body.dark .travel-nav-link:hover {
     color: #0284c7;
 }
 
-:root.dark .travel-nav-link:hover .nav-icon-container {
+:root.dark .travel-nav-link:hover .nav-icon-container,
+.theme-dark .travel-nav-link:hover .nav-icon-container,
+body.dark .travel-nav-link:hover .nav-icon-container {
     color: #38bdf8;
 }
 
-/* Active State: Sophisticated Travel Blue Highlight */
+/* Active State: Soft Travel-Blue Pill Highlight (Matches Reference Discover Pill) */
 .travel-nav-link.active {
-    background-color: #f0f9ff;
+    background-color: #e0f2fe;
+    border-color: rgba(2, 132, 199, 0.22);
     color: #0284c7;
     font-weight: 700;
 }
@@ -269,25 +194,63 @@ body.dark .travel-nav-link:hover {
 :root.dark .travel-nav-link.active,
 .theme-dark .travel-nav-link.active,
 body.dark .travel-nav-link.active {
-    background-color: rgba(2, 132, 199, 0.16);
+    background: linear-gradient(90deg, rgba(14, 165, 233, 0.2) 0%, rgba(56, 189, 248, 0.08) 100%);
+    border-color: rgba(56, 189, 248, 0.32);
     color: #38bdf8;
 }
 
 .travel-nav-link.active .nav-icon-container {
     color: #0284c7;
-    background-color: rgba(2, 132, 199, 0.12);
 }
 
-:root.dark .travel-nav-link.active .nav-icon-container {
+:root.dark .travel-nav-link.active .nav-icon-container,
+.theme-dark .travel-nav-link.active .nav-icon-container,
+body.dark .travel-nav-link.active .nav-icon-container {
     color: #38bdf8;
-    background-color: rgba(56, 189, 248, 0.16);
 }
 
-/* Feature Badges */
+/* ==========================================================================
+   Explore Pill & Featured Travel Tools Group
+   ========================================================================== */
+.destinations-nav-link {
+    background: rgba(2, 132, 199, 0.06);
+    border: 1px solid rgba(2, 132, 199, 0.16);
+}
+
+:root.dark .destinations-nav-link,
+.theme-dark .destinations-nav-link,
+body.dark .destinations-nav-link {
+    background: rgba(56, 189, 248, 0.08);
+    border-color: rgba(56, 189, 248, 0.22);
+}
+
+.destinations-icon-container {
+    background: linear-gradient(135deg, #0284c7, #0ea5e9) !important;
+    color: #ffffff !important;
+    box-shadow: 0 2px 6px rgba(2, 132, 199, 0.28);
+}
+
+.nav-section-featured-tools {
+    background: rgba(241, 245, 249, 0.65);
+    border: 1px solid rgba(226, 232, 240, 0.85);
+    border-radius: 12px;
+    padding: 0.25rem;
+}
+
+:root.dark .nav-section-featured-tools,
+.theme-dark .nav-section-featured-tools,
+body.dark .nav-section-featured-tools {
+    background: rgba(15, 23, 42, 0.55);
+    border-color: rgba(56, 189, 248, 0.14);
+}
+
+/* ==========================================================================
+   Minimal Badges
+   ========================================================================== */
 .nav-badge {
-    font-size: 0.65rem;
+    font-size: 0.6rem;
     font-weight: 700;
-    padding: 0.15rem 0.45rem;
+    padding: 0.12rem 0.42rem;
     border-radius: 999px;
     letter-spacing: 0.02em;
     line-height: 1;
@@ -300,33 +263,34 @@ body.dark .travel-nav-link.active {
     color: #0369a1;
 }
 
-:root.dark .nav-badge-info {
-    background: rgba(14, 165, 233, 0.2);
+:root.dark .nav-badge-info,
+.theme-dark .nav-badge-info,
+body.dark .nav-badge-info {
+    background: rgba(14, 165, 233, 0.18);
     color: #7dd3fc;
 }
 
 .nav-badge-hot {
-    background: linear-gradient(135deg, rgba(239, 68, 68, 0.12), rgba(249, 115, 22, 0.15));
-    border: 1px solid rgba(239, 68, 68, 0.28);
+    background: rgba(239, 68, 68, 0.12);
     color: #ef4444;
-    font-weight: 700;
 }
 
-:root.dark .nav-badge-hot {
-    background: linear-gradient(135deg, rgba(239, 68, 68, 0.22), rgba(249, 115, 22, 0.22));
-    border: 1px solid rgba(239, 68, 68, 0.42);
+:root.dark .nav-badge-hot,
+.theme-dark .nav-badge-hot,
+body.dark .nav-badge-hot {
+    background: rgba(239, 68, 68, 0.2);
     color: #f87171;
 }
 
 .nav-badge-warning {
-    background: rgba(245, 158, 11, 0.12);
-    border: 1px solid rgba(245, 158, 11, 0.25);
+    background: rgba(245, 158, 11, 0.14);
     color: #d97706;
 }
 
-:root.dark .nav-badge-warning {
+:root.dark .nav-badge-warning,
+.theme-dark .nav-badge-warning,
+body.dark .nav-badge-warning {
     background: rgba(245, 158, 11, 0.2);
-    border: 1px solid rgba(245, 158, 11, 0.35);
     color: #fbbf24;
 }
 
@@ -335,7 +299,9 @@ body.dark .travel-nav-link.active {
     color: #7e22ce;
 }
 
-:root.dark .nav-badge-ai {
+:root.dark .nav-badge-ai,
+.theme-dark .nav-badge-ai,
+body.dark .nav-badge-ai {
     background: rgba(168, 85, 247, 0.2);
     color: #d8b4fe;
 }
@@ -345,130 +311,112 @@ body.dark .travel-nav-link.active {
     color: #c2410c;
 }
 
-:root.dark .nav-badge-accent {
+:root.dark .nav-badge-accent,
+.theme-dark .nav-badge-accent,
+body.dark .nav-badge-accent {
     background: rgba(249, 115, 22, 0.2);
     color: #fdba74;
 }
 
 .nav-badge-success {
-    background: #dcfce7;
-    color: #15803d;
+    background: rgba(16, 185, 129, 0.14);
+    color: #059669;
 }
 
-:root.dark .nav-badge-success {
-    background: rgba(34, 197, 94, 0.2);
-    color: #86efac;
-}
-
-/* ==========================================================================
-   Action Buttons (Share Story & Plan Trip)
-   ========================================================================== */
-.travel-sidebar-actions {
-    padding: 0.75rem 0.85rem;
-    border-top: 1px solid rgba(226, 232, 240, 0.75);
-    flex-shrink: 0;
-}
-
-:root.dark .travel-sidebar-actions,
-.theme-dark .travel-sidebar-actions,
-body.dark .travel-sidebar-actions {
-    border-top-color: rgba(255, 255, 255, 0.07);
-}
-
-.action-button-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-.travel-primary-action-btn {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 9px 14px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, #0284c7 0%, #f97316 100%);
-    color: #ffffff;
-    font-size: 0.88rem;
-    font-weight: 700;
-    border: none;
-    cursor: pointer;
-    box-shadow: 0 3px 12px rgba(2, 132, 199, 0.3);
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-.travel-primary-action-btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 5px 16px rgba(249, 115, 22, 0.35);
-}
-
-.travel-primary-action-btn:active {
-    transform: translateY(0);
-}
-
-.travel-secondary-action-btn {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    padding: 7px 12px;
-    border-radius: 10px;
-    background: #f8fafc;
-    border: 1px solid rgba(226, 232, 240, 0.9);
-    color: #334155;
-    font-size: 0.82rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.15s ease;
-}
-
-:root.dark .travel-secondary-action-btn {
-    background: rgba(30, 41, 59, 0.6);
-    border-color: rgba(255, 255, 255, 0.08);
-    color: #cbd5e1;
-}
-
-.travel-secondary-action-btn:hover {
-    background: #f1f5f9;
-    color: #0284c7;
-    border-color: rgba(2, 132, 199, 0.4);
-}
-
-:root.dark .travel-secondary-action-btn:hover {
-    background: rgba(255, 255, 255, 0.08);
-    color: #38bdf8;
-    border-color: rgba(56, 189, 248, 0.3);
+:root.dark .nav-badge-success,
+.theme-dark .nav-badge-success,
+body.dark .nav-badge-success {
+    background: rgba(16, 185, 129, 0.2);
+    color: #34d399;
 }
 
 /* ==========================================================================
-   Traveler Mini Passport Card at Bottom
+   Compact Bottom Footer (Side-by-Side CTAs + Traveler Passport Card)
    ========================================================================== */
 .traveler-passport-footer {
-    padding: 0.65rem 0.85rem 0.85rem;
-    border-top: 1px solid rgba(226, 232, 240, 0.75);
+    padding: 0.5rem 0.65rem 0.6rem;
+    border-top: 1px solid rgba(226, 232, 240, 0.8);
     flex-shrink: 0;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
-    background: #fafafa;
+    gap: 0.4rem;
+    background: rgba(248, 250, 252, 0.9);
 }
 
 :root.dark .traveler-passport-footer,
 .theme-dark .traveler-passport-footer,
 body.dark .traveler-passport-footer {
     border-top-color: rgba(255, 255, 255, 0.07);
-    background: rgba(15, 23, 42, 0.5);
+    background: rgba(15, 23, 42, 0.75);
+}
+
+.sidebar-compact-cta-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.4rem;
+}
+
+.travel-primary-action-btn.compact {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 0.42rem 0.55rem;
+    border-radius: 9px;
+    background: linear-gradient(135deg, #0284c7 0%, #0ea5e9 100%);
+    color: #ffffff;
+    font-size: 0.74rem;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(2, 132, 199, 0.25);
+    transition: all 0.15s ease;
+}
+
+.travel-primary-action-btn.compact:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35);
+}
+
+.travel-secondary-action-btn.compact {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 0.42rem 0.55rem;
+    border-radius: 9px;
+    background: #ffffff;
+    border: 1px solid rgba(203, 213, 225, 0.9);
+    color: #334155;
+    font-size: 0.74rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+:root.dark .travel-secondary-action-btn.compact,
+.theme-dark .travel-secondary-action-btn.compact,
+body.dark .travel-secondary-action-btn.compact {
+    background: rgba(30, 41, 59, 0.75);
+    border-color: rgba(255, 255, 255, 0.1);
+    color: #e2e8f0;
+}
+
+.travel-secondary-action-btn.compact:hover {
+    border-color: #38bdf8;
+    color: #0284c7;
+}
+
+:root.dark .travel-secondary-action-btn.compact:hover {
+    color: #38bdf8;
 }
 
 .traveler-passport-card {
     display: flex;
     align-items: center;
-    gap: 9px;
-    padding: 0.5rem;
-    border-radius: 12px;
+    gap: 8px;
+    padding: 0.35rem 0.45rem;
+    border-radius: 10px;
     text-decoration: none;
     color: inherit;
     transition: background-color 0.15s ease;
@@ -484,28 +432,27 @@ body.dark .traveler-passport-footer {
 
 .traveler-avatar-wrap {
     position: relative;
-    width: 36px;
-    height: 36px;
+    width: 30px;
+    height: 30px;
     flex-shrink: 0;
 }
 
 .traveler-avatar-img {
     width: 100%;
     height: 100%;
-    border-radius: 10px;
+    border-radius: 8px;
     object-fit: cover;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .traveler-status-dot {
     position: absolute;
-    bottom: -2px;
-    right: -2px;
-    width: 10px;
-    height: 10px;
+    bottom: -1px;
+    right: -1px;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
     background: #10b981;
-    border: 2px solid #ffffff;
+    border: 1.5px solid #ffffff;
 }
 
 :root.dark .traveler-status-dot {
@@ -523,11 +470,11 @@ body.dark .traveler-passport-footer {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 6px;
+    gap: 4px;
 }
 
 .traveler-name {
-    font-size: 0.85rem;
+    font-size: 0.78rem;
     font-weight: 700;
     color: #0f172a;
     white-space: nowrap;
@@ -535,18 +482,19 @@ body.dark .traveler-passport-footer {
     text-overflow: ellipsis;
 }
 
-:root.dark .traveler-name {
+:root.dark .traveler-name,
+.theme-dark .traveler-name,
+body.dark .traveler-name {
     color: #f8fafc;
 }
 
 .traveler-level-pill {
-    font-size: 0.65rem;
+    font-size: 0.6rem;
     font-weight: 700;
-    padding: 1px 6px;
+    padding: 1px 5px;
     border-radius: 999px;
     background: #e0f2fe;
     color: #0369a1;
-    white-space: nowrap;
 }
 
 :root.dark .traveler-level-pill {
@@ -558,7 +506,7 @@ body.dark .traveler-passport-footer {
     display: flex;
     align-items: center;
     gap: 4px;
-    font-size: 0.72rem;
+    font-size: 0.66rem;
     color: #64748b;
 }
 
@@ -572,18 +520,9 @@ body.dark .traveler-passport-footer {
     text-overflow: ellipsis;
 }
 
-.traveler-dot-sep {
-    color: #cbd5e1;
-}
-
-:root.dark .traveler-dot-sep {
-    color: #475569;
-}
-
 .traveler-stat {
     font-weight: 600;
     color: #0284c7;
-    white-space: nowrap;
 }
 
 :root.dark .traveler-stat {
@@ -596,24 +535,21 @@ body.dark .traveler-passport-footer {
     align-items: center;
 }
 
-/* Micro Utility Links */
 .sidebar-micro-utilities {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 12px;
-    padding-top: 0.2rem;
+    gap: 10px;
 }
 
 .micro-util-link {
     display: flex;
     align-items: center;
-    gap: 5px;
-    font-size: 0.72rem;
+    gap: 4px;
+    font-size: 0.68rem;
     color: #64748b;
     text-decoration: none;
     font-weight: 500;
-    transition: color 0.15s ease;
 }
 
 :root.dark .micro-util-link {
@@ -630,48 +566,20 @@ body.dark .traveler-passport-footer {
 
 .micro-util-sep {
     color: #cbd5e1;
-    font-size: 0.7rem;
+    font-size: 0.65rem;
 }
 
 :root.dark .micro-util-sep {
-    color: #334155;
+    color: #475569;
 }
 
 .sidebar-theme-toggle {
-    padding: 2px 8px !important;
-    font-size: 0.72rem !important;
+    padding: 1px 6px !important;
+    font-size: 0.68rem !important;
     background: transparent !important;
     border: none !important;
     color: #64748b !important;
     cursor: pointer;
-}
-
-.sidebar-theme-toggle:hover {
-    color: #0284c7 !important;
-}
-
-:root.dark .sidebar-theme-toggle,
-.theme-dark .sidebar-theme-toggle {
-    color: #94a3b8 !important;
-}
-
-:root.dark .sidebar-theme-toggle:hover,
-.theme-dark .sidebar-theme-toggle:hover {
-    color: #f59e0b !important;
-}
-
-.sidebar-collapsed-theme-wrap {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-top: 0.45rem;
-    width: 100%;
-}
-
-.sidebar-collapsed-theme-btn {
-    width: 32px !important;
-    height: 32px !important;
-    border-radius: 8px !important;
 }
 
 /* ==========================================================================
@@ -681,13 +589,8 @@ body.dark .traveler-passport-footer {
     width: 76px;
 }
 
-.travel-sidebar.collapsed .travel-sidebar-header {
-    justify-content: center;
-    padding: 0 0.5rem;
-}
-
 .travel-sidebar.collapsed .travel-sidebar-nav {
-    padding: 0.75rem 0.45rem;
+    padding: 0.55rem 0.4rem;
     align-items: center;
 }
 
@@ -702,29 +605,19 @@ body.dark .traveler-passport-footer {
 }
 
 .travel-sidebar.collapsed .travel-nav-link {
-    width: 44px;
-    height: 44px;
+    width: 40px;
+    height: 36px;
+    min-height: 36px;
     padding: 0;
     justify-content: center;
-    border-radius: 12px;
-    box-shadow: none !important;
-}
-
-.travel-sidebar.collapsed .travel-nav-link.active {
-    background-color: #e0f2fe;
-    color: #0284c7;
-}
-
-:root.dark .travel-sidebar.collapsed .travel-nav-link.active {
-    background-color: rgba(2, 132, 199, 0.22);
-    color: #38bdf8;
+    border-radius: 10px;
 }
 
 .travel-sidebar.collapsed .travel-collapsed-action-btn {
-    width: 44px;
-    height: 44px;
+    width: 38px;
+    height: 38px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #0284c7 0%, #f97316 100%);
+    background: linear-gradient(135deg, #0284c7 0%, #0ea5e9 100%);
     color: #ffffff;
     border: none;
     display: flex;
@@ -732,25 +625,19 @@ body.dark .traveler-passport-footer {
     justify-content: center;
     cursor: pointer;
     margin: 0 auto;
-    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
-    transition: transform 0.15s ease;
-}
-
-.travel-sidebar.collapsed .travel-collapsed-action-btn:hover {
-    transform: scale(1.05);
 }
 
 .travel-sidebar.collapsed .traveler-passport-footer {
-    padding: 0.65rem 0.4rem;
+    padding: 0.5rem 0.35rem;
     align-items: center;
 }
 
 .travel-sidebar.collapsed .traveler-passport-card {
-    padding: 0.25rem;
+    padding: 0.2rem;
     justify-content: center;
 }
 
-/* Hover Tooltip in Collapsed State (Portal-rendered) */
+/* Hover Tooltip in Collapsed State */
 .sidebar-text-tooltip {
     position: fixed;
     transform: translateY(-50%);
@@ -758,7 +645,7 @@ body.dark .traveler-passport-footer {
     color: #f8fafc;
     padding: 7px 12px;
     border-radius: 9px;
-    box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.4), 0 4px 10px -2px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.4);
     pointer-events: none;
     z-index: 9999;
     display: flex;
@@ -766,18 +653,6 @@ body.dark .traveler-passport-footer {
     gap: 3px;
     white-space: nowrap;
     border: 1px solid rgba(255, 255, 255, 0.12);
-    animation: sidebarTooltipFadeIn 0.15s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-@keyframes sidebarTooltipFadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(-50%) translateX(-4px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(-50%) translateX(0);
-    }
 }
 
 .sidebar-tooltip-content {
@@ -787,26 +662,22 @@ body.dark .traveler-passport-footer {
 }
 
 .sidebar-tooltip-title {
-    font-size: 0.84rem;
+    font-size: 0.82rem;
     font-weight: 700;
     color: #ffffff;
-    letter-spacing: -0.01em;
-    line-height: 1.2;
 }
 
 .sidebar-tooltip-badge {
-    font-size: 0.65rem;
+    font-size: 0.62rem;
     font-weight: 700;
     padding: 1px 6px;
     border-radius: 9999px;
-    line-height: 1.2;
 }
 
 .sidebar-tooltip-subtext {
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     color: #94a3b8;
-    line-height: 1.25;
-    max-width: 200px;
+    max-width: 210px;
     white-space: normal;
 }
 
@@ -820,21 +691,8 @@ body.dark .traveler-passport-footer {
     background: #0f172a;
     border-left: 1px solid rgba(255, 255, 255, 0.12);
     border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 1px;
 }
 
-/* Light mode specific tooltip styling */
-:root:not(.dark) .sidebar-text-tooltip {
-    background: #1e293b;
-    border-color: rgba(255, 255, 255, 0.15);
-}
-
-:root:not(.dark) .sidebar-tooltip-arrow {
-    background: #1e293b;
-    border-color: rgba(255, 255, 255, 0.15);
-}
-
-/* Mobile Screens: Hide desktop sidebar in favor of dedicated MobileDrawer unless mobile overlay is active */
 @media (max-width: 900px) {
     .travel-sidebar:not(.mobile):not(.mobile-open) {
         display: none !important;
@@ -846,207 +704,9 @@ body.dark .traveler-passport-footer {
         position: fixed !important;
         top: 0 !important;
         left: 0 !important;
-        bottom: 0 !important;
-        width: min(320px, 86vw) !important;
+        height: 100vh !important;
+        width: min(310px, 86vw) !important;
         z-index: 1700 !important;
         transform: translateX(0) !important;
-        box-shadow: 12px 0 40px rgba(0, 0, 0, 0.5) !important;
-    }
-}
-
-/* ==========================================================================
-   Destinations Nav Item - Prominent Sizing & Enhanced Visibility on All Screens
-   ========================================================================== */
-.destinations-nav-section-item {
-    margin: 0.25rem 0 0.4rem 0;
-}
-
-.destinations-nav-link {
-    min-height: 48px;
-    padding: 0.65rem 0.85rem;
-    border-radius: 12px;
-    background: rgba(2, 132, 199, 0.05);
-    border: 1px solid rgba(2, 132, 199, 0.16);
-    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-:root.dark .destinations-nav-link,
-.theme-dark .destinations-nav-link,
-body.dark .destinations-nav-link {
-    background: rgba(56, 189, 248, 0.06);
-    border-color: rgba(56, 189, 248, 0.2);
-}
-
-.destinations-nav-link:hover {
-    background: rgba(2, 132, 199, 0.1);
-    border-color: rgba(2, 132, 199, 0.4);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 14px rgba(2, 132, 199, 0.15);
-}
-
-:root.dark .destinations-nav-link:hover,
-.theme-dark .destinations-nav-link:hover,
-body.dark .destinations-nav-link:hover {
-    background: rgba(56, 189, 248, 0.12);
-    border-color: rgba(56, 189, 248, 0.45);
-    box-shadow: 0 4px 18px rgba(56, 189, 248, 0.2);
-}
-
-.destinations-nav-link.active {
-    background: linear-gradient(135deg, rgba(2, 132, 199, 0.16), rgba(14, 165, 233, 0.1));
-    border-color: #0284c7;
-    color: #0284c7;
-    box-shadow: 0 4px 14px rgba(2, 132, 199, 0.2);
-}
-
-:root.dark .destinations-nav-link.active,
-.theme-dark .destinations-nav-link.active,
-body.dark .destinations-nav-link.active {
-    background: linear-gradient(135deg, rgba(56, 189, 248, 0.22), rgba(14, 165, 233, 0.12));
-    border-color: #38bdf8;
-    color: #38bdf8;
-    box-shadow: 0 4px 20px rgba(56, 189, 248, 0.28);
-}
-
-/* Updated Destination Icon Container */
-.destinations-icon-container {
-    width: 34px !important;
-    height: 34px !important;
-    border-radius: 9px !important;
-    background: linear-gradient(135deg, #0284c7, #0ea5e9) !important;
-    color: #ffffff !important;
-    box-shadow: 0 2px 8px rgba(2, 132, 199, 0.35);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.destinations-nav-link:hover .destinations-icon-container {
-    transform: scale(1.08) rotate(-4deg);
-    box-shadow: 0 4px 14px rgba(2, 132, 199, 0.5);
-}
-
-/* Updated Destination Content & Typography */
-.destinations-item-content {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex: 1;
-    min-width: 0;
-    gap: 8px;
-}
-
-.destinations-text-group {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    min-width: 0;
-    gap: 1px;
-}
-
-.destinations-item-label {
-    font-size: 0.95rem !important;
-    font-weight: 700 !important;
-    letter-spacing: -0.01em;
-    color: inherit;
-    line-height: 1.25;
-}
-
-.destinations-item-sub {
-    font-size: 0.68rem;
-    color: #64748b;
-    font-weight: 500;
-    line-height: 1.2;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-:root.dark .destinations-item-sub,
-.theme-dark .destinations-item-sub,
-body.dark .destinations-item-sub {
-    color: #94a3b8;
-}
-
-/* Updated 195+ Badge Pill */
-.destinations-badge-pill,
-.destinations-badge {
-    margin-left: auto !important;
-    flex: 0 0 auto !important;
-    font-size: 0.68rem !important;
-    font-weight: 700 !important;
-    padding: 2px 7px !important;
-    border-radius: 9999px !important;
-    background: rgba(2, 132, 199, 0.12) !important;
-    color: #0284c7 !important;
-    border: 1px solid rgba(2, 132, 199, 0.25) !important;
-    letter-spacing: 0.02em;
-    line-height: 1 !important;
-    white-space: nowrap !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-}
-
-.destinations-nav-link.active .destinations-badge-pill,
-.destinations-nav-link.active .destinations-badge {
-    background: linear-gradient(135deg, #0284c7, #38bdf8) !important;
-    color: #ffffff !important;
-    border: none !important;
-    box-shadow: 0 2px 6px rgba(2, 132, 199, 0.35);
-}
-
-:root.dark .destinations-badge-pill,
-:root.dark .destinations-badge,
-.theme-dark .destinations-badge-pill,
-.theme-dark .destinations-badge,
-body.dark .destinations-badge-pill,
-body.dark .destinations-badge {
-    background: rgba(56, 189, 248, 0.15) !important;
-    color: #38bdf8 !important;
-    border-color: rgba(56, 189, 248, 0.3) !important;
-}
-
-:root.dark .destinations-nav-link.active .destinations-badge-pill,
-:root.dark .destinations-nav-link.active .destinations-badge,
-.theme-dark .destinations-nav-link.active .destinations-badge-pill,
-.theme-dark .destinations-nav-link.active .destinations-badge,
-body.dark .destinations-nav-link.active .destinations-badge-pill,
-body.dark .destinations-nav-link.active .destinations-badge {
-    background: linear-gradient(135deg, #0284c7, #38bdf8) !important;
-    color: #ffffff !important;
-    border: none !important;
-}
-
-/* Collapsed Mode: Destination button updated size */
-.travel-sidebar.collapsed .destinations-nav-link {
-    width: 50px !important;
-    height: 50px !important;
-    margin: 0 auto;
-    padding: 0 !important;
-    border-radius: 14px !important;
-}
-
-.travel-sidebar.collapsed .destinations-icon-container {
-    width: 38px !important;
-    height: 38px !important;
-}
-
-/* Small Screens Responsive Updates for Destination in Sidebar */
-@media (max-width: 900px) {
-    .destinations-nav-link {
-        min-height: 52px;
-        padding: 0.75rem 0.95rem;
-    }
-
-    .destinations-item-label {
-        font-size: 1.02rem !important;
-    }
-
-    .destinations-icon-container {
-        width: 36px !important;
-        height: 36px !important;
     }
 }
