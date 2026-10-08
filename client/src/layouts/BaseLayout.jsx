@@ -145,7 +145,7 @@ const BaseLayout = ({ children }) => {
     const currentHeaderHeight = isMobile
         ? (hasModuleNav ? '118px' : '94px')
         : (hasModuleNav ? '128px' : '98px');
-    const currentSidebarWidth = isMobile ? '0px' : (isSidebarCollapsed ? '76px' : '255px');
+    const currentSidebarWidth = isMobile ? '0px' : (isSidebarCollapsed ? '76px' : '268px');
     const currentRightSidebarWidth = isRightDocked ? '320px' : '0px';
 
     const rootClasses = [
@@ -191,9 +191,6 @@ const BaseLayout = ({ children }) => {
                 onClose={() => toggleMobileSidebar(false)}
             />
 
-            {/* Early Access / Demo status indicator banner */}
-            <EarlyAccessBanner />
-
             {/* 2. Top App Header & Command Navigation */}
             <NavbarV3
                 toggleSidebar={toggleSidebar}
@@ -212,6 +209,8 @@ const BaseLayout = ({ children }) => {
 
             {/* 4. Main Page Content Structure */}
             <main className={mainClasses} id="main-content-region">
+                {/* Early Access / Demo status indicator banner */}
+                <EarlyAccessBanner />
                 <NomadDock />
 
                 {/* Mobile Right Sidebar Backdrop Overlay */}

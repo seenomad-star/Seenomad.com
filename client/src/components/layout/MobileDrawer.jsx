@@ -2,12 +2,9 @@ import React, { useEffect, useRef, useCallback } from 'react';
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import {
     Home,
-    Compass,
     Map,
     Video,
-    Sparkles,
     Calendar,
-    Bot,
     Tag,
     TrendingUp,
     Users,
@@ -21,25 +18,42 @@ import {
     X,
     ChevronRight,
     Bookmark,
-    Flame,
-    Backpack,
-    ShieldCheck,
-    Wifi,
     Building2,
     Star,
     Gift,
-    Newspaper
+    Newspaper,
+    BookOpen,
+    UserCheck,
+    Shield,
+    Navigation,
+    FileText,
+    GitBranch,
+    Radar,
+    Palmtree,
+    DollarSign,
+    Megaphone,
+    Camera,
+    Mic,
+    GraduationCap,
+    Brain,
+    LayoutGrid
 } from 'lucide-react';
 import { useNavStore } from '../../store/navStore';
 import { useToastStore } from '../../store/toastStore';
 import { useNomadOSStore } from '../../store/nomadOSStore';
 import { useSavedStore } from '../../store/savedStore';
-import ThemeToggle from '../common/ThemeToggle';
+import {
+    LineArtExploreIcon,
+    LineArtTripBuilderIcon,
+    LineArtAIStudioIcon,
+    LineArtTrendingIcon
+} from './Sidebar';
 import '../../styles/MobileDrawer.css';
 
 /**
  * MobileDrawer Component
- * Synchronized with Sidebar.jsx to provide all grouped features on mobile screens.
+ * Synchronized with Sidebar.jsx and MobileDrawer.css so it remains strictly hidden
+ * on desktop (>900px) and renders a responsive sliding drawer on mobile/tablet (<=900px).
  */
 const MobileDrawer = ({ isOpen: propIsOpen, onClose: propOnClose }) => {
     const navigate = useNavigate();
@@ -103,10 +117,10 @@ const MobileDrawer = ({ isOpen: propIsOpen, onClose: propOnClose }) => {
         touchCurrentXRef.current = null;
     };
 
-    // Synchronized 4-group navigation structure
+    // Synchronized 4-group navigation structure matching Sidebar.jsx
     const navSections = [
         {
-            title: 'Feed, Explore & Trending',
+            title: 'FEED & EXPLORE',
             items: [
                 {
                     icon: Home,
@@ -118,7 +132,7 @@ const MobileDrawer = ({ isOpen: propIsOpen, onClose: propOnClose }) => {
                     description: 'Live nomad stories, reviews & updates'
                 },
                 {
-                    icon: Compass,
+                    icon: LineArtExploreIcon,
                     label: 'Explore',
                     to: '/explore/destinations',
                     isExploreHero: true,
@@ -127,7 +141,7 @@ const MobileDrawer = ({ isOpen: propIsOpen, onClose: propOnClose }) => {
                     description: 'Discover 195+ Countries & Hubs'
                 },
                 {
-                    icon: Flame,
+                    icon: LineArtTrendingIcon,
                     label: 'Trending & Popular',
                     to: '/popular',
                     badge: 'Hot',
@@ -136,11 +150,11 @@ const MobileDrawer = ({ isOpen: propIsOpen, onClose: propOnClose }) => {
                 },
                 {
                     icon: Video,
-                    label: 'Reels & Shorts',
-                    to: '/explore/shorts',
-                    badge: '9:16',
+                    label: 'Vibes',
+                    to: '/explore/vibes',
+                    badge: 'Live Vibe',
                     badgeType: 'accent',
-                    description: 'Vertical travel reels & creator shorts'
+                    description: 'Sensory travel vibes, ambient soundscapes & trip cloning'
                 },
                 {
                     icon: Map,
@@ -161,76 +175,218 @@ const MobileDrawer = ({ isOpen: propIsOpen, onClose: propOnClose }) => {
             ]
         },
         {
-            title: 'Travel Tools & AI Studio',
+            title: 'TRAVEL TOOLS',
             items: [
                 {
-                    icon: Backpack,
-                    label: 'Trip & Itinerary Builder',
-                    to: '/explore/trip-builder',
-                    badge: 'Builder',
+                    icon: Plane,
+                    label: 'Book Travel',
+                    to: '/explore/book-travel',
+                    badge: 'Book',
                     badgeType: 'info',
-                    description: 'Modular itinerary studio & templates'
+                    description: 'Flights, Hotels, Holidays, Trains, Buses & Cabs'
                 },
                 {
-                    icon: Sparkles,
-                    label: 'Nomad AI Tools',
-                    to: '/explore/ai-studio',
-                    badge: '4-in-1 AI',
-                    badgeType: 'ai',
-                    description: 'Triipper, Super Agent, Twin & Travel Bug'
+                    icon: Radar,
+                    label: 'Flight Tracker',
+                    to: '/explore/flights-visa',
+                    badge: 'Live',
+                    badgeType: 'accent',
+                    description: 'Flight corridors & onward ticket rules'
                 },
                 {
-                    icon: ShieldCheck,
-                    label: 'Visa Info & Embassy',
+                    icon: Building2,
+                    label: 'Hotel Finder',
+                    to: '/explore/hotel-finder',
+                    badge: 'Stays',
+                    badgeType: 'info',
+                    description: 'Compare coliving stays, hotels & costs'
+                },
+                {
+                    icon: FileText,
+                    label: 'Visa Info',
                     to: '/explore/visa',
                     badge: '2026',
                     badgeType: 'success',
                     description: 'Visa requirement summary & consular FAQ'
                 },
                 {
-                    icon: Plane,
-                    label: 'Book Travel & Multi-City',
-                    to: '/explore/seenomad-multi',
-                    badge: '4-Leg',
-                    badgeType: 'accent',
-                    description: 'Multi-part expedition booking & routing'
-                },
-                {
-                    icon: Plane,
-                    label: 'Flight Tracker & Matrix',
-                    to: '/explore/flights-visa',
-                    badge: 'Live',
+                    icon: GitBranch,
+                    label: 'Itinerary Builder',
+                    to: '/explore/planner',
+                    badge: 'Routes',
                     badgeType: 'info',
-                    description: 'Flight corridors & onward ticket rules'
+                    description: 'Day-by-day route planner & scheduler'
                 },
                 {
-                    icon: Building2,
-                    label: 'Hotel & Coliving Finder',
-                    to: '/explore/compare-destinations',
-                    badge: 'Stays',
+                    icon: Star,
+                    label: 'Reviews',
+                    to: '/explore/reviews',
+                    badge: 'Verified',
                     badgeType: 'info',
-                    description: 'Compare coliving stays, hotels & costs'
+                    description: 'Verified traveler reviews & ratings'
                 },
                 {
-                    icon: Wifi,
-                    label: 'Wi-Fi Speed & Market',
-                    to: '/explore/connectivity-market',
-                    badge: 'Fiber',
+                    icon: Gift,
+                    label: 'Rewards',
+                    to: '/explore/passport-perks',
+                    badge: 'Perks',
                     badgeType: 'success',
-                    description: 'Workspace speed map & local guides'
+                    description: 'Nomad perks, eSIMs & partner discounts'
                 },
                 {
-                    icon: Bot,
-                    label: 'AI Travel Concierge',
-                    to: '/ai-agents',
-                    badge: 'Copilot',
+                    icon: BookOpen,
+                    label: 'Destination Guides',
+                    to: '/explore/trivenly',
+                    badge: 'Playbooks',
+                    badgeType: 'info',
+                    description: 'Curated city playbooks & local guides'
+                },
+                {
+                    icon: Palmtree,
+                    label: 'Local Experiences',
+                    to: '/learning-voluntourism',
+                    badge: 'Curated',
+                    badgeType: 'accent',
+                    description: 'Cultural workshops, courses & immersions'
+                },
+                {
+                    icon: UserCheck,
+                    label: 'Travel Agents',
+                    to: '/explore/guardians',
+                    badge: 'Fixers',
+                    badgeType: 'info',
+                    description: 'Verified local travel agents & fixers'
+                },
+                {
+                    icon: Shield,
+                    label: 'Insurance',
+                    to: '/support-utility',
+                    badge: 'Safety',
+                    badgeType: 'success',
+                    description: 'Nomad medical insurance & safety monitor'
+                },
+                {
+                    icon: Navigation,
+                    label: 'Nearby Places',
+                    to: '/explore/speed-test',
+                    badge: 'Radar',
+                    badgeType: 'accent',
+                    description: 'Nearby work cafes, coworking spots & hubs'
+                },
+                {
+                    icon: LineArtTripBuilderIcon,
+                    label: 'Trip Builder',
+                    to: '/explore/trip-builder',
+                    badge: 'Studio',
+                    badgeType: 'info',
+                    description: 'Modular trip builder & templates'
+                },
+                {
+                    icon: LineArtAIStudioIcon,
+                    label: 'Nomad AI Studio',
+                    to: '/explore/ai-studio',
+                    badge: '4-in-1 AI',
                     badgeType: 'ai',
-                    description: '24/7 autonomous travel copilot'
+                    description: 'Triipper, Super Agent, Twin & Travel Bug'
                 }
             ]
         },
         {
-            title: 'Challenges, Milestones & Rewards',
+            title: 'TRIP PLANNING',
+            items: [
+                {
+                    icon: Luggage,
+                    label: 'My Trips & Journey',
+                    to: '/user/travel-journey',
+                    badge: 'Active',
+                    badgeType: 'info',
+                    description: 'Saved itineraries & travel map'
+                },
+                {
+                    icon: Tag,
+                    label: 'Travel Deals',
+                    to: '/business-partner/overview',
+                    badge: 'Save',
+                    badgeType: 'success',
+                    description: 'Exclusive partner stays & flights'
+                },
+                {
+                    icon: Calendar,
+                    label: 'Events & Festivals',
+                    to: '/event-festival',
+                    description: 'Global festivals & pop-up villages'
+                },
+                {
+                    icon: Newspaper,
+                    label: 'Travel News',
+                    to: '/insights-analytics',
+                    description: 'Global travel news & cost index'
+                },
+                {
+                    icon: Users,
+                    label: 'Community',
+                    to: '/community',
+                    badge: 'Meet',
+                    badgeType: 'info',
+                    description: 'Travel buddies & local chapters'
+                }
+            ]
+        },
+        {
+            title: 'CONTENT & MEDIA',
+            items: [
+                {
+                    icon: Camera,
+                    label: 'Photography',
+                    to: '/content-media/photography',
+                    badge: 'Gallery',
+                    badgeType: 'accent',
+                    description: 'Explore & share stunning travel photography'
+                },
+                {
+                    icon: Mic,
+                    label: 'Podcasts',
+                    to: '/content-media/podcasts',
+                    badge: 'Audio',
+                    badgeType: 'info',
+                    description: 'Nomad radio dispatches & creator interviews'
+                },
+                {
+                    icon: GraduationCap,
+                    label: 'Learning',
+                    to: '/content-media/learning',
+                    badge: 'Academy',
+                    badgeType: 'success',
+                    description: 'Masterclasses on photography, remote work & languages'
+                },
+                {
+                    icon: Brain,
+                    label: 'Travel Quiz',
+                    to: '/content-media/travel-quiz',
+                    badge: 'XP',
+                    badgeType: 'warning',
+                    description: 'Test your geography & nomad trivia for bonus XP'
+                },
+                {
+                    icon: LayoutGrid,
+                    label: 'Post Templates',
+                    to: '/content-media/post-templates',
+                    badge: 'Viral',
+                    badgeType: 'hot',
+                    description: 'Ready-to-use carousel, reel & itinerary hooks'
+                },
+                {
+                    icon: Calendar,
+                    label: 'Content Calendar',
+                    to: '/content-media/content-calendar',
+                    badge: 'Plan',
+                    badgeType: 'info',
+                    description: 'Schedule reels, photo drops & podcast episodes'
+                }
+            ]
+        },
+        {
+            title: 'QUESTS & RANKINGS',
             items: [
                 {
                     icon: Trophy,
@@ -242,7 +398,7 @@ const MobileDrawer = ({ isOpen: propIsOpen, onClose: propOnClose }) => {
                 },
                 {
                     icon: Award,
-                    label: 'Milestones & Passport',
+                    label: 'Milestones',
                     to: '/user/achievements',
                     badge: 'Stamps',
                     badgeType: 'accent',
@@ -254,72 +410,63 @@ const MobileDrawer = ({ isOpen: propIsOpen, onClose: propOnClose }) => {
                     to: '/explore/rivalry',
                     badge: 'Rank',
                     badgeType: 'hot',
-                    description: 'Global explorer leaderboard'
-                },
-                {
-                    icon: Gift,
-                    label: 'Rewards & Perks',
-                    to: '/explore/passport-perks',
-                    badge: '40% Off',
-                    badgeType: 'success',
-                    description: 'Nomad rewards, eSIM deals & perks'
+                    description: 'Global nomad XP rankings'
                 }
             ]
         },
         {
-            title: 'Community, News, Deals & Events',
+            title: 'BUSINESS',
             items: [
                 {
-                    icon: Users,
-                    label: 'Community & Guardians',
-                    to: '/community',
-                    badge: 'Meet',
-                    badgeType: 'info',
-                    description: 'Traveler community & local guardians'
-                },
-                {
-                    icon: Star,
-                    label: 'Reviews & Travel Tips',
-                    to: '/explore/culture-community',
-                    badge: 'Verified',
-                    badgeType: 'info',
-                    description: 'Traveler reviews, etiquette & local tips'
-                },
-                {
-                    icon: Newspaper,
-                    label: 'Travel News & Trends',
-                    to: '/insights-analytics',
-                    badge: 'Intel',
-                    badgeType: 'info',
-                    description: 'Global travel news & safety analytics'
-                },
-                {
-                    icon: Tag,
-                    label: 'Travel Deals',
-                    to: '/business-partner',
-                    badge: 'Deals',
+                    icon: DollarSign,
+                    label: 'Monetize',
+                    to: '/business-partner/monetize',
+                    badge: '+24%',
                     badgeType: 'success',
-                    description: 'Flight, hotel & coliving partner deals'
+                    description: 'Tips, subscriptions, brand deals & digital products'
                 },
                 {
-                    icon: Calendar,
-                    label: 'Events & Festivals',
-                    to: '/event-festival',
-                    badge: '85+ Cities',
+                    icon: DollarSign,
+                    label: 'Creator Earnings',
+                    to: '/business-partner/creator-earnings',
+                    badge: '$48.9k',
+                    badgeType: 'info',
+                    description: 'Creator payouts, revenue ledger & invoices'
+                },
+                {
+                    icon: TrendingUp,
+                    label: 'Analytics',
+                    to: '/business-partner/analytics',
+                    badge: 'RPM',
                     badgeType: 'accent',
-                    description: 'Global cultural gatherings & pop-ups'
+                    description: 'Audience geography, conversions & content ROI'
                 },
                 {
-                    icon: Luggage,
-                    label: 'My Trips & Journey',
-                    to: '/user/travel-journey',
-                    description: 'Saved routes & bucket list'
+                    icon: Megaphone,
+                    label: 'Ad Manager',
+                    to: '/business-partner/ad-manager',
+                    badge: 'Ads',
+                    badgeType: 'info',
+                    description: 'Promote stays, tours & creator reels'
+                },
+                {
+                    icon: Building2,
+                    label: 'Corporate',
+                    to: '/business-partner/corporate',
+                    badge: 'B2B',
+                    badgeType: 'info',
+                    description: 'Corporate retreats, policy manager & invoicing'
                 }
             ]
         }
     ];
 
-    const handleCreateAction = () => {
+    const handleNavigate = (path) => {
+        navigate(path);
+        handleClose();
+    };
+
+    const handleShareStory = () => {
         handleClose();
         if (location.pathname !== '/') {
             navigate('/');
@@ -328,46 +475,43 @@ const MobileDrawer = ({ isOpen: propIsOpen, onClose: propOnClose }) => {
         addToast('Ready to share your travel story! ✨', 'info');
     };
 
-    const handleQuickPlan = (e) => {
-        e.stopPropagation();
+    const handlePlanTrip = () => {
         handleClose();
         navigate('/explore/trip-builder');
         addToast('Opening Trip & Itinerary Builder Studio! 🗺️', 'success');
     };
 
     return (
-        <aside
-            className={`mobile-drawer-root ${isOpen ? 'is-open' : 'is-closed'}`}
-            aria-hidden={!isOpen}
-            id="mobile-navigation-drawer"
-        >
-            {/* Backdrop overlay */}
+        <div className={`mobile-drawer-root ${isOpen ? 'is-open' : ''}`} aria-hidden={!isOpen}>
             <div
                 className="mobile-drawer-backdrop"
                 onClick={handleClose}
-                aria-label="Close navigation drawer"
+                aria-hidden="true"
             />
 
-            {/* Sliding Drawer Panel */}
-            <div
+            <aside
                 ref={drawerRef}
                 className="mobile-drawer-panel"
+                aria-label="Mobile Navigation Drawer"
                 onTouchStart={handleTouchStart}
                 onTouchMove={handleTouchMove}
                 onTouchEnd={handleTouchEnd}
-                role="dialog"
-                aria-modal="true"
-                aria-label="Mobile Navigation Menu"
             >
-                {/* Drawer Header */}
+                {/* 1. Drawer Header */}
                 <div className="mobile-drawer-header">
-                    <div className="mobile-drawer-brand">
+                    <div
+                        className="mobile-drawer-brand"
+                        onClick={() => handleNavigate('/')}
+                        role="button"
+                        tabIndex={0}
+                        onKeyDown={(e) => e.key === 'Enter' && handleNavigate('/')}
+                    >
                         <div className="mobile-drawer-logo-icon">
-                            <Compass size={22} className="brand-compass-icon" />
+                            <Plane size={18} />
                         </div>
                         <div className="mobile-drawer-brand-text">
                             <span className="mobile-drawer-brand-name">SeeNomad</span>
-                            <span className="mobile-drawer-brand-badge">Travel OS</span>
+                            <span className="mobile-drawer-brand-badge">Global Travel OS</span>
                         </div>
                     </div>
 
@@ -376,166 +520,141 @@ const MobileDrawer = ({ isOpen: propIsOpen, onClose: propOnClose }) => {
                         className="mobile-drawer-close-btn"
                         onClick={handleClose}
                         aria-label="Close navigation menu"
-                        title="Close navigation menu"
                     >
                         <X size={20} />
                     </button>
                 </div>
 
-                {/* Quick Traveler Passport Strip */}
-                <div className="mobile-drawer-user-card">
-                    <NavLink
-                        to="/user/profile"
-                        className="mobile-drawer-profile-link"
-                        onClick={handleClose}
-                        title="View Traveler Profile"
-                    >
-                        <div className="mobile-user-avatar-wrap">
-                            <img
-                                src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80"
-                                alt="Alex Rover avatar"
-                                className="mobile-user-avatar-img"
-                            />
-                            <span className="mobile-user-status-dot" title="Active Explorer"></span>
-                        </div>
-                        <div className="mobile-user-info">
-                            <div className="mobile-user-name-row">
-                                <span className="mobile-user-name">Alex Rover</span>
-                                <span className="mobile-user-badge">Lvl {level || 4}</span>
-                            </div>
-                            <div className="mobile-user-meta">
-                                <span className="mobile-user-rank">{rank || 'Global Explorer'}</span>
-                                <span className="mobile-user-dot">•</span>
-                                <span className="mobile-user-stat">14 Countries</span>
-                            </div>
-                        </div>
-                        <ChevronRight size={16} className="mobile-user-chevron" />
-                    </NavLink>
-                </div>
-
-                {/* Primary Quick Actions */}
+                {/* 2. Primary Quick Actions */}
                 <div className="mobile-drawer-actions">
                     <button
                         type="button"
                         className="mobile-action-btn mobile-action-primary"
-                        onClick={handleCreateAction}
+                        onClick={handleShareStory}
                     >
-                        <Plus size={16} />
+                        <Plus size={16} strokeWidth={2.5} />
                         <span>Share Story</span>
                     </button>
                     <button
                         type="button"
                         className="mobile-action-btn mobile-action-ai"
-                        onClick={handleQuickPlan}
+                        onClick={handlePlanTrip}
                     >
-                        <Sparkles size={15} />
-                        <span>Trip Builder</span>
+                        <Plane size={15} strokeWidth={2.2} />
+                        <span>Plan Trip</span>
                     </button>
                 </div>
 
-                {/* Scrollable Navigation Items */}
-                <div className="mobile-drawer-scroll-body">
+                {/* 4. Scrollable Navigation List */}
+                <nav className="mobile-drawer-scroll-body">
                     {navSections.map((section, sIdx) => (
                         <div key={sIdx} className="mobile-nav-section">
-                            <div className="mobile-nav-section-title">
-                                <span>{section.title}</span>
-                            </div>
+                            <div className="mobile-nav-section-title">{section.title}</div>
                             <ul className="mobile-nav-list">
                                 {section.items.map((item, iIdx) => {
+                                    const isHome = item.to === '/';
+                                    const isMap = item.to.includes('view=map');
                                     const isExploreHero = Boolean(item.isExploreHero);
+
                                     return (
                                         <li
                                             key={iIdx}
                                             className={`mobile-nav-item ${isExploreHero ? 'mobile-destinations-item' : ''}`}
                                         >
-                                            {isExploreHero ? (
-                                                <NavLink
-                                                    to={item.to}
-                                                    end={false}
-                                                    className={({ isActive }) => {
-                                                        const isItemActive =
-                                                            isActive ||
-                                                            location.pathname.startsWith('/explore/destinations') ||
-                                                            location.pathname === '/explore' ||
-                                                            location.pathname.startsWith('/destinations');
-                                                        return `mobile-nav-link mobile-destinations-nav-link ${isItemActive ? 'active' : ''}`;
-                                                    }}
-                                                    onClick={handleClose}
-                                                    aria-label="Explore - Discover 195+ Countries"
-                                                >
-                                                    <div className="mobile-nav-icon-wrap mobile-destinations-icon-wrap">
-                                                        <item.icon size={20} className="mobile-nav-icon" />
-                                                    </div>
-                                                    <div className="mobile-destinations-text-group">
-                                                        <span className="mobile-destinations-title">Explore</span>
-                                                        <span className="mobile-destinations-subtitle">
-                                                            Discover 195+ Countries
-                                                        </span>
-                                                    </div>
-                                                    <span className="mobile-destinations-badge-pill">195+</span>
-                                                </NavLink>
-                                            ) : (
-                                                <NavLink
-                                                    to={item.to}
-                                                    end={item.exact}
-                                                    className={({ isActive }) =>
-                                                        `mobile-nav-link ${isActive ? 'active' : ''}`
+                                            <NavLink
+                                                to={item.to}
+                                                end={item.exact}
+                                                onClick={handleClose}
+                                                className={({ isActive }) => {
+                                                    let active = isActive;
+                                                    if (isHome) {
+                                                        active = location.pathname === '/';
+                                                    } else if (isMap) {
+                                                        active =
+                                                            location.pathname.startsWith('/explore') &&
+                                                            location.search.includes('view=map');
+                                                    } else if (item.to === '/explore/destinations') {
+                                                        active =
+                                                            (location.pathname === '/explore' ||
+                                                                location.pathname.startsWith('/explore/destinations')) &&
+                                                            !location.search.includes('view=map');
                                                     }
-                                                    onClick={handleClose}
+                                                    return `mobile-nav-link ${active ? 'active' : ''} ${
+                                                        isExploreHero ? 'mobile-destinations-nav-link' : ''
+                                                    }`;
+                                                }}
+                                            >
+                                                <span
+                                                    className={`mobile-nav-icon-wrap ${
+                                                        isExploreHero ? 'mobile-destinations-icon-wrap' : ''
+                                                    }`}
                                                 >
-                                                    <div className="mobile-nav-icon-wrap">
-                                                        <item.icon size={20} className="mobile-nav-icon" />
-                                                    </div>
-                                                    <div className="mobile-nav-text-group">
-                                                        <span className="mobile-nav-label">{item.label}</span>
-                                                        <span className="mobile-nav-desc">{item.description}</span>
-                                                    </div>
-                                                    {item.badge && (
+                                                    <item.icon size={18} strokeWidth={2} className="mobile-nav-icon" />
+                                                </span>
+                                                <div
+                                                    className={`mobile-nav-text-group ${
+                                                        isExploreHero ? 'mobile-destinations-text-group' : ''
+                                                    }`}
+                                                >
+                                                    <span
+                                                        className={`mobile-nav-label ${
+                                                            isExploreHero ? 'mobile-destinations-title' : ''
+                                                        }`}
+                                                    >
+                                                        {item.label}
+                                                    </span>
+                                                    {item.description && (
                                                         <span
-                                                            className={`mobile-nav-badge badge-${item.badgeType || 'default'}`}
+                                                            className={`mobile-nav-desc ${
+                                                                isExploreHero ? 'mobile-destinations-subtitle' : ''
+                                                            }`}
                                                         >
-                                                            {item.badge}
+                                                            {item.description}
                                                         </span>
                                                     )}
-                                                </NavLink>
-                                            )}
+                                                </div>
+                                                {item.badge && (
+                                                    <span
+                                                        className={`mobile-nav-badge badge-${
+                                                            item.badgeType || 'info'
+                                                        } ${isExploreHero ? 'mobile-destinations-badge-pill' : ''}`}
+                                                    >
+                                                        {item.badge}
+                                                    </span>
+                                                )}
+                                            </NavLink>
                                         </li>
                                     );
                                 })}
                             </ul>
                         </div>
                     ))}
-                </div>
+                </nav>
 
-                {/* Drawer Footer Utilities */}
+                {/* 5. Drawer Footer */}
                 <div className="mobile-drawer-footer">
                     <div className="mobile-drawer-util-row">
                         <NavLink
                             to="/settings"
-                            className="mobile-drawer-util-link"
                             onClick={handleClose}
+                            className="mobile-drawer-util-link"
                         >
                             <SettingsIcon size={16} />
-                            <span>Settings</span>
+                            <span>Settings & Theme</span>
                         </NavLink>
-                        <span className="mobile-drawer-util-divider">|</span>
+                        <span className="mobile-drawer-util-divider">•</span>
                         <NavLink
                             to="/support-utility"
-                            className="mobile-drawer-util-link"
                             onClick={handleClose}
+                            className="mobile-drawer-util-link"
                         >
                             <LifeBuoy size={16} />
-                            <span>Help & Support</span>
+                            <span>Help & Safety</span>
                         </NavLink>
                     </div>
-
-                    <div className="mobile-drawer-theme-row">
-                        <span className="mobile-drawer-theme-label">Theme Appearance</span>
-                        <ThemeToggle variant="pill" size={15} />
-                    </div>
                 </div>
-            </div>
-        </aside>
+            </aside>
+        </div>
     );
 };
 

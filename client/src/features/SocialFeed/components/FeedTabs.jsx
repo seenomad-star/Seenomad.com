@@ -22,7 +22,7 @@ const TABS = [
     { id: 'following', label: 'Following', icon: Users, badge: '48' },
     { id: 'trending', label: 'Trending', icon: Flame, badge: 'HOT' },
     { id: 'recent', label: 'Recent', icon: Clock, badge: 'LIVE' },
-    { id: 'shorts', label: 'Shorts & Reels', icon: PlaySquare, badge: 'REELS' },
+    { id: 'shorts', label: 'Travel Vibes', icon: PlaySquare, badge: 'VIBES' },
     { id: 'vlogs', label: 'Travel Vlogs', icon: Video, badge: '4K' },
     { id: 'events', label: 'Meetups & Events', icon: Calendar, badge: 'EVENTS' },
     { id: 'visuals', label: '📸 Galleries', icon: Camera },

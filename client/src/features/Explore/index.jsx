@@ -46,6 +46,8 @@ import NomadEventsHub from '../Social/NomadEventsHub';
 import NomadPassport from '../Security/NomadPassport';
 import NomadAIStudio from './components/NomadAIStudio';
 import ConsolidatedExploreSuites from './components/ConsolidatedExploreSuites';
+import BookTravelHub from '../BookingHub/BookTravelHub';
+import ReviewsAndRatings from '../BookingHub/components/ReviewsAndRatings';
 import './styles/Explore.css';
 
 const Explore = () => {
@@ -112,7 +114,10 @@ const Explore = () => {
                     <Route path="travel-bug-ai" element={<NomadAIStudio defaultEngine="travel-bug" />} />
                     <Route path="triipper/*" element={<NomadAIStudio defaultEngine="triipper" />} />
                     <Route path="triipper-ai/*" element={<NomadAIStudio defaultEngine="triipper" />} />
-                    <Route path="seenomad-multi" element={<SeeNomadMultiPart />} />
+                    <Route path="book-travel" element={<BookTravelHub defaultTab="flights" />} />
+                    <Route path="hotel-finder" element={<BookTravelHub defaultTab="hotels" />} />
+                    <Route path="reviews" element={<ReviewsAndRatings entityName="Global Nomad Destinations & Stays" />} />
+                    <Route path="seenomad-multi" element={<BookTravelHub defaultTab="flights" />} />
                     <Route path="seenomad-multi-part" element={<SeeNomadMultiPart />} />
                     <Route path="multi-part" element={<SeeNomadMultiPart />} />
                     <Route path="multi-city" element={<SeeNomadMultiPart />} />
@@ -135,6 +140,7 @@ const Explore = () => {
                     <Route path="flights-visa" element={<ConsolidatedExploreSuites suiteKey="connectivity-market" defaultTab="flights-visa" />} />
                     <Route path="planner" element={<NomadPlanner />} />
                     <Route path="trip-builder" element={<TripBuilder />} />
+                    <Route path="vibes" element={<NomadShortsFeed />} />
                     <Route path="shorts" element={<NomadShortsFeed />} />
                     <Route path="rivalry" element={<GlobalLeaderboard />} />
                     <Route path="rewards" element={<ReferralBounty />} />

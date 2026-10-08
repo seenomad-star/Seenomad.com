@@ -5,6 +5,16 @@
     display: none;
 }
 
+@media (min-width: 901px) {
+    .mobile-drawer-root,
+    .mobile-drawer-panel,
+    .mobile-drawer-backdrop {
+        display: none !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+    }
+}
+
 @media (max-width: 900px) {
     .mobile-drawer-root {
         display: block;
@@ -522,6 +532,11 @@
     }
 
     .mobile-nav-badge {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: auto !important;
+        max-width: max-content !important;
         font-size: 0.65rem;
         font-weight: 700;
         padding: 2px 7px;

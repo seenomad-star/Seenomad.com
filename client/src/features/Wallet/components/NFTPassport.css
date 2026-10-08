@@ -209,7 +209,7 @@
 }
 @keyframes rotate { to { transform: rotate(360deg); } }
 
-.badge-info { display: flex; flex-direction: column; gap: 4px; align-items: center; width: 100%; }
+.nft-passport-page .badge-info { display: flex; flex-direction: column; gap: 4px; align-items: center; width: 100%; }
 .badge-name { font-size: 12px; color: #fff; font-weight: 600; }
 .badge-rarity {
     font-size: 10px;

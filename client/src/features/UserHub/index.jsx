@@ -17,6 +17,10 @@ import DopamineDashboard from './components/DopamineDashboard';
 import TravelMap from './components/TravelMap';
 import SavedDestinationsHub from '../Saved/SavedDestinationsHub';
 import ViralShareModal from '../Growth/components/ViralShareModal';
+import Messaging from '../Community/components/Messaging';
+import NotificationCenter from '../Notifications/NotificationCenter';
+import CreatorTools from '../CreatorStudio/components/CreatorTools';
+import Settings from '../Settings';
 import '../../styles/UserHub.css';
 
 const UserHub = () => {
@@ -37,8 +41,12 @@ const UserHub = () => {
                 <ViralShareModal isOpen={isShareModalOpen} onClose={() => setIsShareModalOpen(false)} />
 
                 <Routes>
-                    <Route path="/" element={<Navigate to="wallet" replace />} />
+                    <Route path="/" element={<Navigate to="profile" replace />} />
                     <Route path="wallet/*" element={<WalletModule />} />
+                    <Route path="earnings" element={<CreatorTools />} />
+                    <Route path="messages" element={<Messaging />} />
+                    <Route path="notifications" element={<NotificationCenter />} />
+                    <Route path="settings" element={<Settings embedded />} />
                     <Route path="profile" element={<NomadProfile />} />
                     <Route path="favorites" element={<SavedDestinationsHub />} />
                     <Route path="saved" element={<SavedDestinationsHub />} />

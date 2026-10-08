@@ -72,7 +72,7 @@ const ShortsShelf = ({ onSelectShort, onExploreAll }) => {
     };
 
     return (
-        <section className="shorts-shelf-container" aria-label="Nomad Shorts and Reels Shelf">
+        <section className="shorts-shelf-container" aria-label="Nomad Vibes Shelf">
             <div className="shorts-shelf-header">
                 <div className="shorts-shelf-title-wrap">
                     <div className="shorts-shelf-icon-badge">
@@ -80,10 +80,10 @@ const ShortsShelf = ({ onSelectShort, onExploreAll }) => {
                     </div>
                     <div>
                         <div className="shorts-shelf-title-row">
-                            <h3 className="shorts-shelf-title">Nomad Shorts & Reels</h3>
-                            <span className="shorts-shelf-yt-badge">YouTube & IG</span>
+                            <h3 className="shorts-shelf-title">Nomad Vibes</h3>
+                            <span className="shorts-shelf-yt-badge">Sensory 360°</span>
                         </div>
-                        <p className="shorts-shelf-subtitle">Bite-sized travel hacks, drone views & secret spots</p>
+                        <p className="shorts-shelf-subtitle">Live destination atmospheres, soundscapes & hidden spots</p>
                     </div>
                 </div>
 

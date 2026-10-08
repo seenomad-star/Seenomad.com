@@ -23,6 +23,8 @@ import SEOManager from './components/SEOManager';
 import ErrorBoundary from './components/common/ErrorBoundary';
 import PageLoader from './components/common/PageLoader';
 import NotificationCenter from './features/Notifications/NotificationCenter';
+import Messaging from './features/Community/components/Messaging';
+import ContentMedia from './features/ContentMedia';
 
 // Lazy load heavy features
 const Community = lazy(() => import('./features/Community'));
@@ -73,6 +75,7 @@ function App() {
             } />
 
             <Route path="/business-partner/*" element={<BusinessPartner />} />
+            <Route path="/content-media/*" element={<ContentMedia />} />
             <Route path="/learning-voluntourism/*" element={<LearningVoluntourism />} />
             <Route path="/event-festival/*" element={<EventFestival />} />
             <Route path="/support-utility/*" element={<SupportUtility />} />
@@ -86,6 +89,8 @@ function App() {
             <Route path="/settings" element={<Settings />} />
             <Route path="/user/*" element={<UserHub />} />
             <Route path="/notifications" element={<NotificationCenter />} />
+            <Route path="/messages" element={<Messaging />} />
+            <Route path="/earnings" element={<Navigate to="/user/earnings" replace />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Route>
         </Routes>

@@ -5,7 +5,7 @@
 @property --current-sidebar-w {
   syntax: '<length>';
   inherits: true;
-  initial-value: 255px;
+  initial-value: 268px;
 }
 
 @property --current-right-sidebar-w {
@@ -15,7 +15,7 @@
 }
 
 :root {
-  --layout-sidebar-width: 255px;
+  --layout-sidebar-width: 268px;
   --layout-sidebar-collapsed-width: 76px;
   --layout-right-sidebar-width: 320px;
   --layout-top-nav-height: 60px;
@@ -121,9 +121,9 @@
 .base-layout-root.sidebar-expanded .main-content,
 .base-layout-root.sidebar-expanded .base-layout-main,
 .main-content:not(.expanded-left):not(.sidebar-collapsed) {
-  --current-sidebar-w: 255px;
-  margin-left: 255px;
-  width: calc(100% - 255px - var(--current-right-sidebar-w, 0px));
+  --current-sidebar-w: 268px;
+  margin-left: 268px;
+  width: calc(100% - 268px - var(--current-right-sidebar-w, 0px));
 }
 
 /* Left Sidebar Collapsed State (76px width) */
