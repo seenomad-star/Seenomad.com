@@ -42,7 +42,7 @@ const Community = () => {
         'Meetups',
         'Nomad Sparks',
         'Nexus Market',
-        'Reels',
+        'Vibes',
         'Stories',
         'Travel Blogs',
         'Creator Profiles',
@@ -160,7 +160,8 @@ const Community = () => {
                     <Route path="local-recommendations" element={<LocalRecommendations />} />
                     <Route path="nomad-sparks" element={<NomadSparks />} />
                     <Route path="nexus-market" element={<KnowledgeMarket />} />
-                    <Route path="reels" element={<button onClick={() => setIsShortsOpen(true)} className="shorts-trigger-btn">Launch Shorts Player</button>} />
+                    <Route path="vibes" element={<Reels />} />
+                    <Route path="reels" element={<Reels />} />
                     <Route path="stories" element={<Stories />} />
                     <Route path="travel-blogs" element={<Blogs />} />
                     <Route path="creator-profiles" element={<Profiles />} />
