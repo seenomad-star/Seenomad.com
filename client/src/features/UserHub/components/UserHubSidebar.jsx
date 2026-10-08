@@ -3,16 +3,19 @@ import { NavLink } from 'react-router-dom';
 import {
     Wallet, Tag, Award, Map, Zap, TrendingUp,
     ChevronRight, Star, Gift, Target, Briefcase, UserCheck, Globe, DollarSign,
-    Share2, Bookmark, User, MessageCircle, Bell, Settings as SettingsIcon
+    Share2, Bookmark, User, MessageCircle, Bell, Settings as SettingsIcon, Film
 } from 'lucide-react';
 import { useSavedStore } from '../../../store/savedStore';
+import { useSavedVibesStore } from '../../../store/savedVibesStore';
 
 const UserHubSidebar = () => {
     const savedCount = useSavedStore((state) => state.savedDestinations.length);
+    const savedVibesCount = useSavedVibesStore((state) => state.savedVibes.length);
 
     // Core Account Features matching the canonical top-right Account dropdown & user's reference
     const primaryAccountItems = [
         { id: 'nomad-cv', label: 'My Profile', icon: User, to: '/user/profile', badge: 'Verified' },
+        { id: 'saved-vibes', label: 'Saved Vibes', icon: Film, to: '/user/saved-vibes', badge: savedVibesCount > 0 ? String(savedVibesCount) : 'Clips' },
         { id: 'messages', label: 'Messages', icon: MessageCircle, to: '/user/messages', badge: '3' },
         { id: 'notifications', label: 'Notifications', icon: Bell, to: '/user/notifications', badge: '4' },
         { id: 'wallet', label: 'Wallet & Payouts', icon: Wallet, to: '/user/wallet' },

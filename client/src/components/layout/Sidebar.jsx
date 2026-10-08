@@ -294,10 +294,10 @@ const Sidebar = ({ isCollapsed, toggleSidebar, isMobileOpen, isMobile }) => {
                     {
                         icon: Map,
                         label: 'Travel Map',
-                        to: '/explore?view=map',
-                        badge: '3D Pin',
+                        to: '/explore/travel-map',
+                        badge: '3D Portal',
                         badgeType: 'info',
-                        description: 'Interactive global map & route visualization'
+                        description: 'Universal 360° virtual places, drone tour autopilot & 4D time-travel map'
                     }
                 ]
             },
@@ -764,10 +764,12 @@ const Sidebar = ({ isCollapsed, toggleSidebar, isMobileOpen, isMobile }) => {
 
                                                     if (isHome) {
                                                         active = location.pathname === '/';
-                                                    } else if (isMap) {
+                                                    } else if (item.to === '/explore/travel-map' || isMap) {
                                                         active =
-                                                            location.pathname.startsWith('/explore') &&
-                                                            location.search.includes('view=map');
+                                                            location.pathname.startsWith('/explore/travel-map') ||
+                                                            location.pathname.startsWith('/explore/map') ||
+                                                            (location.pathname.startsWith('/explore') &&
+                                                                location.search.includes('view=map'));
                                                     } else if (item.to === '/explore/destinations') {
                                                         active =
                                                             (location.pathname === '/explore' ||

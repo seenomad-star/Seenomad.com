@@ -1,0 +1,983 @@
+/* ==========================================================================
+   SeeNomad HoloAtlas™ — Universal Spatial Digital Twin & Virtual Tour Map
+   ========================================================================== */
+
+.holo-atlas-page {
+    max-width: 1420px;
+    margin: 0 auto;
+    padding: 1.5rem 2rem 4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.35rem;
+    color: var(--color-text-primary, #f8fafc);
+}
+
+:root:not(.dark) .holo-atlas-page {
+    color: #0f172a;
+}
+
+/* 1. Header */
+.holo-atlas-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    padding: 1.65rem 2rem;
+    border-radius: 22px;
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.94) 0%, rgba(30, 41, 59, 0.84) 100%);
+    border: 1px solid rgba(56, 189, 248, 0.25);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.25);
+}
+
+:root:not(.dark) .holo-atlas-header {
+    background: linear-gradient(135deg, #f0f9ff 0%, #f8fafc 100%);
+    border-color: #bae6fd;
+    box-shadow: 0 10px 26px rgba(15, 23, 42, 0.06);
+}
+
+.holo-brand-col {
+    max-width: 720px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.holo-kicker-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    width: fit-content;
+    padding: 0.26rem 0.75rem;
+    border-radius: 999px;
+    background: rgba(56, 189, 248, 0.16);
+    color: #38bdf8;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+}
+
+:root:not(.dark) .holo-kicker-badge {
+    background: #e0f2fe;
+    color: #0284c7;
+}
+
+.holo-brand-col h1 {
+    margin: 0;
+    font-size: clamp(1.55rem, 2.5vw, 2.15rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+.holo-brand-col p {
+    margin: 0;
+    font-size: 0.88rem;
+    color: #94a3b8;
+    line-height: 1.5;
+}
+
+:root:not(.dark) .holo-brand-col p {
+    color: #475569;
+}
+
+.holo-header-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.holo-surface-switcher {
+    display: inline-flex;
+    padding: 0.25rem;
+    border-radius: 12px;
+    background: rgba(15, 23, 42, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+:root:not(.dark) .holo-surface-switcher {
+    background: #ffffff;
+    border-color: #e2e8f0;
+}
+
+.holo-surf-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.38rem;
+    padding: 0.48rem 0.85rem;
+    border-radius: 9px;
+    border: none;
+    background: transparent;
+    color: #94a3b8;
+    font-size: 0.76rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.18s ease;
+}
+
+:root:not(.dark) .holo-surf-btn {
+    color: #475569;
+}
+
+.holo-surf-btn.active {
+    background: #0284c7;
+    color: #ffffff;
+}
+
+.holo-create-portal-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.62rem 1.1rem;
+    border-radius: 12px;
+    border: none;
+    background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
+    color: #ffffff;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(2, 132, 199, 0.3);
+}
+
+/* 2. Universal Domain Lens Switcher */
+.holo-lens-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.holo-domain-chips {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    overflow-x: auto;
+    padding-bottom: 0.2rem;
+    scrollbar-width: none;
+}
+
+.holo-domain-chips::-webkit-scrollbar {
+    display: none;
+}
+
+.holo-domain-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 0.9rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(15, 23, 42, 0.68);
+    color: #cbd5e1;
+    font-size: 0.78rem;
+    font-weight: 700;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.18s ease;
+}
+
+:root:not(.dark) .holo-domain-chip {
+    background: #ffffff;
+    border-color: #e2e8f0;
+    color: #334155;
+}
+
+.holo-domain-chip.active {
+    background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
+    border-color: transparent;
+    color: #ffffff;
+    box-shadow: 0 6px 16px rgba(2, 132, 199, 0.28);
+}
+
+.holo-search-and-autopilot {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+}
+
+.holo-search-input {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.48rem 0.85rem;
+    border-radius: 999px;
+    background: rgba(15, 23, 42, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    min-width: 240px;
+}
+
+:root:not(.dark) .holo-search-input {
+    background: #ffffff;
+    border-color: #e2e8f0;
+}
+
+.holo-search-input input {
+    border: none;
+    background: transparent;
+    color: inherit;
+    font-size: 0.78rem;
+    outline: none;
+    width: 100%;
+}
+
+.holo-search-input button {
+    border: none;
+    background: transparent;
+    color: #94a3b8;
+    cursor: pointer;
+    display: inline-flex;
+}
+
+.holo-autopilot-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 0.95rem;
+    border-radius: 999px;
+    border: 1px solid rgba(16, 185, 129, 0.4);
+    background: rgba(16, 185, 129, 0.14);
+    color: #34d399;
+    font-size: 0.78rem;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+:root:not(.dark) .holo-autopilot-btn {
+    background: #ecfdf5;
+    color: #047857;
+}
+
+.holo-autopilot-btn.playing {
+    background: #10b981;
+    color: #022c22;
+}
+
+/* 3. Main Interactive Workspace Grid */
+.holo-workspace-grid {
+    display: grid;
+    gap: 1.35rem;
+}
+
+.holo-workspace-grid.mode-split {
+    grid-template-columns: 1.05fr 1.15fr;
+}
+
+.holo-workspace-grid.mode-map-only,
+.holo-workspace-grid.mode-portal-360 {
+    grid-template-columns: 1fr;
+}
+
+/* Map Stage Card */
+.holo-map-stage-card,
+.holo-portal-card {
+    border-radius: 22px;
+    overflow: hidden;
+    background: rgba(15, 23, 42, 0.84);
+    border: 1px solid rgba(56, 189, 248, 0.2);
+    display: flex;
+    flex-direction: column;
+}
+
+:root:not(.dark) .holo-map-stage-card,
+:root:not(.dark) .holo-portal-card {
+    background: #ffffff;
+    border-color: #e2e8f0;
+    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.06);
+}
+
+.holo-stage-top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.85rem 1.15rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+}
+
+:root:not(.dark) .holo-stage-top-bar {
+    border-bottom-color: #f1f5f9;
+}
+
+.holo-radar-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: #38bdf8;
+}
+
+.holo-live-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #10b981;
+    box-shadow: 0 0 10px #10b981;
+}
+
+.holo-route-summary-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.22rem 0.65rem;
+    border-radius: 999px;
+    background: rgba(168, 85, 247, 0.16);
+    color: #c084fc;
+}
+
+/* Interactive Vector Map Canvas */
+.holo-map-canvas {
+    position: relative;
+    height: 430px;
+    background: radial-gradient(circle at 50% 45%, #0f172a 0%, #020617 100%);
+    overflow: hidden;
+}
+
+.holo-world-svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.holo-map-pin {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    z-index: 5;
+    padding: 0;
+}
+
+.holo-pin-pulse {
+    position: absolute;
+    top: 2px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(56, 189, 248, 0.28);
+    animation: holoPulse 2.2s infinite ease-out;
+}
+
+@keyframes holoPulse {
+    0% {
+        transform: scale(0.7);
+        opacity: 0.9;
+    }
+    100% {
+        transform: scale(1.85);
+        opacity: 0;
+    }
+}
+
+.holo-pin-core {
+    position: relative;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #0284c7;
+    border: 2px solid #bae6fd;
+    color: #ffffff;
+    font-size: 0.7rem;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 14px rgba(2, 132, 199, 0.55);
+}
+
+.holo-map-pin.selected .holo-pin-core {
+    background: #10b981;
+    border-color: #ffffff;
+    transform: scale(1.2);
+    box-shadow: 0 0 18px rgba(16, 185, 129, 0.85);
+}
+
+.holo-pin-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.2rem 0.5rem;
+    border-radius: 8px;
+    background: rgba(2, 6, 23, 0.86);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    color: #f8fafc;
+    white-space: nowrap;
+}
+
+.holo-pin-label strong {
+    font-size: 0.68rem;
+}
+
+.holo-pin-label small {
+    font-size: 0.58rem;
+    color: #38bdf8;
+}
+
+/* Waypoint Strip */
+.holo-waypoint-strip {
+    padding: 0.75rem 1.1rem;
+    background: rgba(2, 6, 23, 0.55);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    flex-wrap: wrap;
+}
+
+:root:not(.dark) .holo-waypoint-strip {
+    background: #f8fafc;
+    border-top-color: #e2e8f0;
+}
+
+.holo-waypoint-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #38bdf8;
+}
+
+.holo-waypoint-chips {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+}
+
+.holo-wp-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.26rem 0.65rem;
+    border-radius: 999px;
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    background: rgba(15, 23, 42, 0.7);
+    color: #e2e8f0;
+    font-size: 0.72rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+:root:not(.dark) .holo-wp-chip {
+    background: #ffffff;
+    color: #1e293b;
+}
+
+.holo-wp-chip.active {
+    background: #0284c7;
+    color: #ffffff;
+}
+
+.holo-wp-num {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    font-size: 0.64rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.holo-wp-arrow {
+    color: #64748b;
+}
+
+/* 360 Portal Viewport */
+.holo-portal-viewport {
+    position: relative;
+    height: 330px;
+    background: #020617;
+    overflow: hidden;
+}
+
+.holo-portal-media {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: filter 0.4s ease, transform 6s ease;
+}
+
+.holo-portal-media.era-past {
+    filter: sepia(0.45) contrast(1.08);
+}
+
+.holo-portal-media.era-future {
+    filter: saturate(1.35) hue-rotate(12deg) contrast(1.08);
+}
+
+.holo-portal-scrim {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(2, 6, 23, 0.65) 0%, transparent 40%, rgba(2, 6, 23, 0.88) 100%);
+    pointer-events: none;
+}
+
+.holo-portal-top-bar {
+    position: absolute;
+    top: 0.8rem;
+    left: 0.9rem;
+    right: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    z-index: 4;
+}
+
+.holo-portal-badges,
+.holo-portal-top-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+}
+
+.holo-badge-live {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.24rem 0.62rem;
+    border-radius: 999px;
+    background: rgba(220, 38, 38, 0.88);
+    color: #ffffff;
+    font-size: 0.66rem;
+    font-weight: 800;
+}
+
+.holo-badge-domain,
+.holo-badge-viewers {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.24rem 0.62rem;
+    border-radius: 999px;
+    background: rgba(15, 23, 42, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    color: #f8fafc;
+    font-size: 0.68rem;
+    font-weight: 700;
+}
+
+.holo-icon-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.32rem;
+    padding: 0.28rem 0.68rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(15, 23, 42, 0.78);
+    color: #f8fafc;
+    font-size: 0.7rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.holo-icon-pill.active,
+.holo-icon-pill.in-route {
+    background: #0284c7;
+    border-color: #38bdf8;
+}
+
+/* Interactive Spatial Hotspots */
+.holo-hotspots-layer {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+}
+
+.holo-hotspot-anchor {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    pointer-events: auto;
+}
+
+.holo-hotspot-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.24rem 0.6rem;
+    border-radius: 999px;
+    border: 1px solid rgba(56, 189, 248, 0.6);
+    background: rgba(2, 6, 23, 0.82);
+    color: #ffffff;
+    font-size: 0.68rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+}
+
+.holo-hotspot-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #38bdf8;
+}
+
+.holo-hotspot-popover {
+    margin-top: 0.35rem;
+    padding: 0.55rem 0.75rem;
+    border-radius: 10px;
+    background: rgba(15, 23, 42, 0.95);
+    border: 1px solid #38bdf8;
+    color: #f8fafc;
+    min-width: 190px;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.5);
+}
+
+.holo-hotspot-popover strong {
+    display: block;
+    font-size: 0.74rem;
+    color: #38bdf8;
+}
+
+.holo-hotspot-popover p {
+    margin: 0.2rem 0 0;
+    font-size: 0.68rem;
+    color: #cbd5e1;
+}
+
+/* 4D Chrono-Slider */
+.holo-chrono-bar {
+    position: absolute;
+    bottom: 0.75rem;
+    left: 0.9rem;
+    right: 0.9rem;
+    z-index: 4;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    padding: 0.45rem 0.75rem;
+    border-radius: 12px;
+    background: rgba(2, 6, 23, 0.82);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.holo-chrono-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #38bdf8;
+}
+
+.holo-chrono-buttons {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+}
+
+.holo-chrono-btn {
+    padding: 0.28rem 0.65rem;
+    border-radius: 8px;
+    border: none;
+    background: rgba(255, 255, 255, 0.08);
+    color: #cbd5e1;
+    font-size: 0.7rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.holo-chrono-btn.active {
+    background: linear-gradient(135deg, #0284c7 0%, #7c3aed 100%);
+    color: #ffffff;
+}
+
+/* Portal Details Body */
+.holo-portal-body {
+    padding: 1.15rem 1.35rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    flex: 1;
+}
+
+.holo-portal-title-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem;
+}
+
+.holo-coords-line {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.75rem;
+    color: #38bdf8;
+    font-weight: 700;
+}
+
+.holo-coords-line small {
+    color: #94a3b8;
+}
+
+.holo-portal-title-row h2 {
+    margin: 0.2rem 0 0;
+    font-size: 1.2rem;
+    font-weight: 800;
+}
+
+.holo-era-year-badge {
+    padding: 0.25rem 0.65rem;
+    border-radius: 999px;
+    background: rgba(168, 85, 247, 0.16);
+    border: 1px solid rgba(168, 85, 247, 0.35);
+    color: #c084fc;
+    font-size: 0.7rem;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.holo-era-story-box {
+    padding: 0.75rem 0.95rem;
+    border-radius: 12px;
+    background: rgba(30, 41, 59, 0.55);
+    border-left: 3px solid #38bdf8;
+}
+
+:root:not(.dark) .holo-era-story-box {
+    background: #f8fafc;
+}
+
+.holo-era-story-box strong {
+    display: block;
+    font-size: 0.82rem;
+    margin-bottom: 0.2rem;
+}
+
+.holo-era-story-box p {
+    margin: 0;
+    font-size: 0.78rem;
+    color: #94a3b8;
+    line-height: 1.45;
+}
+
+:root:not(.dark) .holo-era-story-box p {
+    color: #475569;
+}
+
+.holo-telemetry-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.6rem;
+}
+
+.holo-tel-box {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.55rem 0.7rem;
+    border-radius: 10px;
+    background: rgba(30, 41, 59, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    color: #38bdf8;
+}
+
+:root:not(.dark) .holo-tel-box {
+    background: #f8fafc;
+    border-color: #e2e8f0;
+}
+
+.holo-tel-box div {
+    display: flex;
+    flex-direction: column;
+}
+
+.holo-tel-box small {
+    font-size: 0.64rem;
+    color: #94a3b8;
+}
+
+.holo-tel-box strong {
+    font-size: 0.75rem;
+    color: var(--color-text-primary, #f8fafc);
+}
+
+:root:not(.dark) .holo-tel-box strong {
+    color: #0f172a;
+}
+
+.holo-portal-actions {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+}
+
+.holo-btn-primary {
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 0.62rem 1rem;
+    border-radius: 11px;
+    border: none;
+    background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
+    color: #ffffff;
+    font-size: 0.78rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.holo-btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.62rem 0.9rem;
+    border-radius: 11px;
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    background: transparent;
+    color: inherit;
+    font-size: 0.76rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+/* 4. Directory Deck */
+.holo-directory-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+}
+
+.holo-dir-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.holo-dir-header h3 {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 800;
+}
+
+.holo-dir-header span {
+    font-size: 0.78rem;
+    color: #94a3b8;
+}
+
+.holo-dir-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.holo-dir-card {
+    border-radius: 16px;
+    overflow: hidden;
+    background: rgba(15, 23, 42, 0.72);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.18s ease;
+}
+
+:root:not(.dark) .holo-dir-card {
+    background: #ffffff;
+    border-color: #e2e8f0;
+}
+
+.holo-dir-card.active {
+    border-color: #38bdf8;
+    box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.28);
+}
+
+.holo-dir-thumb {
+    position: relative;
+    height: 135px;
+    overflow: hidden;
+}
+
+.holo-dir-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.holo-dir-badge {
+    position: absolute;
+    top: 0.55rem;
+    left: 0.55rem;
+    padding: 0.2rem 0.55rem;
+    border-radius: 999px;
+    background: rgba(15, 23, 42, 0.84);
+    color: #38bdf8;
+    font-size: 0.65rem;
+    font-weight: 800;
+}
+
+.holo-dir-info {
+    padding: 0.85rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.28rem;
+}
+
+.holo-dir-loc {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.7rem;
+    color: #38bdf8;
+    font-weight: 700;
+}
+
+.holo-dir-info h4 {
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 800;
+}
+
+.holo-dir-info p {
+    margin: 0;
+    font-size: 0.75rem;
+    color: #94a3b8;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+@media (max-width: 1120px) {
+    .holo-workspace-grid.mode-split {
+        grid-template-columns: 1fr;
+    }
+
+    .holo-dir-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 720px) {
+    .holo-atlas-page {
+        padding: 1rem 1rem 3.5rem;
+    }
+
+    .holo-telemetry-grid,
+    .holo-dir-grid {
+        grid-template-columns: 1fr;
+    }
+}

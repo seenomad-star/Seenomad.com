@@ -88,6 +88,31 @@ body.theme-light .module-nav-group {
     scrollbar-width: none;
 }
 
+.module-nav-context-badge {
+    display: inline-flex;
+    align-items: center;
+    height: 20px;
+    padding: 0 0.55rem;
+    margin-right: 2px;
+    border-radius: 999px;
+    background: rgba(56, 189, 248, 0.16);
+    border: 1px solid rgba(56, 189, 248, 0.35);
+    color: #38bdf8;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+:root:not(.dark) .module-nav-context-badge,
+body.theme-light .module-nav-context-badge {
+    background: #e0f2fe;
+    border-color: #bae6fd;
+    color: #0284c7;
+}
+
 .module-nav-scroll-container::-webkit-scrollbar {
     display: none;
 }

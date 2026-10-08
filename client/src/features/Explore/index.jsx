@@ -48,6 +48,7 @@ import NomadAIStudio from './components/NomadAIStudio';
 import ConsolidatedExploreSuites from './components/ConsolidatedExploreSuites';
 import BookTravelHub from '../BookingHub/BookTravelHub';
 import ReviewsAndRatings from '../BookingHub/components/ReviewsAndRatings';
+import HoloAtlasTravelMap from './components/HoloAtlasTravelMap';
 import './styles/Explore.css';
 
 const Explore = () => {
@@ -92,8 +93,28 @@ const Explore = () => {
         <div className="explore-container">
             <div className="explore-content">
                 <Routes>
-                    <Route path="/" element={<Navigate to={{ pathname: 'destinations', search: location.search }} replace />} />
-                    <Route path="destinations" element={<Destinations />} />
+                    <Route
+                        path="/"
+                        element={
+                            location.search.includes('view=map') ? (
+                                <HoloAtlasTravelMap />
+                            ) : (
+                                <Navigate to={{ pathname: 'destinations', search: location.search }} replace />
+                            )
+                        }
+                    />
+                    <Route path="travel-map" element={<HoloAtlasTravelMap />} />
+                    <Route path="map" element={<HoloAtlasTravelMap />} />
+                    <Route
+                        path="destinations"
+                        element={
+                            location.search.includes('view=map') ? (
+                                <HoloAtlasTravelMap />
+                            ) : (
+                                <Destinations />
+                            )
+                        }
+                    />
                     <Route path="destinations/:id" element={<DestinationDetail />} />
                     <Route path="compare-destinations" element={<CompareDestinationsModal standalone={true} isOpen={true} />} />
                     <Route path="compare" element={<CompareDestinationsModal standalone={true} isOpen={true} />} />

@@ -29,15 +29,19 @@ import {
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useToastStore } from '../../store/toastStore';
+import { useSavedVibesStore } from '../../store/savedVibesStore';
+import NewVibeModal from './NewVibeModal';
 import '../../styles/NomadShorts.css';
 
-const MOOD_FREQUENCIES = [
+const VIBE_CATEGORIES = [
     { id: 'all', label: 'All Vibes', emoji: '✨' },
-    { id: 'golden-hour', label: 'Golden Hour', emoji: '🌅' },
-    { id: 'deep-focus', label: 'Deep Work & Cafe', emoji: '☕' },
-    { id: 'ocean-pulse', label: 'Coastal & Surf', emoji: '🌊' },
-    { id: 'alpine-calm', label: 'Alpine Zen', emoji: '🏔️' },
-    { id: 'night-neon', label: 'Midnight Neon', emoji: '🏮' }
+    { id: 'popular', label: 'Popular', emoji: '🌟' },
+    { id: 'trending', label: 'Trending', emoji: '🔥' },
+    { id: 'nature', label: 'Nature', emoji: '🌿' },
+    { id: 'city-life', label: 'City Life', emoji: '🏙️' },
+    { id: 'food', label: 'Food', emoji: '🍜' },
+    { id: 'coastal', label: 'Coastal & Surf', emoji: '🌊' },
+    { id: 'deep-work', label: 'Deep Work & Cafe', emoji: '☕' }
 ];
 
 const INITIAL_VIBES = [
@@ -49,8 +53,9 @@ const INITIAL_VIBES = [
         avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80',
         location: 'Uluwatu, Bali · Indonesia',
         coordinates: '8.8291° S, 115.0849° E',
-        mood: 'golden-hour',
-        moodLabel: 'Golden Hour',
+        mood: 'coastal',
+        categories: ['popular', 'trending', 'coastal', 'nature'],
+        moodLabel: 'Coastal & Surf',
         soundscape: 'Indian Ocean Swell + Vinyl Chillhop (432 Hz)',
         temp: '28°C · Warm Breeze',
         wifiSpeed: '295 Mbps Starlink',
@@ -84,8 +89,9 @@ const INITIAL_VIBES = [
         avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&auto=format&fit=crop&q=80',
         location: 'Arashiyama, Kyoto · Japan',
         coordinates: '35.0094° N, 135.6670° E',
-        mood: 'deep-focus',
-        moodLabel: 'Deep Work & Cafe',
+        mood: 'nature',
+        categories: ['popular', 'nature', 'deep-work'],
+        moodLabel: 'Nature',
         soundscape: 'Soft Cedar Rain + Koto Ambient Resonance',
         temp: '19°C · Crisp Mist',
         wifiSpeed: '610 Mbps Optical Fiber',
@@ -118,8 +124,9 @@ const INITIAL_VIBES = [
         avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&auto=format&fit=crop&q=80',
         location: 'Reine, Lofoten Islands · Norway',
         coordinates: '67.9325° N, 13.0886° E',
-        mood: 'alpine-calm',
-        moodLabel: 'Alpine Zen',
+        mood: 'nature',
+        categories: ['trending', 'nature', 'coastal'],
+        moodLabel: 'Nature',
         soundscape: 'Glacial Fjord Water + Nordic Cello Drone',
         temp: '11°C · Pure Arctic Air',
         wifiSpeed: '380 Mbps 5G / Fiber',
@@ -152,8 +159,9 @@ const INITIAL_VIBES = [
         avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&auto=format&fit=crop&q=80',
         location: 'Alfama & Graça, Lisbon · Portugal',
         coordinates: '38.7117° N, 9.1303° W',
-        mood: 'golden-hour',
-        moodLabel: 'Golden Hour',
+        mood: 'city-life',
+        categories: ['popular', 'city-life', 'deep-work'],
+        moodLabel: 'City Life',
         soundscape: 'Vintage Tram 28 Bell + Acoustic Fado Guitar',
         temp: '24°C · Atlantic Sun',
         wifiSpeed: '420 Mbps Fiber',
@@ -177,65 +185,69 @@ const INITIAL_VIBES = [
     },
     {
         id: 'vibe-5',
-        title: 'Shibuya Cyber-Alley Izakaya & Late-Night Synth',
+        title: 'Seoul Gwangjang Night Market & Sizzling Street Food',
         creator: '@MayaLin',
         creatorName: 'Maya Lin',
         avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=200&auto=format&fit=crop&q=80',
-        location: 'Shibuya & Daikanyama, Tokyo · Japan',
-        coordinates: '35.6595° N, 139.7004° E',
-        mood: 'night-neon',
-        moodLabel: 'Midnight Neon',
-        soundscape: 'Neon Rain Reflections + Analog Vinyl Jazz',
+        location: 'Jongno & Hongdae, Seoul · South Korea',
+        coordinates: '37.5700° N, 126.9996° E',
+        mood: 'food',
+        categories: ['popular', 'trending', 'food', 'city-life'],
+        moodLabel: 'Food',
+        soundscape: 'Sizzling Mung Bean Pancakes + Night Market Chatter',
         temp: '21°C · Electric Night',
         wifiSpeed: '850 Mbps Gigabit',
-        dailyBudget: '$82 / day',
+        dailyBudget: '$68 / day',
         crowdLevel: 'High Energy',
-        vibeScore: 98,
-        likes: 2640,
-        commentsCount: 185,
-        sharesCount: 640,
-        saves: 1340,
-        clones: 520,
+        vibeScore: 99,
+        likes: 2890,
+        commentsCount: 214,
+        sharesCount: 720,
+        saves: 1490,
+        clones: 560,
         mediaType: 'video',
         videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-street-food-market-in-seoul-42993-large.mp4',
         image: 'https://images.unsplash.com/photo-1503899036084-c55cdd92da26?w=1200&auto=format&fit=crop&q=85',
-        story: 'Late-night creative energy in Daikanyama Tsutaya Books followed by hidden vinyl listening bars in Shibuya.',
-        comments: [],
+        story: 'Hand-cut knife noodles, crispy bindaetteok, and neon alley energy in Seoul after a late-night design sprint.',
+        comments: [
+            { id: 'c5', user: '@FoodieNomad', text: 'Gwangjang market stalls at 9 PM are unbeatable! 🥟🍜', time: '9m ago' }
+        ],
         blueprintSteps: [
-            '02:00 PM — Design Sprint at Tsutaya Books Anjin Lounge',
-            '07:30 PM — Shibuya Sky 360° Rooftop Twilight Observation',
-            '10:00 PM — Hi-Fi Vinyl Bar & Yakitori in Nonbei Yokocho'
+            '02:00 PM — Product Sprint at Anthracite Coffee Roasters Hapjeong',
+            '07:30 PM — Gwangjang Market Street Food Tour (Bindaetteok & Mayak Gimbap)',
+            '10:00 PM — Han River Night Walk & Convenience Store Ramyun'
         ]
     },
     {
         id: 'vibe-6',
-        title: 'Ericeira Atlantic Surf Break & Sunlit Villa Deck',
-        creator: '@LucasVance',
-        creatorName: 'Lucas Vance',
+        title: 'Oaxaca Wood-Fired Mole, Mezcal & Rooftop Sunset',
+        creator: '@MateoCruz',
+        creatorName: 'Mateo Cruz',
         avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=200&auto=format&fit=crop&q=80',
-        location: 'Ericeira, Coast · Portugal',
-        coordinates: '38.9626° N, 9.4156° W',
-        mood: 'ocean-pulse',
-        moodLabel: 'Coastal & Surf',
-        soundscape: 'Atlantic Reef Break + Coastal Acoustic Breeze',
-        temp: '23°C · Offshore Wind',
-        wifiSpeed: '350 Mbps Fiber',
-        dailyBudget: '$58 / day',
-        crowdLevel: 'Balanced Nomad Community',
-        vibeScore: 95,
-        likes: 1290,
-        commentsCount: 64,
-        sharesCount: 215,
-        saves: 580,
-        clones: 245,
+        location: 'Centro Histórico, Oaxaca · Mexico',
+        coordinates: '17.0732° N, 96.7266° W',
+        mood: 'food',
+        categories: ['trending', 'food', 'city-life'],
+        moodLabel: 'Food',
+        soundscape: 'Clay Comal Crackle + Marimba Courtyard Echo',
+        temp: '26°C · Golden Dusk',
+        wifiSpeed: '240 Mbps Fiber',
+        dailyBudget: '$52 / day',
+        crowdLevel: 'Warm & Festive',
+        vibeScore: 97,
+        likes: 1760,
+        commentsCount: 92,
+        sharesCount: 340,
+        saves: 810,
+        clones: 295,
         mediaType: 'image',
-        image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200&auto=format&fit=crop&q=85',
-        story: 'Morning glass waves at Ribeira d’Ilhas, specialty espresso at Balagan, and shipping features with ocean view.',
+        image: 'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=1200&auto=format&fit=crop&q=85',
+        story: 'Tasting 7-ingredient heirloom mole negro and smoky tlayudas at Mercado 20 de Noviembre before rooftop mezcal.',
         comments: [],
         blueprintSteps: [
-            '07:30 AM — Dawn Patrol Surf Session at Ribeira d’Ilhas',
-            '10:00 AM — Oceanfront Coliving Desk & Smoothie Bowl at Outsite',
-            '06:30 PM — Cliff Walk & Fresh Grilled Sea Bass in Old Town'
+            '10:00 AM — Café Brújula Cold Brew & Coworking in Santo Domingo',
+            '02:30 PM — Smoke Alley Tlayudas & Mole Tasting at Mercado 20 de Noviembre',
+            '06:30 PM — Artisanal Mezcaleria Tasting & Rooftop Sunset'
         ]
     }
 ];
@@ -250,7 +262,14 @@ const NomadShortsFeed = ({ embedded = false }) => {
     const [viewLayout, setViewLayout] = useState(embedded ? 'scroll' : 'scroll'); // 'scroll' (vertical short-form feed) | 'deck' (3-col sensory grid)
     const [activeSoundId, setActiveSoundId] = useState('vibe-1');
     const [likedIds, setLikedIds] = useState({});
-    const [savedIds, setSavedIds] = useState({});
+    const { savedVibes, toggleSaveVibe } = useSavedVibesStore();
+    const savedIds = useMemo(() => {
+        const map = {};
+        savedVibes.forEach((v) => {
+            map[v.id] = true;
+        });
+        return map;
+    }, [savedVibes]);
     const [followedCreators, setFollowedCreators] = useState({});
     const [selectedBlueprint, setSelectedBlueprint] = useState(null);
     const [activeCommentVibe, setActiveCommentVibe] = useState(null);
@@ -260,7 +279,7 @@ const NomadShortsFeed = ({ embedded = false }) => {
     // New Vibe Form State (Supports video/photo upload or URL)
     const [newTitle, setNewTitle] = useState('');
     const [newLocation, setNewLocation] = useState('');
-    const [newMood, setNewMood] = useState('golden-hour');
+    const [newMood, setNewMood] = useState('nature');
     const [newSoundscape, setNewSoundscape] = useState('');
     const [newStory, setNewStory] = useState('');
     const [newMediaUrl, setNewMediaUrl] = useState('');
@@ -269,8 +288,33 @@ const NomadShortsFeed = ({ embedded = false }) => {
 
     const filteredVibes = useMemo(() => {
         if (activeMood === 'all') return vibes;
-        return vibes.filter((v) => v.mood === activeMood);
+        if (activeMood === 'popular') {
+            return [...vibes]
+                .filter((v) => v.categories?.includes('popular') || v.likes >= 1600)
+                .sort((a, b) => b.likes - a.likes);
+        }
+        if (activeMood === 'trending') {
+            return [...vibes]
+                .filter((v) => v.categories?.includes('trending') || v.vibeScore >= 97)
+                .sort((a, b) => b.vibeScore - a.vibeScore);
+        }
+        return vibes.filter(
+            (v) => v.mood === activeMood || (Array.isArray(v.categories) && v.categories.includes(activeMood))
+        );
     }, [vibes, activeMood]);
+
+    const getCategoryCount = (catId) => {
+        if (catId === 'all') return vibes.length;
+        if (catId === 'popular') {
+            return vibes.filter((v) => v.categories?.includes('popular') || v.likes >= 1600).length;
+        }
+        if (catId === 'trending') {
+            return vibes.filter((v) => v.categories?.includes('trending') || v.vibeScore >= 97).length;
+        }
+        return vibes.filter(
+            (v) => v.mood === catId || (Array.isArray(v.categories) && v.categories.includes(catId))
+        ).length;
+    };
 
     const handleToggleLike = (id) => {
         setLikedIds((prev) => {
@@ -280,13 +324,9 @@ const NomadShortsFeed = ({ embedded = false }) => {
         });
     };
 
-    const handleToggleSave = (id, title) => {
-        const nextState = !savedIds[id];
-        setSavedIds((prev) => ({ ...prev, [id]: nextState }));
-        addToast(
-            nextState ? `Saved "${title}" to your Vibe Vault! ✨` : `Removed from Vibe Vault`,
-            nextState ? 'success' : 'info'
-        );
+    const handleToggleSave = (vibe) => {
+        if (!vibe) return;
+        toggleSaveVibe(vibe);
     };
 
     const handleShareVibe = (vibe) => {
@@ -357,25 +397,22 @@ const NomadShortsFeed = ({ embedded = false }) => {
         setSelectedBlueprint(vibe);
     };
 
-    const handlePublishVibe = (e) => {
-        e.preventDefault();
-        if (!newTitle.trim() || !newLocation.trim()) return;
-
-        const moodObj = MOOD_FREQUENCIES.find((m) => m.id === newMood) || MOOD_FREQUENCIES[1];
-        const fallbackVideo = 'https://assets.mixkit.co/videos/preview/mixkit-aerial-view-of-seashore-with-rocks-1090-large.mp4';
-        const fallbackImage = 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1200&auto=format&fit=crop&q=85';
+    const handlePublishNewVibe = (payload) => {
+        const moodObj = VIBE_CATEGORIES.find((m) => m.id === payload.mood) || VIBE_CATEGORIES[3];
 
         const created = {
             id: `vibe-${Date.now()}`,
-            title: newTitle.trim(),
+            title: payload.title,
             creator: '@AlexRivera',
             creatorName: 'Alex Rivera',
             avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200&auto=format&fit=crop&q=80',
-            location: newLocation.trim(),
-            coordinates: 'Live GPS Verified',
-            mood: newMood,
+            location: payload.primaryLocation,
+            locationTags: payload.locationTags || [payload.primaryLocation],
+            coordinates: payload.coordinates || 'Live GPS Verified',
+            mood: payload.mood,
+            categories: ['popular', 'trending', payload.mood],
             moodLabel: moodObj.label,
-            soundscape: newSoundscape.trim() || 'Natural Ambient Field Recording (432 Hz)',
+            soundscape: payload.soundscape,
             temp: '25°C · Ideal Weather',
             wifiSpeed: '320 Mbps Verified',
             dailyBudget: '$55 / day',
@@ -386,10 +423,12 @@ const NomadShortsFeed = ({ embedded = false }) => {
             sharesCount: 1,
             saves: 1,
             clones: 1,
-            mediaType: newMediaType,
-            videoUrl: newMediaType === 'video' ? (newMediaUrl.trim() || fallbackVideo) : null,
-            image: newMediaType === 'image' ? (newMediaUrl.trim() || fallbackImage) : fallbackImage,
-            story: newStory.trim() || 'Captured this live sensory travel vibe to share with the global nomad community.',
+            mediaType: payload.mediaType,
+            videoUrl: payload.mediaType === 'video' ? payload.mediaUrl : null,
+            image: payload.posterImage,
+            story: payload.story,
+            copyrightTag: payload.copyrightTag || '© Original Clip',
+            legalConsentVerified: true,
             comments: [],
             blueprintSteps: [
                 'Morning — Deep Work & Local Specialty Coffee',
@@ -399,14 +438,8 @@ const NomadShortsFeed = ({ embedded = false }) => {
         };
 
         setVibes([created, ...vibes]);
-        setNewTitle('');
-        setNewLocation('');
-        setNewSoundscape('');
-        setNewStory('');
-        setNewMediaUrl('');
-        setUploadedFileName('');
         setIsCreateModalOpen(false);
-        addToast('Your short-form Travel Vibe is now live! 🌊✨', 'success');
+        addToast('Your verified Travel Vibe is now live in the feed! 🌊✨', 'success');
     };
 
     return (
@@ -450,25 +483,32 @@ const NomadShortsFeed = ({ embedded = false }) => {
                         onClick={() => setIsCreateModalOpen(true)}
                     >
                         <Plus size={16} />
-                        <span>Post a Vibe</span>
+                        <span>New Vibe</span>
                     </button>
                 </div>
             </header>
 
-            {/* 2. Mood Frequency Filter Bar */}
-            <div className="vibes-mood-bar">
+            {/* 2. Top Category Filter Chips Bar (Popular, Trending, Nature, City Life, Food, etc.) */}
+            <div className="vibes-mood-bar" role="tablist" aria-label="Filter Vibes by category">
                 <div className="vibes-mood-scroll">
-                    {MOOD_FREQUENCIES.map((m) => (
-                        <button
-                            key={m.id}
-                            type="button"
-                            className={`vibes-mood-chip ${activeMood === m.id ? 'active' : ''}`}
-                            onClick={() => setActiveMood(m.id)}
-                        >
-                            <span className="vibes-mood-emoji">{m.emoji}</span>
-                            <span>{m.label}</span>
-                        </button>
-                    ))}
+                    {VIBE_CATEGORIES.map((m) => {
+                        const isActive = activeMood === m.id;
+                        const count = getCategoryCount(m.id);
+                        return (
+                            <button
+                                key={m.id}
+                                type="button"
+                                role="tab"
+                                aria-selected={isActive}
+                                className={`vibes-mood-chip ${isActive ? 'active' : ''}`}
+                                onClick={() => setActiveMood(m.id)}
+                            >
+                                <span className="vibes-mood-emoji">{m.emoji}</span>
+                                <span>{m.label}</span>
+                                <span className="vibes-chip-count">{count}</span>
+                            </button>
+                        );
+                    })}
                 </div>
 
                 <div className="vibes-live-counter">
@@ -559,7 +599,7 @@ const NomadShortsFeed = ({ embedded = false }) => {
                                         <button
                                             type="button"
                                             className={`vibe-rail-btn ${isSaved ? 'saved' : ''}`}
-                                            onClick={() => handleToggleSave(vibe.id, vibe.title)}
+                                            onClick={() => handleToggleSave(vibe)}
                                             aria-label="Save vibe"
                                         >
                                             <span className="vibe-rail-icon">
@@ -620,6 +660,18 @@ const NomadShortsFeed = ({ embedded = false }) => {
                                             <MapPin size={13} />
                                             <span>{vibe.location}</span>
                                             <small>· {vibe.coordinates}</small>
+                                        </div>
+
+                                        {/* Location & Copyright Consent Tags */}
+                                        <div className="vibe-legal-loc-tags-row">
+                                            {(vibe.locationTags || [vibe.location]).slice(0, 3).map((locTag) => (
+                                                <span key={locTag} className="vibe-mini-loc-pill">
+                                                    <MapPin size={11} /> {locTag}
+                                                </span>
+                                            ))}
+                                            <span className="vibe-copyright-pill">
+                                                <CheckCircle2 size={11} /> {vibe.copyrightTag || '© Original Clip · Rights Verified'}
+                                            </span>
                                         </div>
 
                                         <h3 className="vibe-vertical-title">{vibe.title}</h3>
@@ -771,7 +823,7 @@ const NomadShortsFeed = ({ embedded = false }) => {
                                             <button
                                                 type="button"
                                                 className={`vibe-icon-btn ${isSaved ? 'saved' : ''}`}
-                                                onClick={() => handleToggleSave(vibe.id, vibe.title)}
+                                                onClick={() => handleToggleSave(vibe)}
                                                 aria-label="Save vibe"
                                             >
                                                 <Bookmark size={15} fill={isSaved ? '#3b82f6' : 'none'} />
@@ -905,131 +957,13 @@ const NomadShortsFeed = ({ embedded = false }) => {
                 </div>
             )}
 
-            {/* 6. Post a New Short-Form Video / Media Vibe Modal */}
-            {isCreateModalOpen && (
-                <div className="vibe-modal-backdrop" onClick={() => setIsCreateModalOpen(false)}>
-                    <div className="vibe-modal-card" onClick={(e) => e.stopPropagation()}>
-                        <div className="vibe-modal-header">
-                            <div>
-                                <span className="vibe-modal-kicker">CREATE SHORT-FORM TRAVEL VIBE</span>
-                                <h3>Post a Travel Video or Media Vibe</h3>
-                            </div>
-                            <button
-                                type="button"
-                                className="vibe-modal-close"
-                                onClick={() => setIsCreateModalOpen(false)}
-                            >
-                                <X size={18} />
-                            </button>
-                        </div>
-
-                        <form className="vibe-create-form" onSubmit={handlePublishVibe}>
-                            {/* Upload Video / Photo Dropzone */}
-                            <div
-                                className="vibe-upload-dropzone"
-                                onClick={() => fileInputRef.current?.click()}
-                            >
-                                <input
-                                    ref={fileInputRef}
-                                    type="file"
-                                    accept="video/*,image/*"
-                                    onChange={handleFileUpload}
-                                    hidden
-                                />
-                                <Upload size={22} className="vibe-upload-icon" />
-                                <div>
-                                    <strong>
-                                        {uploadedFileName
-                                            ? `Selected: ${uploadedFileName}`
-                                            : 'Upload Short Travel Video (MP4/WebM) or Photo'}
-                                    </strong>
-                                    <span>Click to browse device media or paste a media URL below</span>
-                                </div>
-                            </div>
-
-                            <label>
-                                <span>Vibe Title</span>
-                                <input
-                                    type="text"
-                                    placeholder="e.g., Sunset Espresso & Ocean Swell in Oaxaca"
-                                    value={newTitle}
-                                    onChange={(e) => setNewTitle(e.target.value)}
-                                    required
-                                />
-                            </label>
-                            <label>
-                                <span>Location & Hub</span>
-                                <input
-                                    type="text"
-                                    placeholder="e.g., Puerto Escondido, Mexico"
-                                    value={newLocation}
-                                    onChange={(e) => setNewLocation(e.target.value)}
-                                    required
-                                />
-                            </label>
-                            <div className="vibe-form-row-2">
-                                <label>
-                                    <span>Media Format</span>
-                                    <select value={newMediaType} onChange={(e) => setNewMediaType(e.target.value)}>
-                                        <option value="video">🎬 Short-Form Video</option>
-                                        <option value="image">📸 High-Res Photo</option>
-                                    </select>
-                                </label>
-                                <label>
-                                    <span>Mood Frequency</span>
-                                    <select value={newMood} onChange={(e) => setNewMood(e.target.value)}>
-                                        {MOOD_FREQUENCIES.filter((m) => m.id !== 'all').map((m) => (
-                                            <option key={m.id} value={m.id}>
-                                                {m.emoji} {m.label}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </label>
-                            </div>
-                            <label>
-                                <span>Video / Media URL (Optional)</span>
-                                <input
-                                    type="url"
-                                    placeholder="https://..."
-                                    value={newMediaUrl}
-                                    onChange={(e) => setNewMediaUrl(e.target.value)}
-                                />
-                            </label>
-                            <label>
-                                <span>Ambient Soundscape Note</span>
-                                <input
-                                    type="text"
-                                    placeholder="e.g., Pacific Waves + Acoustic Guitar (432 Hz)"
-                                    value={newSoundscape}
-                                    onChange={(e) => setNewSoundscape(e.target.value)}
-                                />
-                            </label>
-                            <label>
-                                <span>Caption & Sensory Notes</span>
-                                <textarea
-                                    rows={2}
-                                    placeholder="Describe the atmosphere, Wi-Fi speed, and best time to arrive..."
-                                    value={newStory}
-                                    onChange={(e) => setNewStory(e.target.value)}
-                                />
-                            </label>
-
-                            <div className="vibe-modal-actions">
-                                <button
-                                    type="button"
-                                    className="vibe-modal-secondary"
-                                    onClick={() => setIsCreateModalOpen(false)}
-                                >
-                                    Cancel
-                                </button>
-                                <button type="submit" className="vibe-modal-primary">
-                                    Publish Vibe
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            )}
+            {/* 6. New Vibe Modal Overlay (Record / Select Clips, Location Tags, Copyright & Legal Consent) */}
+            <NewVibeModal
+                isOpen={isCreateModalOpen}
+                onClose={() => setIsCreateModalOpen(false)}
+                onPublish={handlePublishNewVibe}
+                categories={VIBE_CATEGORIES}
+            />
         </div>
     );
 };

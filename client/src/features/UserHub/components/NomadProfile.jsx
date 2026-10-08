@@ -1,23 +1,39 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
     UserCheck, Mail, ExternalLink, Globe, Award, Star,
-    Briefcase, MapPin, Bookmark, Trash2, Compass
+    Briefcase, MapPin, Bookmark, Trash2, Compass, Film, Sparkles
 } from 'lucide-react';
 import { useNomadOSStore } from '../../../store/nomadOSStore';
 import { useSavedStore } from '../../../store/savedStore';
+import { useSavedVibesStore } from '../../../store/savedVibesStore';
+import SavedVibesVault from './SavedVibesVault';
 import '../styles/Professional.css';
 
 const NomadProfile = () => {
     const navigate = useNavigate();
+    const [searchParams, setSearchParams] = useSearchParams();
+    const initialTab = searchParams.get('tab') === 'saved-vibes' ? 'saved-vibes' : 'overview';
+    const [activeProfileTab, setActiveProfileTab] = useState(initialTab);
+
     const { userSkills = {}, endorseSkill } = useNomadOSStore();
     const { savedDestinations, removeSaved } = useSavedStore();
+    const { savedVibes } = useSavedVibesStore();
     const skills = Object.keys(userSkills).length > 0
         ? Object.keys(userSkills)
         : ['Itinerary Planning', 'Local Spoken', 'Photography'];
     const endorsements = userSkills;
     const addEndorsement = endorseSkill;
+
+    const handleSwitchTab = (tabId) => {
+        setActiveProfileTab(tabId);
+        if (tabId === 'saved-vibes') {
+            setSearchParams({ tab: 'saved-vibes' });
+        } else {
+            setSearchParams({});
+        }
+    };
     
     return (
         <div className="professional-container">
@@ -28,15 +44,15 @@ const NomadProfile = () => {
             >
                 <div className="hero-main">
                     <img 
-                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=200" 
+                        src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80" 
                         className="hero-avatar" 
                         alt="Avatar" 
                     />
                     <div className="hero-text">
                         <div className="flex items-center gap-4">
-                            <h1>John Doe</h1>
+                            <h1>Alex Rivera</h1>
                             <div className="verified-badge">
-                                <UserCheck size={18} /> Verified Expert
+                                <UserCheck size={18} /> Verified Explorer
                             </div>
                         </div>
                         <p>Senior Full Stack Developer & Solo Traveler | Digital Nomad since 2021</p>
@@ -49,11 +65,41 @@ const NomadProfile = () => {
                 </div>
                 
                 <div className="hero-actions">
-                    <button className="btn-hub-primary"><Mail size={16}/> Hire Me</button>
+                    <button className="btn-hub-primary" onClick={() => handleSwitchTab('saved-vibes')}>
+                        <Film size={16} /> Saved Vibes ({savedVibes.length})
+                    </button>
                     <button className="btn-hub-outline"><ExternalLink size={16}/> Portfolio</button>
                 </div>
             </motion.div>
 
+            {/* User Profile Navigation Tabs: Overview vs. Saved Vibes */}
+            <div className="profile-view-tabs-bar" role="tablist" aria-label="User Profile Sections">
+                <button
+                    type="button"
+                    role="tab"
+                    aria-selected={activeProfileTab === 'overview'}
+                    className={`profile-view-tab-btn ${activeProfileTab === 'overview' ? 'active' : ''}`}
+                    onClick={() => handleSwitchTab('overview')}
+                >
+                    <Globe size={16} />
+                    <span>Profile & CV Overview</span>
+                </button>
+                <button
+                    type="button"
+                    role="tab"
+                    aria-selected={activeProfileTab === 'saved-vibes'}
+                    className={`profile-view-tab-btn ${activeProfileTab === 'saved-vibes' ? 'active' : ''}`}
+                    onClick={() => handleSwitchTab('saved-vibes')}
+                >
+                    <Film size={16} />
+                    <span>Saved Vibes</span>
+                    <span className="profile-tab-count">{savedVibes.length}</span>
+                </button>
+            </div>
+
+            {activeProfileTab === 'saved-vibes' ? (
+                <SavedVibesVault embedded={true} />
+            ) : (
             <div className="profile-grid">
                 <div className="profile-left">
                     <section className="profile-card">
@@ -208,6 +254,7 @@ const NomadProfile = () => {
                     </section>
                 </div>
             </div>
+            )}
         </div>
     );
 };

@@ -159,10 +159,10 @@ const MobileDrawer = ({ isOpen: propIsOpen, onClose: propOnClose }) => {
                 {
                     icon: Map,
                     label: 'Travel Map',
-                    to: '/explore?view=map',
-                    badge: '3D Pin',
+                    to: '/explore/travel-map',
+                    badge: '3D Portal',
                     badgeType: 'info',
-                    description: 'Interactive global map & route pins'
+                    description: '360° virtual places, drone tour autopilot & 4D spatial map'
                 },
                 {
                     icon: Bookmark,

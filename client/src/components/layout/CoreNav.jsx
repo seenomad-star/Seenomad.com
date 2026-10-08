@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import { useNavStore } from '../../store/navStore';
 import { useSavedStore } from '../../store/savedStore';
+import { useSavedVibesStore } from '../../store/savedVibesStore';
 import { useTheme } from '../../contexts/ThemeContext';
 import Logo from '../common/Logo';
 
@@ -127,6 +128,7 @@ const CoreNav = ({ toggleSidebar, toggleRightSidebar, isSidebarCollapsed = false
 
     const savedDestinations = useSavedStore((state) => state.savedDestinations);
     const savedCount = savedDestinations.length;
+    const savedVibesCount = useSavedVibesStore((state) => state.savedVibes.length);
 
     // Search state
     const [searchQuery, setSearchQuery] = useState(globalSearchQuery || '');
@@ -370,6 +372,13 @@ const CoreNav = ({ toggleSidebar, toggleRightSidebar, isSidebarCollapsed = false
     ];
 
     const accountSecondaryFeatures = [
+        {
+            id: 'saved-vibes',
+            label: 'Saved Vibes (Bookmarked Clips)',
+            icon: Sparkles,
+            path: '/user/saved-vibes',
+            count: savedVibesCount
+        },
         {
             id: 'trips',
             label: 'My Trips & Travel Journey',
