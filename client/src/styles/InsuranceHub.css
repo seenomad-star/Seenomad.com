@@ -1,0 +1,687 @@
+/* ==========================================================================
+   SeeNomad AegisShield™ — Parametric Nomad Insurance, Direct-Billing Clinic
+   Matrix, Hardware Vault & Consular Certificate Generator
+   Fully responsive dark/light styling with zero-pill metadata discipline
+   ========================================================================== */
+
+.ins-hub-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 1.15rem;
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding-bottom: 3rem;
+    color: #f8fafc;
+    box-sizing: border-box;
+}
+
+:root:not(.dark) .ins-hub-shell,
+body.theme-light .ins-hub-shell {
+    color: #0f172a;
+}
+
+/* ==========================================================================
+   1. Editorial Hero Banner & Parametric Payout Telemetry
+   ========================================================================== */
+.ins-hero-banner {
+    display: flex;
+    flex-direction: column;
+    gap: 1.05rem;
+    padding: 1.35rem 1.5rem;
+    border-radius: 18px;
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.96) 0%, rgba(30, 41, 59, 0.9) 100%);
+    border: 1px solid rgba(56, 189, 248, 0.24);
+    box-shadow: 0 14px 36px -12px rgba(0, 0, 0, 0.45);
+}
+
+:root:not(.dark) .ins-hero-banner,
+body.theme-light .ins-hero-banner {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    border-color: rgba(2, 132, 199, 0.22);
+    box-shadow: 0 12px 30px -12px rgba(15, 23, 42, 0.08);
+}
+
+.ins-hero-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+}
+
+.ins-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: #38bdf8;
+}
+
+:root:not(.dark) .ins-kicker,
+body.theme-light .ins-kicker {
+    color: #0284c7;
+}
+
+.ins-title {
+    margin: 0.25rem 0 0 0;
+    font-size: 1.5rem;
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+}
+
+.ins-subtitle {
+    margin: 0.35rem 0 0 0;
+    font-size: 0.84rem;
+    color: #94a3b8;
+    max-width: 800px;
+    line-height: 1.5;
+}
+
+:root:not(.dark) .ins-subtitle,
+body.theme-light .ins-subtitle {
+    color: #475569;
+}
+
+.ins-hero-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    flex-wrap: wrap;
+}
+
+.ins-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.42rem;
+    padding: 0.52rem 0.95rem;
+    border-radius: 10px;
+    font-size: 0.77rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.16s ease;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(255, 255, 255, 0.06);
+    color: #e2e8f0;
+    white-space: nowrap;
+}
+
+:root:not(.dark) .ins-btn,
+body.theme-light .ins-btn {
+    background: #f1f5f9;
+    border-color: rgba(15, 23, 42, 0.12);
+    color: #1e293b;
+}
+
+.ins-btn:hover {
+    border-color: rgba(56, 189, 248, 0.55);
+    color: #38bdf8;
+    transform: translateY(-1px);
+}
+
+:root:not(.dark) .ins-btn:hover,
+body.theme-light .ins-btn:hover {
+    border-color: rgba(2, 132, 199, 0.45);
+    color: #0284c7;
+}
+
+.ins-btn-primary {
+    background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
+    border-color: rgba(56, 189, 248, 0.5);
+    color: #ffffff !important;
+    box-shadow: 0 4px 14px rgba(2, 132, 199, 0.28);
+}
+
+.ins-btn-primary:hover {
+    filter: brightness(1.07);
+    color: #ffffff !important;
+}
+
+.ins-btn-emerald {
+    background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+    border-color: rgba(52, 211, 153, 0.45);
+    color: #ffffff !important;
+}
+
+.ins-btn-danger {
+    background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+    border-color: rgba(248, 113, 113, 0.5);
+    color: #ffffff !important;
+}
+
+/* Unboxed Hero Telemetry Row */
+.ins-kpi-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    padding-top: 0.85rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    font-size: 0.77rem;
+    color: #94a3b8;
+}
+
+:root:not(.dark) .ins-kpi-row,
+body.theme-light .ins-kpi-row {
+    border-top-color: rgba(15, 23, 42, 0.08);
+    color: #64748b;
+}
+
+.ins-kpi-metrics {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.ins-kpi-row strong {
+    color: #f8fafc;
+    font-weight: 700;
+}
+
+:root:not(.dark) .ins-kpi-row strong,
+body.theme-light .ins-kpi-row strong {
+    color: #0f172a;
+}
+
+.ins-region-switcher {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+}
+
+.ins-region-btn {
+    padding: 0.32rem 0.68rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.03);
+    color: #cbd5e1;
+    font-size: 0.73rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+:root:not(.dark) .ins-region-btn,
+body.theme-light .ins-region-btn {
+    background: #f8fafc;
+    border-color: rgba(15, 23, 42, 0.1);
+    color: #334155;
+}
+
+.ins-region-btn:hover {
+    border-color: rgba(56, 189, 248, 0.45);
+    color: #38bdf8;
+}
+
+.ins-region-btn.active {
+    background: #0284c7;
+    border-color: #38bdf8;
+    color: #ffffff;
+}
+
+/* ==========================================================================
+   2. Consular Visa Proof Letter Drawer & Hardware Vault Drawer
+   ========================================================================== */
+.ins-drawer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    padding: 1.2rem 1.35rem;
+    border-radius: 16px;
+    background: rgba(15, 23, 42, 0.92);
+    border: 1px solid rgba(56, 189, 248, 0.42);
+    box-shadow: 0 12px 28px -10px rgba(0, 0, 0, 0.38);
+}
+
+:root:not(.dark) .ins-drawer,
+body.theme-light .ins-drawer {
+    background: #ffffff;
+    border-color: rgba(2, 132, 199, 0.35);
+    box-shadow: 0 10px 24px -10px rgba(15, 23, 42, 0.08);
+}
+
+.ins-drawer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.ins-form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
+    gap: 0.7rem;
+    align-items: end;
+}
+
+.ins-field-label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #94a3b8;
+}
+
+:root:not(.dark) .ins-field-label,
+body.theme-light .ins-field-label {
+    color: #475569;
+}
+
+.ins-input,
+.ins-select {
+    width: 100%;
+    padding: 0.52rem 0.75rem;
+    border-radius: 9px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(30, 41, 59, 0.78);
+    color: #f8fafc;
+    font-size: 0.78rem;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.15s ease;
+}
+
+.ins-input:focus,
+.ins-select:focus {
+    border-color: #38bdf8;
+}
+
+:root:not(.dark) .ins-input,
+:root:not(.dark) .ins-select,
+body.theme-light .ins-input,
+body.theme-light .ins-select {
+    background: #f8fafc;
+    border-color: rgba(15, 23, 42, 0.15);
+    color: #0f172a;
+}
+
+/* ==========================================================================
+   3. Multi-Axis Protection & Direct-Billing Filter Toolbar
+   ========================================================================== */
+.ins-toolbar {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 0.9rem 1.15rem;
+    border-radius: 16px;
+    background: rgba(15, 23, 42, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+:root:not(.dark) .ins-toolbar,
+body.theme-light .ins-toolbar {
+    background: #ffffff;
+    border-color: rgba(15, 23, 42, 0.08);
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+}
+
+.ins-toolbar-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.ins-tabs {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.ins-tabs::-webkit-scrollbar {
+    display: none;
+}
+
+.ins-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.42rem 0.82rem;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    background: rgba(255, 255, 255, 0.04);
+    color: #94a3b8;
+    font-size: 0.75rem;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s ease;
+}
+
+:root:not(.dark) .ins-tab,
+body.theme-light .ins-tab {
+    background: #f1f5f9;
+    color: #475569;
+}
+
+.ins-tab:hover {
+    color: #f8fafc;
+    border-color: rgba(56, 189, 248, 0.3);
+}
+
+:root:not(.dark) .ins-tab:hover,
+body.theme-light .ins-tab:hover {
+    color: #0f172a;
+}
+
+.ins-tab.active {
+    background: #0284c7;
+    color: #ffffff;
+    border-color: rgba(56, 189, 248, 0.5);
+}
+
+.ins-search-box {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.38rem 0.75rem;
+    border-radius: 9px;
+    background: rgba(30, 41, 59, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    min-width: 260px;
+}
+
+:root:not(.dark) .ins-search-box,
+body.theme-light .ins-search-box {
+    background: #f8fafc;
+    border-color: rgba(15, 23, 42, 0.12);
+}
+
+.ins-search-box input {
+    background: transparent;
+    border: none;
+    color: inherit;
+    font-size: 0.76rem;
+    outline: none;
+    width: 100%;
+}
+
+/* ==========================================================================
+   4. Main Split Workspace: Protection Catalog + Parametric Simulator Rail
+   ========================================================================== */
+.ins-workspace-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 365px;
+    gap: 1.15rem;
+    align-items: start;
+}
+
+.ins-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1rem;
+}
+
+.ins-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-radius: 16px;
+    overflow: hidden;
+    background: rgba(15, 23, 42, 0.84);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+:root:not(.dark) .ins-card,
+body.theme-light .ins-card {
+    background: #ffffff;
+    border-color: rgba(15, 23, 42, 0.08);
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.05);
+}
+
+.ins-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(56, 189, 248, 0.42);
+    box-shadow: 0 14px 30px -12px rgba(2, 132, 199, 0.22);
+}
+
+.ins-card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    padding: 1.15rem;
+    flex: 1;
+}
+
+.ins-card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem;
+}
+
+.ins-card-title {
+    margin: 0.15rem 0 0 0;
+    font-size: 1.02rem;
+    font-weight: 800;
+    line-height: 1.28;
+    cursor: pointer;
+}
+
+.ins-card-title:hover {
+    color: #38bdf8;
+}
+
+/* Unboxed Metadata Strip — Zero Pill Discipline */
+.ins-meta-strip {
+    display: flex;
+    align-items: center;
+    gap: 0.42rem;
+    flex-wrap: wrap;
+    font-size: 0.72rem;
+    color: #94a3b8;
+}
+
+:root:not(.dark) .ins-meta-strip,
+body.theme-light .ins-meta-strip {
+    color: #64748b;
+}
+
+.ins-card-desc {
+    margin: 0;
+    font-size: 0.78rem;
+    color: #cbd5e1;
+    line-height: 1.48;
+}
+
+:root:not(.dark) .ins-card-desc,
+body.theme-light .ins-card-desc {
+    color: #475569;
+}
+
+.ins-triggers-box {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    padding: 0.65rem 0.8rem;
+    border-radius: 10px;
+    background: rgba(30, 41, 59, 0.55);
+    border: 1px solid rgba(56, 189, 248, 0.16);
+    font-size: 0.72rem;
+}
+
+:root:not(.dark) .ins-triggers-box,
+body.theme-light .ins-triggers-box {
+    background: #f8fafc;
+    border-color: rgba(2, 132, 199, 0.18);
+}
+
+.ins-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.8rem 1.15rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+:root:not(.dark) .ins-card-footer,
+body.theme-light .ins-card-footer {
+    border-top-color: rgba(15, 23, 42, 0.06);
+}
+
+.ins-price-display {
+    font-size: 0.96rem;
+    font-weight: 800;
+    color: #38bdf8;
+}
+
+:root:not(.dark) .ins-price-display,
+body.theme-light .ins-price-display {
+    color: #0284c7;
+}
+
+/* ==========================================================================
+   5. Right Sidebar: Parametric Auto-Claim Oracle & Hardware Vault
+   ========================================================================== */
+.ins-side-rail {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    position: sticky;
+    top: 118px;
+}
+
+.ins-side-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    padding: 1.15rem;
+    border-radius: 16px;
+    background: rgba(15, 23, 42, 0.84);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+:root:not(.dark) .ins-side-panel,
+body.theme-light .ins-side-panel {
+    background: #ffffff;
+    border-color: rgba(15, 23, 42, 0.08);
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.04);
+}
+
+.ins-side-title {
+    margin: 0;
+    font-size: 0.92rem;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+}
+
+.ins-oracle-box {
+    display: flex;
+    flex-direction: column;
+    gap: 0.48rem;
+    padding: 0.75rem;
+    border-radius: 11px;
+    background: rgba(30, 41, 59, 0.6);
+    border: 1px solid rgba(16, 185, 129, 0.28);
+    font-size: 0.74rem;
+}
+
+:root:not(.dark) .ins-oracle-box,
+body.theme-light .ins-oracle-box {
+    background: #f0fdf4;
+    border-color: rgba(16, 185, 129, 0.32);
+}
+
+.ins-gear-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.52rem 0.7rem;
+    border-radius: 9px;
+    background: rgba(30, 41, 59, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    font-size: 0.74rem;
+}
+
+:root:not(.dark) .ins-gear-item,
+body.theme-light .ins-gear-item {
+    background: #f8fafc;
+    border-color: rgba(15, 23, 42, 0.08);
+}
+
+/* ==========================================================================
+   6. Policy Activation & Instant Claim Modal
+   ========================================================================== */
+.ins-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 1500;
+    background: rgba(2, 6, 23, 0.78);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.ins-modal-dialog {
+    width: 100%;
+    max-width: 650px;
+    max-height: 90vh;
+    overflow-y: auto;
+    border-radius: 18px;
+    padding: 1.35rem 1.5rem;
+    background: #0f172a;
+    border: 1px solid rgba(56, 189, 248, 0.35);
+    color: #f8fafc;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    box-shadow: 0 24px 52px rgba(0, 0, 0, 0.65);
+}
+
+:root:not(.dark) .ins-modal-dialog,
+body.theme-light .ins-modal-dialog {
+    background: #ffffff;
+    color: #0f172a;
+    border-color: rgba(2, 132, 199, 0.3);
+}
+
+@media (max-width: 1120px) {
+    .ins-workspace-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .ins-side-rail {
+        position: static;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .ins-hero-banner {
+        padding: 1rem;
+    }
+
+    .ins-title {
+        font-size: 1.2rem;
+    }
+
+    .ins-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .ins-search-box {
+        min-width: 100%;
+    }
+}

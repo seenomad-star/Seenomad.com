@@ -1,0 +1,875 @@
+/* ==========================================================================
+   SeeNomad Cultural Compass™ — Authentic Local Experiences, Artisan Studios
+   & Eco-Voluntourism Hub
+   Fully responsive dark/light styling with zero-pill metadata discipline
+   ========================================================================== */
+
+.lx-hub-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 1.15rem;
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding-bottom: 3rem;
+    color: #f8fafc;
+    box-sizing: border-box;
+}
+
+:root:not(.dark) .lx-hub-shell,
+body.theme-light .lx-hub-shell {
+    color: #0f172a;
+}
+
+/* ==========================================================================
+   1. Editorial Hero Banner & Live Cultural Pulse
+   ========================================================================== */
+.lx-hero-banner {
+    display: flex;
+    flex-direction: column;
+    gap: 1.05rem;
+    padding: 1.35rem 1.5rem;
+    border-radius: 18px;
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.96) 0%, rgba(30, 41, 59, 0.9) 100%);
+    border: 1px solid rgba(56, 189, 248, 0.24);
+    box-shadow: 0 14px 36px -12px rgba(0, 0, 0, 0.45);
+}
+
+:root:not(.dark) .lx-hero-banner,
+body.theme-light .lx-hero-banner {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    border-color: rgba(2, 132, 199, 0.2);
+    box-shadow: 0 12px 30px -12px rgba(15, 23, 42, 0.08);
+}
+
+.lx-hero-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+}
+
+.lx-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: #38bdf8;
+}
+
+:root:not(.dark) .lx-kicker,
+body.theme-light .lx-kicker {
+    color: #0284c7;
+}
+
+.lx-title {
+    margin: 0.25rem 0 0 0;
+    font-size: 1.5rem;
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+}
+
+.lx-subtitle {
+    margin: 0.35rem 0 0 0;
+    font-size: 0.84rem;
+    color: #94a3b8;
+    max-width: 780px;
+    line-height: 1.5;
+}
+
+:root:not(.dark) .lx-subtitle,
+body.theme-light .lx-subtitle {
+    color: #475569;
+}
+
+.lx-hero-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    flex-wrap: wrap;
+}
+
+.lx-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.42rem;
+    padding: 0.52rem 0.95rem;
+    border-radius: 10px;
+    font-size: 0.77rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.16s ease;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(255, 255, 255, 0.06);
+    color: #e2e8f0;
+    white-space: nowrap;
+}
+
+:root:not(.dark) .lx-btn,
+body.theme-light .lx-btn {
+    background: #f1f5f9;
+    border-color: rgba(15, 23, 42, 0.12);
+    color: #1e293b;
+}
+
+.lx-btn:hover {
+    border-color: rgba(56, 189, 248, 0.55);
+    color: #38bdf8;
+    transform: translateY(-1px);
+}
+
+:root:not(.dark) .lx-btn:hover,
+body.theme-light .lx-btn:hover {
+    border-color: rgba(2, 132, 199, 0.45);
+    color: #0284c7;
+}
+
+.lx-btn-primary {
+    background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
+    border-color: rgba(56, 189, 248, 0.5);
+    color: #ffffff !important;
+    box-shadow: 0 4px 14px rgba(2, 132, 199, 0.28);
+}
+
+.lx-btn-primary:hover {
+    filter: brightness(1.07);
+    color: #ffffff !important;
+}
+
+.lx-btn-emerald {
+    background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+    border-color: rgba(52, 211, 153, 0.45);
+    color: #ffffff !important;
+}
+
+/* Unboxed Hero Telemetry Row */
+.lx-kpi-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    padding-top: 0.85rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    font-size: 0.77rem;
+    color: #94a3b8;
+}
+
+:root:not(.dark) .lx-kpi-row,
+body.theme-light .lx-kpi-row {
+    border-top-color: rgba(15, 23, 42, 0.08);
+    color: #64748b;
+}
+
+.lx-kpi-metrics {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.lx-kpi-row strong {
+    color: #f8fafc;
+    font-weight: 700;
+}
+
+:root:not(.dark) .lx-kpi-row strong,
+body.theme-light .lx-kpi-row strong {
+    color: #0f172a;
+}
+
+/* Hub Switcher Bar inside Hero */
+.lx-city-switcher {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+}
+
+.lx-city-btn {
+    padding: 0.32rem 0.68rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.03);
+    color: #cbd5e1;
+    font-size: 0.73rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+:root:not(.dark) .lx-city-btn,
+body.theme-light .lx-city-btn {
+    background: #f8fafc;
+    border-color: rgba(15, 23, 42, 0.1);
+    color: #334155;
+}
+
+.lx-city-btn:hover {
+    border-color: rgba(56, 189, 248, 0.45);
+    color: #38bdf8;
+}
+
+.lx-city-btn.active {
+    background: #0284c7;
+    border-color: #38bdf8;
+    color: #ffffff;
+}
+
+/* ==========================================================================
+   2. Host Experience Drawer & Custom Request Drawer
+   ========================================================================== */
+.lx-host-drawer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    padding: 1.2rem 1.35rem;
+    border-radius: 16px;
+    background: rgba(15, 23, 42, 0.9);
+    border: 1px solid rgba(56, 189, 248, 0.4);
+    box-shadow: 0 12px 28px -10px rgba(0, 0, 0, 0.35);
+}
+
+:root:not(.dark) .lx-host-drawer,
+body.theme-light .lx-host-drawer {
+    background: #ffffff;
+    border-color: rgba(2, 132, 199, 0.35);
+    box-shadow: 0 10px 24px -10px rgba(15, 23, 42, 0.08);
+}
+
+.lx-drawer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.lx-form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
+    gap: 0.7rem;
+    align-items: end;
+}
+
+.lx-field-label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #94a3b8;
+}
+
+:root:not(.dark) .lx-field-label,
+body.theme-light .lx-field-label {
+    color: #475569;
+}
+
+.lx-input,
+.lx-select {
+    width: 100%;
+    padding: 0.52rem 0.75rem;
+    border-radius: 9px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(30, 41, 59, 0.78);
+    color: #f8fafc;
+    font-size: 0.78rem;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.15s ease;
+}
+
+.lx-input:focus,
+.lx-select:focus {
+    border-color: #38bdf8;
+}
+
+:root:not(.dark) .lx-input,
+:root:not(.dark) .lx-select,
+body.theme-light .lx-input,
+body.theme-light .lx-select {
+    background: #f8fafc;
+    border-color: rgba(15, 23, 42, 0.15);
+    color: #0f172a;
+}
+
+/* ==========================================================================
+   3. Multi-Axis Filter & Remote-Schedule Toolbar
+   ========================================================================== */
+.lx-toolbar {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 0.9rem 1.15rem;
+    border-radius: 16px;
+    background: rgba(15, 23, 42, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+:root:not(.dark) .lx-toolbar,
+body.theme-light .lx-toolbar {
+    background: #ffffff;
+    border-color: rgba(15, 23, 42, 0.08);
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+}
+
+.lx-toolbar-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.lx-tabs {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.lx-tabs::-webkit-scrollbar {
+    display: none;
+}
+
+.lx-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.42rem 0.82rem;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    background: rgba(255, 255, 255, 0.04);
+    color: #94a3b8;
+    font-size: 0.75rem;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s ease;
+}
+
+:root:not(.dark) .lx-tab,
+body.theme-light .lx-tab {
+    background: #f1f5f9;
+    color: #475569;
+}
+
+.lx-tab:hover {
+    color: #f8fafc;
+    border-color: rgba(56, 189, 248, 0.3);
+}
+
+:root:not(.dark) .lx-tab:hover,
+body.theme-light .lx-tab:hover {
+    color: #0f172a;
+}
+
+.lx-tab.active {
+    background: #0284c7;
+    color: #ffffff;
+    border-color: rgba(56, 189, 248, 0.5);
+}
+
+.lx-filter-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    flex-wrap: wrap;
+}
+
+.lx-window-group {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.2rem;
+    border-radius: 9px;
+    background: rgba(30, 41, 59, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+:root:not(.dark) .lx-window-group,
+body.theme-light .lx-window-group {
+    background: #f1f5f9;
+    border-color: rgba(15, 23, 42, 0.08);
+}
+
+.lx-window-btn {
+    padding: 0.3rem 0.62rem;
+    border-radius: 6px;
+    border: none;
+    background: transparent;
+    color: #94a3b8;
+    font-size: 0.72rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.14s ease;
+    white-space: nowrap;
+}
+
+:root:not(.dark) .lx-window-btn,
+body.theme-light .lx-window-btn {
+    color: #475569;
+}
+
+.lx-window-btn.active {
+    background: rgba(56, 189, 248, 0.18);
+    color: #38bdf8;
+}
+
+:root:not(.dark) .lx-window-btn.active,
+body.theme-light .lx-window-btn.active {
+    background: #ffffff;
+    color: #0284c7;
+    box-shadow: 0 1px 4px rgba(15, 23, 42, 0.08);
+}
+
+.lx-search-box {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.38rem 0.75rem;
+    border-radius: 9px;
+    background: rgba(30, 41, 59, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    min-width: 250px;
+}
+
+:root:not(.dark) .lx-search-box,
+body.theme-light .lx-search-box {
+    background: #f8fafc;
+    border-color: rgba(15, 23, 42, 0.12);
+}
+
+.lx-search-box input {
+    background: transparent;
+    border: none;
+    color: inherit;
+    font-size: 0.76rem;
+    outline: none;
+    width: 100%;
+}
+
+/* ==========================================================================
+   4. Main Workspace Split: Experiences Grid + Cultural Compass Sidebar
+   ========================================================================== */
+.lx-workspace-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 340px;
+    gap: 1.15rem;
+    align-items: start;
+}
+
+.lx-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+    gap: 1rem;
+}
+
+.lx-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-radius: 16px;
+    overflow: hidden;
+    background: rgba(15, 23, 42, 0.84);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+:root:not(.dark) .lx-card,
+body.theme-light .lx-card {
+    background: #ffffff;
+    border-color: rgba(15, 23, 42, 0.08);
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.05);
+}
+
+.lx-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(56, 189, 248, 0.42);
+    box-shadow: 0 14px 30px -12px rgba(2, 132, 199, 0.22);
+}
+
+.lx-card-media {
+    position: relative;
+    height: 185px;
+    width: 100%;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.lx-card-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.38s ease;
+}
+
+.lx-card:hover .lx-card-media img {
+    transform: scale(1.04);
+}
+
+.lx-media-overlay {
+    position: absolute;
+    top: 0.65rem;
+    left: 0.75rem;
+    right: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.lx-location-label {
+    padding: 0.24rem 0.62rem;
+    border-radius: 6px;
+    background: rgba(15, 23, 42, 0.84);
+    backdrop-filter: blur(8px);
+    color: #f8fafc;
+    font-size: 0.69rem;
+    font-weight: 700;
+}
+
+.lx-save-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    background: rgba(15, 23, 42, 0.78);
+    color: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.lx-save-btn:hover {
+    border-color: #38bdf8;
+    color: #38bdf8;
+}
+
+.lx-save-btn.saved {
+    background: #0284c7;
+    border-color: #38bdf8;
+    color: #ffffff;
+}
+
+.lx-media-bottom-strip {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0.45rem 0.75rem;
+    background: linear-gradient(to top, rgba(2, 6, 23, 0.9) 0%, rgba(2, 6, 23, 0) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.69rem;
+    color: #e2e8f0;
+}
+
+.lx-card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    padding: 1rem 1.1rem;
+    flex: 1;
+}
+
+.lx-host-line {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    font-size: 0.72rem;
+    color: #94a3b8;
+}
+
+:root:not(.dark) .lx-host-line,
+body.theme-light .lx-host-line {
+    color: #64748b;
+}
+
+.lx-card-title {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 800;
+    line-height: 1.32;
+    cursor: pointer;
+    transition: color 0.15s ease;
+}
+
+.lx-card-title:hover {
+    color: #38bdf8;
+}
+
+:root:not(.dark) .lx-card-title:hover,
+body.theme-light .lx-card-title:hover {
+    color: #0284c7;
+}
+
+/* Unboxed Metadata Strip — Zero Pill Discipline */
+.lx-meta-strip {
+    display: flex;
+    align-items: center;
+    gap: 0.42rem;
+    flex-wrap: wrap;
+    font-size: 0.72rem;
+    color: #94a3b8;
+}
+
+:root:not(.dark) .lx-meta-strip,
+body.theme-light .lx-meta-strip {
+    color: #64748b;
+}
+
+.lx-card-desc {
+    margin: 0;
+    font-size: 0.78rem;
+    color: #cbd5e1;
+    line-height: 1.48;
+}
+
+:root:not(.dark) .lx-card-desc,
+body.theme-light .lx-card-desc {
+    color: #475569;
+}
+
+.lx-highlights-line {
+    font-size: 0.71rem;
+    color: #94a3b8;
+    padding-top: 0.35rem;
+    border-top: 1px dashed rgba(255, 255, 255, 0.08);
+}
+
+:root:not(.dark) .lx-highlights-line,
+body.theme-light .lx-highlights-line {
+    color: #64748b;
+    border-top-color: rgba(15, 23, 42, 0.08);
+}
+
+.lx-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.8rem 1.1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+:root:not(.dark) .lx-card-footer,
+body.theme-light .lx-card-footer {
+    border-top-color: rgba(15, 23, 42, 0.06);
+}
+
+.lx-price-display {
+    font-size: 0.94rem;
+    font-weight: 800;
+    color: #38bdf8;
+}
+
+:root:not(.dark) .lx-price-display,
+body.theme-light .lx-price-display {
+    color: #0284c7;
+}
+
+/* ==========================================================================
+   5. Right Sidebar: Cultural Etiquette Compass & Phrasebook Deck
+   ========================================================================== */
+.lx-side-rail {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    position: sticky;
+    top: 118px;
+}
+
+.lx-side-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    padding: 1.15rem;
+    border-radius: 16px;
+    background: rgba(15, 23, 42, 0.84);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+:root:not(.dark) .lx-side-panel,
+body.theme-light .lx-side-panel {
+    background: #ffffff;
+    border-color: rgba(15, 23, 42, 0.08);
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.04);
+}
+
+.lx-side-title {
+    margin: 0;
+    font-size: 0.92rem;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+}
+
+.lx-etiquette-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.lx-etiquette-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.18rem;
+    padding-bottom: 0.55rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    font-size: 0.75rem;
+    line-height: 1.42;
+}
+
+:root:not(.dark) .lx-etiquette-item,
+body.theme-light .lx-etiquette-item {
+    border-bottom-color: rgba(15, 23, 42, 0.06);
+}
+
+.lx-etiquette-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.lx-phrase-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.55rem 0.7rem;
+    border-radius: 10px;
+    background: rgba(30, 41, 59, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    cursor: pointer;
+    transition: border-color 0.15s ease;
+}
+
+:root:not(.dark) .lx-phrase-card,
+body.theme-light .lx-phrase-card {
+    background: #f8fafc;
+    border-color: rgba(15, 23, 42, 0.08);
+}
+
+.lx-phrase-card:hover {
+    border-color: rgba(56, 189, 248, 0.45);
+}
+
+/* ==========================================================================
+   6. Deep-Dive Experience Syllabus & Instant Reservation Modal
+   ========================================================================== */
+.lx-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 1500;
+    background: rgba(2, 6, 23, 0.78);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.lx-modal-dialog {
+    width: 100%;
+    max-width: 640px;
+    max-height: 90vh;
+    overflow-y: auto;
+    border-radius: 18px;
+    padding: 1.35rem 1.5rem;
+    background: #0f172a;
+    border: 1px solid rgba(56, 189, 248, 0.35);
+    color: #f8fafc;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    box-shadow: 0 24px 52px rgba(0, 0, 0, 0.65);
+}
+
+:root:not(.dark) .lx-modal-dialog,
+body.theme-light .lx-modal-dialog {
+    background: #ffffff;
+    color: #0f172a;
+    border-color: rgba(2, 132, 199, 0.3);
+}
+
+.lx-syllabus-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    padding: 0.85rem 1rem;
+    border-radius: 12px;
+    background: rgba(30, 41, 59, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+:root:not(.dark) .lx-syllabus-timeline,
+body.theme-light .lx-syllabus-timeline {
+    background: #f8fafc;
+    border-color: rgba(15, 23, 42, 0.08);
+}
+
+.lx-syllabus-step {
+    display: flex;
+    align-items: baseline;
+    gap: 0.65rem;
+    font-size: 0.76rem;
+    line-height: 1.4;
+}
+
+.lx-syllabus-time {
+    font-weight: 800;
+    color: #38bdf8;
+    min-width: 58px;
+    flex-shrink: 0;
+}
+
+:root:not(.dark) .lx-syllabus-time,
+body.theme-light .lx-syllabus-time {
+    color: #0284c7;
+}
+
+/* ==========================================================================
+   7. Responsive Breakpoints
+   ========================================================================== */
+@media (max-width: 1120px) {
+    .lx-workspace-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .lx-side-rail {
+        position: static;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .lx-hero-banner {
+        padding: 1rem;
+    }
+
+    .lx-title {
+        font-size: 1.2rem;
+    }
+
+    .lx-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .lx-search-box {
+        min-width: 100%;
+    }
+}

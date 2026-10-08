@@ -12,6 +12,7 @@ import DestinationDetail from './components/DestinationDetail';
 import FlightVisaWidget from './components/FlightVisaWidget';
 import DIYHub from '../DIY/DIYHub';
 import TrivenlyHub from '../Marketplace/TrivenlyHub';
+import LearningVoluntourism from '../LearningVoluntourism';
 import MultiCityPlanner from '../Planner/MultiCityPlanner';
 import SeeNomadMultiPart from './components/SeeNomadMultiPart';
 import CompareDestinationsModal from './components/CompareDestinationsModal';
@@ -49,6 +50,8 @@ import ConsolidatedExploreSuites from './components/ConsolidatedExploreSuites';
 import BookTravelHub from '../BookingHub/BookTravelHub';
 import ReviewsAndRatings from '../BookingHub/components/ReviewsAndRatings';
 import HoloAtlasTravelMap from './components/HoloAtlasTravelMap';
+import SupportUtility from '../SupportUtility';
+import TaxComplianceCalculator from '../Visa/TaxComplianceCalculator';
 import './styles/Explore.css';
 
 const Explore = () => {
@@ -124,8 +127,10 @@ const Explore = () => {
                     <Route path="visa" element={<Visa />} />
                     <Route path="visas" element={<Visa />} />
                     <Route path="visa-intelligence" element={<VisaIntelligenceHub />} />
+                    <Route path="tax-calculator" element={<TaxComplianceCalculator />} />
+                    <Route path="tax-compliance" element={<TaxComplianceCalculator />} />
                     <Route path="culture-community" element={<ConsolidatedExploreSuites suiteKey="culture-community" defaultTab="all" />} />
-                    <Route path="passport-perks" element={<ConsolidatedExploreSuites suiteKey="passport-perks" defaultTab="all" />} />
+                    <Route path="passport-perks" element={<NomadPerks />} />
                     <Route path="connectivity-market" element={<ConsolidatedExploreSuites suiteKey="connectivity-market" defaultTab="all" />} />
                     <Route path="speed-test" element={<ConsolidatedExploreSuites suiteKey="connectivity-market" defaultTab="speed-test" />} />
                     <Route path="speed-test-map" element={<ConsolidatedExploreSuites suiteKey="connectivity-market" defaultTab="speed-test" />} />
@@ -142,24 +147,28 @@ const Explore = () => {
                     <Route path="seenomad-multi-part" element={<SeeNomadMultiPart />} />
                     <Route path="multi-part" element={<SeeNomadMultiPart />} />
                     <Route path="multi-city" element={<SeeNomadMultiPart />} />
-                    <Route path="cultural-compass" element={<ConsolidatedExploreSuites suiteKey="culture-community" defaultTab="cultural-compass" />} />
+                    <Route path="local-experiences" element={<LearningVoluntourism />} />
+                    <Route path="cultural-compass" element={<LearningVoluntourism />} />
                     <Route path="story-studio" element={<ConsolidatedExploreSuites suiteKey="culture-community" defaultTab="story-studio" />} />
-                    <Route path="guardians" element={<ConsolidatedExploreSuites suiteKey="culture-community" defaultTab="guardians" />} />
-                    <Route path="local-guardians" element={<ConsolidatedExploreSuites suiteKey="culture-community" defaultTab="guardians" />} />
+                    <Route path="guardians" element={<GuardianConnect />} />
+                    <Route path="local-guardians" element={<GuardianConnect />} />
+                    <Route path="travel-agents" element={<GuardianConnect />} />
                     <Route path="super-agent" element={<NomadAIStudio defaultEngine="super-agent" />} />
                     <Route path="challenges" element={<ConsolidatedExploreSuites suiteKey="passport-perks" defaultTab="challenges" />} />
                     <Route path="viral-challenges" element={<ConsolidatedExploreSuites suiteKey="passport-perks" defaultTab="challenges" />} />
-                    <Route path="perks" element={<ConsolidatedExploreSuites suiteKey="passport-perks" defaultTab="perks" />} />
-                    <Route path="nomad-perks" element={<ConsolidatedExploreSuites suiteKey="passport-perks" defaultTab="perks" />} />
+                    <Route path="perks" element={<NomadPerks />} />
+                    <Route path="nomad-perks" element={<NomadPerks />} />
                     <Route path="discovery" element={<ConsolidatedExploreSuites suiteKey="connectivity-market" defaultTab="discovery" />} />
                     <Route path="discovery-hub" element={<ConsolidatedExploreSuites suiteKey="connectivity-market" defaultTab="discovery" />} />
                     <Route path="dna" element={<ConsolidatedExploreSuites suiteKey="passport-perks" defaultTab="dna" />} />
                     <Route path="nomad-dna" element={<ConsolidatedExploreSuites suiteKey="passport-perks" defaultTab="dna" />} />
-                    <Route path="trivenly/*" element={<ConsolidatedExploreSuites suiteKey="connectivity-market" defaultTab="trivenly" />} />
-                    <Route path="trivenly-market/*" element={<ConsolidatedExploreSuites suiteKey="connectivity-market" defaultTab="trivenly" />} />
+                    <Route path="trivenly/*" element={<GuideMarketplace />} />
+                    <Route path="trivenly-market/*" element={<GuideMarketplace />} />
+                    <Route path="destination-guides" element={<GuideMarketplace />} />
                     <Route path="diy/*" element={<DIYHub />} />
                     <Route path="flights-visa" element={<ConsolidatedExploreSuites suiteKey="connectivity-market" defaultTab="flights-visa" />} />
                     <Route path="planner" element={<NomadPlanner />} />
+                    <Route path="itinerary-builder" element={<NomadPlanner />} />
                     <Route path="trip-builder" element={<TripBuilder />} />
                     <Route path="vibes" element={<NomadShortsFeed />} />
                     <Route path="shorts" element={<NomadShortsFeed />} />
@@ -170,6 +179,7 @@ const Explore = () => {
                     <Route path="ar-hub" element={<ARRealityHub />} />
                     <Route path="concierge" element={<ShadowConcierge />} />
                     <Route path="risk" element={<RiskIntelligenceMap />} />
+                    <Route path="insurance" element={<SupportUtility />} />
                     <Route path="events" element={<ConsolidatedExploreSuites suiteKey="culture-community" defaultTab="events" />} />
                     <Route path="nomad-events" element={<ConsolidatedExploreSuites suiteKey="culture-community" defaultTab="events" />} />
                     <Route path="passport" element={<ConsolidatedExploreSuites suiteKey="passport-perks" defaultTab="passport" />} />

@@ -140,11 +140,8 @@ const BaseLayout = ({ children }) => {
         location.pathname.startsWith('/ai-agents') ||
         location.pathname.startsWith('/travel-games');
     
-    // Calculate header height dynamically (CoreNav 60px + AddressBar 38px + ModuleNavbar 30px = 128px when active)
-    const hasModuleNav = moduleNavItems && moduleNavItems.length > 0;
-    const currentHeaderHeight = isMobile
-        ? (hasModuleNav ? '118px' : '94px')
-        : (hasModuleNav ? '128px' : '98px');
+    // Calculate header height dynamically (CoreNav 60px + Compact Breadcrumb 22px + ModuleNavbar 28px = 110px)
+    const currentHeaderHeight = isMobile ? '96px' : '110px';
     const currentSidebarWidth = isMobile ? '0px' : (isSidebarCollapsed ? '76px' : '268px');
     const currentRightSidebarWidth = isRightDocked ? '320px' : '0px';
 

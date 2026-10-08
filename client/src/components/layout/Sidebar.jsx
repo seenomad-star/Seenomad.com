@@ -341,6 +341,14 @@ const Sidebar = ({ isCollapsed, toggleSidebar, isMobileOpen, isMobile }) => {
                         description: 'Visa requirement summary, DNV eligibility & embassy FAQ'
                     },
                     {
+                        icon: DollarSign,
+                        label: 'Tax & Compliance',
+                        to: '/explore/tax-calculator',
+                        badge: '183d',
+                        badgeType: 'info',
+                        description: 'Nomad tax liability estimator, source-of-income & 183-day tracker'
+                    },
+                    {
                         icon: GitBranch,
                         label: 'Itinerary Builder',
                         to: '/explore/planner',

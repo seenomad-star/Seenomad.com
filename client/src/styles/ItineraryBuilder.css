@@ -1,0 +1,884 @@
+/* ==========================================================================
+   SeeNomad ChronoRoute™ — Day-by-Day Itinerary Builder & Route Architect
+   Fully responsive dark/light styling for desktop, tablet, and mobile
+   ========================================================================== */
+
+.itinerary-builder-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding-bottom: 2.5rem;
+    color: #f8fafc;
+    box-sizing: border-box;
+}
+
+:root:not(.dark) .itinerary-builder-shell,
+body.theme-light .itinerary-builder-shell {
+    color: #0f172a;
+}
+
+/* ==========================================================================
+   1. Top Hero Command Bar
+   ========================================================================== */
+.ib-command-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    padding: 1.15rem 1.35rem;
+    border-radius: 18px;
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.92) 0%, rgba(30, 41, 59, 0.82) 100%);
+    border: 1px solid rgba(56, 189, 248, 0.22);
+    box-shadow: 0 12px 32px -10px rgba(0, 0, 0, 0.4);
+}
+
+:root:not(.dark) .ib-command-header,
+body.theme-light .ib-command-header {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    border-color: rgba(2, 132, 199, 0.2);
+    box-shadow: 0 10px 26px -10px rgba(15, 23, 42, 0.08);
+}
+
+.ib-header-top-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.ib-title-area {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    flex: 1;
+    min-width: 260px;
+}
+
+.ib-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: #38bdf8;
+}
+
+:root:not(.dark) .ib-kicker {
+    color: #0284c7;
+}
+
+.ib-title-input-row {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+}
+
+.ib-title-input {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: inherit;
+    background: transparent;
+    border: 1px dashed transparent;
+    border-radius: 8px;
+    padding: 0.15rem 0.4rem;
+    margin-left: -0.4rem;
+    min-width: 260px;
+    max-width: 100%;
+    transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.ib-title-input:hover,
+.ib-title-input:focus {
+    border-color: rgba(56, 189, 248, 0.45);
+    background: rgba(56, 189, 248, 0.06);
+    outline: none;
+}
+
+.ib-subtitle {
+    margin: 0;
+    font-size: 0.8rem;
+    color: #94a3b8;
+}
+
+:root:not(.dark) .ib-subtitle {
+    color: #64748b;
+}
+
+/* Header Action Buttons */
+.ib-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    flex-wrap: wrap;
+}
+
+.ib-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.48rem 0.85rem;
+    border-radius: 10px;
+    font-size: 0.76rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.16s ease;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.06);
+    color: #e2e8f0;
+    white-space: nowrap;
+}
+
+:root:not(.dark) .ib-btn {
+    background: #f1f5f9;
+    border-color: rgba(15, 23, 42, 0.12);
+    color: #1e293b;
+}
+
+.ib-btn:hover {
+    border-color: rgba(56, 189, 248, 0.5);
+    color: #38bdf8;
+    transform: translateY(-1px);
+}
+
+:root:not(.dark) .ib-btn:hover {
+    color: #0284c7;
+    background: #e0f2fe;
+}
+
+.ib-btn-primary {
+    background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
+    border-color: rgba(56, 189, 248, 0.5);
+    color: #ffffff !important;
+    box-shadow: 0 4px 14px rgba(2, 132, 199, 0.3);
+}
+
+.ib-btn-primary:hover {
+    background: linear-gradient(135deg, #0369a1 0%, #1d4ed8 100%);
+    color: #ffffff !important;
+}
+
+.ib-btn-ai {
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.22) 0%, rgba(56, 189, 248, 0.22) 100%);
+    border-color: rgba(168, 85, 247, 0.45);
+    color: #e9d5ff;
+}
+
+:root:not(.dark) .ib-btn-ai {
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.12) 0%, rgba(2, 132, 199, 0.12) 100%);
+    color: #6b21a8;
+}
+
+/* Preset Templates & Trip Meta Controls Strip */
+.ib-controls-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    flex-wrap: wrap;
+}
+
+:root:not(.dark) .ib-controls-bar {
+    border-top-color: rgba(15, 23, 42, 0.08);
+}
+
+.ib-template-pills {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    max-width: 100%;
+    padding-bottom: 2px;
+}
+
+.ib-template-pills::-webkit-scrollbar {
+    display: none;
+}
+
+.ib-template-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.35rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.73rem;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #94a3b8;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s ease;
+}
+
+:root:not(.dark) .ib-template-chip {
+    background: #f8fafc;
+    border-color: rgba(15, 23, 42, 0.1);
+    color: #475569;
+}
+
+.ib-template-chip.active {
+    background: rgba(56, 189, 248, 0.16);
+    border-color: rgba(56, 189, 248, 0.5);
+    color: #38bdf8;
+    font-weight: 700;
+}
+
+:root:not(.dark) .ib-template-chip.active {
+    background: #e0f2fe;
+    border-color: #0284c7;
+    color: #0284c7;
+}
+
+/* Trip Parameters Inline Controls */
+.ib-meta-inputs {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+}
+
+.ib-meta-field {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.74rem;
+    color: #94a3b8;
+    background: rgba(15, 23, 42, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    padding: 0.28rem 0.6rem;
+    border-radius: 8px;
+}
+
+:root:not(.dark) .ib-meta-field {
+    background: #f8fafc;
+    border-color: rgba(15, 23, 42, 0.1);
+    color: #475569;
+}
+
+.ib-meta-field input,
+.ib-meta-field select {
+    background: transparent;
+    border: none;
+    color: #f8fafc;
+    font-size: 0.74rem;
+    font-weight: 700;
+    outline: none;
+}
+
+:root:not(.dark) .ib-meta-field input,
+:root:not(.dark) .ib-meta-field select {
+    color: #0f172a;
+}
+
+/* ==========================================================================
+   2. Telemetry KPI Strip & View Mode Tabs
+   ========================================================================== */
+.ib-subbar-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.85rem;
+    flex-wrap: wrap;
+}
+
+.ib-kpi-strip {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    font-size: 0.78rem;
+    color: #94a3b8;
+}
+
+:root:not(.dark) .ib-kpi-strip {
+    color: #64748b;
+}
+
+.ib-kpi-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.ib-kpi-item strong {
+    color: #f8fafc;
+    font-weight: 700;
+}
+
+:root:not(.dark) .ib-kpi-item strong {
+    color: #0f172a;
+}
+
+.ib-kpi-item.over-budget strong {
+    color: #f87171;
+}
+
+.ib-kpi-item.under-budget strong {
+    color: #34d399;
+}
+
+/* Segmented Workspace View Tabs */
+.ib-view-tabs {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem;
+    border-radius: 10px;
+    background: rgba(15, 23, 42, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+:root:not(.dark) .ib-view-tabs {
+    background: #f1f5f9;
+    border-color: rgba(15, 23, 42, 0.08);
+}
+
+.ib-view-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.38rem 0.75rem;
+    border-radius: 7px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border: none;
+    background: transparent;
+    color: #94a3b8;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+:root:not(.dark) .ib-view-tab {
+    color: #475569;
+}
+
+.ib-view-tab.active {
+    background: #0284c7;
+    color: #ffffff;
+    box-shadow: 0 2px 8px rgba(2, 132, 199, 0.25);
+}
+
+/* ==========================================================================
+   3. Three-Column Day-by-Day Workspace Grid
+   ========================================================================== */
+.ib-workspace-grid {
+    display: grid;
+    grid-template-columns: 250px minmax(0, 1fr) 310px;
+    gap: 1rem;
+    align-items: start;
+}
+
+/* Left Column: Day & City Leg Navigator */
+.ib-days-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.85rem;
+    border-radius: 16px;
+    background: rgba(15, 23, 42, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+:root:not(.dark) .ib-days-sidebar {
+    background: #ffffff;
+    border-color: rgba(15, 23, 42, 0.08);
+}
+
+.ib-panel-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #94a3b8;
+    margin-bottom: 0.25rem;
+}
+
+.ib-days-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.ib-day-nav-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    border-radius: 11px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    background: rgba(255, 255, 255, 0.03);
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+:root:not(.dark) .ib-day-nav-btn {
+    background: #f8fafc;
+    border-color: rgba(15, 23, 42, 0.06);
+}
+
+.ib-day-nav-btn:hover {
+    border-color: rgba(56, 189, 248, 0.35);
+    background: rgba(56, 189, 248, 0.07);
+}
+
+.ib-day-nav-btn.active {
+    background: linear-gradient(135deg, rgba(2, 132, 199, 0.24) 0%, rgba(37, 99, 235, 0.18) 100%);
+    border-color: rgba(56, 189, 248, 0.55);
+}
+
+:root:not(.dark) .ib-day-nav-btn.active {
+    background: #e0f2fe;
+    border-color: #0284c7;
+}
+
+.ib-day-nav-left {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    min-width: 0;
+}
+
+.ib-day-num {
+    font-size: 0.78rem;
+    font-weight: 800;
+    color: #38bdf8;
+}
+
+:root:not(.dark) .ib-day-num {
+    color: #0284c7;
+}
+
+.ib-day-city {
+    font-size: 0.76rem;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ib-day-meta {
+    font-size: 0.68rem;
+    color: #94a3b8;
+    flex-shrink: 0;
+}
+
+.ib-add-day-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    width: 100%;
+    padding: 0.55rem;
+    margin-top: 0.25rem;
+    border-radius: 10px;
+    border: 1px dashed rgba(56, 189, 248, 0.4);
+    background: rgba(56, 189, 248, 0.06);
+    color: #38bdf8;
+    font-size: 0.75rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+:root:not(.dark) .ib-add-day-btn {
+    color: #0284c7;
+    border-color: rgba(2, 132, 199, 0.4);
+}
+
+.ib-add-day-btn:hover {
+    background: rgba(56, 189, 248, 0.14);
+}
+
+/* ==========================================================================
+   4. Center Column: Active Day Timeline Canvas
+   ========================================================================== */
+.ib-day-canvas {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    padding: 1.1rem;
+    border-radius: 16px;
+    background: rgba(15, 23, 42, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+:root:not(.dark) .ib-day-canvas {
+    background: #ffffff;
+    border-color: rgba(15, 23, 42, 0.08);
+}
+
+.ib-day-canvas-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    flex-wrap: wrap;
+}
+
+:root:not(.dark) .ib-day-canvas-header {
+    border-bottom-color: rgba(15, 23, 42, 0.08);
+}
+
+.ib-day-header-info h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.ib-day-header-sub {
+    margin: 0.25rem 0 0 0;
+    font-size: 0.76rem;
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    flex-wrap: wrap;
+}
+
+/* Timeline Stops List */
+.ib-stops-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+}
+
+.ib-stop-card {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.85rem;
+    padding: 0.85rem 1rem;
+    border-radius: 13px;
+    background: rgba(30, 41, 59, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+:root:not(.dark) .ib-stop-card {
+    background: #f8fafc;
+    border-color: rgba(15, 23, 42, 0.08);
+}
+
+.ib-stop-card:hover {
+    border-color: rgba(56, 189, 248, 0.35);
+}
+
+.ib-stop-card.is-booked {
+    border-left: 3px solid #10b981;
+}
+
+.ib-stop-time-col {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 86px;
+    flex-shrink: 0;
+    gap: 0.25rem;
+}
+
+.ib-stop-time {
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: #38bdf8;
+}
+
+:root:not(.dark) .ib-stop-time {
+    color: #0284c7;
+}
+
+.ib-stop-cat-label {
+    font-size: 0.66rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #94a3b8;
+}
+
+.ib-stop-body {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.ib-stop-title {
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: inherit;
+}
+
+.ib-stop-meta-line {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    flex-wrap: wrap;
+    font-size: 0.73rem;
+    color: #94a3b8;
+}
+
+:root:not(.dark) .ib-stop-meta-line {
+    color: #64748b;
+}
+
+.ib-stop-note {
+    margin: 0;
+    font-size: 0.74rem;
+    color: #cbd5e1;
+    line-height: 1.4;
+}
+
+:root:not(.dark) .ib-stop-note {
+    color: #475569;
+}
+
+.ib-stop-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    flex-shrink: 0;
+}
+
+.ib-icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 7px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.04);
+    color: #94a3b8;
+    cursor: pointer;
+    transition: all 0.14s ease;
+}
+
+:root:not(.dark) .ib-icon-btn {
+    background: #ffffff;
+    border-color: rgba(15, 23, 42, 0.1);
+    color: #64748b;
+}
+
+.ib-icon-btn:hover:not(:disabled) {
+    color: #38bdf8;
+    border-color: rgba(56, 189, 248, 0.4);
+}
+
+.ib-icon-btn.booked-active {
+    color: #10b981;
+    border-color: rgba(16, 185, 129, 0.45);
+    background: rgba(16, 185, 129, 0.12);
+}
+
+.ib-icon-btn.delete:hover {
+    color: #f87171;
+    border-color: rgba(248, 113, 113, 0.4);
+}
+
+/* Inline Add Stop Form */
+.ib-add-stop-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    padding: 0.95rem;
+    border-radius: 13px;
+    background: rgba(2, 132, 199, 0.08);
+    border: 1px dashed rgba(56, 189, 248, 0.4);
+}
+
+.ib-form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 0.55rem;
+}
+
+.ib-form-input,
+.ib-form-select {
+    padding: 0.48rem 0.65rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(15, 23, 42, 0.8);
+    color: #f8fafc;
+    font-size: 0.76rem;
+    outline: none;
+}
+
+:root:not(.dark) .ib-form-input,
+:root:not(.dark) .ib-form-select {
+    background: #ffffff;
+    border-color: rgba(15, 23, 42, 0.15);
+    color: #0f172a;
+}
+
+/* ==========================================================================
+   5. Right Column: Smart Discovery & Saved Vault Picker
+   ========================================================================== */
+.ib-discovery-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 0.9rem;
+    border-radius: 16px;
+    background: rgba(15, 23, 42, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+:root:not(.dark) .ib-discovery-panel {
+    background: #ffffff;
+    border-color: rgba(15, 23, 42, 0.08);
+}
+
+.ib-discovery-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-height: 520px;
+    overflow-y: auto;
+    padding-right: 2px;
+}
+
+.ib-discovery-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: 0.7rem;
+    border-radius: 11px;
+    background: rgba(30, 41, 59, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+:root:not(.dark) .ib-discovery-card {
+    background: #f8fafc;
+    border-color: rgba(15, 23, 42, 0.07);
+}
+
+.ib-discovery-card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.5rem;
+}
+
+.ib-discovery-card h4 {
+    margin: 0;
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+
+.ib-discovery-meta {
+    font-size: 0.69rem;
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    flex-wrap: wrap;
+}
+
+/* ==========================================================================
+   6. Multi-Stop Route Matrix & Budget Views
+   ========================================================================== */
+.ib-matrix-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+    gap: 0.9rem;
+}
+
+.ib-matrix-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    padding: 1rem;
+    border-radius: 14px;
+    background: rgba(15, 23, 42, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+:root:not(.dark) .ib-matrix-card {
+    background: #ffffff;
+    border-color: rgba(15, 23, 42, 0.08);
+}
+
+.ib-progress-track {
+    width: 100%;
+    height: 7px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+}
+
+:root:not(.dark) .ib-progress-track {
+    background: rgba(15, 23, 42, 0.08);
+}
+
+.ib-progress-fill {
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #38bdf8, #2563eb);
+}
+
+/* ==========================================================================
+   7. Responsive Breakpoints (Tablet & Mobile)
+   ========================================================================== */
+@media (max-width: 1120px) {
+    .ib-workspace-grid {
+        grid-template-columns: 220px minmax(0, 1fr);
+    }
+
+    .ib-discovery-panel {
+        grid-column: 1 / -1;
+    }
+
+    .ib-discovery-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        max-height: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .ib-workspace-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .ib-days-list {
+        flex-direction: row;
+        overflow-x: auto;
+        padding-bottom: 4px;
+    }
+
+    .ib-day-nav-btn {
+        min-width: 145px;
+        flex-shrink: 0;
+    }
+
+    .ib-stop-card {
+        flex-direction: column;
+    }
+
+    .ib-stop-actions {
+        width: 100%;
+        justify-content: flex-end;
+    }
+}

@@ -19,7 +19,7 @@
   --layout-sidebar-collapsed-width: 76px;
   --layout-right-sidebar-width: 320px;
   --layout-top-nav-height: 60px;
-  --layout-address-bar-height: 38px;
+  --layout-address-bar-height: 22px;
   --layout-max-width: 1440px;
 
   /* Active layout variables set dynamically by BaseLayout */
@@ -187,12 +187,12 @@
     padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px)) !important; /* Ergonomic spacing for Bottom Nav Dock */
   }
 
-  .address-bar-container,
   .context-strip,
   .action-ribbon {
     display: none !important;
   }
 
+  .address-bar-container,
   .module-navbar {
     display: flex !important;
     margin-left: 0 !important;
@@ -209,21 +209,21 @@
   width: 100%;
   max-width: var(--layout-max-width);
   margin: 0 auto;
-  padding: 1.5rem 1.75rem 3.5rem 1.75rem;
+  padding: 0.65rem 1.5rem 3rem 1.5rem;
   box-sizing: border-box;
 }
 
 @media (max-width: 1024px) {
   .base-layout-content-wrapper,
   .content-wrapper {
-    padding: 1.25rem 1.25rem 2.5rem 1.25rem;
+    padding: 0.55rem 1.1rem 2.25rem 1.1rem;
   }
 }
 
 @media (max-width: 640px) {
   .base-layout-content-wrapper,
   .content-wrapper {
-    padding: 1rem 0.85rem 2rem 0.85rem;
+    padding: 0.45rem 0.75rem 1.75rem 0.75rem;
   }
 }
 

@@ -1,0 +1,804 @@
+/* ==========================================================================
+   SeeNomad Sovereign Guardian™ & Autonomous Fixer Protocol
+   Zero-Markup Escrow · Live Flat-Scout & Fiber Verification · On-Ground SOS
+   Fully responsive dark/light styling with zero-pill metadata discipline
+   ========================================================================== */
+
+.ta-hub-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 1.15rem;
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding-bottom: 3rem;
+    color: #f8fafc;
+    box-sizing: border-box;
+}
+
+:root:not(.dark) .ta-hub-shell,
+body.theme-light .ta-hub-shell {
+    color: #0f172a;
+}
+
+/* ==========================================================================
+   1. Editorial Hero Banner & Zero-Markup Escrow Telemetry
+   ========================================================================== */
+.ta-hero-banner {
+    display: flex;
+    flex-direction: column;
+    gap: 1.05rem;
+    padding: 1.35rem 1.5rem;
+    border-radius: 18px;
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.96) 0%, rgba(30, 41, 59, 0.9) 100%);
+    border: 1px solid rgba(56, 189, 248, 0.24);
+    box-shadow: 0 14px 36px -12px rgba(0, 0, 0, 0.45);
+}
+
+:root:not(.dark) .ta-hero-banner,
+body.theme-light .ta-hero-banner {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    border-color: rgba(2, 132, 199, 0.22);
+    box-shadow: 0 12px 30px -12px rgba(15, 23, 42, 0.08);
+}
+
+.ta-hero-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+}
+
+.ta-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: #38bdf8;
+}
+
+:root:not(.dark) .ta-kicker,
+body.theme-light .ta-kicker {
+    color: #0284c7;
+}
+
+.ta-title {
+    margin: 0.25rem 0 0 0;
+    font-size: 1.5rem;
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+}
+
+.ta-subtitle {
+    margin: 0.35rem 0 0 0;
+    font-size: 0.84rem;
+    color: #94a3b8;
+    max-width: 800px;
+    line-height: 1.5;
+}
+
+:root:not(.dark) .ta-subtitle,
+body.theme-light .ta-subtitle {
+    color: #475569;
+}
+
+.ta-hero-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    flex-wrap: wrap;
+}
+
+.ta-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.42rem;
+    padding: 0.52rem 0.95rem;
+    border-radius: 10px;
+    font-size: 0.77rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.16s ease;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(255, 255, 255, 0.06);
+    color: #e2e8f0;
+    white-space: nowrap;
+}
+
+:root:not(.dark) .ta-btn,
+body.theme-light .ta-btn {
+    background: #f1f5f9;
+    border-color: rgba(15, 23, 42, 0.12);
+    color: #1e293b;
+}
+
+.ta-btn:hover {
+    border-color: rgba(56, 189, 248, 0.55);
+    color: #38bdf8;
+    transform: translateY(-1px);
+}
+
+:root:not(.dark) .ta-btn:hover,
+body.theme-light .ta-btn:hover {
+    border-color: rgba(2, 132, 199, 0.45);
+    color: #0284c7;
+}
+
+.ta-btn-primary {
+    background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
+    border-color: rgba(56, 189, 248, 0.5);
+    color: #ffffff !important;
+    box-shadow: 0 4px 14px rgba(2, 132, 199, 0.28);
+}
+
+.ta-btn-primary:hover {
+    filter: brightness(1.07);
+    color: #ffffff !important;
+}
+
+.ta-btn-emerald {
+    background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+    border-color: rgba(52, 211, 153, 0.45);
+    color: #ffffff !important;
+}
+
+/* Unboxed Hero Telemetry Row */
+.ta-kpi-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    padding-top: 0.85rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    font-size: 0.77rem;
+    color: #94a3b8;
+}
+
+:root:not(.dark) .ta-kpi-row,
+body.theme-light .ta-kpi-row {
+    border-top-color: rgba(15, 23, 42, 0.08);
+    color: #64748b;
+}
+
+.ta-kpi-metrics {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.ta-kpi-row strong {
+    color: #f8fafc;
+    font-weight: 700;
+}
+
+:root:not(.dark) .ta-kpi-row strong,
+body.theme-light .ta-kpi-row strong {
+    color: #0f172a;
+}
+
+.ta-corridor-switcher {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+}
+
+.ta-corridor-btn {
+    padding: 0.32rem 0.68rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.03);
+    color: #cbd5e1;
+    font-size: 0.73rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+:root:not(.dark) .ta-corridor-btn,
+body.theme-light .ta-corridor-btn {
+    background: #f8fafc;
+    border-color: rgba(15, 23, 42, 0.1);
+    color: #334155;
+}
+
+.ta-corridor-btn:hover {
+    border-color: rgba(56, 189, 248, 0.45);
+    color: #38bdf8;
+}
+
+.ta-corridor-btn.active {
+    background: #0284c7;
+    border-color: #38bdf8;
+    color: #ffffff;
+}
+
+/* ==========================================================================
+   2. Post Custom Fixer Bounty / Join Guardian Network Drawer
+   ========================================================================== */
+.ta-drawer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    padding: 1.2rem 1.35rem;
+    border-radius: 16px;
+    background: rgba(15, 23, 42, 0.92);
+    border: 1px solid rgba(56, 189, 248, 0.42);
+    box-shadow: 0 12px 28px -10px rgba(0, 0, 0, 0.38);
+}
+
+:root:not(.dark) .ta-drawer,
+body.theme-light .ta-drawer {
+    background: #ffffff;
+    border-color: rgba(2, 132, 199, 0.35);
+    box-shadow: 0 10px 24px -10px rgba(15, 23, 42, 0.08);
+}
+
+.ta-drawer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.ta-form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
+    gap: 0.7rem;
+    align-items: end;
+}
+
+.ta-field-label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #94a3b8;
+}
+
+:root:not(.dark) .ta-field-label,
+body.theme-light .ta-field-label {
+    color: #475569;
+}
+
+.ta-input,
+.ta-select {
+    width: 100%;
+    padding: 0.52rem 0.75rem;
+    border-radius: 9px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(30, 41, 59, 0.78);
+    color: #f8fafc;
+    font-size: 0.78rem;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.15s ease;
+}
+
+.ta-input:focus,
+.ta-select:focus {
+    border-color: #38bdf8;
+}
+
+:root:not(.dark) .ta-input,
+:root:not(.dark) .ta-select,
+body.theme-light .ta-input,
+body.theme-light .ta-select {
+    background: #f8fafc;
+    border-color: rgba(15, 23, 42, 0.15);
+    color: #0f172a;
+}
+
+/* ==========================================================================
+   3. Multi-Axis Specialty & SLA Filter Toolbar
+   ========================================================================== */
+.ta-toolbar {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 0.9rem 1.15rem;
+    border-radius: 16px;
+    background: rgba(15, 23, 42, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+:root:not(.dark) .ta-toolbar,
+body.theme-light .ta-toolbar {
+    background: #ffffff;
+    border-color: rgba(15, 23, 42, 0.08);
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+}
+
+.ta-toolbar-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.ta-tabs {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.ta-tabs::-webkit-scrollbar {
+    display: none;
+}
+
+.ta-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.42rem 0.82rem;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    background: rgba(255, 255, 255, 0.04);
+    color: #94a3b8;
+    font-size: 0.75rem;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s ease;
+}
+
+:root:not(.dark) .ta-tab,
+body.theme-light .ta-tab {
+    background: #f1f5f9;
+    color: #475569;
+}
+
+.ta-tab:hover {
+    color: #f8fafc;
+    border-color: rgba(56, 189, 248, 0.3);
+}
+
+:root:not(.dark) .ta-tab:hover,
+body.theme-light .ta-tab:hover {
+    color: #0f172a;
+}
+
+.ta-tab.active {
+    background: #0284c7;
+    color: #ffffff;
+    border-color: rgba(56, 189, 248, 0.5);
+}
+
+.ta-search-box {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.38rem 0.75rem;
+    border-radius: 9px;
+    background: rgba(30, 41, 59, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    min-width: 260px;
+}
+
+:root:not(.dark) .ta-search-box,
+body.theme-light .ta-search-box {
+    background: #f8fafc;
+    border-color: rgba(15, 23, 42, 0.12);
+}
+
+.ta-search-box input {
+    background: transparent;
+    border: none;
+    color: inherit;
+    font-size: 0.76rem;
+    outline: none;
+    width: 100%;
+}
+
+/* ==========================================================================
+   4. Main Split Workspace: Verified Agent Grid + Live Arbitrage Command Rail
+   ========================================================================== */
+.ta-workspace-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 360px;
+    gap: 1.15rem;
+    align-items: start;
+}
+
+.ta-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1rem;
+}
+
+.ta-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-radius: 16px;
+    overflow: hidden;
+    background: rgba(15, 23, 42, 0.84);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+:root:not(.dark) .ta-card,
+body.theme-light .ta-card {
+    background: #ffffff;
+    border-color: rgba(15, 23, 42, 0.08);
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.05);
+}
+
+.ta-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(56, 189, 248, 0.42);
+    box-shadow: 0 14px 30px -12px rgba(2, 132, 199, 0.22);
+}
+
+.ta-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.85rem;
+    padding: 1.05rem 1.1rem 0.75rem 1.1rem;
+}
+
+.ta-agent-identity {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+}
+
+.ta-avatar-wrap {
+    position: relative;
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    overflow: hidden;
+    flex-shrink: 0;
+    border: 1px solid rgba(56, 189, 248, 0.35);
+}
+
+.ta-avatar-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.ta-online-dot {
+    position: absolute;
+    bottom: 3px;
+    right: 3px;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #10b981;
+    box-shadow: 0 0 0 2px #0f172a;
+}
+
+.ta-agent-name {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 800;
+    line-height: 1.25;
+    cursor: pointer;
+}
+
+.ta-agent-name:hover {
+    color: #38bdf8;
+}
+
+.ta-agent-role {
+    margin-top: 0.18rem;
+    font-size: 0.74rem;
+    color: #38bdf8;
+    font-weight: 700;
+}
+
+:root:not(.dark) .ta-agent-role,
+body.theme-light .ta-agent-role {
+    color: #0284c7;
+}
+
+.ta-save-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(255, 255, 255, 0.04);
+    color: #94a3b8;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+:root:not(.dark) .ta-save-btn,
+body.theme-light .ta-save-btn {
+    background: #f8fafc;
+    border-color: rgba(15, 23, 42, 0.12);
+    color: #475569;
+}
+
+.ta-save-btn.saved {
+    background: #0284c7;
+    border-color: #38bdf8;
+    color: #ffffff;
+}
+
+.ta-card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    padding: 0 1.1rem 1rem 1.1rem;
+    flex: 1;
+}
+
+/* Unboxed Metadata Strip — Zero Pill Discipline */
+.ta-meta-strip {
+    display: flex;
+    align-items: center;
+    gap: 0.42rem;
+    flex-wrap: wrap;
+    font-size: 0.72rem;
+    color: #94a3b8;
+}
+
+:root:not(.dark) .ta-meta-strip,
+body.theme-light .ta-meta-strip {
+    color: #64748b;
+}
+
+.ta-card-bio {
+    margin: 0;
+    font-size: 0.78rem;
+    color: #cbd5e1;
+    line-height: 1.48;
+}
+
+:root:not(.dark) .ta-card-bio,
+body.theme-light .ta-card-bio {
+    color: #475569;
+}
+
+/* Moat Proof Box: Verified Arbitrage & Deliverables */
+.ta-moat-box {
+    display: flex;
+    flex-direction: column;
+    gap: 0.32rem;
+    padding: 0.62rem 0.75rem;
+    border-radius: 10px;
+    background: rgba(30, 41, 59, 0.55);
+    border: 1px solid rgba(56, 189, 248, 0.16);
+    font-size: 0.72rem;
+}
+
+:root:not(.dark) .ta-moat-box,
+body.theme-light .ta-moat-box {
+    background: #f8fafc;
+    border-color: rgba(2, 132, 199, 0.18);
+}
+
+.ta-moat-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+}
+
+.ta-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.8rem 1.1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+:root:not(.dark) .ta-card-footer,
+body.theme-light .ta-card-footer {
+    border-top-color: rgba(15, 23, 42, 0.06);
+}
+
+.ta-price-display {
+    font-size: 0.94rem;
+    font-weight: 800;
+    color: #38bdf8;
+}
+
+:root:not(.dark) .ta-price-display,
+body.theme-light .ta-price-display {
+    color: #0284c7;
+}
+
+/* ==========================================================================
+   5. Right Sidebar: AI + Human Hybrid Arbitrage Calculator & Active Missions
+   ========================================================================== */
+.ta-side-rail {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    position: sticky;
+    top: 118px;
+}
+
+.ta-side-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    padding: 1.15rem;
+    border-radius: 16px;
+    background: rgba(15, 23, 42, 0.84);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+:root:not(.dark) .ta-side-panel,
+body.theme-light .ta-side-panel {
+    background: #ffffff;
+    border-color: rgba(15, 23, 42, 0.08);
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.04);
+}
+
+.ta-side-title {
+    margin: 0;
+    font-size: 0.92rem;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+}
+
+.ta-savings-breakdown {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    border-radius: 11px;
+    background: rgba(30, 41, 59, 0.6);
+    border: 1px solid rgba(16, 185, 129, 0.25);
+    font-size: 0.75rem;
+}
+
+:root:not(.dark) .ta-savings-breakdown,
+body.theme-light .ta-savings-breakdown {
+    background: #f0fdf4;
+    border-color: rgba(16, 185, 129, 0.3);
+}
+
+.ta-savings-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+}
+
+.ta-bounty-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.22rem;
+    padding: 0.6rem 0.75rem;
+    border-radius: 10px;
+    background: rgba(30, 41, 59, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    font-size: 0.74rem;
+}
+
+:root:not(.dark) .ta-bounty-item,
+body.theme-light .ta-bounty-item {
+    background: #f8fafc;
+    border-color: rgba(15, 23, 42, 0.08);
+}
+
+/* ==========================================================================
+   6. Escrow Mission Contract & Live Fixer Dispatch Modal
+   ========================================================================== */
+.ta-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 1500;
+    background: rgba(2, 6, 23, 0.78);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.ta-modal-dialog {
+    width: 100%;
+    max-width: 660px;
+    max-height: 90vh;
+    overflow-y: auto;
+    border-radius: 18px;
+    padding: 1.35rem 1.5rem;
+    background: #0f172a;
+    border: 1px solid rgba(56, 189, 248, 0.35);
+    color: #f8fafc;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    box-shadow: 0 24px 52px rgba(0, 0, 0, 0.65);
+}
+
+:root:not(.dark) .ta-modal-dialog,
+body.theme-light .ta-modal-dialog {
+    background: #ffffff;
+    color: #0f172a;
+    border-color: rgba(2, 132, 199, 0.3);
+}
+
+.ta-escrow-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    padding: 0.85rem 1rem;
+    border-radius: 12px;
+    background: rgba(30, 41, 59, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+:root:not(.dark) .ta-escrow-steps,
+body.theme-light .ta-escrow-steps {
+    background: #f8fafc;
+    border-color: rgba(15, 23, 42, 0.08);
+}
+
+.ta-escrow-step {
+    display: flex;
+    align-items: baseline;
+    gap: 0.65rem;
+    font-size: 0.76rem;
+    line-height: 1.4;
+}
+
+.ta-escrow-num {
+    font-weight: 800;
+    color: #38bdf8;
+    min-width: 58px;
+    flex-shrink: 0;
+}
+
+:root:not(.dark) .ta-escrow-num,
+body.theme-light .ta-escrow-num {
+    color: #0284c7;
+}
+
+@media (max-width: 1120px) {
+    .ta-workspace-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .ta-side-rail {
+        position: static;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .ta-hero-banner {
+        padding: 1rem;
+    }
+
+    .ta-title {
+        font-size: 1.2rem;
+    }
+
+    .ta-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .ta-search-box {
+        min-width: 100%;
+    }
+}

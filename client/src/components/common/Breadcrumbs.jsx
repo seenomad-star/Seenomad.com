@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
     Home,
     ChevronRight,
+    ChevronLeft,
     Compass,
     Globe,
     Bookmark,
@@ -18,280 +19,339 @@ import {
     Settings,
     User,
     Sparkles,
-    ArrowLeft,
     Copy,
     Check,
     MapPin,
     FileText,
-    Video
+    Video,
+    Map,
+    Plane,
+    Building2,
+    Landmark,
+    Backpack,
+    GitBranch,
+    Camera,
+    Mic,
+    GraduationCap,
+    Brain,
+    LayoutGrid,
+    List,
+    DollarSign,
+    Megaphone,
+    Wallet,
+    MessageCircle,
+    Bell,
+    Wifi,
+    Star,
+    Gift,
+    MoreHorizontal
 } from 'lucide-react';
 import { useToastStore } from '../../store/toastStore';
+import { useDestinationStore } from '../../store/destinationFilterStore';
+import { useNavStore } from '../../store/navStore';
 import './Breadcrumbs.css';
 
 /**
- * Route dictionary for human-friendly breadcrumb segments, icons, and badges.
+ * Comprehensive Route Dictionary for Feature & Nested Page Orientation
  */
-const ROUTE_CONFIG = {
-    'explore': {
-        name: 'Explore',
-        icon: Compass
-    },
-    'destinations': {
-        name: 'Global Destinations',
-        icon: Globe,
-        badge: '195+'
-    },
-    'visa': {
-        name: 'Visa Requirements',
-        icon: Shield,
-        badge: '2026'
-    },
-    'visas': {
-        name: 'Nomad Visas',
-        icon: Shield
-    },
-    'coworking': {
-        name: 'Coworking & Cafes',
-        icon: Compass
-    },
-    'coliving': {
-        name: 'Coliving Hubs',
-        icon: Compass
-    },
-    'saved': {
-        name: 'Saved Wishlist',
-        icon: Bookmark
-    },
-    'favorites': {
-        name: 'Saved Wishlist',
-        icon: Bookmark
-    },
-    'popular': {
-        name: 'Trending & Popular',
-        icon: Flame,
-        badge: 'Hot'
-    },
-    'community': {
-        name: 'Nomad Community',
-        icon: Users
-    },
-    'meetups': {
-        name: 'Global Meetups',
-        icon: Users
-    },
-    'bounty-board': {
-        name: 'Bounty Board',
-        icon: Trophy
-    },
-    'collab-board': {
-        name: 'Collab Projects',
-        icon: Users
-    },
-    'creator-studio': {
-        name: 'Creator Studio',
-        icon: Video
-    },
-    'ai-agents': {
-        name: 'AI Travel Agents',
-        icon: Bot,
-        badge: 'AI Copilot'
-    },
-    'travel-games': {
-        name: 'Quests & Rewards',
-        icon: Trophy,
-        badge: 'XP'
-    },
-    'event-festival': {
-        name: 'Festivals & Events',
-        icon: Calendar
-    },
-    'learning-voluntourism': {
-        name: 'Eco Voluntourism',
-        icon: BookOpen
-    },
-    'insights-analytics': {
-        name: 'Travel Trends & Analytics',
-        icon: BarChart3
-    },
-    'support-utility': {
-        name: 'Utilities & Toolkit',
-        icon: Shield
-    },
-    'business-partner': {
-        name: 'Partner Hub & Deals',
-        icon: Briefcase
-    },
-    'download-app': {
-        name: 'Download App',
-        icon: Sparkles
-    },
-    'partner-with-us': {
-        name: 'Partner With Us',
-        icon: Briefcase
-    },
-    'about': {
-        name: 'About SeeNomad',
-        icon: Compass
-    },
-    'legal': {
-        name: 'Legal & Policies',
-        icon: FileText
-    },
-    'settings': {
-        name: 'Settings',
-        icon: Settings
-    },
-    'user': {
-        name: 'Nomad Hub',
-        icon: User
-    },
-    'profile': {
-        name: 'Traveler Profile',
-        icon: User
-    },
-    'achievements': {
-        name: 'Passport Stamps',
-        icon: Trophy
-    },
-    'travel-journey': {
-        name: 'My Trips',
-        icon: Compass
-    },
-    'notifications': {
-        name: 'Notifications',
-        icon: Sparkles
+export const ROUTE_CONFIG = {
+    'explore': { name: 'Explore', icon: Compass, defaultPath: '/explore/destinations' },
+    'destinations': { name: 'Destinations', icon: Globe, parent: { label: 'Explore', path: '/explore/destinations', icon: Compass } },
+    'vibes': { name: 'Travel Vibes', icon: Video, parent: { label: 'Discover', path: '/popular', icon: Flame } },
+    'shorts': { name: 'Travel Vibes', icon: Video, parent: { label: 'Discover', path: '/popular', icon: Flame } },
+    'travel-map': { name: '3D Travel Map', icon: Map, parent: { label: 'Explore', path: '/explore/destinations', icon: Compass } },
+    'map': { name: '3D Travel Map', icon: Map, parent: { label: 'Explore', path: '/explore/destinations', icon: Compass } },
+    'ar-hub': { name: 'AR & WebXR Hub', icon: Sparkles, parent: { label: '3D Travel Map', path: '/explore/travel-map', icon: Map } },
+    'risk': { name: 'Safety & Risk Map', icon: Shield, parent: { label: '3D Travel Map', path: '/explore/travel-map', icon: Map } },
+    'book-travel': { name: 'Flights & Multi-Mode', icon: Plane, parent: { label: 'Book Travel', path: '/explore/book-travel', icon: Plane } },
+    'hotel-finder': { name: 'Hotels & Coliving', icon: Building2, parent: { label: 'Book Travel', path: '/explore/book-travel', icon: Plane } },
+    'flights-visa': { name: 'Live Flight Tracker', icon: Plane, parent: { label: 'Book Travel', path: '/explore/book-travel', icon: Plane } },
+    'seenomad-multi': { name: 'Multi-Modal Studio', icon: Compass, parent: { label: 'Book Travel', path: '/explore/book-travel', icon: Plane } },
+    'visa': { name: 'Visa Checker', icon: Shield, parent: { label: 'Visa & Tax', path: '/explore/visa', icon: Shield } },
+    'visas': { name: 'Nomad Visas', icon: Shield, parent: { label: 'Visa & Tax', path: '/explore/visa', icon: Shield } },
+    'visa-intelligence': { name: 'DNV Intelligence', icon: Shield, parent: { label: 'Visa & Tax', path: '/explore/visa', icon: Shield } },
+    'tax-calculator': { name: 'Tax & Compliance Calculator', icon: DollarSign, parent: { label: 'Visa & Tax', path: '/explore/visa', icon: Shield } },
+    'tax-compliance': { name: 'Tax & Compliance Calculator', icon: DollarSign, parent: { label: 'Visa & Tax', path: '/explore/visa', icon: Shield } },
+    'embassy': { name: 'Embassy Directory', icon: Landmark, parent: { label: 'Visa & Embassy', path: '/explore/visa', icon: Shield } },
+    'vault': { name: 'Passport Vault', icon: Shield, parent: { label: 'Visa & Embassy', path: '/explore/visa', icon: Shield } },
+    'trip-builder': { name: 'Trip Builder Studio', icon: Backpack, parent: { label: 'Trip Studio', path: '/explore/trip-builder', icon: Backpack } },
+    'planner': { name: 'Itinerary Planner', icon: GitBranch, parent: { label: 'Trip Studio', path: '/explore/trip-builder', icon: Backpack } },
+    'multi-city': { name: 'Multi-City Route', icon: Map, parent: { label: 'Trip Studio', path: '/explore/trip-builder', icon: Backpack } },
+    'diy': { name: 'DIY & Packing Hub', icon: Compass, parent: { label: 'Trip Studio', path: '/explore/trip-builder', icon: Backpack } },
+    'ai-studio': { name: '4-in-1 AI Command', icon: Sparkles, parent: { label: 'AI Studio', path: '/explore/ai-studio', icon: Bot } },
+    'nomad-ai': { name: 'Nomad AI Copilot', icon: Bot, parent: { label: 'AI Studio', path: '/explore/ai-studio', icon: Bot } },
+    'triipper': { name: 'Triipper Route AI', icon: Compass, parent: { label: 'AI Studio', path: '/explore/ai-studio', icon: Bot } },
+    'super-agent': { name: 'Super Agent Concierge', icon: Shield, parent: { label: 'AI Studio', path: '/explore/ai-studio', icon: Bot } },
+    'twin': { name: 'Digital Twin Sim', icon: User, parent: { label: 'AI Studio', path: '/explore/ai-studio', icon: Bot } },
+    'travel-bug': { name: 'Travel Bug Scout', icon: Flame, parent: { label: 'AI Studio', path: '/explore/ai-studio', icon: Bot } },
+    'reviews': { name: 'Verified Reviews', icon: Star, parent: { label: 'Travel Tools', path: '/explore/reviews', icon: Compass } },
+    'passport-perks': { name: 'Rewards & Perks', icon: Gift, parent: { label: 'Travel Tools', path: '/explore/reviews', icon: Compass } },
+    'perks': { name: 'Rewards & Perks', icon: Gift, parent: { label: 'Travel Tools', path: '/explore/reviews', icon: Compass } },
+    'trivenly': { name: 'Destination Guides', icon: BookOpen, parent: { label: 'Travel Tools', path: '/explore/reviews', icon: Compass } },
+    'guardians': { name: 'Local Travel Agents', icon: Users, parent: { label: 'Travel Tools', path: '/explore/reviews', icon: Compass } },
+    'speed-test': { name: 'Nearby Wi-Fi & Cafes', icon: Wifi, parent: { label: 'Travel Tools', path: '/explore/reviews', icon: Compass } },
+    'cultural-compass': { name: 'Cultural Compass', icon: Compass, parent: { label: 'Travel Tools', path: '/explore/reviews', icon: Compass } },
+    'compare-destinations': { name: 'Compare Hubs', icon: Compass, parent: { label: 'Explore', path: '/explore/destinations', icon: Compass } },
+    'compare': { name: 'Compare Hubs', icon: Compass, parent: { label: 'Explore', path: '/explore/destinations', icon: Compass } },
+    'challenges': { name: 'Active Challenges', icon: Trophy, parent: { label: 'Quests & Rank', path: '/explore/challenges', icon: Trophy } },
+    'viral-challenges': { name: 'Viral Quests', icon: Trophy, parent: { label: 'Quests & Rank', path: '/explore/challenges', icon: Trophy } },
+    'rivalry': { name: 'Global Leaderboard', icon: BarChart3, parent: { label: 'Quests & Rank', path: '/explore/challenges', icon: Trophy } },
+    'rewards': { name: 'Referral Bounties', icon: Gift, parent: { label: 'Quests & Rank', path: '/explore/challenges', icon: Trophy } },
+    'coworking': { name: 'Coworking & Cafes', icon: Wifi },
+    'coliving': { name: 'Coliving Hubs', icon: Building2 },
+    'saved': { name: 'Saved Destinations', icon: Bookmark, parent: { label: 'Traveler Hub', path: '/user/profile', icon: User } },
+    'favorites': { name: 'Saved Destinations', icon: Bookmark, parent: { label: 'Traveler Hub', path: '/user/profile', icon: User } },
+    'popular': { name: 'Trending & Popular', icon: Flame, parent: { label: 'Discover', path: '/popular', icon: Flame } },
+    'community': { name: 'Community Hub', icon: Users },
+    'meetups': { name: 'Global Meetups', icon: Users },
+    'circles': { name: 'Nomad Circles', icon: Users },
+    'bounty-board': { name: 'Bounty Board', icon: Trophy },
+    'collab-board': { name: 'Collab Projects', icon: Users },
+    'creator-studio': { name: 'Creator Studio', icon: Video },
+    'ai-agents': { name: 'AI Travel Agents', icon: Bot },
+    'travel-games': { name: 'Travel Games', icon: Trophy },
+    'event-festival': { name: 'Events & Festivals', icon: Calendar },
+    'learning-voluntourism': { name: 'Local Experiences', icon: BookOpen },
+    'insights-analytics': { name: 'Travel News & Trends', icon: BarChart3 },
+    'support-utility': { name: 'Safety & Insurance', icon: Shield },
+    'business-partner': { name: 'Business Hub', icon: Briefcase, defaultPath: '/business-partner/monetize' },
+    'monetize': { name: 'Monetize', icon: DollarSign },
+    'creator-earnings': { name: 'Creator Earnings', icon: DollarSign },
+    'analytics': { name: 'Analytics & ROI', icon: BarChart3 },
+    'ad-manager': { name: 'Ad Manager', icon: Megaphone },
+    'corporate': { name: 'Corporate Retreats', icon: Building2 },
+    'overview': { name: 'Deals & Partners', icon: Gift },
+    'content-media': { name: 'Content & Media', icon: Camera, defaultPath: '/content-media/photography' },
+    'photography': { name: 'Photography', icon: Camera },
+    'podcasts': { name: 'Podcasts', icon: Mic },
+    'learning': { name: 'Learning Academy', icon: GraduationCap },
+    'travel-quiz': { name: 'Travel Quiz', icon: Brain },
+    'post-templates': { name: 'Post Templates', icon: LayoutGrid },
+    'content-calendar': { name: 'Content Calendar', icon: Calendar },
+    'download-app': { name: 'Download App', icon: Sparkles },
+    'partner-with-us': { name: 'Partner With Us', icon: Briefcase },
+    'about': { name: 'About SeeNomad', icon: Compass },
+    'legal': { name: 'Legal & Privacy', icon: FileText },
+    'settings': { name: 'Settings', icon: Settings, parent: { label: 'Traveler Hub', path: '/user/profile', icon: User } },
+    'user': { name: 'Traveler Hub', icon: User, defaultPath: '/user/profile' },
+    'profile': { name: 'My Profile', icon: User },
+    'saved-vibes': { name: 'Saved Vibes', icon: Video },
+    'achievements': { name: 'Milestones & Stamps', icon: Trophy },
+    'travel-journey': { name: 'My Trips', icon: Compass },
+    'wallet': { name: 'Wallet & Payouts', icon: Wallet },
+    'messages': { name: 'Messages', icon: MessageCircle },
+    'xp-tracker': { name: 'XP Tracker', icon: Sparkles },
+    'notifications': { name: 'Notifications', icon: Bell, parent: { label: 'Traveler Hub', path: '/user/profile', icon: User } }
+};
+
+const formatSegmentLabel = (seg = '') =>
+    String(seg)
+        .split('-')
+        .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+        .join(' ');
+
+/**
+ * Dynamically builds the breadcrumb hierarchy based on active feature, nested page, and query context.
+ */
+export const resolveGlobalBreadcrumbs = (pathname = '/', search = '', customCrumbs = null, moduleNavItems = []) => {
+    if (customCrumbs && Array.isArray(customCrumbs) && customCrumbs.length > 0) {
+        return customCrumbs;
     }
+
+    const segments = pathname.split('/').filter(Boolean);
+    const searchParams = new URLSearchParams(search);
+    const items = [];
+
+    // Root ('/')
+    if (segments.length === 0) {
+        items.push({
+            path: '/',
+            label: 'Home Feed',
+            icon: Sparkles,
+            isCurrent: !search
+        });
+    } else if (segments[0] === 'explore' && segments.length >= 2) {
+        // Smart Feature Grouping inside /explore/* so users see the exact Sidebar Feature Category -> Active Nested Page
+        const subSeg = segments[1].toLowerCase();
+        const subConfig = ROUTE_CONFIG[subSeg];
+
+        if (subConfig?.parent) {
+            if (subConfig.parent.label !== subConfig.name) {
+                items.push({
+                    path:
+                        subConfig.parent.path === `/explore/${segments[1]}`
+                            ? '/explore/destinations'
+                            : subConfig.parent.path,
+                    label: subConfig.parent.label,
+                    icon: subConfig.parent.icon || Compass,
+                    isCurrent: false
+                });
+            }
+        } else {
+            items.push({
+                path: '/explore/destinations',
+                label: 'Explore',
+                icon: Compass,
+                isCurrent: false
+            });
+        }
+
+        // Second segment (the active feature or nested tool)
+        let accPath = `/explore/${segments[1]}`;
+        items.push({
+            path: accPath,
+            label: subConfig?.name || formatSegmentLabel(segments[1]),
+            icon: subConfig?.icon || Compass,
+            isCurrent: segments.length === 2 && !search
+        });
+
+        // Deeper segments (e.g. /explore/destinations/bali)
+        for (let i = 2; i < segments.length; i++) {
+            const seg = segments[i];
+            accPath += `/${seg}`;
+            const cfg = ROUTE_CONFIG[seg.toLowerCase()];
+            items.push({
+                path: accPath,
+                label: cfg?.name || formatSegmentLabel(seg),
+                icon: cfg?.icon || MapPin,
+                isCurrent: i === segments.length - 1 && !search
+            });
+        }
+    } else {
+        // Standard multi-segment routes (/content-media/*, /business-partner/*, /community/*, /user/*, etc.)
+        let accPath = '';
+        for (let i = 0; i < segments.length; i++) {
+            const seg = segments[i];
+            accPath += `/${seg}`;
+            const cfg = ROUTE_CONFIG[seg.toLowerCase()];
+
+            // Inject logical parent hub for top-level single-segment pages if defined
+            if (i === 0 && segments.length === 1 && cfg?.parent && cfg.parent.label !== cfg.name) {
+                items.push({
+                    path: cfg.parent.path,
+                    label: cfg.parent.label,
+                    icon: cfg.parent.icon || Compass,
+                    isCurrent: false
+                });
+            }
+
+            // Try matching against dynamic moduleNavItems if not in static dictionary
+            let dynamicLabel = cfg?.name;
+            if (!dynamicLabel && Array.isArray(moduleNavItems) && moduleNavItems.length > 0) {
+                for (const navItem of moduleNavItems) {
+                    if (typeof navItem === 'object' && navItem.label) {
+                        const slug = navItem.slug || navItem.label.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+                        if (slug === seg.toLowerCase() || navItem.path === accPath) {
+                            dynamicLabel = navItem.label;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            items.push({
+                path: cfg?.defaultPath && i < segments.length - 1 ? cfg.defaultPath : accPath,
+                label: dynamicLabel || formatSegmentLabel(seg),
+                icon: cfg?.icon || Compass,
+                isCurrent: i === segments.length - 1 && !search
+            });
+        }
+    }
+
+    // Dynamic Query / Tab / Filter Nested Crumb
+    const activeTab = searchParams.get('tab');
+    const viewQuery = searchParams.get('view');
+    const searchQuery = searchParams.get('search');
+    const categoryQuery = searchParams.get('category');
+    const domainStatus = searchParams.get('domainStatus');
+
+    if (activeTab) {
+        const tabCfg = ROUTE_CONFIG[activeTab.toLowerCase()];
+        items.push({
+            path: `${pathname}?tab=${encodeURIComponent(activeTab)}`,
+            label: tabCfg?.name || formatSegmentLabel(activeTab),
+            icon: tabCfg?.icon || Bookmark,
+            isCurrent: true
+        });
+    } else if (viewQuery === 'map') {
+        items.push({
+            path: `${pathname}?view=map`,
+            label: '360° Spatial Map',
+            icon: Map,
+            isCurrent: true
+        });
+    } else if (searchQuery) {
+        items.push({
+            path: `${pathname}?search=${encodeURIComponent(searchQuery)}`,
+            label: `"${searchQuery}"`,
+            icon: MapPin,
+            isCurrent: true
+        });
+    } else if (categoryQuery && categoryQuery !== 'all') {
+        items.push({
+            path: `${pathname}?category=${encodeURIComponent(categoryQuery)}`,
+            label: formatSegmentLabel(categoryQuery),
+            icon: Compass,
+            isCurrent: true
+        });
+    } else if (domainStatus && domainStatus !== 'all') {
+        items.push({
+            path: `${pathname}?domainStatus=${encodeURIComponent(domainStatus)}`,
+            label: `${formatSegmentLabel(domainStatus)} Hubs`,
+            icon: Globe,
+            isCurrent: true
+        });
+    }
+
+    // Ensure only the final crumb is marked current
+    items.forEach((item, index) => {
+        item.isCurrent = index === items.length - 1;
+    });
+
+    return items;
 };
 
 /**
- * Breadcrumbs Component
- * Dynamically updates based on the user's current route and search context.
- * Enhances site navigation context with semantic markup, rich icons,
- * interactive parent links, and quick navigation utilities.
+ * Ultra-Compact Global Breadcrumb Navigation Component
+ * Dynamically updates based on the active feature and nested page while consuming minimal vertical space (22px).
  */
 const Breadcrumbs = ({
     className = '',
+    isSidebarCollapsed = false,
     showHome = true,
     showActions = true,
-    showOnHome = false,
+    showOnHome = true,
     customCrumbs = null
 }) => {
     const location = useLocation();
     const navigate = useNavigate();
     const { addToast } = useToastStore();
+    const { viewMode, setViewMode } = useDestinationStore();
+    const { moduleNavItems } = useNavStore();
     const [copied, setCopied] = useState(false);
+    const [expandCollapsed, setExpandCollapsed] = useState(false);
 
-    // Compute breadcrumb items based on current path and search params
-    const breadcrumbItems = useMemo(() => {
-        if (customCrumbs && Array.isArray(customCrumbs)) {
-            return customCrumbs;
-        }
+    const breadcrumbItems = useMemo(
+        () => resolveGlobalBreadcrumbs(location.pathname, location.search, customCrumbs, moduleNavItems),
+        [location.pathname, location.search, customCrumbs, moduleNavItems]
+    );
 
-        const pathnames = location.pathname.split('/').filter(Boolean);
-        const searchParams = new URLSearchParams(location.search);
+    const isRoot = location.pathname === '/' && !location.search;
+    if (isRoot && !showOnHome) return null;
 
-        const items = [];
+    const showDestinationViewToggle = location.pathname.startsWith('/explore/destinations');
 
-        // Build path step by step
-        let accumulatedPath = '';
-        for (let i = 0; i < pathnames.length; i++) {
-            const segment = pathnames[i];
-            accumulatedPath += `/${segment}`;
-
-            const config = ROUTE_CONFIG[segment.toLowerCase()];
-            const rawLabel = segment
-                .split('-')
-                .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-                .join(' ');
-
-            const isLastPathSegment = i === pathnames.length - 1;
-
-            items.push({
-                path: accumulatedPath,
-                label: config?.name || rawLabel,
-                icon: config?.icon || Compass,
-                badge: config?.badge || null,
-                isCurrent: isLastPathSegment && !location.search
-            });
-        }
-
-        // Contextual query crumb (e.g. search filter or active view)
-        const searchQuery = searchParams.get('search');
-        const domainStatus = searchParams.get('domainStatus');
-        const viewMode = searchParams.get('view');
-        const category = searchParams.get('category');
-
-        if (searchQuery) {
-            items.push({
-                path: `${location.pathname}?search=${encodeURIComponent(searchQuery)}`,
-                label: `"${searchQuery}"`,
-                icon: MapPin,
-                badge: 'Search',
-                isCurrent: true
-            });
-        } else if (domainStatus && domainStatus !== 'all') {
-            const statusCapitalized = domainStatus.charAt(0).toUpperCase() + domainStatus.slice(1);
-            items.push({
-                path: `${location.pathname}?domainStatus=${domainStatus}`,
-                label: `${statusCapitalized} Hubs`,
-                icon: Globe,
-                badge: 'Filter',
-                isCurrent: true
-            });
-        } else if (viewMode === 'map') {
-            items.push({
-                path: `${location.pathname}?view=map`,
-                label: 'Interactive Map',
-                icon: Compass,
-                badge: 'Live',
-                isCurrent: true
-            });
-        } else if (category) {
-            const catCapitalized = category.charAt(0).toUpperCase() + category.slice(1);
-            items.push({
-                path: `${location.pathname}?category=${category}`,
-                label: `${catCapitalized} Spots`,
-                icon: Compass,
-                badge: 'Category',
-                isCurrent: true
-            });
-        }
-
-        // If at root '/', provide clear context
-        if (items.length === 0) {
-            items.push({
-                path: '/',
-                label: 'Live Travel Feed',
-                icon: Compass,
-                badge: 'Live',
-                isCurrent: true
-            });
-        }
-
-        // Mark the last item strictly as current
-        if (items.length > 0) {
-            items.forEach((item, idx) => {
-                item.isCurrent = idx === items.length - 1;
-            });
-        }
-
-        return items;
-    }, [location.pathname, location.search, customCrumbs]);
-
-    // Copy current route URL to clipboard
     const handleCopyLink = async () => {
         try {
-            const fullUrl = window.location.href;
-            await navigator.clipboard.writeText(fullUrl);
+            await navigator.clipboard.writeText(window.location.href);
             setCopied(true);
-            addToast('Route URL copied to clipboard! 📋', 'success');
-            setTimeout(() => setCopied(false), 2000);
-        } catch (err) {
+            addToast('Page link copied', 'success');
+            setTimeout(() => setCopied(false), 1800);
+        } catch {
             addToast('Unable to copy link', 'error');
         }
     };
 
-    // Go back or up one level
     const handleGoBack = () => {
         if (window.history.length > 2) {
             navigate(-1);
@@ -302,123 +362,165 @@ const Breadcrumbs = ({
         }
     };
 
-    const isRoot = location.pathname === '/' && !location.search;
-    if (isRoot && !showOnHome) return null;
+    // Collapse middle crumbs when trail is deep (> 3 items) unless user expanded
+    const shouldCollapseMiddle = breadcrumbItems.length > 3 && !expandCollapsed;
+    const visibleItems = shouldCollapseMiddle
+        ? [
+              breadcrumbItems[0],
+              { isEllipsis: true, hiddenCount: breadcrumbItems.length - 2 },
+              breadcrumbItems[breadcrumbItems.length - 1]
+          ]
+        : breadcrumbItems;
 
     return (
-        <aside
-            className={`dynamic-breadcrumbs-container ${isRoot ? 'is-root' : ''} ${className}`}
-            role="region"
-            aria-label="Navigation trail"
+        <nav
+            className={`address-bar-container dynamic-breadcrumbs-container ${
+                !isSidebarCollapsed ? 'left-sidebar-expanded' : 'left-sidebar-collapsed'
+            } ${isRoot ? 'is-root' : ''} ${className}`}
+            aria-label="Breadcrumb"
         >
-            {/* Semantic Breadcrumbs Navigation */}
-            <nav className="dynamic-breadcrumbs-nav" aria-label="Breadcrumb">
-                <ol className="dynamic-breadcrumbs-list" itemScope itemType="https://schema.org/BreadcrumbList">
-                    {/* Home Link */}
+            <div className="breadcrumb-strip-left">
+                {showActions && (
+                    <button
+                        type="button"
+                        className="breadcrumb-micro-btn"
+                        onClick={handleGoBack}
+                        disabled={isRoot}
+                        title="Go back"
+                        aria-label="Go back"
+                    >
+                        <ChevronLeft size={12} />
+                    </button>
+                )}
+
+                <ol
+                    className="dynamic-breadcrumbs-list breadcrumb-trail"
+                    itemScope
+                    itemType="https://schema.org/BreadcrumbList"
+                >
                     {showHome && (
                         <li
-                            className="breadcrumb-crumb-item"
+                            className="breadcrumb-crumb-item breadcrumb-item"
                             itemProp="itemListElement"
                             itemScope
                             itemType="https://schema.org/ListItem"
                         >
                             <Link
                                 to="/"
-                                className="breadcrumb-crumb-link breadcrumb-home-link"
-                                title="Return to SeeNomad Home"
+                                className="breadcrumb-crumb-link breadcrumb-link root-link"
+                                title="SeeNomad Home"
                                 itemProp="item"
                             >
-                                <Home size={15} className="breadcrumb-crumb-icon" />
-                                <span itemProp="name">Home</span>
+                                <Home size={11} className="breadcrumb-crumb-icon" />
+                                <span className="breadcrumb-home-text" itemProp="name">Home</span>
                             </Link>
                             <meta itemProp="position" content="1" />
-                            <span className="breadcrumb-separator" aria-hidden="true">
-                                <ChevronRight size={13} />
-                            </span>
                         </li>
                     )}
 
-                    {/* Dynamic Path Crumbs */}
-                    {breadcrumbItems.map((crumb, index) => {
+                    {visibleItems.map((crumb, index) => {
+                        if (crumb.isEllipsis) {
+                            return (
+                                <React.Fragment key="breadcrumb-ellipsis">
+                                    <li className="breadcrumb-separator" aria-hidden="true">
+                                        <ChevronRight size={10} />
+                                    </li>
+                                    <li className="breadcrumb-crumb-item">
+                                        <button
+                                            type="button"
+                                            className="breadcrumb-ellipsis-btn"
+                                            onClick={() => setExpandCollapsed(true)}
+                                            title={`Show ${crumb.hiddenCount} hidden level(s)`}
+                                            aria-label="Expand full path"
+                                        >
+                                            <MoreHorizontal size={11} />
+                                        </button>
+                                    </li>
+                                </React.Fragment>
+                            );
+                        }
+
                         const IconComponent = crumb.icon || Compass;
                         const positionNumber = (showHome ? 2 : 1) + index;
 
                         return (
-                            <li
-                                key={crumb.path || index}
-                                className={`breadcrumb-crumb-item ${crumb.isCurrent ? 'is-active' : ''}`}
-                                itemProp="itemListElement"
-                                itemScope
-                                itemType="https://schema.org/ListItem"
-                            >
-                                {crumb.isCurrent ? (
-                                    <div
-                                        className="breadcrumb-current-pill"
-                                        aria-current="page"
-                                        title={`Current Page: ${crumb.label}`}
-                                    >
-                                        <IconComponent size={14} className="breadcrumb-current-icon" />
-                                        <span className="breadcrumb-current-text" itemProp="name">
-                                            {crumb.label}
+                            <React.Fragment key={`${crumb.path || 'crumb'}-${crumb.label || ''}-${index}`}>
+                                <li className="breadcrumb-separator" aria-hidden="true">
+                                    <ChevronRight size={10} />
+                                </li>
+                                <li
+                                    className={`breadcrumb-crumb-item breadcrumb-item ${
+                                        crumb.isCurrent ? 'is-active is-current active-crumb' : ''
+                                    }`}
+                                    itemProp="itemListElement"
+                                    itemScope
+                                    itemType="https://schema.org/ListItem"
+                                    aria-current={crumb.isCurrent ? 'page' : undefined}
+                                >
+                                    {crumb.isCurrent ? (
+                                        <span
+                                            className="breadcrumb-current-text current-title"
+                                            title={crumb.label}
+                                            itemProp="name"
+                                        >
+                                            <IconComponent size={11} className="breadcrumb-current-icon" />
+                                            <span>{crumb.label}</span>
                                         </span>
-                                        {crumb.badge && (
-                                            <span className="breadcrumb-meta-badge">
-                                                {crumb.badge}
-                                            </span>
-                                        )}
-                                        {crumb.path === '/' && (
-                                            <span className="breadcrumb-live-indicator" title="Live Nomad Feed">
-                                                <span className="breadcrumb-live-dot" />
-                                            </span>
-                                        )}
-                                    </div>
-                                ) : (
-                                    <>
+                                    ) : (
                                         <Link
                                             to={crumb.path}
-                                            className="breadcrumb-crumb-link"
-                                            title={`Navigate to ${crumb.label}`}
+                                            className="breadcrumb-crumb-link breadcrumb-link"
+                                            title={crumb.label}
                                             itemProp="item"
                                         >
-                                            <IconComponent size={14} className="breadcrumb-crumb-icon" />
+                                            <IconComponent size={11} className="breadcrumb-crumb-icon" />
                                             <span itemProp="name">{crumb.label}</span>
                                         </Link>
-                                        <span className="breadcrumb-separator" aria-hidden="true">
-                                            <ChevronRight size={13} />
-                                        </span>
-                                    </>
-                                )}
-                                <meta itemProp="position" content={String(positionNumber)} />
-                            </li>
+                                    )}
+                                    <meta itemProp="position" content={String(positionNumber)} />
+                                </li>
+                            </React.Fragment>
                         );
                     })}
                 </ol>
-            </nav>
+            </div>
 
-            {/* Quick Navigation Utilities (Back & Share / Copy Link) */}
             {showActions && (
-                <div className="breadcrumb-actions" role="toolbar" aria-label="Breadcrumb actions">
+                <div className="breadcrumb-actions">
+                    {showDestinationViewToggle && (
+                        <div className="breadcrumb-view-switch" role="group" aria-label="Layout view">
+                            <button
+                                type="button"
+                                className={`breadcrumb-micro-btn ${viewMode === 'grid' ? 'active' : ''}`}
+                                onClick={() => setViewMode('grid')}
+                                title="Grid view"
+                                aria-label="Grid view"
+                            >
+                                <LayoutGrid size={11} />
+                            </button>
+                            <button
+                                type="button"
+                                className={`breadcrumb-micro-btn ${viewMode === 'list' ? 'active' : ''}`}
+                                onClick={() => setViewMode('list')}
+                                title="List view"
+                                aria-label="List view"
+                            >
+                                <List size={11} />
+                            </button>
+                        </div>
+                    )}
                     <button
                         type="button"
-                        className="breadcrumb-action-btn"
-                        onClick={handleGoBack}
-                        title="Go back to previous page"
-                        aria-label="Go back"
-                    >
-                        <ArrowLeft size={14} />
-                    </button>
-                    <button
-                        type="button"
-                        className={`breadcrumb-action-btn ${copied ? 'copied' : ''}`}
+                        className={`breadcrumb-micro-btn ${copied ? 'copied' : ''}`}
                         onClick={handleCopyLink}
-                        title={copied ? "Link copied!" : "Copy page route link"}
+                        title={copied ? 'Link copied' : 'Copy page link'}
                         aria-label="Copy route URL"
                     >
-                        {copied ? <Check size={14} /> : <Copy size={14} />}
+                        {copied ? <Check size={11} /> : <Copy size={11} />}
                     </button>
                 </div>
             )}
-        </aside>
+        </nav>
     );
 };
 

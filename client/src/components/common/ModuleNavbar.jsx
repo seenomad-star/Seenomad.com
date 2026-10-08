@@ -140,20 +140,22 @@ const getContextualFeatureSubNav = (pathname, search = '') => {
         };
     }
 
-    // 6. VISA INFO & EMBASSY DIRECTORY
+    // 6. VISA INFO, TAX COMPLIANCE & EMBASSY DIRECTORY
     if (
         pathname.startsWith('/explore/visa') ||
+        pathname.startsWith('/explore/tax-calculator') ||
+        pathname.startsWith('/explore/tax-compliance') ||
         pathname.startsWith('/explore/embassy') ||
         pathname.startsWith('/explore/vault')
     ) {
         return {
-            categoryLabel: 'Visa & Embassy',
+            categoryLabel: 'Visa & Tax',
             basePath: '/explore',
             items: [
                 { label: 'Visa Checker (2026)', path: '/explore/visa', icon: <ShieldCheck /> },
+                { label: 'Tax & Compliance Calc', path: '/explore/tax-calculator', icon: <DollarSign /> },
                 { label: 'Embassy Directory', path: '/explore/embassy', icon: <Landmark /> },
                 { label: 'DNV Intelligence Hub', path: '/explore/visa-intelligence', icon: <Compass /> },
-                { label: 'Flight & Transit Rules', path: '/explore/flights-visa', icon: <Plane /> },
                 { label: 'Passport Vault', path: '/explore/vault', icon: <Shield /> },
                 { label: 'Safety & Insurance', path: '/support-utility', icon: <ShieldCheck /> }
             ]
@@ -285,17 +287,22 @@ const getContextualFeatureSubNav = (pathname, search = '') => {
         };
     }
 
-    // 13. LOCAL EXPERIENCES & LEARNING ('/learning-voluntourism/*')
-    if (pathname.startsWith('/learning-voluntourism')) {
+    // 13. LOCAL EXPERIENCES & LEARNING ('/learning-voluntourism/*' | '/explore/local-experiences' | '/explore/cultural-compass')
+    if (
+        pathname.startsWith('/learning-voluntourism') ||
+        pathname.startsWith('/explore/local-experiences') ||
+        pathname.startsWith('/explore/cultural-compass')
+    ) {
         return {
             categoryLabel: 'Experiences',
             basePath: '/learning-voluntourism',
             items: [
-                { label: 'All Experiences', path: '/learning-voluntourism', icon: <Palmtree />, exact: true },
+                { label: 'All Immersions', path: '/learning-voluntourism', icon: <Palmtree />, exact: true },
+                { label: 'Destination Playbooks', path: '/explore/trivenly', icon: <BookOpen /> },
                 { label: 'Courses & Academy', path: '/content-media/learning', icon: <GraduationCap /> },
                 { label: 'Local Fixers & Agents', path: '/explore/guardians', icon: <UserCheck /> },
-                { label: 'Cultural Compass', path: '/explore/cultural-compass', icon: <Compass /> },
-                { label: 'Events & Festivals', path: '/event-festival', icon: <Calendar /> }
+                { label: 'Events & Festivals', path: '/event-festival', icon: <Calendar /> },
+                { label: 'Itinerary Builder', path: '/explore/planner', icon: <GitBranch /> }
             ]
         };
     }
@@ -310,6 +317,41 @@ const getContextualFeatureSubNav = (pathname, search = '') => {
                 { label: 'Community Meetups', path: '/community/meetups', icon: <Users /> },
                 { label: '360° Venue Portals', path: '/explore/travel-map', icon: <Map /> },
                 { label: 'Book Event Travel', path: '/explore/book-travel', icon: <Plane /> }
+            ]
+        };
+    }
+
+    // 14B. INSURANCE & SAFETY ('/support-utility/*' | '/explore/insurance' | '/explore/risk')
+    if (
+        pathname.startsWith('/support-utility') ||
+        pathname.startsWith('/explore/insurance') ||
+        pathname.startsWith('/explore/risk')
+    ) {
+        return {
+            categoryLabel: 'Insurance & SOS',
+            basePath: '/support-utility',
+            items: [
+                { label: 'Parametric & Medical Shield', path: '/support-utility', icon: <Shield />, exact: true },
+                { label: 'Safety & Risk Radar', path: '/explore/risk', icon: <ShieldCheck /> },
+                { label: '24/7 Local Fixers', path: '/explore/guardians', icon: <UserCheck /> },
+                { label: 'Visa Proof & Rules', path: '/explore/visa', icon: <Landmark /> },
+                { label: 'Passport Vault', path: '/explore/vault', icon: <Shield /> }
+            ]
+        };
+    }
+
+    // 14C. MY TRIPS & JOURNEY ('/user/travel-journey')
+    if (pathname.startsWith('/user/travel-journey')) {
+        return {
+            categoryLabel: 'Trip Planning',
+            basePath: '',
+            items: [
+                { label: 'My Trips & Journey', path: '/user/travel-journey', icon: <Compass />, exact: true },
+                { label: 'Day-by-Day Itinerary', path: '/explore/planner', icon: <GitBranch /> },
+                { label: 'Trip Builder Studio', path: '/explore/trip-builder', icon: <Backpack /> },
+                { label: '3D Travel Map', path: '/explore/travel-map', icon: <Map /> },
+                { label: 'Tax & 183d Calc', path: '/explore/tax-calculator', icon: <DollarSign /> },
+                { label: 'Saved Wishlist', path: '/saved', icon: <Bookmark /> }
             ]
         };
     }
