@@ -18,14 +18,18 @@ const NavbarV3 = ({ toggleSidebar, toggleRightSidebar, isRightSidebarCollapsed, 
                 currentTheme={currentTheme}
                 onThemeChange={onThemeChange}
             />
-            <AddressBar
-                isSidebarCollapsed={isSidebarCollapsed}
-            />
-            <ModuleNavbar
-                isSidebarCollapsed={isSidebarCollapsed}
-            />
-            <ContextStrip />
-            <ActionRibbon />
+            {!isMobile && (
+                <>
+                    <AddressBar
+                        isSidebarCollapsed={isSidebarCollapsed}
+                    />
+                    <ModuleNavbar
+                        isSidebarCollapsed={isSidebarCollapsed}
+                    />
+                    <ContextStrip />
+                    <ActionRibbon />
+                </>
+            )}
         </header>
     );
 };

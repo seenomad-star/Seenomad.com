@@ -141,8 +141,8 @@ const BaseLayout = ({ children }) => {
         location.pathname.startsWith('/ai-agents') ||
         location.pathname.startsWith('/travel-games');
     
-    // Calculate header height dynamically (CoreNav + Compact Breadcrumb 22px + ModuleNavbar 26px)
-    const currentHeaderHeight = isMobile ? '102px' : '110px';
+    // Calculate header height dynamically (Desktop: CoreNav + AddressBar + ModuleNavbar = 110px; Mobile: CoreNav only = 54px)
+    const currentHeaderHeight = isMobile ? '54px' : '110px';
     const currentSidebarWidth = isMobile ? '0px' : (isSidebarCollapsed ? '76px' : '268px');
     const currentRightSidebarWidth = isRightDocked ? '320px' : '0px';
 
