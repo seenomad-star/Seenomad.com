@@ -49,52 +49,54 @@ const TravelChallenges = () => {
                 <button className="text-blue-500 text-sm font-bold">See All</button>
             </div>
 
-            {challenges.map((challenge, index) => (
-                <motion.div 
-                    key={challenge.id}
-                    className="challenge-card"
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                >
-                    <div className="challenge-header">
-                        <div className="flex items-center gap-3">
-                            <div className="p-3 rounded-2xl bg-slate-50" style={{ color: challenge.color }}>
-                                {challenge.icon}
+            <div className="challenges-grid">
+                {challenges.map((challenge, index) => (
+                    <motion.div 
+                        key={challenge.id}
+                        className="challenge-card"
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: index * 0.1 }}
+                    >
+                        <div className="challenge-header">
+                            <div className="flex items-center gap-3 min-w-0">
+                                <div className="p-3 rounded-2xl bg-slate-50 flex-shrink-0" style={{ color: challenge.color }}>
+                                    {challenge.icon}
+                                </div>
+                                <div className="challenge-info min-w-0">
+                                    <h3>{challenge.title}</h3>
+                                    <p>{challenge.desc}</p>
+                                </div>
                             </div>
-                            <div className="challenge-info">
-                                <h3>{challenge.title}</h3>
-                                <p>{challenge.desc}</p>
-                            </div>
+                            <span className={`challenge-badge ${challenge.difficulty}`}>
+                                {challenge.difficulty.toUpperCase()}
+                            </span>
                         </div>
-                        <span className={`challenge-badge ${challenge.difficulty}`}>
-                            {challenge.difficulty.toUpperCase()}
-                        </span>
-                    </div>
 
-                    <div className="progress-section">
-                        <div className="progress-bar-container">
-                            <motion.div 
-                                className="progress-bar-fill"
-                                initial={{ width: 0 }}
-                                animate={{ width: `${challenge.progress}%` }}
-                                style={{ background: challenge.color }}
-                            />
-                        </div>
-                        <div className="progress-stats">
-                            <span>{challenge.progress}% Completed</span>
-                            <div className="challenge-reward">
-                                <Activity size={14} fill="currentColor" />
-                                <span>+{challenge.reward} Coins</span>
+                        <div className="progress-section">
+                            <div className="progress-bar-container">
+                                <motion.div 
+                                    className="progress-bar-fill"
+                                    initial={{ width: 0 }}
+                                    animate={{ width: `${challenge.progress}%` }}
+                                    style={{ background: challenge.color }}
+                                />
+                            </div>
+                            <div className="progress-stats">
+                                <span>{challenge.progress}% Completed</span>
+                                <div className="challenge-reward">
+                                    <Activity size={14} fill="currentColor" />
+                                    <span>+{challenge.reward} Coins</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <button className="join-challenge-btn">
-                        {challenge.progress > 0 ? 'Continue Challenge' : 'Accept Challenge'}
-                    </button>
-                </motion.div>
-            ))}
+                        <button className="join-challenge-btn">
+                            {challenge.progress > 0 ? 'Continue Challenge' : 'Accept Challenge'}
+                        </button>
+                    </motion.div>
+                ))}
+            </div>
         </div>
     );
 };

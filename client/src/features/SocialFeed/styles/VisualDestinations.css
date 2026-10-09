@@ -127,23 +127,27 @@
     color: #fff;
 }
 
-/* Masonry Grid */
+/* Flexible Responsive CSS Grid */
 .vd-grid {
-    columns: 3;
-    column-gap: 10px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 185px), 1fr));
+    gap: 10px;
+    width: 100%;
+    box-sizing: border-box;
 }
 .vd-card {
     position: relative;
+    width: 100%;
+    min-width: 0;
     border-radius: 16px;
     overflow: hidden;
-    margin-bottom: 10px;
-    break-inside: avoid;
     cursor: pointer;
     display: block;
+    box-sizing: border-box;
 }
-.vd-card--tall { aspect-ratio: 3/4; }
-.vd-card--normal { aspect-ratio: 1/1; }
-.vd-card--wide { aspect-ratio: 4/3; }
+.vd-card--tall { aspect-ratio: 4/5; }
+.vd-card--normal { aspect-ratio: 4/5; }
+.vd-card--wide { aspect-ratio: 4/5; }
 
 .vd-img {
     width: 100%;
@@ -302,13 +306,20 @@
 .vd-lightbox-caption { color: rgba(255,255,255,0.8); font-size: 14px; line-height: 1.6; }
 .vd-lightbox-tags { display: flex; gap: 8px; flex-wrap: wrap; }
 
-/* Responsive */
-@media (max-width: 900px) { .vd-grid { columns: 2; } }
-@media (max-width: 600px) {
-    .vd-grid { columns: 2; column-gap: 6px; }
-    .vd-card { margin-bottom: 6px; }
+/* Responsive CSS Grid adjustments */
+@media (max-width: 640px) {
+    .visual-destinations {
+        padding: 0 0.5rem 2.5rem;
+        box-sizing: border-box;
+    }
+    .vd-grid {
+        grid-template-columns: repeat(auto-fill, minmax(min(100%, 145px), 1fr));
+        gap: 8px;
+    }
 }
 
-@media (max-width: 420px) {
-    .vd-grid { columns: 1; }
+@media (max-width: 360px) {
+    .vd-grid {
+        grid-template-columns: 1fr;
+    }
 }

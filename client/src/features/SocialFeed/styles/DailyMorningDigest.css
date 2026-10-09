@@ -206,3 +206,29 @@ body.dark .plan-trip-btn:hover {
     background: #475569;
     color: #ffffff;
 }
+
+@media (max-width: 640px) {
+    .daily-digest-card {
+        margin: 0.45rem 0.5rem;
+        padding: 0.85rem 0.9rem;
+        border-radius: 14px;
+        width: calc(100% - 1rem);
+        max-width: 100%;
+    }
+
+    .digest-icon-badge {
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+    }
+
+    .digest-bottom-row {
+        flex-wrap: wrap;
+        gap: 0.65rem;
+    }
+
+    .digest-description {
+        min-width: 180px;
+    }
+}
+

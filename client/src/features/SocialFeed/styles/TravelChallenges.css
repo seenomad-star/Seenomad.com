@@ -2,19 +2,40 @@
 .challenges-container {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
-    padding: 1rem 0;
+    gap: 1.15rem;
+    padding: 0.75rem 1rem 1.5rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.challenges-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+    gap: 1rem;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .challenge-card {
     background: white;
-    padding: 1.5rem;
-    border-radius: 24px;
-    border: 1px solid #f1f5f9;
+    padding: 1.25rem;
+    border-radius: 20px;
+    border: 1px solid #e2e8f0;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     gap: 1rem;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
     transition: all 0.3s;
+}
+
+:root.dark .challenge-card,
+.theme-dark .challenge-card,
+body.dark .challenge-card {
+    background: rgba(15, 23, 42, 0.78);
+    border-color: rgba(255, 255, 255, 0.08);
 }
 
 .challenge-card:hover {
@@ -86,17 +107,34 @@
 }
 
 .join-challenge-btn {
-    width: full;
-    padding: 12px;
+    width: 100%;
+    padding: 11px 14px;
     border-radius: 100px;
     background: #0f172a;
     color: white;
     font-weight: 800;
+    font-size: 0.85rem;
     border: none;
     cursor: pointer;
-    transition: transform 0.2s;
+    transition: transform 0.2s, background 0.2s;
+}
+
+:root.dark .join-challenge-btn,
+.theme-dark .join-challenge-btn,
+body.dark .join-challenge-btn {
+    background: #2563eb;
 }
 
 .join-challenge-btn:active {
     transform: scale(0.98);
+}
+
+@media (max-width: 640px) {
+    .challenges-container {
+        padding: 0.5rem 0.5rem 1.25rem;
+    }
+    .challenge-card {
+        padding: 1rem;
+        border-radius: 16px;
+    }
 }

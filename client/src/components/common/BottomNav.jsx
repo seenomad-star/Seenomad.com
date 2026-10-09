@@ -45,6 +45,121 @@ import { useNavStore } from '../../store/navStore';
 import { useSavedStore } from '../../store/savedStore';
 import './BottomNav.css';
 
+/* ==========================================================================
+   Standardized Line-Art SVG Icon Set for Mobile Bottom Navigation
+   Matches SeeNomad V3's 24x24 viewBox, 1.9px strokeWidth, rounded caps aesthetic
+   ========================================================================== */
+
+const NavHomeSvg = ({ className = '' }) => (
+    <svg
+        width="19"
+        height="19"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.9"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className={`bottom-nav-svg ${className}`}
+        aria-hidden="true"
+    >
+        <path d="M3 10.5L12 3l9 7.5V20a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 20v-9.5z" />
+        <path d="M9.5 21.5v-6a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v6" />
+    </svg>
+);
+
+const NavExploreSvg = ({ className = '' }) => (
+    <svg
+        width="19"
+        height="19"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.9"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className={`bottom-nav-svg ${className}`}
+        aria-hidden="true"
+    >
+        <circle cx="12" cy="12" r="9.25" />
+        <polygon points="15.2 8.8 10.3 10.3 8.8 15.2 13.7 13.7 15.2 8.8" />
+        <path d="M12 2.75v1.5M12 19.75v1.5M2.75 12h1.5M19.75 12h1.5" />
+    </svg>
+);
+
+const NavVibesSvg = ({ className = '' }) => (
+    <svg
+        width="19"
+        height="19"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.9"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className={`bottom-nav-svg ${className}`}
+        aria-hidden="true"
+    >
+        <rect x="3" y="4" width="18" height="16" rx="4" />
+        <polygon points="10.2 8.8 15.8 12 10.2 15.2 10.2 8.8" />
+    </svg>
+);
+
+const NavAISvg = ({ className = '' }) => (
+    <svg
+        width="19"
+        height="19"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.9"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className={`bottom-nav-svg ${className}`}
+        aria-hidden="true"
+    >
+        <path d="M12 2.75l2.15 5.1 5.1 2.15-5.1 2.15-2.15 5.1-2.15-5.1-5.1-2.15 5.1-2.15L12 2.75z" />
+        <path d="M18.75 16.25l.85 2 2 .85-2 .85-.85 2-.85-2-2-.85 2-.85.85-2z" />
+        <circle cx="5.25" cy="18.75" r="1.25" />
+    </svg>
+);
+
+const NavHubSvg = ({ isOpen = false, className = '' }) =>
+    isOpen ? (
+        <svg
+            width="19"
+            height="19"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className={`bottom-nav-svg ${className}`}
+            aria-hidden="true"
+        >
+            <path d="M18 6L6 18M6 6l12 12" />
+        </svg>
+    ) : (
+        <svg
+            width="19"
+            height="19"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.9"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className={`bottom-nav-svg ${className}`}
+            aria-hidden="true"
+        >
+            <rect x="3.5" y="3.5" width="7" height="7" rx="2" />
+            <rect x="13.5" y="3.5" width="7" height="7" rx="2" />
+            <rect x="3.5" y="13.5" width="7" height="7" rx="2" />
+            <circle cx="17" cy="17" r="3.5" />
+        </svg>
+    );
+
 /**
  * Complete categorized catalog of all 27 website modules & features
  * so the Hub button provides instant 1-tap access to the entire website.
@@ -463,10 +578,10 @@ const BottomNav = () => {
                         onClick={() => handleNavClick('/')}
                         aria-label="Home Feed"
                         title="Home Feed"
-                        aria-current={isHomeActive ? 'page' : undefined}
+                        aria-current={isHomeActive && !isActionDeckOpen ? 'page' : undefined}
                     >
                         <div className="nav-icon-container">
-                            <Home size={18} className="nav-icon" />
+                            <NavHomeSvg className="nav-icon" />
                             {hasNewInsights && <span className="nav-dot-badge" />}
                         </div>
                     </button>
@@ -479,10 +594,10 @@ const BottomNav = () => {
                         onClick={() => handleNavClick('/explore/destinations')}
                         aria-label="Explore Destinations & Map"
                         title="Explore Destinations & Map"
-                        aria-current={isExploreActive ? 'page' : undefined}
+                        aria-current={isExploreActive && !isActionDeckOpen ? 'page' : undefined}
                     >
                         <div className="nav-icon-container">
-                            <Globe size={18} className="nav-icon" />
+                            <NavExploreSvg className="nav-icon" />
                             <span className="nav-live-dot" />
                         </div>
                     </button>
@@ -495,10 +610,10 @@ const BottomNav = () => {
                         onClick={() => handleNavClick('/explore/vibes')}
                         aria-label="360° Travel Vibes"
                         title="360° Travel Vibes"
-                        aria-current={isVibesActive ? 'page' : undefined}
+                        aria-current={isVibesActive && !isActionDeckOpen ? 'page' : undefined}
                     >
                         <div className="nav-icon-container">
-                            <Video size={18} className="nav-icon" />
+                            <NavVibesSvg className="nav-icon" />
                         </div>
                     </button>
 
@@ -510,36 +625,31 @@ const BottomNav = () => {
                         onClick={() => handleNavClick('/explore/ai-studio')}
                         aria-label="Nomad AI Studio"
                         title="Nomad AI Studio"
-                        aria-current={isAIActive ? 'page' : undefined}
+                        aria-current={isAIActive && !isActionDeckOpen ? 'page' : undefined}
                     >
                         <div className="nav-icon-container">
-                            <Sparkles size={18} className="nav-icon" />
+                            <NavAISvg className="nav-icon" />
                         </div>
                     </button>
 
                     {/* 5. Hub Button (All 27 Modules: Deals, Events, Community, Booking, Visas, Trips, Media & Business) */}
-                    <div className="nav-center-slot">
-                        <button
-                            type="button"
-                            id="mobile-nav-hub"
-                            className={`nav-center-btn ${isActionDeckOpen ? 'is-open' : ''} ${isHubFeatureActive && !isActionDeckOpen ? 'has-active-module' : ''}`}
-                            onClick={handleCenterDockClick}
-                            aria-expanded={isActionDeckOpen}
-                            aria-label={isActionDeckOpen ? 'Close All-Modules Hub' : 'Open All-Modules Hub (27 Features)'}
-                            title="All Modules Hub (Deals, Events, Community, Booking, Visas & More)"
-                        >
-                            <div className="nav-icon-container">
-                                {isActionDeckOpen ? (
-                                    <X size={17} className="center-icon" />
-                                ) : (
-                                    <LayoutGrid size={17} className="center-icon" />
-                                )}
-                                {!isActionDeckOpen && savedCount > 0 && (
-                                    <span className="nav-count-badge">{savedCount}</span>
-                                )}
-                            </div>
-                        </button>
-                    </div>
+                    <button
+                        type="button"
+                        id="mobile-nav-hub"
+                        className={`nav-item nav-hub-item ${isActionDeckOpen || isHubFeatureActive ? 'active' : ''} ${isActionDeckOpen ? 'is-open' : ''}`}
+                        onClick={handleCenterDockClick}
+                        aria-expanded={isActionDeckOpen}
+                        aria-label={isActionDeckOpen ? 'Close All-Modules Hub' : 'Open All-Modules Hub (27 Features)'}
+                        title="All Modules Hub (Deals, Events, Community, Booking, Visas & More)"
+                        aria-current={isHubFeatureActive && !isActionDeckOpen ? 'page' : undefined}
+                    >
+                        <div className="nav-icon-container">
+                            <NavHubSvg isOpen={isActionDeckOpen} className="nav-icon" />
+                            {!isActionDeckOpen && savedCount > 0 && (
+                                <span className="nav-count-badge">{savedCount}</span>
+                            )}
+                        </div>
+                    </button>
                 </nav>
             </div>
         </>

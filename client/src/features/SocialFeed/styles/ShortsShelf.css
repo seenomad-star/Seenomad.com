@@ -139,24 +139,18 @@ body.dark .shorts-shelf-container {
     background: rgba(2, 132, 199, 0.1);
 }
 
-/* Horizontal Carousel */
+/* Flexible Responsive CSS Grid for Shorts / Vibes Cards */
 .shorts-cards-carousel {
-    display: flex;
-    gap: 0.85rem;
-    overflow-x: auto;
-    overflow-y: hidden;
-    scroll-behavior: smooth;
-    scrollbar-width: none;
-    padding-bottom: 4px;
-}
-
-.shorts-cards-carousel::-webkit-scrollbar {
-    display: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 155px), 1fr));
+    gap: 0.75rem;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .short-card {
-    flex: 0 0 190px;
-    width: 190px;
+    width: 100%;
+    min-width: 0;
     border-radius: 14px;
     overflow: hidden;
     background: #f8fafc;
@@ -166,6 +160,7 @@ body.dark .shorts-shelf-container {
     flex-direction: column;
     position: relative;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    box-sizing: border-box;
 }
 
 :root.dark .short-card {
@@ -311,3 +306,29 @@ body.dark .shorts-shelf-container {
     color: #94a3b8;
     background: rgba(255, 255, 255, 0.05);
 }
+
+@media (max-width: 640px) {
+    .shorts-shelf-container {
+        margin: 0.5rem 0.5rem;
+        padding: 0.85rem;
+        border-radius: 14px;
+        width: calc(100% - 1rem);
+        box-sizing: border-box;
+    }
+
+    .shorts-cards-carousel {
+        grid-template-columns: repeat(auto-fill, minmax(min(100%, 136px), 1fr));
+        gap: 0.6rem;
+    }
+
+    .shorts-arrow-btn {
+        display: none;
+    }
+}
+
+@media (max-width: 360px) {
+    .shorts-cards-carousel {
+        grid-template-columns: 1fr;
+    }
+}
+

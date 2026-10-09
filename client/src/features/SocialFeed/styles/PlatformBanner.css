@@ -94,3 +94,23 @@
     background: radial-gradient(circle, rgba(56, 189, 248, 0.25) 0%, transparent 70%);
     pointer-events: none;
 }
+
+@media (max-width: 640px) {
+    .platform-banner-card {
+        margin: 0.45rem 0.5rem;
+        padding: 0.95rem 1rem;
+        border-radius: 14px;
+        width: calc(100% - 1rem);
+        max-width: 100%;
+    }
+
+    .platform-banner-title {
+        font-size: 0.95rem;
+    }
+
+    .platform-banner-text {
+        font-size: 0.78rem;
+        margin-bottom: 0.65rem;
+    }
+}
+
