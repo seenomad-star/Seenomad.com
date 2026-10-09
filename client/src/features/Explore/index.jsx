@@ -52,6 +52,8 @@ import ReviewsAndRatings from '../BookingHub/components/ReviewsAndRatings';
 import HoloAtlasTravelMap from './components/HoloAtlasTravelMap';
 import SupportUtility from '../SupportUtility';
 import TaxComplianceCalculator from '../Visa/TaxComplianceCalculator';
+import Offers from '../UserHub/components/Offers';
+import EventFestival from '../EventFestival';
 import './styles/Explore.css';
 
 const Explore = () => {
@@ -158,6 +160,8 @@ const Explore = () => {
                     <Route path="viral-challenges" element={<ConsolidatedExploreSuites suiteKey="passport-perks" defaultTab="challenges" />} />
                     <Route path="perks" element={<NomadPerks />} />
                     <Route path="nomad-perks" element={<NomadPerks />} />
+                    <Route path="travel-deals" element={<Offers />} />
+                    <Route path="deals" element={<Offers />} />
                     <Route path="discovery" element={<ConsolidatedExploreSuites suiteKey="connectivity-market" defaultTab="discovery" />} />
                     <Route path="discovery-hub" element={<ConsolidatedExploreSuites suiteKey="connectivity-market" defaultTab="discovery" />} />
                     <Route path="dna" element={<ConsolidatedExploreSuites suiteKey="passport-perks" defaultTab="dna" />} />
@@ -180,8 +184,9 @@ const Explore = () => {
                     <Route path="concierge" element={<ShadowConcierge />} />
                     <Route path="risk" element={<RiskIntelligenceMap />} />
                     <Route path="insurance" element={<SupportUtility />} />
-                    <Route path="events" element={<ConsolidatedExploreSuites suiteKey="culture-community" defaultTab="events" />} />
-                    <Route path="nomad-events" element={<ConsolidatedExploreSuites suiteKey="culture-community" defaultTab="events" />} />
+                    <Route path="events" element={<EventFestival />} />
+                    <Route path="nomad-events" element={<EventFestival />} />
+                    <Route path="festivals" element={<EventFestival />} />
                     <Route path="passport" element={<ConsolidatedExploreSuites suiteKey="passport-perks" defaultTab="passport" />} />
                     <Route path="nomad-passport" element={<ConsolidatedExploreSuites suiteKey="passport-perks" defaultTab="passport" />} />
                     <Route path="twin" element={<NomadAIStudio defaultEngine="digital-twin" />} />

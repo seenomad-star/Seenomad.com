@@ -451,10 +451,10 @@ const Sidebar = ({ isCollapsed, toggleSidebar, isMobileOpen, isMobile }) => {
                     {
                         icon: Tag,
                         label: 'Travel Deals',
-                        to: '/business-partner/overview',
+                        to: '/explore/travel-deals',
                         badge: 'Save',
                         badgeType: 'success',
-                        description: 'Exclusive flight, hotel & coliving partner deals'
+                        description: 'Exclusive partner stays, error-fare flights & coliving deals'
                     },
                     {
                         icon: Calendar,

@@ -1021,7 +1021,7 @@
     }
 
     .nomad-ghost-dock-container.has-open-hud {
-        bottom: 85px !important;
+        bottom: calc(52px + env(safe-area-inset-bottom, 0px)) !important;
         width: 100vw;
         padding: 0 10px;
         left: 0;
@@ -1035,7 +1035,7 @@
         overflow-y: auto;
         padding: 1rem;
         position: fixed;
-        bottom: 85px;
+        bottom: calc(52px + env(safe-area-inset-bottom, 0px));
         left: 10px;
         transform: none;
         border-radius: 20px;

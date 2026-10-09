@@ -16,6 +16,7 @@ import Footer from '../components/layout/Footer';
 import CookieConsentBanner from '../components/common/CookieConsentBanner';
 import EarlyAccessBanner from '../components/common/EarlyAccessBanner';
 import ScrollToTop from '../components/common/ScrollToTop';
+import ErrorBoundary from '../components/common/ErrorBoundary';
 import { trackPageView } from '../lib/analytics';
 import { useNavStore } from '../store/navStore';
 import { useNomadOSStore } from '../store/nomadOSStore';
@@ -140,8 +141,8 @@ const BaseLayout = ({ children }) => {
         location.pathname.startsWith('/ai-agents') ||
         location.pathname.startsWith('/travel-games');
     
-    // Calculate header height dynamically (CoreNav 60px + Compact Breadcrumb 22px + ModuleNavbar 28px = 110px)
-    const currentHeaderHeight = isMobile ? '96px' : '110px';
+    // Calculate header height dynamically (CoreNav + Compact Breadcrumb 22px + ModuleNavbar 26px)
+    const currentHeaderHeight = isMobile ? '102px' : '110px';
     const currentSidebarWidth = isMobile ? '0px' : (isSidebarCollapsed ? '76px' : '268px');
     const currentRightSidebarWidth = isRightDocked ? '320px' : '0px';
 
@@ -219,24 +220,17 @@ const BaseLayout = ({ children }) => {
                     />
                 )}
 
-                {/* Content Wrapper */}
+                {/* Content Wrapper Protected by Route-Aware ErrorBoundary */}
                 <div className="base-layout-content-wrapper content-wrapper">
-                    {children ? (
-                        children
-                    ) : (
-                        <AnimatePresence mode="wait" initial={false}>
-                            <motion.div
-                                key={location.pathname}
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -8 }}
-                                transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-                                className="base-layout-page-animator w-full flex-1"
-                            >
+                    <ErrorBoundary inline resetKey={location.pathname}>
+                        {children ? (
+                            children
+                        ) : (
+                            <div className="base-layout-page-animator w-full flex-1">
                                 <Outlet />
-                            </motion.div>
-                        </AnimatePresence>
-                    )}
+                            </div>
+                        )}
+                    </ErrorBoundary>
 
                     {/* Footer (hidden on feed and endless interactive views) */}
                     {!hideFooter && <Footer />}

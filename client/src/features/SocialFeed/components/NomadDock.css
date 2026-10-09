@@ -976,24 +976,111 @@ body.theme-light .dock-domain-action-btn {
     100% { transform: scale(1); opacity: 1; }
 }
 
-/* Responsive Mobile & Tablet Compact Vertical Icon-Badge Rail */
+/* Hide Mobile FAB on Desktop (> 900px) */
+.nomad-dock-mobile-fab {
+    display: none;
+}
+
+/* Responsive Mobile & Tablet Collapsible Filter & Intel Orb (Zero Left-Edge Obstruction) */
 @media (max-width: 900px) {
     .nomad-dock-wrapper {
-        display: block !important;
-        top: 124px;
-        left: 6px !important;
-        z-index: 1040;
+        display: flex !important;
+        flex-direction: column-reverse;
+        align-items: flex-end;
+        top: auto !important;
+        left: auto !important;
+        right: 10px !important;
+        bottom: calc(48px + env(safe-area-inset-bottom, 0px)) !important;
+        z-index: 1180;
+        gap: 6px;
+        pointer-events: none;
     }
 
-    .nomad-dock {
-        width: 38px;
-        gap: 0.24rem;
-        padding: 0.32rem 0.22rem;
+    .nomad-dock-mobile-fab {
+        pointer-events: auto;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: rgba(15, 23, 42, 0.92);
+        -webkit-backdrop-filter: blur(18px) saturate(180%);
+        backdrop-filter: blur(18px) saturate(180%);
+        border: 1px solid rgba(56, 189, 248, 0.35);
+        color: #38bdf8;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+        cursor: pointer;
+        position: relative;
+        transition: all 0.18s ease;
+        padding: 0;
+    }
+
+    :root:not(.dark) .nomad-dock-mobile-fab,
+    body.theme-light .nomad-dock-mobile-fab {
+        background: rgba(255, 255, 255, 0.96);
+        border-color: rgba(2, 132, 199, 0.3);
+        color: #0284c7;
+        box-shadow: 0 6px 18px rgba(15, 23, 42, 0.14);
+    }
+
+    .nomad-dock-mobile-fab.is-active {
+        background: #ef4444;
+        border-color: #f87171;
+        color: #ffffff;
+    }
+
+    .mobile-fab-live-dot {
+        position: absolute;
+        top: 2px;
+        right: 2px;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #10b981;
+        border: 1.5px solid #0f172a;
+    }
+
+    :root:not(.dark) .mobile-fab-live-dot {
+        border-color: #ffffff;
+    }
+
+    .mobile-fab-badge {
+        position: absolute;
+        top: -4px;
+        right: -4px;
+        min-width: 15px;
+        height: 15px;
+        border-radius: 999px;
+        background: #2563eb;
+        color: #ffffff;
+        font-size: 0.56rem;
+        font-weight: 800;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 3px;
+        border: 1.5px solid #0f172a;
+    }
+
+    .nomad-dock-wrapper.mobile-collapsed .nomad-dock {
+        display: none !important;
+    }
+
+    .nomad-dock-wrapper.mobile-expanded .nomad-dock {
+        pointer-events: auto;
+        display: flex !important;
+        width: 40px;
+        gap: 0.25rem;
+        padding: 0.35rem 0.24rem;
+        max-height: calc(100dvh - 170px);
+        overflow-y: auto;
+        scrollbar-width: none;
     }
 
     .dock-item {
-        width: 28px;
-        height: 28px;
+        width: 30px;
+        height: 30px;
     }
 
     .dock-user-avatar {
@@ -1008,12 +1095,13 @@ body.theme-light .dock-domain-action-btn {
     .dock-tooltip.dock-interactive-popover,
     .dock-item-container.live-intel .dock-tooltip.dock-interactive-popover {
         position: fixed;
-        left: 50px;
-        right: 12px;
-        top: 124px;
+        left: 10px;
+        right: 56px;
+        top: auto;
+        bottom: calc(52px + env(safe-area-inset-bottom, 0px));
         width: auto;
-        max-width: calc(100vw - 62px);
-        max-height: calc(100vh - 190px);
+        max-width: calc(100vw - 68px);
+        max-height: calc(100dvh - 165px);
         overflow-y: auto;
     }
 }

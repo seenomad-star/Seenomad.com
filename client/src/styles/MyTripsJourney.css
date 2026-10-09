@@ -541,37 +541,259 @@ body.theme-light .mtj-vault-item {
     border-color: rgba(15, 23, 42, 0.08);
 }
 
-.mtj-check-row {
+.mtj-section-header {
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    gap: 0.65rem;
+    flex-wrap: wrap;
+}
+
+.mtj-section-title {
+    margin: 0;
+    font-size: clamp(0.94rem, 1.5vw, 1.06rem);
+    font-weight: 800;
+    line-height: 1.3;
+}
+
+.mtj-section-sub {
+    font-size: 0.73rem;
+    color: #94a3b8;
+}
+
+:root:not(.dark) .mtj-section-sub,
+body.theme-light .mtj-section-sub {
+    color: #64748b;
+}
+
+.mtj-trip-head-main {
+    min-width: 0;
+    flex: 1 1 260px;
+}
+
+.mtj-trip-budget-box {
+    text-align: right;
+    flex-shrink: 0;
+}
+
+.mtj-trip-budget-amount {
+    font-size: 0.96rem;
+    font-weight: 800;
+    color: #38bdf8;
+}
+
+:root:not(.dark) .mtj-trip-budget-amount,
+body.theme-light .mtj-trip-budget-amount {
+    color: #0284c7;
+}
+
+.mtj-trip-xp-tag {
+    font-size: 0.7rem;
+    color: #10b981;
+    font-weight: 700;
+}
+
+.mtj-trip-notes {
+    margin: 0;
+    font-size: 0.78rem;
+    color: #cbd5e1;
+    line-height: 1.48;
+}
+
+:root:not(.dark) .mtj-trip-notes,
+body.theme-light .mtj-trip-notes {
+    color: #334155;
+}
+
+.mtj-budget-commitment {
+    font-size: 0.72rem;
+    color: #94a3b8;
+}
+
+:root:not(.dark) .mtj-budget-commitment,
+body.theme-light .mtj-budget-commitment {
+    color: #64748b;
+}
+
+.mtj-trip-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    flex-wrap: wrap;
+}
+
+.mtj-check-row {
+    display: flex;
+    align-items: flex-start;
     gap: 0.55rem;
     font-size: 0.75rem;
     cursor: pointer;
     user-select: none;
+    line-height: 1.4;
 }
 
-@media (max-width: 1120px) {
+.mtj-check-row input {
+    margin-top: 0.15rem;
+    flex-shrink: 0;
+}
+
+/* ==========================================================================
+   7. Comprehensive Multi-Screen Responsive Breakpoints
+   (Ultra-Wide 1600px+ · Laptop 1280px · Tablet 1024px · Mobile 768px · Small 480px)
+   ========================================================================== */
+@media (min-width: 1540px) {
+    .mtj-hub-shell {
+        max-width: 1520px;
+    }
+
     .mtj-workspace-layout {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr) 390px;
+        gap: 1.35rem;
+    }
+}
+
+@media (max-width: 1180px) {
+    .mtj-workspace-layout {
+        grid-template-columns: minmax(0, 1fr);
     }
 
     .mtj-side-rail {
         position: static;
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 0.95rem;
+    }
+}
+
+@media (max-width: 900px) {
+    .mtj-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 0.75rem 0.9rem;
+    }
+
+    .mtj-tabs {
+        width: 100%;
+        padding-bottom: 0.15rem;
+    }
+
+    .mtj-search-box {
+        width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+    }
+
+    .mtj-form-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
 
 @media (max-width: 768px) {
     .mtj-hero-banner {
-        padding: 1rem;
+        padding: 1.05rem;
+        border-radius: 14px;
     }
 
     .mtj-title {
-        font-size: 1.2rem;
+        font-size: clamp(1.12rem, 4.5vw, 1.3rem);
     }
 
-    .mtj-search-box {
-        min-width: 100%;
+    .mtj-subtitle {
+        font-size: 0.79rem;
+    }
+
+    .mtj-hero-actions {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.45rem;
+    }
+
+    .mtj-hero-actions .mtj-btn {
+        width: 100%;
+        justify-content: center;
+        padding: 0.52rem 0.65rem;
+        font-size: 0.73rem;
+    }
+
+    .mtj-trip-card {
+        padding: 1rem;
+        border-radius: 14px;
+    }
+
+    .mtj-trip-top {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.45rem;
+    }
+
+    .mtj-trip-budget-box {
+        text-align: left;
+        display: flex;
+        align-items: center;
+        gap: 0.65rem;
+        flex-wrap: wrap;
+    }
+
+    .mtj-trip-footer {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.6rem;
+    }
+
+    .mtj-trip-actions {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .mtj-trip-actions .mtj-btn:not(.mtj-btn-icon) {
+        flex: 1 1 auto;
+        justify-content: center;
+    }
+
+    .mtj-stamps-grid {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    }
+}
+
+@media (max-width: 520px) {
+    .mtj-hero-actions {
+        grid-template-columns: 1fr;
+    }
+
+    .mtj-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .mtj-stamps-grid,
+    .mtj-side-rail {
+        grid-template-columns: 1fr;
+    }
+
+    .mtj-kpi-metrics {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.35rem;
+    }
+
+    .mtj-kpi-metrics span[aria-hidden="true"] {
+        display: none;
+    }
+
+    .mtj-stops-flow {
+        padding: 0.55rem 0.7rem;
+        font-size: 0.72rem;
+    }
+
+    .mtj-trip-actions {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 0.4rem;
+    }
+
+    .mtj-trip-actions .mtj-btn-primary {
+        grid-column: 1 / -1;
+        width: 100%;
     }
 }

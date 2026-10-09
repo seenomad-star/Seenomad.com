@@ -87,6 +87,8 @@ export const ROUTE_CONFIG = {
     'reviews': { name: 'Verified Reviews', icon: Star, parent: { label: 'Travel Tools', path: '/explore/reviews', icon: Compass } },
     'passport-perks': { name: 'Rewards & Perks', icon: Gift, parent: { label: 'Travel Tools', path: '/explore/reviews', icon: Compass } },
     'perks': { name: 'Rewards & Perks', icon: Gift, parent: { label: 'Travel Tools', path: '/explore/reviews', icon: Compass } },
+    'travel-deals': { name: 'Exclusive Travel Deals', icon: Gift, parent: { label: 'Trip Planning', path: '/user/travel-journey', icon: Compass } },
+    'deals': { name: 'Exclusive Travel Deals', icon: Gift, parent: { label: 'Trip Planning', path: '/user/travel-journey', icon: Compass } },
     'trivenly': { name: 'Destination Guides', icon: BookOpen, parent: { label: 'Travel Tools', path: '/explore/reviews', icon: Compass } },
     'guardians': { name: 'Local Travel Agents', icon: Users, parent: { label: 'Travel Tools', path: '/explore/reviews', icon: Compass } },
     'speed-test': { name: 'Nearby Wi-Fi & Cafes', icon: Wifi, parent: { label: 'Travel Tools', path: '/explore/reviews', icon: Compass } },

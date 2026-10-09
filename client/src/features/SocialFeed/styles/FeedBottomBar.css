@@ -598,49 +598,9 @@
     color: #94a3b8;
 }
 
-/* Responsive adjustments */
+/* Responsive adjustments: Hide desktop feed bottom bar on mobile to avoid stacking with BottomNav */
 @media (max-width: 900px) {
     .feed-bottom-bar-wrapper {
-        bottom: 80px; /* Above mobile bottom navigation */
-        width: calc(100% - 24px);
-    }
-}
-
-@media (max-width: 640px) {
-    .feed-bottom-bar-wrapper {
-        bottom: 74px;
-        width: calc(100% - 16px);
-    }
-    .feed-bottom-bar {
-        padding: 5px 8px;
-    }
-    .bottom-bar-tab-btn {
-        padding: 4px 6px;
-    }
-    .bottom-bar-tab-btn .btn-label {
-        display: none;
-    }
-    .compose-text {
-        display: none;
-    }
-    .bottom-bar-compose-btn {
-        padding: 6px 10px;
-    }
-    .bottom-bar-progress-pill {
-        display: none;
-    }
-    .top-text {
-        display: none;
-    }
-    .footbar-metrics-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    .footbar-columns-grid {
-        grid-template-columns: 1fr;
-        gap: 14px;
-    }
-    .footbar-drawer-footer {
-        flex-direction: column;
-        align-items: flex-start;
+        display: none !important;
     }
 }

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { Share2 } from 'lucide-react';
 import UserHubSidebar from './components/UserHubSidebar';
 import WalletModule from '../Wallet';
@@ -26,19 +26,30 @@ import '../../styles/UserHub.css';
 
 const UserHub = () => {
     const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+    const location = useLocation();
+    const isStandaloneTripPage =
+        location.pathname.includes('/travel-journey') ||
+        location.pathname.includes('/offers') ||
+        location.pathname.includes('/favorites') ||
+        location.pathname.includes('/saved-vibes');
 
     return (
-        <div className="user-hub-page" style={{position: 'relative'}}>
-            <UserHubSidebar />
-            <main className="user-hub-content">
-                <div className="hub-top-actions" style={{position: 'absolute', top: '1.5rem', right: '2rem', zIndex: 50}}>
-                    <button 
-                        onClick={() => setIsShareModalOpen(true)}
-                        style={{background: 'linear-gradient(135deg, #A855F7, #EC4899)', color: 'white', border: 'none', padding: '0.6rem 1.2rem', borderRadius: '100px', cursor: 'pointer', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '0.4rem', boxShadow: '0 8px 15px rgba(168, 85, 247, 0.3)'}}
-                    >
-                        <Share2 size={16} /> Share Profile
-                    </button>
-                </div>
+        <div
+            className={`user-hub-page ${isStandaloneTripPage ? 'user-hub-page--standalone' : ''}`}
+            style={{ position: 'relative' }}
+        >
+            {!isStandaloneTripPage && <UserHubSidebar />}
+            <main className={`user-hub-content ${isStandaloneTripPage ? 'user-hub-content--standalone' : ''}`}>
+                {!isStandaloneTripPage && (
+                    <div className="hub-top-actions">
+                        <button
+                            onClick={() => setIsShareModalOpen(true)}
+                            className="hub-share-profile-btn"
+                        >
+                            <Share2 size={16} /> Share Profile
+                        </button>
+                    </div>
+                )}
                 <ViralShareModal isOpen={isShareModalOpen} onClose={() => setIsShareModalOpen(false)} />
 
                 <Routes>

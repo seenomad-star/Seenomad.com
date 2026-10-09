@@ -307,15 +307,22 @@ const getContextualFeatureSubNav = (pathname, search = '') => {
         };
     }
 
-    // 14. EVENTS & FESTIVALS ('/event-festival/*')
-    if (pathname.startsWith('/event-festival')) {
+    // 14. EVENTS & FESTIVALS ('/event-festival/*' | '/explore/events' | '/explore/nomad-events' | '/explore/festivals')
+    if (
+        pathname.startsWith('/event-festival') ||
+        pathname.startsWith('/explore/events') ||
+        pathname.startsWith('/explore/nomad-events') ||
+        pathname.startsWith('/explore/festivals')
+    ) {
         return {
-            categoryLabel: 'Events & Festivals',
+            categoryLabel: 'Events & Villages',
             basePath: '/event-festival',
             items: [
-                { label: 'Upcoming Festivals', path: '/event-festival', icon: <Calendar />, exact: true },
+                { label: 'Festivals & Pop-Up Villages', path: '/event-festival', icon: <Calendar />, exact: true },
+                { label: 'My Trips & Journey', path: '/user/travel-journey', icon: <Compass /> },
+                { label: 'Festival Stay Deals', path: '/explore/travel-deals', icon: <Gift /> },
+                { label: 'Local Experiences', path: '/learning-voluntourism', icon: <Palmtree /> },
                 { label: 'Community Meetups', path: '/community/meetups', icon: <Users /> },
-                { label: '360° Venue Portals', path: '/explore/travel-map', icon: <Map /> },
                 { label: 'Book Event Travel', path: '/explore/book-travel', icon: <Plane /> }
             ]
         };
@@ -340,17 +347,22 @@ const getContextualFeatureSubNav = (pathname, search = '') => {
         };
     }
 
-    // 14C. MY TRIPS & JOURNEY ('/user/travel-journey')
-    if (pathname.startsWith('/user/travel-journey')) {
+    // 14C. MY TRIPS, JOURNEY & EXCLUSIVE TRAVEL DEALS ('/user/travel-journey' | '/explore/travel-deals' | '/explore/deals' | '/user/offers')
+    if (
+        pathname.startsWith('/user/travel-journey') ||
+        pathname.startsWith('/explore/travel-deals') ||
+        pathname.startsWith('/explore/deals') ||
+        pathname.startsWith('/user/offers')
+    ) {
         return {
             categoryLabel: 'Trip Planning',
             basePath: '',
             items: [
-                { label: 'My Trips & Journey', path: '/user/travel-journey', icon: <Compass />, exact: true },
+                { label: 'My Trips & Journey', path: '/user/travel-journey', icon: <Compass /> },
+                { label: 'Exclusive Travel Deals', path: '/explore/travel-deals', icon: <Gift /> },
                 { label: 'Day-by-Day Itinerary', path: '/explore/planner', icon: <GitBranch /> },
-                { label: 'Trip Builder Studio', path: '/explore/trip-builder', icon: <Backpack /> },
-                { label: '3D Travel Map', path: '/explore/travel-map', icon: <Map /> },
-                { label: 'Tax & 183d Calc', path: '/explore/tax-calculator', icon: <DollarSign /> },
+                { label: 'Book Flights & Stays', path: '/explore/book-travel', icon: <Plane /> },
+                { label: 'Rewards & Perks', path: '/explore/passport-perks', icon: <Award /> },
                 { label: 'Saved Wishlist', path: '/saved', icon: <Bookmark /> }
             ]
         };

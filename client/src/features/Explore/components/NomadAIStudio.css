@@ -1165,9 +1165,61 @@
 }
 
 @media (max-width: 800px) {
-    .ai-engine-switcher {
-        grid-template-columns: 1fr;
+    .nomad-ai-studio-root {
+        padding: 0.65rem 0.65rem 5rem;
+        overflow-x: hidden;
     }
+
+    .ai-studio-header {
+        padding: 0.85rem;
+        border-radius: 16px;
+        gap: 0.65rem;
+    }
+
+    .ai-studio-brand {
+        min-width: 0;
+        width: 100%;
+        gap: 0.65rem;
+    }
+
+    .ai-studio-logo-orb {
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+        flex-shrink: 0;
+    }
+
+    .ai-studio-title-block h1 {
+        font-size: 1.15rem;
+    }
+
+    .ai-studio-subtitle {
+        font-size: 0.76rem;
+    }
+
+    .ai-engine-switcher {
+        display: flex;
+        overflow-x: auto;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+        gap: 0.4rem;
+        padding: 0.3rem;
+    }
+
+    .ai-engine-switcher::-webkit-scrollbar {
+        display: none;
+    }
+
+    .ai-engine-tab {
+        flex: 0 0 auto;
+        min-width: 136px;
+        padding: 0.5rem 0.65rem;
+    }
+
+    .ai-engine-tab-desc {
+        display: none;
+    }
+
     .triipper-controls-grid,
     .t-moments-grid,
     .dt-sim-metrics-grid {

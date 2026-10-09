@@ -575,11 +575,11 @@ const TravelMap = () => {
                     {/* A. Active & Upcoming Multi-City Expeditions */}
                     {(activeTab === 'all' || activeTab === 'upcoming') && (
                         <>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <h2 style={{ margin: 0, fontSize: '1.04rem', fontWeight: 800 }}>
+                            <div className="mtj-section-header">
+                                <h2 className="mtj-section-title">
                                     Active & Upcoming Multi-City Expeditions ({filteredExpeditions.length})
                                 </h2>
-                                <span style={{ fontSize: '0.73rem', color: '#94a3b8' }}>
+                                <span className="mtj-section-sub">
                                     Synced with ChronoRoute™ Day-by-Day Itinerary Builder
                                 </span>
                             </div>
@@ -589,18 +589,18 @@ const TravelMap = () => {
                                 return (
                                     <article key={trip.id} className="mtj-trip-card">
                                         <div className="mtj-trip-top">
-                                            <div>
+                                            <div className="mtj-trip-head-main">
                                                 <span className="mtj-kicker">
                                                     {trip.status} · {trip.window} · PNR: {trip.pnrCode}
                                                 </span>
                                                 <h3 className="mtj-trip-title">{trip.title}</h3>
                                             </div>
 
-                                            <div style={{ textAlign: 'right' }}>
-                                                <div style={{ fontSize: '0.96rem', fontWeight: 800, color: '#38bdf8' }}>
+                                            <div className="mtj-trip-budget-box">
+                                                <div className="mtj-trip-budget-amount">
                                                     ${trip.spentUSD.toLocaleString()} / ${trip.budgetUSD.toLocaleString()}
                                                 </div>
-                                                <div style={{ fontSize: '0.7rem', color: '#10b981', fontWeight: 700 }}>
+                                                <div className="mtj-trip-xp-tag">
                                                     +{trip.xpEarned} Odyssey XP
                                                 </div>
                                             </div>
@@ -634,19 +634,19 @@ const TravelMap = () => {
                                             </span>
                                         </div>
 
-                                        <p style={{ margin: 0, fontSize: '0.78rem', color: '#cbd5e1', lineHeight: 1.45 }}>
+                                        <p className="mtj-trip-notes">
                                             {trip.notes}
                                         </p>
 
                                         <div className="mtj-trip-footer">
-                                            <span style={{ fontSize: '0.72rem', color: '#94a3b8' }}>
+                                            <span className="mtj-budget-commitment">
                                                 Budget Utilization: <strong>{budgetPct}%</strong> committed
                                             </span>
 
-                                            <div style={{ display: 'flex', gap: '0.45rem', flexWrap: 'wrap' }}>
+                                            <div className="mtj-trip-actions">
                                                 <button
                                                     type="button"
-                                                    className="mtj-btn"
+                                                    className="mtj-btn mtj-btn-icon"
                                                     onClick={() => handleDeleteExpedition(trip.id, trip.title)}
                                                     aria-label="Remove trip"
                                                 >
@@ -679,14 +679,14 @@ const TravelMap = () => {
                     {/* B. Passport Country Stamp Ledger */}
                     {(activeTab === 'all' || activeTab === 'stamps') && (
                         <>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: activeTab === 'all' ? '0.6rem' : 0 }}>
-                                <h2 style={{ margin: 0, fontSize: '1.04rem', fontWeight: 800 }}>
+                            <div className="mtj-section-header" style={{ marginTop: activeTab === 'all' ? '0.6rem' : 0 }}>
+                                <h2 className="mtj-section-title">
                                     Verified Passport Country Ledger & 183-Day Presence ({visitedStamps.length} Countries)
                                 </h2>
                                 <button
                                     type="button"
                                     className="mtj-btn"
-                                    style={{ padding: '0.32rem 0.7rem', fontSize: '0.72rem' }}
+                                    style={{ padding: '0.36rem 0.75rem', fontSize: '0.73rem' }}
                                     onClick={() => navigate('/explore/tax-calculator')}
                                 >
                                     <Scale size={13} />

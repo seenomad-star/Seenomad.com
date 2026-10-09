@@ -1,49 +1,48 @@
 /* ==========================================================================
-   SeeNomad FestivalPulse™ — Global Cultural Festivals, Pop-Up Nomad Villages,
-   Creator Summits & Remote-Work Gathering OS
+   SeeNomad NomadYield™ — Exclusive Partner Stays, Error-Fare Flights,
+   Eurail / Shinkansen Passes & Coliving Syndicate Deals Hub
    Fully responsive across all screen sizes (320px mobile to 1600px+ ultra-wide)
    ========================================================================== */
 
-.efp-shell {
+.tdh-shell {
     display: flex;
     flex-direction: column;
     gap: 1.15rem;
     width: 100%;
     max-width: 1460px;
     margin: 0 auto;
-    padding: clamp(0.75rem, 2vw, 1.5rem);
     padding-bottom: 3.25rem;
     color: #f8fafc;
     box-sizing: border-box;
 }
 
-:root:not(.dark) .efp-shell,
-body.theme-light .efp-shell {
+:root:not(.dark) .tdh-shell,
+body.theme-light .tdh-shell {
     color: #0f172a;
 }
 
 /* ==========================================================================
-   1. Editorial Hero Banner & Live Festival/Village Telemetry
+   1. Editorial Hero Banner & Live Arbitrage Telemetry
    ========================================================================== */
-.efp-hero-banner {
+.tdh-hero-banner {
     display: flex;
     flex-direction: column;
     gap: 1.05rem;
     padding: 1.4rem 1.6rem;
     border-radius: 18px;
-    background: linear-gradient(135deg, rgba(15, 23, 42, 0.96) 0%, rgba(30, 27, 75, 0.9) 55%, rgba(88, 28, 135, 0.42) 100%);
-    border: 1px solid rgba(168, 85, 247, 0.32);
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.96) 0%, rgba(17, 24, 39, 0.92) 55%, rgba(6, 78, 59, 0.42) 100%);
+    border: 1px solid rgba(16, 185, 129, 0.3);
     box-shadow: 0 16px 38px -14px rgba(0, 0, 0, 0.48);
 }
 
-:root:not(.dark) .efp-hero-banner,
-body.theme-light .efp-hero-banner {
-    background: linear-gradient(135deg, #ffffff 0%, #faf5ff 65%, #f0f9ff 100%);
-    border-color: rgba(168, 85, 247, 0.26);
+:root:not(.dark) .tdh-hero-banner,
+body.theme-light .tdh-hero-banner {
+    background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 65%, #ecfeff 100%);
+    border-color: rgba(16, 185, 129, 0.28);
     box-shadow: 0 12px 32px -12px rgba(15, 23, 42, 0.08);
 }
 
-.efp-hero-top {
+.tdh-hero-top {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
@@ -51,12 +50,12 @@ body.theme-light .efp-hero-banner {
     flex-wrap: wrap;
 }
 
-.efp-hero-copy {
+.tdh-hero-copy {
     flex: 1 1 540px;
     min-width: 0;
 }
 
-.efp-kicker {
+.tdh-kicker {
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
@@ -64,15 +63,15 @@ body.theme-light .efp-hero-banner {
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.07em;
-    color: #c084fc;
+    color: #10b981;
 }
 
-:root:not(.dark) .efp-kicker,
-body.theme-light .efp-kicker {
-    color: #7e22ce;
+:root:not(.dark) .tdh-kicker,
+body.theme-light .tdh-kicker {
+    color: #059669;
 }
 
-.efp-title {
+.tdh-title {
     margin: 0.28rem 0 0 0;
     font-size: clamp(1.26rem, 2.2vw, 1.56rem);
     font-weight: 800;
@@ -80,7 +79,7 @@ body.theme-light .efp-kicker {
     letter-spacing: -0.015em;
 }
 
-.efp-subtitle {
+.tdh-subtitle {
     margin: 0.38rem 0 0 0;
     font-size: 0.84rem;
     color: #94a3b8;
@@ -88,19 +87,19 @@ body.theme-light .efp-kicker {
     line-height: 1.52;
 }
 
-:root:not(.dark) .efp-subtitle,
-body.theme-light .efp-subtitle {
+:root:not(.dark) .tdh-subtitle,
+body.theme-light .tdh-subtitle {
     color: #475569;
 }
 
-.efp-hero-actions {
+.tdh-hero-actions {
     display: flex;
     align-items: center;
     gap: 0.55rem;
     flex-wrap: wrap;
 }
 
-.efp-btn {
+.tdh-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -117,45 +116,45 @@ body.theme-light .efp-subtitle {
     white-space: nowrap;
 }
 
-:root:not(.dark) .efp-btn,
-body.theme-light .efp-btn {
+:root:not(.dark) .tdh-btn,
+body.theme-light .tdh-btn {
     background: #f1f5f9;
     border-color: rgba(15, 23, 42, 0.12);
     color: #1e293b;
 }
 
-.efp-btn:hover {
-    border-color: rgba(168, 85, 247, 0.55);
-    color: #c084fc;
+.tdh-btn:hover {
+    border-color: rgba(16, 185, 129, 0.55);
+    color: #34d399;
     transform: translateY(-1px);
 }
 
-:root:not(.dark) .efp-btn:hover,
-body.theme-light .efp-btn:hover {
-    border-color: rgba(126, 34, 206, 0.45);
-    color: #7e22ce;
+:root:not(.dark) .tdh-btn:hover,
+body.theme-light .tdh-btn:hover {
+    border-color: rgba(5, 150, 105, 0.45);
+    color: #059669;
 }
 
-.efp-btn-primary {
-    background: linear-gradient(135deg, #7e22ce 0%, #2563eb 100%);
-    border-color: rgba(192, 132, 252, 0.5);
-    color: #ffffff !important;
-    box-shadow: 0 4px 14px rgba(126, 34, 206, 0.28);
-}
-
-.efp-btn-primary:hover {
-    filter: brightness(1.08);
-    color: #ffffff !important;
-}
-
-.efp-btn-emerald {
-    background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+.tdh-btn-primary {
+    background: linear-gradient(135deg, #059669 0%, #0284c7 100%);
     border-color: rgba(52, 211, 153, 0.5);
+    color: #ffffff !important;
+    box-shadow: 0 4px 14px rgba(5, 150, 105, 0.28);
+}
+
+.tdh-btn-primary:hover {
+    filter: brightness(1.07);
+    color: #ffffff !important;
+}
+
+.tdh-btn-sky {
+    background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
+    border-color: rgba(56, 189, 248, 0.5);
     color: #ffffff !important;
 }
 
 /* Unboxed Hero Telemetry Row */
-.efp-kpi-row {
+.tdh-kpi-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -167,58 +166,58 @@ body.theme-light .efp-btn:hover {
     color: #94a3b8;
 }
 
-:root:not(.dark) .efp-kpi-row,
-body.theme-light .efp-kpi-row {
+:root:not(.dark) .tdh-kpi-row,
+body.theme-light .tdh-kpi-row {
     border-top-color: rgba(15, 23, 42, 0.08);
     color: #64748b;
 }
 
-.efp-kpi-metrics {
+.tdh-kpi-metrics {
     display: flex;
     align-items: center;
     gap: 0.7rem;
     flex-wrap: wrap;
 }
 
-.efp-kpi-row strong {
+.tdh-kpi-row strong {
     color: #f8fafc;
     font-weight: 700;
 }
 
-:root:not(.dark) .efp-kpi-row strong,
-body.theme-light .efp-kpi-row strong {
+:root:not(.dark) .tdh-kpi-row strong,
+body.theme-light .tdh-kpi-row strong {
     color: #0f172a;
 }
 
 /* ==========================================================================
-   2. Host a Pop-Up Village / Nomad Gathering Drawer
+   2. Interactive Stay + Flight Yield Calculator & Custom Alert Drawer
    ========================================================================== */
-.efp-drawer {
+.tdh-drawer {
     display: flex;
     flex-direction: column;
     gap: 0.9rem;
     padding: 1.2rem 1.35rem;
     border-radius: 16px;
     background: rgba(15, 23, 42, 0.92);
-    border: 1px solid rgba(168, 85, 247, 0.42);
+    border: 1px solid rgba(16, 185, 129, 0.42);
     box-shadow: 0 12px 28px -10px rgba(0, 0, 0, 0.38);
 }
 
-:root:not(.dark) .efp-drawer,
-body.theme-light .efp-drawer {
+:root:not(.dark) .tdh-drawer,
+body.theme-light .tdh-drawer {
     background: #ffffff;
-    border-color: rgba(126, 34, 206, 0.35);
+    border-color: rgba(5, 150, 105, 0.35);
     box-shadow: 0 10px 24px -10px rgba(15, 23, 42, 0.08);
 }
 
-.efp-form-grid {
+.tdh-form-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
     gap: 0.7rem;
     align-items: end;
 }
 
-.efp-field-label {
+.tdh-field-label {
     display: flex;
     flex-direction: column;
     gap: 0.3rem;
@@ -227,13 +226,13 @@ body.theme-light .efp-drawer {
     color: #94a3b8;
 }
 
-:root:not(.dark) .efp-field-label,
-body.theme-light .efp-field-label {
+:root:not(.dark) .tdh-field-label,
+body.theme-light .tdh-field-label {
     color: #475569;
 }
 
-.efp-input,
-.efp-select {
+.tdh-input,
+.tdh-select {
     width: 100%;
     padding: 0.52rem 0.75rem;
     border-radius: 9px;
@@ -246,15 +245,15 @@ body.theme-light .efp-field-label {
     transition: border-color 0.15s ease;
 }
 
-.efp-input:focus,
-.efp-select:focus {
-    border-color: #c084fc;
+.tdh-input:focus,
+.tdh-select:focus {
+    border-color: #10b981;
 }
 
-:root:not(.dark) .efp-input,
-:root:not(.dark) .efp-select,
-body.theme-light .efp-input,
-body.theme-light .efp-select {
+:root:not(.dark) .tdh-input,
+:root:not(.dark) .tdh-select,
+body.theme-light .tdh-input,
+body.theme-light .tdh-select {
     background: #f8fafc;
     border-color: rgba(15, 23, 42, 0.15);
     color: #0f172a;
@@ -263,7 +262,7 @@ body.theme-light .efp-select {
 /* ==========================================================================
    3. Category Filter Tabs & Search Toolbar
    ========================================================================== */
-.efp-toolbar {
+.tdh-toolbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -275,14 +274,14 @@ body.theme-light .efp-select {
     flex-wrap: wrap;
 }
 
-:root:not(.dark) .efp-toolbar,
-body.theme-light .efp-toolbar {
+:root:not(.dark) .tdh-toolbar,
+body.theme-light .tdh-toolbar {
     background: #ffffff;
     border-color: rgba(15, 23, 42, 0.08);
     box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
 }
 
-.efp-tabs {
+.tdh-tabs {
     display: flex;
     align-items: center;
     gap: 0.35rem;
@@ -290,11 +289,11 @@ body.theme-light .efp-toolbar {
     scrollbar-width: none;
 }
 
-.efp-tabs::-webkit-scrollbar {
+.tdh-tabs::-webkit-scrollbar {
     display: none;
 }
 
-.efp-tab {
+.tdh-tab {
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
@@ -310,36 +309,36 @@ body.theme-light .efp-toolbar {
     transition: all 0.15s ease;
 }
 
-:root:not(.dark) .efp-tab,
-body.theme-light .efp-tab {
+:root:not(.dark) .tdh-tab,
+body.theme-light .tdh-tab {
     background: #f1f5f9;
     color: #475569;
 }
 
-.efp-tab:hover {
+.tdh-tab:hover {
     color: #f8fafc;
-    border-color: rgba(168, 85, 247, 0.35);
+    border-color: rgba(16, 185, 129, 0.35);
 }
 
-:root:not(.dark) .efp-tab:hover,
-body.theme-light .efp-tab:hover {
+:root:not(.dark) .tdh-tab:hover,
+body.theme-light .tdh-tab:hover {
     color: #0f172a;
 }
 
-.efp-tab.active {
-    background: #7e22ce;
+.tdh-tab.active {
+    background: #059669;
     color: #ffffff;
-    border-color: rgba(192, 132, 252, 0.5);
+    border-color: rgba(52, 211, 153, 0.5);
 }
 
-.efp-search-controls {
+.tdh-search-controls {
     display: flex;
     align-items: center;
     gap: 0.5rem;
     flex-wrap: wrap;
 }
 
-.efp-search-box {
+.tdh-search-box {
     display: flex;
     align-items: center;
     gap: 0.45rem;
@@ -350,13 +349,13 @@ body.theme-light .efp-tab:hover {
     min-width: 245px;
 }
 
-:root:not(.dark) .efp-search-box,
-body.theme-light .efp-search-box {
+:root:not(.dark) .tdh-search-box,
+body.theme-light .tdh-search-box {
     background: #f8fafc;
     border-color: rgba(15, 23, 42, 0.12);
 }
 
-.efp-search-box input {
+.tdh-search-box input {
     background: transparent;
     border: none;
     color: inherit;
@@ -366,22 +365,22 @@ body.theme-light .efp-search-box {
 }
 
 /* ==========================================================================
-   4. Split Workspace: Festivals & Pop-Up Villages Grid + Live Radar Side Rail
+   4. Split Workspace: Partner Stays & Flight Deals Grid + Arbitrage Side Rail
    ========================================================================== */
-.efp-workspace-layout {
+.tdh-workspace-layout {
     display: grid;
     grid-template-columns: minmax(0, 1fr) 360px;
     gap: 1.15rem;
     align-items: start;
 }
 
-.efp-events-grid {
+.tdh-deals-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
     gap: 1rem;
 }
 
-.efp-event-card {
+.tdh-deal-card {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -392,67 +391,67 @@ body.theme-light .efp-search-box {
     transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
 }
 
-:root:not(.dark) .efp-event-card,
-body.theme-light .efp-event-card {
+:root:not(.dark) .tdh-deal-card,
+body.theme-light .tdh-deal-card {
     background: #ffffff;
     border-color: rgba(15, 23, 42, 0.08);
     box-shadow: 0 8px 22px rgba(15, 23, 42, 0.05);
 }
 
-.efp-event-card:hover {
+.tdh-deal-card:hover {
     transform: translateY(-2px);
-    border-color: rgba(168, 85, 247, 0.45);
+    border-color: rgba(16, 185, 129, 0.45);
     box-shadow: 0 14px 30px -12px rgba(0, 0, 0, 0.42);
 }
 
-.efp-card-media {
+.tdh-card-media {
     position: relative;
-    height: 180px;
+    height: 176px;
     width: 100%;
     overflow: hidden;
     background: #0f172a;
 }
 
-.efp-card-media img {
+.tdh-card-media img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition: transform 0.35s ease;
 }
 
-.efp-event-card:hover .efp-card-media img {
+.tdh-deal-card:hover .tdh-card-media img {
     transform: scale(1.04);
 }
 
-.efp-media-overlay {
+.tdh-media-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, rgba(15, 23, 42, 0.65) 0%, transparent 45%, rgba(15, 23, 42, 0.9) 100%);
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0.6) 0%, transparent 45%, rgba(15, 23, 42, 0.88) 100%);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     padding: 0.75rem 0.9rem;
 }
 
-.efp-media-top {
+.tdh-media-top {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 0.5rem;
 }
 
-.efp-type-tag {
-    font-size: 0.72rem;
+.tdh-discount-tag {
+    font-size: 0.73rem;
     font-weight: 800;
     color: #ffffff;
-    background: linear-gradient(135deg, #7e22ce 0%, #2563eb 100%);
+    background: linear-gradient(135deg, #059669 0%, #10b981 100%);
     padding: 0.24rem 0.62rem;
     border-radius: 6px;
     letter-spacing: 0.03em;
-    box-shadow: 0 4px 12px rgba(126, 34, 206, 0.35);
+    box-shadow: 0 4px 12px rgba(5, 150, 105, 0.35);
 }
 
-.efp-save-btn {
+.tdh-save-btn {
     width: 30px;
     height: 30px;
     border-radius: 8px;
@@ -466,13 +465,13 @@ body.theme-light .efp-event-card {
     transition: all 0.15s ease;
 }
 
-.efp-save-btn.saved {
+.tdh-save-btn.saved {
     background: rgba(245, 158, 11, 0.92);
     border-color: #fbbf24;
     color: #0f172a;
 }
 
-.efp-media-bottom {
+.tdh-media-bottom {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -482,7 +481,7 @@ body.theme-light .efp-event-card {
     font-weight: 700;
 }
 
-.efp-card-body {
+.tdh-card-body {
     display: flex;
     flex-direction: column;
     gap: 0.68rem;
@@ -490,20 +489,20 @@ body.theme-light .efp-event-card {
     flex: 1;
 }
 
-.efp-venue-kicker {
+.tdh-partner-kicker {
     font-size: 0.69rem;
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.06em;
-    color: #c084fc;
+    color: #10b981;
 }
 
-:root:not(.dark) .efp-venue-kicker,
-body.theme-light .efp-venue-kicker {
-    color: #7e22ce;
+:root:not(.dark) .tdh-partner-kicker,
+body.theme-light .tdh-partner-kicker {
+    color: #059669;
 }
 
-.efp-card-title {
+.tdh-card-title {
     margin: 0.12rem 0 0 0;
     font-size: 1rem;
     font-weight: 800;
@@ -511,7 +510,7 @@ body.theme-light .efp-venue-kicker {
 }
 
 /* Unboxed Metadata Strip — Zero Pill Discipline */
-.efp-meta-strip {
+.tdh-meta-strip {
     display: flex;
     align-items: center;
     gap: 0.42rem;
@@ -520,41 +519,41 @@ body.theme-light .efp-venue-kicker {
     color: #94a3b8;
 }
 
-:root:not(.dark) .efp-meta-strip,
-body.theme-light .efp-meta-strip {
+:root:not(.dark) .tdh-meta-strip,
+body.theme-light .tdh-meta-strip {
     color: #64748b;
 }
 
-.efp-card-desc {
+.tdh-card-desc {
     margin: 0;
     font-size: 0.77rem;
     color: #cbd5e1;
     line-height: 1.46;
 }
 
-:root:not(.dark) .efp-card-desc,
-body.theme-light .efp-card-desc {
+:root:not(.dark) .tdh-card-desc,
+body.theme-light .tdh-card-desc {
     color: #334155;
 }
 
-.efp-work-pod-line {
+.tdh-perks-line {
     padding: 0.55rem 0.72rem;
     border-radius: 10px;
     background: rgba(30, 41, 59, 0.55);
-    border: 1px solid rgba(168, 85, 247, 0.2);
+    border: 1px solid rgba(16, 185, 129, 0.18);
     font-size: 0.73rem;
     color: #e2e8f0;
     line-height: 1.4;
 }
 
-:root:not(.dark) .efp-work-pod-line,
-body.theme-light .efp-work-pod-line {
-    background: #faf5ff;
-    border-color: rgba(168, 85, 247, 0.24);
+:root:not(.dark) .tdh-perks-line,
+body.theme-light .tdh-perks-line {
+    background: #f0fdf4;
+    border-color: rgba(16, 185, 129, 0.24);
     color: #0f172a;
 }
 
-.efp-card-footer {
+.tdh-card-footer {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -565,33 +564,45 @@ body.theme-light .efp-work-pod-line {
     flex-wrap: wrap;
 }
 
-:root:not(.dark) .efp-card-footer,
-body.theme-light .efp-card-footer {
+:root:not(.dark) .tdh-card-footer,
+body.theme-light .tdh-card-footer {
     border-top-color: rgba(15, 23, 42, 0.07);
 }
 
-.efp-price-block {
+.tdh-price-block {
     display: flex;
     flex-direction: column;
 }
 
-.efp-pass-price {
-    font-size: 1.05rem;
+.tdh-price-row {
+    display: flex;
+    align-items: baseline;
+    gap: 0.42rem;
+}
+
+.tdh-deal-price {
+    font-size: 1.08rem;
     font-weight: 800;
-    color: #c084fc;
+    color: #10b981;
 }
 
-:root:not(.dark) .efp-pass-price,
-body.theme-light .efp-pass-price {
-    color: #7e22ce;
+:root:not(.dark) .tdh-deal-price,
+body.theme-light .tdh-deal-price {
+    color: #059669;
 }
 
-.efp-pass-unit {
+.tdh-retail-price {
+    font-size: 0.75rem;
+    color: #64748b;
+    text-decoration: line-through;
+}
+
+.tdh-price-unit {
     font-size: 0.69rem;
     color: #94a3b8;
 }
 
-.efp-card-actions {
+.tdh-card-actions {
     display: flex;
     align-items: center;
     gap: 0.4rem;
@@ -599,9 +610,9 @@ body.theme-light .efp-pass-price {
 }
 
 /* ==========================================================================
-   5. Right Sidebar: Seasonal Migration Calendar, Crew Radar & Festival Passes
+   5. Right Sidebar: Live Syndicate Pool, Yield Calculator & Claimed Vault
    ========================================================================== */
-.efp-side-rail {
+.tdh-side-rail {
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -609,7 +620,7 @@ body.theme-light .efp-pass-price {
     top: 118px;
 }
 
-.efp-side-panel {
+.tdh-side-panel {
     display: flex;
     flex-direction: column;
     gap: 0.8rem;
@@ -619,14 +630,14 @@ body.theme-light .efp-pass-price {
     border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-:root:not(.dark) .efp-side-panel,
-body.theme-light .efp-side-panel {
+:root:not(.dark) .tdh-side-panel,
+body.theme-light .tdh-side-panel {
     background: #ffffff;
     border-color: rgba(15, 23, 42, 0.08);
     box-shadow: 0 6px 18px rgba(15, 23, 42, 0.04);
 }
 
-.efp-side-title {
+.tdh-side-title {
     margin: 0;
     font-size: 0.92rem;
     font-weight: 800;
@@ -636,10 +647,10 @@ body.theme-light .efp-side-panel {
     gap: 0.5rem;
 }
 
-.efp-vault-row {
+.tdh-vault-row {
     display: flex;
     flex-direction: column;
-    gap: 0.24rem;
+    gap: 0.25rem;
     padding: 0.62rem 0.75rem;
     border-radius: 10px;
     background: rgba(30, 41, 59, 0.55);
@@ -647,16 +658,16 @@ body.theme-light .efp-side-panel {
     font-size: 0.74rem;
 }
 
-:root:not(.dark) .efp-vault-row,
-body.theme-light .efp-vault-row {
+:root:not(.dark) .tdh-vault-row,
+body.theme-light .tdh-vault-row {
     background: #f8fafc;
     border-color: rgba(15, 23, 42, 0.08);
 }
 
 /* ==========================================================================
-   6. Event Lineup, Work-Pod Specs & Crew Match Modal
+   6. Deal Inspection & Instant Voucher Lock Modal
    ========================================================================== */
-.efp-modal-backdrop {
+.tdh-modal-backdrop {
     position: fixed;
     inset: 0;
     z-index: 1200;
@@ -668,14 +679,14 @@ body.theme-light .efp-vault-row {
     padding: 1rem;
 }
 
-.efp-modal-card {
+.tdh-modal-card {
     width: 100%;
     max-width: 680px;
     max-height: 90vh;
     overflow-y: auto;
     border-radius: 18px;
     background: #0f172a;
-    border: 1px solid rgba(168, 85, 247, 0.4);
+    border: 1px solid rgba(16, 185, 129, 0.38);
     padding: 1.4rem;
     color: #f8fafc;
     display: flex;
@@ -684,11 +695,11 @@ body.theme-light .efp-vault-row {
     box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65);
 }
 
-:root:not(.dark) .efp-modal-card,
-body.theme-light .efp-modal-card {
+:root:not(.dark) .tdh-modal-card,
+body.theme-light .tdh-modal-card {
     background: #ffffff;
     color: #0f172a;
-    border-color: rgba(126, 34, 206, 0.3);
+    border-color: rgba(5, 150, 105, 0.3);
 }
 
 /* ==========================================================================
@@ -696,22 +707,22 @@ body.theme-light .efp-modal-card {
    (Ultra-Wide 1540px+ · Laptop 1180px · Tablet 900px · Mobile 768px · Small 520px)
    ========================================================================== */
 @media (min-width: 1540px) {
-    .efp-shell {
+    .tdh-shell {
         max-width: 1540px;
     }
 
-    .efp-workspace-layout {
+    .tdh-workspace-layout {
         grid-template-columns: minmax(0, 1fr) 390px;
         gap: 1.35rem;
     }
 }
 
 @media (max-width: 1180px) {
-    .efp-workspace-layout {
+    .tdh-workspace-layout {
         grid-template-columns: minmax(0, 1fr);
     }
 
-    .efp-side-rail {
+    .tdh-side-rail {
         position: static;
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -720,99 +731,99 @@ body.theme-light .efp-modal-card {
 }
 
 @media (max-width: 900px) {
-    .efp-toolbar {
+    .tdh-toolbar {
         flex-direction: column;
         align-items: stretch;
         padding: 0.75rem 0.9rem;
     }
 
-    .efp-tabs {
+    .tdh-tabs {
         width: 100%;
         padding-bottom: 0.15rem;
     }
 
-    .efp-search-controls {
+    .tdh-search-controls {
         width: 100%;
     }
 
-    .efp-search-box {
+    .tdh-search-box {
         flex: 1 1 220px;
         min-width: 0;
     }
 
-    .efp-form-grid {
+    .tdh-form-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
 
 @media (max-width: 768px) {
-    .efp-hero-banner {
+    .tdh-hero-banner {
         padding: 1.05rem;
         border-radius: 14px;
     }
 
-    .efp-hero-actions {
+    .tdh-hero-actions {
         width: 100%;
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 0.45rem;
     }
 
-    .efp-hero-actions .efp-btn {
+    .tdh-hero-actions .tdh-btn {
         width: 100%;
         justify-content: center;
         padding: 0.52rem 0.65rem;
         font-size: 0.73rem;
     }
 
-    .efp-events-grid {
+    .tdh-deals-grid {
         grid-template-columns: repeat(auto-fill, minmax(265px, 1fr));
     }
 
-    .efp-card-footer {
+    .tdh-card-footer {
         flex-direction: column;
         align-items: stretch;
     }
 
-    .efp-card-actions {
+    .tdh-card-actions {
         width: 100%;
         display: flex;
     }
 
-    .efp-card-actions .efp-btn {
+    .tdh-card-actions .tdh-btn {
         flex: 1 1 auto;
         justify-content: center;
     }
 }
 
 @media (max-width: 520px) {
-    .efp-hero-actions,
-    .efp-form-grid,
-    .efp-events-grid,
-    .efp-side-rail {
+    .tdh-hero-actions,
+    .tdh-form-grid,
+    .tdh-deals-grid,
+    .tdh-side-rail {
         grid-template-columns: 1fr;
     }
 
-    .efp-kpi-metrics {
+    .tdh-kpi-metrics {
         flex-direction: column;
         align-items: flex-start;
         gap: 0.35rem;
     }
 
-    .efp-kpi-metrics span[aria-hidden="true"] {
+    .tdh-kpi-metrics span[aria-hidden="true"] {
         display: none;
     }
 
-    .efp-search-controls {
+    .tdh-search-controls {
         flex-direction: column;
         align-items: stretch;
     }
 
-    .efp-search-box {
+    .tdh-search-box {
         width: 100%;
     }
 
-    .efp-modal-card {
+    .tdh-modal-card {
         padding: 1.05rem;
     }
 }

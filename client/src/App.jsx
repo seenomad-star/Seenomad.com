@@ -38,7 +38,9 @@ const PageTransitionLayout = () => {
   return (
     <MainLayout>
       <PageTransition>
-        <Outlet />
+        <ErrorBoundary inline>
+          <Outlet />
+        </ErrorBoundary>
       </PageTransition>
     </MainLayout>
   );
@@ -59,6 +61,8 @@ function App() {
             <Route path="/visa" element={<Navigate to="/explore/visa" replace />} />
             <Route path="/tax-calculator" element={<Navigate to="/explore/tax-calculator" replace />} />
             <Route path="/tax-compliance" element={<Navigate to="/explore/tax-calculator" replace />} />
+            <Route path="/travel-deals" element={<Navigate to="/explore/travel-deals" replace />} />
+            <Route path="/deals" element={<Navigate to="/explore/travel-deals" replace />} />
             <Route path="/destinations/*" element={<Navigate to="/explore/destinations" replace />} />
             <Route path="/destinations" element={<Navigate to="/explore/destinations" replace />} />
             <Route path="/ai-agents/*" element={<AIAgents />} />

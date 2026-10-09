@@ -438,6 +438,7 @@ const NomadDock = () => {
 
     const [activeTool, setActiveTool] = useState(null);
     const [pinnedTool, setPinnedTool] = useState(null);
+    const [isMobileDockExpanded, setIsMobileDockExpanded] = useState(false);
     const [destinationsFoundCount, setDestinationsFoundCount] = useState(allDestinations.length);
 
     // Embassy-specific filter state synced with Embassy.jsx via custom events
@@ -494,6 +495,7 @@ const NomadDock = () => {
             if (dockRef.current && !dockRef.current.contains(e.target)) {
                 setPinnedTool(null);
                 setActiveTool(null);
+                setIsMobileDockExpanded(false);
             }
         };
         document.addEventListener('mousedown', handleClickOutside);
@@ -504,6 +506,7 @@ const NomadDock = () => {
     useEffect(() => {
         setPinnedTool(null);
         setActiveTool(null);
+        setIsMobileDockExpanded(false);
     }, [location.pathname]);
 
     const pathname = location.pathname.toLowerCase();
@@ -2038,12 +2041,43 @@ const NomadDock = () => {
     return (
         <aside
             ref={dockRef}
-            className="nomad-dock-wrapper vertical-pill vertical-bar"
+            className={`nomad-dock-wrapper vertical-pill vertical-bar ${isMobileDockExpanded ? 'mobile-expanded' : 'mobile-collapsed'}`}
             id="vertical-pill-bar"
             data-component="Vertical Pill"
             data-page-context={pageContext}
             aria-label="Vertical Pill / Vertical Bar — Page-Specific Filters & Live Travel Intelligence"
         >
+            {/* Mobile-Only Compact Floating Filter & Live Intel Trigger Button */}
+            <button
+                type="button"
+                className={`nomad-dock-mobile-fab ${isMobileDockExpanded ? 'is-active' : ''} ${totalActiveFilters > 0 ? 'has-filters' : ''}`}
+                onClick={() => {
+                    setIsMobileDockExpanded((prev) => {
+                        if (prev) {
+                            setPinnedTool(null);
+                            setActiveTool(null);
+                        }
+                        return !prev;
+                    });
+                }}
+                aria-label={isMobileDockExpanded ? 'Close Page Filters & Live Intel' : 'Open Page Filters & Live Intel'}
+                title={isMobileDockExpanded ? 'Close Filters' : 'Page Filters & Live Intel'}
+                aria-expanded={isMobileDockExpanded}
+            >
+                {isMobileDockExpanded ? (
+                    <X size={16} />
+                ) : (
+                    <>
+                        <SlidersHorizontal size={16} />
+                        {totalActiveFilters > 0 ? (
+                            <span className="mobile-fab-badge">{totalActiveFilters}</span>
+                        ) : (
+                            <span className="mobile-fab-live-dot" />
+                        )}
+                    </>
+                )}
+            </button>
+
             <div className="nomad-dock vertical-pill-container">
                 <div
                     className="vertical-pill-header-badge"

@@ -70,17 +70,9 @@ export const pageReducedMotionVariants = {
 export const PageTransition = ({
   children,
   className = 'page-transition-wrapper w-full flex-1',
-  transitionKey,
-  customVariants,
   scrollToTop = true
 }) => {
   const location = useLocation();
-  const shouldReduceMotion = useReducedMotion();
-  const currentKey = transitionKey || location.pathname;
-
-  const activeVariants = customVariants || (
-    shouldReduceMotion ? pageReducedMotionVariants : pageTransitionVariants
-  );
 
   // Smooth scroll restoration on route changes
   useEffect(() => {
@@ -90,18 +82,9 @@ export const PageTransition = ({
   }, [location.pathname, scrollToTop]);
 
   return (
-    <AnimatePresence mode="wait" initial={false}>
-      <motion.div
-        key={currentKey}
-        variants={activeVariants}
-        initial="initial"
-        animate="animate"
-        exit="exit"
-        className={className}
-      >
-        {children}
-      </motion.div>
-    </AnimatePresence>
+    <div className={className}>
+      {children}
+    </div>
   );
 };
 
