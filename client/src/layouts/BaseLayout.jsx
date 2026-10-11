@@ -7,7 +7,6 @@ import NavbarV3 from '../components/layout/NavbarV3';
 import SearchDropdown from '../components/layout/SearchDropdown';
 import NomadLaunchpad from '../components/layout/NomadLaunchpad';
 import GlobalRightSidebar from '../components/layout/GlobalRightSidebar';
-import NomadGhostDock from '../components/layout/NomadGhostDock';
 import NomadDock from '../features/SocialFeed/components/NomadDock';
 import BottomNav from '../components/common/BottomNav';
 import ToastContainer from '../components/common/ToastContainer';
@@ -122,15 +121,6 @@ const BaseLayout = ({ children }) => {
         if (dockState === 'hud') setDockState('command');
     };
 
-    const hideGhostDock = location.pathname === '/' || 
-        location.pathname === '/popular' || 
-        location.pathname.startsWith('/feed') || 
-        location.pathname.startsWith('/explore') || 
-        location.pathname.startsWith('/destinations') || 
-        location.pathname.startsWith('/compare') || 
-        location.pathname.startsWith('/visa') || 
-        location.pathname === '/community/meetups';
-    
     // Hide large static footer on feed and endless stream pages
     const hideFooter = location.pathname === '/' || 
         location.pathname === '/popular' || 
@@ -203,7 +193,6 @@ const BaseLayout = ({ children }) => {
             {/* 3. Global Command Overlays */}
             <SearchDropdown />
             <NomadLaunchpad />
-            {!hideGhostDock && <NomadGhostDock />}
 
             {/* 4. Main Page Content Structure */}
             <main className={mainClasses} id="main-content-region">

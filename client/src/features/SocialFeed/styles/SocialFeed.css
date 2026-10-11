@@ -1008,6 +1008,26 @@
 
 /* Mobile Responsive Overrides for SocialFeed */
 @media (max-width: 640px) {
+    .social-feed-layout {
+        grid-template-columns: minmax(0, 1fr);
+        padding: 0.25rem 0 4.5rem;
+        gap: 0.5rem;
+        width: 100%;
+        max-width: 100vw;
+        overflow-x: hidden;
+    }
+
+    .social-feed-main {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        overflow-x: hidden;
+    }
+
+    .feed-stream {
+        gap: 0.45rem;
+    }
+
     .feed-content-wrapper {
         padding: 0 0 1.25rem 0;
         gap: 0.65rem;
@@ -1021,6 +1041,23 @@
     .story-avatar-ring {
         width: 58px;
         height: 58px;
+    }
+
+    .skill-exchange-feed {
+        padding: 0.75rem 0.5rem;
+    }
+
+    .exchange-hero {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.85rem;
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .post-exchange-btn {
+        width: 100%;
+        justify-content: center;
     }
 
     .exchange-grid {

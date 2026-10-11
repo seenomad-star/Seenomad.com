@@ -398,6 +398,84 @@ const EXPLORE_PAGE_FILTER_CATALOG = {
             { val: '4-in-1', lbl: 'Connectivity Suite' },
             { val: '100+ Mbps', lbl: 'Verified Fiber' }
         ]
+    },
+    'travel-deals': {
+        title: 'Travel Deals & Partner Offers',
+        icon: ShoppingBag,
+        placeholder: 'Search -42% stays, error fares, eSIM perks...',
+        filters: [
+            { id: 'all', label: 'All Deals' },
+            { id: 'flights', label: 'Flight Drops' },
+            { id: 'stays', label: 'Coliving & Stays' },
+            { id: 'esim', label: 'eSIM & Perks' },
+            { id: 'flash', label: 'Flash Sales' }
+        ],
+        metrics: [
+            { val: '-42%', lbl: 'Avg Member Save' },
+            { val: 'Live', lbl: 'Verified Codes' }
+        ]
+    },
+    'book-travel': {
+        title: 'Book Travel & Stays Hub',
+        icon: Plane,
+        placeholder: 'Search flights, hotels, trains, coliving stays...',
+        filters: [
+            { id: 'all', label: 'All Booking' },
+            { id: 'flights', label: 'Flights' },
+            { id: 'hotels', label: 'Hotels & Coliving' },
+            { id: 'trains', label: 'Rail & Transit' },
+            { id: 'flexible', label: 'Free Cancellation' }
+        ],
+        metrics: [
+            { val: '0% Fee', lbl: 'Direct Booking' },
+            { val: '1.2M+', lbl: 'Verified Stays' }
+        ]
+    },
+    'tax-calculator': {
+        title: 'Tax & 183-Day Residency Calculator',
+        icon: DollarSign,
+        placeholder: 'Search tax regimes, 183-day rules, FEIE, NHR...',
+        filters: [
+            { id: 'all', label: 'All Regimes' },
+            { id: 'zero-tax', label: '0% Territorial Tax' },
+            { id: '183-day', label: '183-Day Safe' },
+            { id: 'dnv-tax', label: 'Nomad Visa Exempt' }
+        ],
+        metrics: [
+            { val: '183d', lbl: 'Residency Guard' },
+            { val: '2026', lbl: 'Treaty Rules' }
+        ]
+    },
+    'travel-map': {
+        title: '3D Interactive World Travel Map',
+        icon: Map,
+        placeholder: 'Search 360° portals, nomad hubs, live weather...',
+        filters: [
+            { id: 'all', label: 'All Pins' },
+            { id: 'nomad-hub', label: 'Top Nomad Hubs' },
+            { id: 'fast-internet', label: '100+ Mbps Fiber' },
+            { id: 'visa-friendly', label: 'Visa-Free Entry' }
+        ],
+        metrics: [
+            { val: '360°', lbl: 'Spatial Portals' },
+            { val: '195+', lbl: 'Countries Mapped' }
+        ]
+    },
+    'vibes': {
+        title: '360° Travel Vibes & Shorts',
+        icon: Sparkles,
+        placeholder: 'Search travel reels, soundscapes, trip clones...',
+        filters: [
+            { id: 'all', label: 'All Vibes' },
+            { id: 'tropical', label: 'Tropical & Surf' },
+            { id: 'cyberpunk', label: 'Neon & Nightlife' },
+            { id: 'alpine', label: 'Mountain & Zen' },
+            { id: 'workcation', label: 'Deep Work Cafes' }
+        ],
+        metrics: [
+            { val: '1-Click', lbl: 'Clone Itinerary' },
+            { val: 'Spatial', lbl: 'Live Audio' }
+        ]
     }
 };
 
@@ -534,7 +612,15 @@ const NomadDock = () => {
         if (pathname.includes('/explore/trivenly')) return 'trivenly';
         if (pathname.includes('/explore/flights-visa')) return 'flights-visa';
         if (pathname.includes('/explore/travel-bug')) return 'travel-bug';
-        if (pathname.includes('/explore/trip-builder')) return 'trip-builder';
+        if (pathname.includes('/explore/trip-builder') || pathname.includes('/explore/planner') || pathname.includes('/explore/itinerary-builder')) return 'trip-builder';
+        if (pathname.includes('/explore/travel-deals') || pathname.includes('/explore/deals') || pathname.startsWith('/travel-deals') || pathname.startsWith('/deals')) return 'travel-deals';
+        if (pathname.includes('/explore/book-travel') || pathname.includes('/explore/hotel-finder')) return 'book-travel';
+        if (pathname.includes('/explore/tax-calculator') || pathname.includes('/explore/tax-compliance')) return 'tax-calculator';
+        if (pathname.includes('/explore/travel-map') || pathname.includes('/explore/map')) return 'travel-map';
+        if (pathname.includes('/explore/vibes') || pathname.includes('/explore/shorts')) return 'vibes';
+        if (pathname.includes('/explore/culture-community')) return 'culture-community';
+        if (pathname.includes('/explore/passport-perks')) return 'passport-perks';
+        if (pathname.includes('/explore/connectivity-market')) return 'connectivity-market';
         if (pathname.startsWith('/explore') || pathname.startsWith('/destinations')) return 'destinations';
         if (pathname === '/' || pathname.startsWith('/feed')) return 'feed';
         if (pathname.startsWith('/popular')) return 'popular';

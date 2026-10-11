@@ -63,11 +63,64 @@ const SHORT_ITEMS = [
 
 const ShortsShelf = ({ onSelectShort, onExploreAll }) => {
     const scrollRef = useRef(null);
+    const isDraggingRef = useRef(false);
+    const hasMovedRef = useRef(false);
+    const startXRef = useRef(0);
+    const scrollLeftRef = useRef(0);
+
+    const getCardStep = () => {
+        const container = scrollRef.current;
+        if (!container) return 198;
+        const firstCard = container.querySelector('.short-card');
+        if (!firstCard) return 198;
+        const style = window.getComputedStyle(container);
+        const gap = parseFloat(style.columnGap || style.gap || '13.6') || 13.6;
+        return firstCard.getBoundingClientRect().width + gap;
+    };
 
     const scroll = (direction) => {
         if (scrollRef.current) {
-            const distance = direction === 'left' ? -320 : 320;
+            const step = getCardStep();
+            const distance = direction === 'left' ? -step : step;
             scrollRef.current.scrollBy({ left: distance, behavior: 'smooth' });
+        }
+    };
+
+    const handleMouseDown = (e) => {
+        const container = scrollRef.current;
+        if (!container || e.button !== 0) return;
+        isDraggingRef.current = true;
+        hasMovedRef.current = false;
+        startXRef.current = e.pageX - container.offsetLeft;
+        scrollLeftRef.current = container.scrollLeft;
+        container.classList.add('is-dragging');
+    };
+
+    const handleMouseMove = (e) => {
+        const container = scrollRef.current;
+        if (!isDraggingRef.current || !container) return;
+        const x = e.pageX - container.offsetLeft;
+        const walk = x - startXRef.current;
+        if (Math.abs(walk) > 5) {
+            hasMovedRef.current = true;
+            e.preventDefault();
+            container.scrollLeft = scrollLeftRef.current - walk;
+        }
+    };
+
+    const finishDrag = () => {
+        const container = scrollRef.current;
+        if (!isDraggingRef.current || !container) return;
+        isDraggingRef.current = false;
+        container.classList.remove('is-dragging');
+
+        if (hasMovedRef.current) {
+            const step = getCardStep();
+            const targetIndex = Math.round(container.scrollLeft / step);
+            container.scrollTo({
+                left: targetIndex * step,
+                behavior: 'smooth'
+            });
         }
     };
 
@@ -116,16 +169,29 @@ const ShortsShelf = ({ onSelectShort, onExploreAll }) => {
                 </div>
             </div>
 
-            <div className="shorts-cards-carousel" ref={scrollRef}>
+            <div
+                className="shorts-cards-carousel"
+                ref={scrollRef}
+                onMouseDown={handleMouseDown}
+                onMouseMove={handleMouseMove}
+                onMouseUp={finishDrag}
+                onMouseLeave={finishDrag}
+            >
                 {SHORT_ITEMS.map((item) => (
                     <motion.article 
                         key={item.id} 
                         className="short-card"
                         whileHover={{ y: -4, transition: { duration: 0.2 } }}
-                        onClick={() => onSelectShort && onSelectShort(item)}
+                        onClick={() => {
+                            if (hasMovedRef.current) {
+                                hasMovedRef.current = false;
+                                return;
+                            }
+                            if (onSelectShort) onSelectShort(item);
+                        }}
                     >
                         <div className="short-thumb-wrapper">
-                            <img src={item.thumbnail} alt={item.title} className="short-thumb-img" loading="lazy" />
+                            <img src={item.thumbnail} alt={item.title} className="short-thumb-img" loading="lazy" draggable={false} />
                             <div className="short-gradient-overlay" />
                             
                             <div className="short-duration-badge">{item.duration}</div>
@@ -143,7 +209,7 @@ const ShortsShelf = ({ onSelectShort, onExploreAll }) => {
                         <div className="short-meta-info">
                             <h4 className="short-title">{item.title}</h4>
                             <div className="short-author-row">
-                                <img src={item.avatar} alt={item.author} className="short-author-avatar" />
+                                <img src={item.avatar} alt={item.author} className="short-author-avatar" draggable={false} />
                                 <span className="short-author-handle">@{item.author}</span>
                             </div>
                             <div className="short-sound-tag">

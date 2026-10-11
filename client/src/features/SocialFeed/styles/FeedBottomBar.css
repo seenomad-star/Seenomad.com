@@ -1,22 +1,19 @@
-/* FeedBottomBar.css - Persistent Bottom Bar & Footbar Drawer for Endless Feed */
+/* FeedBottomBar.css - Feed Footbar & Directory Drawer at the Bottom of the Feed Column */
 
 .feed-bottom-bar-wrapper {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%) translateY(0);
-    width: calc(100% - 32px);
-    max-width: 660px;
-    z-index: 1040;
-    pointer-events: none; /* Let empty space around pill be clickable */
-    transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
-    will-change: transform, opacity;
+    position: relative;
+    width: calc(100% - 2rem);
+    max-width: 100%;
+    margin: 0.5rem 1rem 2.5rem;
+    z-index: 20;
+    box-sizing: border-box;
+    transition: transform 0.25s ease, opacity 0.25s ease;
 }
 
 .feed-bottom-bar-wrapper.is-hidden {
-    transform: translateX(-50%) translateY(140%);
-    opacity: 0;
-    pointer-events: none;
+    transform: none;
+    opacity: 1;
+    pointer-events: auto;
 }
 
 .feed-bottom-bar {
@@ -24,21 +21,23 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap;
     gap: 8px;
-    padding: 6px 10px;
-    background: rgba(255, 255, 255, 0.92);
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.96);
     border: 1px solid rgba(226, 232, 240, 0.95);
-    border-radius: 9999px;
-    box-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.15), 0 0 1px 1px rgba(15, 23, 42, 0.05);
+    border-radius: 18px;
+    box-shadow: 0 6px 24px -4px rgba(15, 23, 42, 0.08), 0 0 1px 1px rgba(15, 23, 42, 0.04);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    box-sizing: border-box;
 }
 
 :root.dark .feed-bottom-bar {
     background: rgba(15, 23, 42, 0.9);
     border-color: rgba(255, 255, 255, 0.1);
-    box-shadow: 0 12px 36px -4px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.06);
+    box-shadow: 0 10px 30px -4px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.06);
 }
 
 /* Left Section: Filter Group */
@@ -598,9 +597,63 @@
     color: #94a3b8;
 }
 
-/* Responsive adjustments: Hide desktop feed bottom bar on mobile to avoid stacking with BottomNav */
+/* Responsive adjustments: Compact pill footbar at the bottom of the feed column on mobile */
 @media (max-width: 900px) {
     .feed-bottom-bar-wrapper {
-        display: none !important;
+        width: calc(100% - 1rem);
+        margin: 0.5rem 0.5rem 1.5rem;
+    }
+
+    .feed-bottom-bar {
+        padding: 8px 10px;
+        border-radius: 20px;
+        gap: 6px;
+        justify-content: center;
+    }
+
+    .bottom-bar-filter-group {
+        width: 100%;
+        justify-content: space-between;
+        overflow-x: auto;
+        scrollbar-width: none;
+    }
+
+    .bottom-bar-filter-group::-webkit-scrollbar {
+        display: none;
+    }
+
+    .bottom-bar-tab-btn {
+        flex: 1;
+        justify-content: center;
+        padding: 5px 8px;
+        font-size: 0.72rem;
+    }
+
+    .bottom-bar-compose-btn {
+        padding: 6px 11px;
+        font-size: 0.74rem;
+    }
+
+    .bottom-bar-actions-group {
+        gap: 4px;
+    }
+
+    .footbar-metrics-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .footbar-columns-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .footbar-drawer-footer {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .feed-footbar-drawer {
+        padding-bottom: calc(4.5rem + env(safe-area-inset-bottom, 0px));
     }
 }
+

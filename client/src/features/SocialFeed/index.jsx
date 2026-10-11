@@ -855,28 +855,28 @@ const SocialFeed = () => {
                         </>
                     )}
                 </main>
+
+                {/* Feed Bottom Bar & Accessible Footbar at the bottom of the feed column */}
+                <FeedBottomBar 
+                    activeFilter={currentFilter}
+                    onFilterChange={(filterKey) => {
+                        setActiveTab(filterKey);
+                        addToast(`Switched feed to ${filterKey.charAt(0).toUpperCase() + filterKey.slice(1)} travel updates`, 'info');
+                    }}
+                    onRefresh={handleRefreshFeed}
+                    isRefreshing={isRefreshing}
+                    onComposeClick={handleComposeClick}
+                    counts={{
+                        following: feedPosts.following?.length || 4,
+                        trending: feedPosts.trending?.length || 5,
+                        recent: feedPosts.recent?.length || 6
+                    }}
+                    postsCount={postsToRender.length}
+                />
             </div>
 
             {/* Right Column: Twitter-style Trends, Search & Follow Recommendations */}
             <HomeRightRail />
-
-            {/* Persistent Feed Bottom Bar & Accessible Footbar */}
-            <FeedBottomBar 
-                activeFilter={currentFilter}
-                onFilterChange={(filterKey) => {
-                    setActiveTab(filterKey);
-                    addToast(`Switched feed to ${filterKey.charAt(0).toUpperCase() + filterKey.slice(1)} travel updates`, 'info');
-                }}
-                onRefresh={handleRefreshFeed}
-                isRefreshing={isRefreshing}
-                onComposeClick={handleComposeClick}
-                counts={{
-                    following: feedPosts.following?.length || 4,
-                    trending: feedPosts.trending?.length || 5,
-                    recent: feedPosts.recent?.length || 6
-                }}
-                postsCount={postsToRender.length}
-            />
         </div>
     );
 };
