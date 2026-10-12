@@ -2,18 +2,19 @@
 
 .travel-feed-filter-bar-container {
     width: 100%;
-    background: rgba(255, 255, 255, 0.94);
+    background: rgba(255, 255, 255, 0.96);
     border: 1px solid rgba(226, 232, 240, 0.9);
     border-radius: 12px;
-    margin-bottom: 0.55rem;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
     box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
-    position: sticky;
-    top: 56px;
-    z-index: 25;
+    position: relative;
+    z-index: 15;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     overflow: hidden;
     transition: background-color 0.2s ease, border-color 0.2s ease;
+    box-sizing: border-box;
 }
 
 :root.dark .travel-feed-filter-bar-container {
@@ -284,9 +285,9 @@
 /* Mobile & Tablet Compact Rules */
 @media (max-width: 900px) {
     .travel-feed-filter-bar-container {
-        top: 54px;
+        top: auto;
         border-radius: 11px;
-        margin-bottom: 0.45rem;
+        margin-bottom: 0.35rem;
     }
 
     .feed-title-text {
@@ -296,9 +297,9 @@
 
 @media (max-width: 640px) {
     .travel-feed-filter-bar-container {
-        top: 52px;
+        top: auto;
         border-radius: 10px;
-        margin-bottom: 0.4rem;
+        margin-bottom: 0.3rem;
     }
 
     .travel-feed-single-row {
