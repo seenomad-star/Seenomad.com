@@ -24,6 +24,7 @@ import {
     Compass
 } from 'lucide-react';
 import { useToastStore } from '../../store/toastStore';
+import { buildEventFestivalSchema } from '../../config/seoConfig';
 import '../../styles/EventFestival.css';
 
 const EVENT_CATEGORIES = [
@@ -425,6 +426,19 @@ const EventFestival = () => {
 
     return (
         <div className="efp-shell">
+            {/* Schema.org Structured Data (Resolves Google Search Console Event rich results) */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify(
+                        buildEventFestivalSchema(
+                            typeof window !== 'undefined' ? window.location.href : 'https://seenomad.com/event-festival',
+                            typeof window !== 'undefined' ? window.location.origin : 'https://seenomad.com'
+                        )
+                    )
+                }}
+            />
+
             {/* 1. Editorial Hero Banner & Live Festival / Pop-Up Village Telemetry */}
             <header className="efp-hero-banner">
                 <div className="efp-hero-top">

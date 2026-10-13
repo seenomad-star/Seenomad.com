@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Camera, Check, Globe, MapPin, Briefcase, Link, Sparkles, User } from 'lucide-react';
+import { X, Camera, Check, Globe, MapPin, Briefcase, Link, Sparkles, User, Upload, Palette } from 'lucide-react';
 import { useToastStore } from '../../../store/toastStore';
 import './EditProfileModal.css';
 
@@ -27,8 +27,9 @@ const AVAILABILITY_STATUSES = [
     { id: 'traveling', label: 'In Transit / Exploring New Base', color: '#a855f7', emoji: '✈️' }
 ];
 
-const EditProfileModal = ({ isOpen, onClose, currentProfile, onSave }) => {
+const EditProfileModal = ({ isOpen, onClose, currentProfile, onSave, onOpenBannerCustomizer }) => {
     const { addToast } = useToastStore();
+    const coverFileInputRef = useRef(null);
     const [formData, setFormData] = useState({
         name: currentProfile?.name || 'Alex Rivera',
         title: currentProfile?.title || 'Senior Full Stack Developer & Digital Nomad',
@@ -44,6 +45,27 @@ const EditProfileModal = ({ isOpen, onClose, currentProfile, onSave }) => {
     });
 
     if (!isOpen) return null;
+
+    const handleCoverFileUpload = (e) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+        if (!file.type.startsWith('image/')) {
+            addToast('Please select a valid image file', 'error');
+            return;
+        }
+        if (file.size > 8 * 1024 * 1024) {
+            addToast('Image is larger than 8MB. Please choose a smaller photo.', 'error');
+            return;
+        }
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            setFormData(prev => ({ ...prev, coverUrl: event.target.result }));
+            addToast('Custom cover photo uploaded!', 'success');
+        };
+        reader.readAsDataURL(file);
+    };
+
+    const isCustomCover = !COVER_OPTIONS.some(c => c.url === formData.coverUrl);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -79,10 +101,52 @@ const EditProfileModal = ({ isOpen, onClose, currentProfile, onSave }) => {
                     </div>
 
                     <form onSubmit={handleSubmit} className="edit-profile-form">
-                        {/* Cover Image Selector */}
+                        {/* Cover Image Selector with Custom Upload & Gradient Studio */}
                         <div className="form-group">
-                            <label className="form-label">Cover Banner Panorama</label>
+                            <div className="flex items-center justify-between mb-1.5">
+                                <label className="form-label" style={{ margin: 0 }}>Cover Banner Panorama</label>
+                                {onOpenBannerCustomizer && (
+                                    <button
+                                        type="button"
+                                        onClick={onOpenBannerCustomizer}
+                                        className="text-xs text-sky-400 hover:text-sky-300 font-semibold flex items-center gap-1 transition-colors"
+                                    >
+                                        <Palette size={12} />
+                                        <span>Brand Gradient & Overlay Studio</span>
+                                    </button>
+                                )}
+                            </div>
+
+                            <input 
+                                type="file" 
+                                ref={coverFileInputRef} 
+                                accept="image/*" 
+                                style={{ display: 'none' }}
+                                onChange={handleCoverFileUpload}
+                            />
+
                             <div className="cover-preview-rail">
+                                {/* Upload Custom Button */}
+                                <div 
+                                    className="cover-thumb-wrap upload-custom-thumb"
+                                    onClick={() => coverFileInputRef.current?.click()}
+                                    title="Upload photo from device"
+                                >
+                                    <div className="upload-custom-inner">
+                                        <Upload size={16} className="text-sky-400" />
+                                        <span className="cover-thumb-label">Upload New</span>
+                                    </div>
+                                </div>
+
+                                {/* Custom Uploaded Preview if active */}
+                                {isCustomCover && (
+                                    <div className="cover-thumb-wrap active">
+                                        <img src={formData.coverUrl} alt="Custom Cover" className="cover-thumb-img" />
+                                        <span className="cover-thumb-label">My Photo</span>
+                                        <Check size={14} className="cover-check-icon" />
+                                    </div>
+                                )}
+
                                 {COVER_OPTIONS.map((c) => (
                                     <div 
                                         key={c.id} 

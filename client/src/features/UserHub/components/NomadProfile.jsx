@@ -23,6 +23,8 @@ import NomadActivityFeed from './NomadActivityFeed';
 import SavedVibesVault from './SavedVibesVault';
 import ProfileBottomBar from './ProfileBottomBar';
 import ProfileEndFootbar from './ProfileEndFootbar';
+import CoverBannerSection from './CoverBannerSection';
+import CoverBannerCustomizerModal from './CoverBannerCustomizerModal';
 import './NomadProfile.css';
 import '../styles/Professional.css';
 
@@ -37,7 +39,12 @@ const DEFAULT_PROFILE = {
     website: 'https://alexrivera.dev',
     twitter: '@alexriveranomad',
     github: 'alexrivera-nomad',
-    coverUrl: 'https://images.unsplash.com/photo-1585211756843-dc3828965111?w=1200&auto=format&fit=crop&q=80',
+    coverUrl: 'https://images.unsplash.com/photo-1585211756843-dc3828965111?w=1600&auto=format&fit=crop&q=80',
+    coverGradientId: 'nomad-sunset',
+    coverOpacity: 55,
+    coverHeight: 'standard',
+    coverPosition: '35%',
+    coverTag: 'Lisbon Sunset · Portugal',
     avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&auto=format&fit=crop&q=80',
     citizenshipId: 'ND-8842-X7',
     memberSince: 'March 2023',
@@ -193,10 +200,47 @@ const NomadProfile = () => {
         setSearchParams({ tab: tabId });
     };
 
+    const [isBannerCustomizerOpen, setIsBannerCustomizerOpen] = useState(false);
+
     const handleSaveProfile = (updatedData) => {
         const merged = { ...profile, ...updatedData };
         setProfile(merged);
         localStorage.setItem('seenomad_user_profile', JSON.stringify(merged));
+    };
+
+    const handleSaveBannerConfig = (bannerConfig) => {
+        const updated = {
+            ...profile,
+            ...bannerConfig
+        };
+        setProfile(updated);
+        localStorage.setItem('seenomad_user_profile', JSON.stringify(updated));
+        addXP(25);
+        addActivity({
+            type: 'cover_update',
+            title: `Customized Profile Banner & Brand Overlay`,
+            location: bannerConfig.coverTag || profile.location,
+            content: `Updated profile cover banner styled with the "${bannerConfig.coverGradientId || 'Nomad'}" SeeNomad brand gradient overlay.`,
+            metrics: { xp: '+25 XP' }
+        });
+    };
+
+    const handleQuickBannerUpload = ({ coverUrl, coverTag }) => {
+        const updated = {
+            ...profile,
+            coverUrl,
+            coverTag: coverTag || 'Custom Nomad Cover'
+        };
+        setProfile(updated);
+        localStorage.setItem('seenomad_user_profile', JSON.stringify(updated));
+        addXP(20);
+        addActivity({
+            type: 'cover_update',
+            title: `Uploaded New Nomad Cover Photo`,
+            location: profile.location,
+            content: `Uploaded a personalized cover panorama photo to SeeNomad profile.`,
+            metrics: { xp: '+20 XP' }
+        });
     };
 
     const handleEndorse = (skillName) => {
@@ -319,20 +363,17 @@ const NomadProfile = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3 }}
             >
-                {/* Cover Banner */}
-                <div className="hero-cover-banner">
-                    <img src={profile.coverUrl} alt="Profile Cover" className="cover-banner-img" />
-                    <div className="cover-banner-overlay" />
-                    <button 
-                        type="button" 
-                        onClick={() => setIsEditModalOpen(true)}
-                        className="btn-change-cover"
-                        title="Change cover photo"
-                    >
-                        <Edit3 size={13} />
-                        <span>Edit Cover</span>
-                    </button>
-                </div>
+                {/* Customizable Cover Photo & Brand Gradient Banner */}
+                <CoverBannerSection
+                    coverUrl={profile.coverUrl}
+                    coverGradientId={profile.coverGradientId || 'nomad-sunset'}
+                    coverOpacity={profile.coverOpacity !== undefined ? profile.coverOpacity : 55}
+                    coverHeight={profile.coverHeight || 'standard'}
+                    coverPosition={profile.coverPosition || '35%'}
+                    coverTag={profile.coverTag || 'Lisbon Sunset · Portugal'}
+                    onOpenCustomizer={() => setIsBannerCustomizerOpen(true)}
+                    onQuickUpload={handleQuickBannerUpload}
+                />
 
                 {/* Profile Identity Bar */}
                 <div className="hero-identity-bar">
@@ -1002,6 +1043,25 @@ const NomadProfile = () => {
                 onClose={() => setIsEditModalOpen(false)}
                 currentProfile={profile}
                 onSave={handleSaveProfile}
+                onOpenBannerCustomizer={() => {
+                    setIsEditModalOpen(false);
+                    setIsBannerCustomizerOpen(true);
+                }}
+            />
+
+            {/* 6. Customizable Cover Banner & Brand Aesthetic Studio Modal */}
+            <CoverBannerCustomizerModal
+                isOpen={isBannerCustomizerOpen}
+                onClose={() => setIsBannerCustomizerOpen(false)}
+                currentBanner={{
+                    coverUrl: profile.coverUrl,
+                    coverGradientId: profile.coverGradientId,
+                    coverOpacity: profile.coverOpacity,
+                    coverHeight: profile.coverHeight,
+                    coverPosition: profile.coverPosition,
+                    coverTag: profile.coverTag
+                }}
+                onSaveBanner={handleSaveBannerConfig}
             />
 
             {/* Log New Base Modal */}

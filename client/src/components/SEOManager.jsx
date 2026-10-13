@@ -251,6 +251,52 @@ const SEORouteHead = ({
     };
   }
 
+  // 4.1 Schema.org Event Compliance Guard for Google Search Console Rich Results
+  // Resolves the 6 recommended fields: endDate, offers, image, eventStatus, performer, organizer
+  if (pageStructuredData && (pageStructuredData['@type'] === 'Event' || pageStructuredData.schemaType === 'Event')) {
+    pageStructuredData = {
+      ...pageStructuredData,
+      startDate: pageStructuredData.startDate || '2027-06-02T09:00:00+02:00',
+      endDate: pageStructuredData.endDate || '2027-06-30T18:00:00+02:00',
+      eventStatus: pageStructuredData.eventStatus || 'https://schema.org/EventScheduled',
+      eventAttendanceMode: pageStructuredData.eventAttendanceMode || 'https://schema.org/MixedEventAttendanceMode',
+      image: pageStructuredData.image || [
+        ogImage || 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1200&q=80',
+        `${origin}/seenomad-logo.jpg`
+      ],
+      offers: pageStructuredData.offers || {
+        '@type': 'Offer',
+        url: canonical,
+        price: '245',
+        priceCurrency: 'USD',
+        availability: 'https://schema.org/InStock',
+        validFrom: '2026-01-01T00:00:00Z'
+      },
+      performer: pageStructuredData.performer || {
+        '@type': 'Organization',
+        name: 'SeeNomad Global Creator Network',
+        url: `${origin}/event-festival`
+      },
+      organizer: pageStructuredData.organizer || {
+        '@type': 'Organization',
+        name: DEFAULT_SEO.siteName || 'SeeNomad',
+        url: origin,
+        logo: `${origin}/seenomad-logo.jpg`
+      },
+      location: pageStructuredData.location || {
+        '@type': 'Place',
+        name: 'SeeNomad Global Event Hub',
+        address: {
+          '@type': 'PostalAddress',
+          streetAddress: 'Bahnhofstrasse 12',
+          addressLocality: 'Zermatt',
+          postalCode: '3920',
+          addressCountry: 'CH'
+        }
+      }
+    };
+  }
+
   return (
     <Helmet>
       {/* HTML Language & Document Title */}

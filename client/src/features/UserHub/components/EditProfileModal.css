@@ -208,6 +208,29 @@
     box-shadow: 0 0 12px rgba(245, 158, 11, 0.4);
 }
 
+.cover-thumb-wrap.upload-custom-thumb {
+    background: rgba(14, 165, 233, 0.1);
+    border: 1.5px dashed rgba(56, 189, 248, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cover-thumb-wrap.upload-custom-thumb:hover {
+    background: rgba(14, 165, 233, 0.2);
+    border-color: #38bdf8;
+}
+
+.upload-custom-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    padding: 0.5rem;
+    text-align: center;
+}
+
 .cover-thumb-img {
     width: 100%;
     height: 100%;

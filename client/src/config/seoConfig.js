@@ -206,7 +206,8 @@ export const SEO_ROUTE_MAP = {
     description: 'Browse upcoming digital nomad festivals, coliving retreats, and web summits across Europe, Southeast Asia, and Latin America.',
     keywords: 'nomad festivals, remote work summits, nomad unconference, coliving retreats, nomad gatherings',
     ogType: 'website',
-    schemaType: 'Event'
+    schemaType: 'Event',
+    generateSchema: (canonicalUrl) => buildEventFestivalSchema(canonicalUrl)
   },
   '/support-utility': {
     title: 'Nomad Utility Kit & Emergency Tools | SeeNomad',
@@ -867,6 +868,325 @@ export function generateDestinationOGPreview(destinationOrGuide, origin = 'https
     schema,
     metaTags,
     preview
+  };
+}
+
+/**
+ * Builds fully compliant Schema.org Event structured data for Google Search Console & Rich Results.
+ * Resolves all 6 recommended fields:
+ * 1. endDate
+ * 2. offers
+ * 3. image
+ * 4. eventStatus
+ * 5. performer
+ * 6. organizer
+ * Plus startDate, location, and individual subEvents for all featured nomad villages & festivals.
+ *
+ * @param {string} canonicalUrl - Canonical page URL (e.g. https://seenomad.com/event-festival)
+ * @param {string} origin - Origin domain
+ * @returns {object} Schema.org Event object
+ */
+export function buildEventFestivalSchema(canonicalUrl = 'https://seenomad.com/event-festival', origin = 'https://seenomad.com') {
+  let resolvedOrigin = origin;
+  try {
+    if (canonicalUrl) {
+      resolvedOrigin = new URL(canonicalUrl).origin;
+    }
+  } catch {
+    resolvedOrigin = origin;
+  }
+
+  const logoUrl = `${resolvedOrigin}/seenomad-logo.jpg`;
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Event',
+    name: 'SeeNomad Global Nomad Festivals, Pop-Up Villages & Remote Summits',
+    description: 'Browse upcoming digital nomad festivals, coliving retreats, and web summits across Europe, Southeast Asia, and Latin America with verified gigabit fiber and remote workspaces.',
+    url: canonicalUrl,
+    startDate: '2027-06-02T09:00:00+02:00',
+    endDate: '2027-06-30T18:00:00+02:00',
+    eventStatus: 'https://schema.org/EventScheduled',
+    eventAttendanceMode: 'https://schema.org/MixedEventAttendanceMode',
+    image: [
+      'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&w=1200&q=80',
+      logoUrl
+    ],
+    location: {
+      '@type': 'Place',
+      name: 'Zermatt Alpine Co-Living Chalet & Global Remote Work Sanctuary',
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: 'Bahnhofstrasse 12',
+        addressLocality: 'Zermatt',
+        postalCode: '3920',
+        addressRegion: 'Valais',
+        addressCountry: 'CH'
+      }
+    },
+    offers: {
+      '@type': 'Offer',
+      url: canonicalUrl,
+      price: '245',
+      priceCurrency: 'USD',
+      availability: 'https://schema.org/InStock',
+      validFrom: '2026-01-01T00:00:00Z'
+    },
+    performer: {
+      '@type': 'Organization',
+      name: 'SeeNomad Global Nomad Creators, Founders & Speaker Guild',
+      url: `${resolvedOrigin}/event-festival`
+    },
+    organizer: {
+      '@type': 'Organization',
+      name: 'SeeNomad',
+      url: resolvedOrigin,
+      logo: logoUrl
+    },
+    subEvent: [
+      {
+        '@type': 'Event',
+        name: 'Helvetia Pop-Up Nomad Village — 4-Week Co-Living Town & AI Hackathons',
+        description: 'A temporary 300-person co-living village in Alpine chalets with 4K monitor work pods, open-source AI hackathons, and glacier trails.',
+        url: `${canonicalUrl}#evt-zuzalu-alpine-popup`,
+        startDate: '2027-06-02T09:00:00+02:00',
+        endDate: '2027-06-30T18:00:00+02:00',
+        eventStatus: 'https://schema.org/EventScheduled',
+        eventAttendanceMode: 'https://schema.org/MixedEventAttendanceMode',
+        image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1200&q=80',
+        location: {
+          '@type': 'Place',
+          name: 'Alpine Longevity Chalet',
+          address: {
+            '@type': 'PostalAddress',
+            streetAddress: 'Bahnhofstrasse 12',
+            addressLocality: 'Zermatt',
+            postalCode: '3920',
+            addressCountry: 'CH'
+          }
+        },
+        offers: {
+          '@type': 'Offer',
+          url: canonicalUrl,
+          price: '1290',
+          priceCurrency: 'USD',
+          availability: 'https://schema.org/InStock',
+          validFrom: '2026-01-01T00:00:00Z'
+        },
+        performer: {
+          '@type': 'Organization',
+          name: 'Alpine Longevity & AI Hackathon Collective'
+        },
+        organizer: {
+          '@type': 'Organization',
+          name: 'SeeNomad',
+          url: resolvedOrigin,
+          logo: logoUrl
+        }
+      },
+      {
+        '@type': 'Event',
+        name: 'Gion Matsuri Yamaboko Float Procession & Yoiyama Lantern Night VIP Machiya Access',
+        description: 'Experience Japan’s most celebrated 1,100-year-old festival from a private heritage machiya balcony with gigabit coworking.',
+        url: `${canonicalUrl}#evt-kyoto-gion-matsuri`,
+        startDate: '2027-07-14T09:00:00+09:00',
+        endDate: '2027-07-24T21:00:00+09:00',
+        eventStatus: 'https://schema.org/EventScheduled',
+        eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+        image: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=1200&q=80',
+        location: {
+          '@type': 'Place',
+          name: 'Shijo-Karasuma Heritage Machiya Sanctuary',
+          address: {
+            '@type': 'PostalAddress',
+            streetAddress: 'Shijo-dori Karasuma',
+            addressLocality: 'Kyoto',
+            postalCode: '600-8005',
+            addressCountry: 'JP'
+          }
+        },
+        offers: {
+          '@type': 'Offer',
+          url: canonicalUrl,
+          price: '245',
+          priceCurrency: 'USD',
+          availability: 'https://schema.org/InStock',
+          validFrom: '2026-01-01T00:00:00Z'
+        },
+        performer: {
+          '@type': 'Organization',
+          name: 'Kyoto Yamaboko Preservation Guild & Heritage Musicians'
+        },
+        organizer: {
+          '@type': 'Organization',
+          name: 'SeeNomad Cultural Expeditions',
+          url: resolvedOrigin,
+          logo: logoUrl
+        }
+      },
+      {
+        '@type': 'Event',
+        name: 'Sónar +D Creative Tech & Off-Week Coastal Electronic Odyssey',
+        description: 'Combines spatial-audio, generative art, and creator economy panels at Sónar+D with night electronic showcases across Barcelona.',
+        url: `${canonicalUrl}#evt-sonar-offweek-barcelona`,
+        startDate: '2027-06-17T10:00:00+02:00',
+        endDate: '2027-06-20T23:59:00+02:00',
+        eventStatus: 'https://schema.org/EventScheduled',
+        eventAttendanceMode: 'https://schema.org/MixedEventAttendanceMode',
+        image: 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&w=1200&q=80',
+        location: {
+          '@type': 'Place',
+          name: 'Fira Montjuïc & Poblenou Creative Tech District',
+          address: {
+            '@type': 'PostalAddress',
+            streetAddress: 'Av. Reina Maria Cristina',
+            addressLocality: 'Barcelona',
+            postalCode: '08004',
+            addressCountry: 'ES'
+          }
+        },
+        offers: {
+          '@type': 'Offer',
+          url: canonicalUrl,
+          price: '320',
+          priceCurrency: 'USD',
+          availability: 'https://schema.org/InStock',
+          validFrom: '2026-01-01T00:00:00Z'
+        },
+        performer: {
+          '@type': 'Organization',
+          name: 'Sónar +D Keynote Speakers & Electronic Sound Artists'
+        },
+        organizer: {
+          '@type': 'Organization',
+          name: 'SeeNomad Sound & Creative Tech Guild',
+          url: resolvedOrigin,
+          logo: logoUrl
+        }
+      },
+      {
+        '@type': 'Event',
+        name: 'Feria de las Flores — Silleteros Flower Parade & Finca Residency',
+        description: 'Work on US time zones from a soundproofed Provenza garden loft by day, then visit Santa Elena flower farms and Desfile de Silleteros.',
+        url: `${canonicalUrl}#evt-medellin-feria-flores`,
+        startDate: '2027-08-01T08:00:00-05:00',
+        endDate: '2027-08-10T22:00:00-05:00',
+        eventStatus: 'https://schema.org/EventScheduled',
+        eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+        image: 'https://images.unsplash.com/photo-1599413987323-b1c92a2e62c5?auto=format&fit=crop&w=1200&q=80',
+        location: {
+          '@type': 'Place',
+          name: 'El Poblado & Provenza Coworking Villa',
+          address: {
+            '@type': 'PostalAddress',
+            streetAddress: 'Carrera 35 #7-12',
+            addressLocality: 'Medellín',
+            postalCode: '050021',
+            addressCountry: 'CO'
+          }
+        },
+        offers: {
+          '@type': 'Offer',
+          url: canonicalUrl,
+          price: '280',
+          priceCurrency: 'USD',
+          availability: 'https://schema.org/InStock',
+          validFrom: '2026-01-01T00:00:00Z'
+        },
+        performer: {
+          '@type': 'Organization',
+          name: 'Santa Elena Traditional Silleteros Guild'
+        },
+        organizer: {
+          '@type': 'Organization',
+          name: 'SeeNomad Cultural Expeditions',
+          url: resolvedOrigin,
+          logo: logoUrl
+        }
+      },
+      {
+        '@type': 'Event',
+        name: 'Atlantic Nomad & Creator Summit (All-Access Pass)',
+        description: 'Where solo founders, travel filmmakers, and remote engineering leads converge in Lisbon for dealmaking, D8 visa clinics, and dinner clubs.',
+        url: `${canonicalUrl}#evt-web-summit-lisbon-village`,
+        startDate: '2026-11-09T09:00:00+00:00',
+        endDate: '2026-11-14T20:00:00+00:00',
+        eventStatus: 'https://schema.org/EventScheduled',
+        eventAttendanceMode: 'https://schema.org/MixedEventAttendanceMode',
+        image: 'https://images.unsplash.com/photo-1555881400-74d7acaacd8b?auto=format&fit=crop&w=1200&q=80',
+        location: {
+          '@type': 'Place',
+          name: 'Tagus River Riverside Work Lounge & Parque das Nações',
+          address: {
+            '@type': 'PostalAddress',
+            streetAddress: 'Rossio dos Olivais',
+            addressLocality: 'Lisbon',
+            postalCode: '1990-231',
+            addressCountry: 'PT'
+          }
+        },
+        offers: {
+          '@type': 'Offer',
+          url: canonicalUrl,
+          price: '490',
+          priceCurrency: 'USD',
+          availability: 'https://schema.org/InStock',
+          validFrom: '2026-01-01T00:00:00Z'
+        },
+        performer: {
+          '@type': 'Organization',
+          name: 'European Creator & Solo Founder Syndicate'
+        },
+        organizer: {
+          '@type': 'Organization',
+          name: 'SeeNomad Lisbon Network',
+          url: resolvedOrigin,
+          logo: logoUrl
+        }
+      },
+      {
+        '@type': 'Event',
+        name: 'Día de los Muertos 21-Day Creative Residency',
+        description: 'Live and work alongside creators in a colonial Jalatlaco courtyard with dual Starlink Wi-Fi, marigold altar building, and cemetery vigils.',
+        url: `${canonicalUrl}#evt-oaxaca-dia-muertos-popup`,
+        startDate: '2026-10-20T08:00:00-06:00',
+        endDate: '2026-11-09T22:00:00-06:00',
+        eventStatus: 'https://schema.org/EventScheduled',
+        eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+        image: 'https://images.unsplash.com/photo-1518638150340-f706e86654de?auto=format&fit=crop&w=1200&q=80',
+        location: {
+          '@type': 'Place',
+          name: 'Jalatlaco Shaded Colonial Courtyard',
+          address: {
+            '@type': 'PostalAddress',
+            streetAddress: 'Calle de Curtidurías',
+            addressLocality: 'Oaxaca City',
+            postalCode: '68080',
+            addressCountry: 'MX'
+          }
+        },
+        offers: {
+          '@type': 'Offer',
+          url: canonicalUrl,
+          price: '890',
+          priceCurrency: 'USD',
+          availability: 'https://schema.org/InStock',
+          validFrom: '2026-01-01T00:00:00Z'
+        },
+        performer: {
+          '@type': 'Organization',
+          name: 'Zapotec Natural Artisan Guild'
+        },
+        organizer: {
+          '@type': 'Organization',
+          name: 'SeeNomad Community',
+          url: resolvedOrigin,
+          logo: logoUrl
+        }
+      }
+    ]
   };
 }
 

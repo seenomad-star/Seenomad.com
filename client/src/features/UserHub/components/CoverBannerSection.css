@@ -1,0 +1,234 @@
+/* CoverBannerSection.css - Cinematic Profile Banner with Brand Aesthetic Overlays */
+
+.nomad-cover-banner-section {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background: #0f172a;
+    transition: height 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
+}
+
+/* Height Variations */
+.nomad-cover-banner-section.height-compact {
+    height: 200px;
+}
+
+.nomad-cover-banner-section.height-standard {
+    height: 240px;
+}
+
+.nomad-cover-banner-section.height-cinematic {
+    height: 320px;
+}
+
+@media (min-width: 768px) {
+    .nomad-cover-banner-section.height-compact {
+        height: 220px;
+    }
+
+    .nomad-cover-banner-section.height-standard {
+        height: 280px;
+    }
+
+    .nomad-cover-banner-section.height-cinematic {
+        height: 380px;
+    }
+}
+
+/* Image Element */
+.banner-hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), object-position 0.3s ease;
+    will-change: transform;
+}
+
+.nomad-cover-banner-section:hover .banner-hero-img {
+    transform: scale(1.025);
+}
+
+/* Dynamic Brand Gradient Overlay */
+.banner-brand-gradient-overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    transition: background 0.3s ease;
+    z-index: 2;
+}
+
+/* Texture Pattern Overlay */
+.banner-texture-overlay {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px);
+    background-size: 24px 24px;
+    pointer-events: none;
+    opacity: 0.35;
+    z-index: 3;
+}
+
+/* Drag & Drop Feedback HUD */
+.nomad-cover-banner-section.banner-drag-target {
+    box-shadow: inset 0 0 0 3px #38bdf8, 0 0 30px rgba(56, 189, 248, 0.35);
+}
+
+.banner-drop-hud {
+    position: absolute;
+    inset: 0;
+    z-index: 20;
+    background: rgba(15, 23, 42, 0.82);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px dashed #38bdf8;
+    border-radius: inherit;
+    animation: fadeInHud 0.2s ease-out;
+}
+
+@keyframes fadeInHud {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.drop-hud-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    color: #f8fafc;
+}
+
+.drop-hud-text {
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: #e0f2fe;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* Banner HUD Top: Info & Actions */
+.banner-hud-top {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    right: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    z-index: 10;
+}
+
+@media (min-width: 640px) {
+    .banner-hud-top {
+        top: 1.25rem;
+        left: 1.5rem;
+        right: 1.5rem;
+    }
+}
+
+/* Location / Style Tag Badge */
+.banner-location-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: rgba(15, 23, 42, 0.75);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 9999px;
+    padding: 0.4rem 0.85rem;
+    font-size: 0.76rem;
+    font-weight: 600;
+    color: #f8fafc;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    max-width: 60%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.badge-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.badge-sep {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.badge-gradient-name {
+    color: #38bdf8;
+    font-size: 0.72rem;
+    font-weight: 700;
+}
+
+/* Banner Actions Cluster */
+.banner-actions-cluster {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+}
+
+.btn-banner-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.45rem 0.85rem;
+    border-radius: 9999px;
+    font-size: 0.76rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    white-space: nowrap;
+}
+
+.btn-banner-action.primary {
+    background: linear-gradient(135deg, rgba(14, 165, 233, 0.9) 0%, rgba(2, 132, 199, 0.95) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4);
+}
+
+.btn-banner-action.primary:hover {
+    background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
+    transform: translateY(-1.5px);
+    box-shadow: 0 6px 20px rgba(2, 132, 199, 0.55);
+    border-color: rgba(255, 255, 255, 0.45);
+}
+
+.btn-banner-action.secondary {
+    background: rgba(15, 23, 42, 0.72);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: #f1f5f9;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.btn-banner-action.secondary:hover {
+    background: rgba(15, 23, 42, 0.92);
+    border-color: rgba(255, 255, 255, 0.35);
+    transform: translateY(-1.5px);
+    color: #ffffff;
+}
+
+@media (max-width: 600px) {
+    .btn-banner-action .action-label {
+        display: none;
+    }
+    
+    .btn-banner-action {
+        padding: 0.45rem;
+    }
+    
+    .banner-location-badge .badge-gradient-name,
+    .banner-location-badge .badge-sep {
+        display: none;
+    }
+}
