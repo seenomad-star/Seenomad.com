@@ -1,0 +1,625 @@
+/* NomadActivityFeed.css - Real-Time User Activity Feed Styling */
+
+.nomad-activity-feed-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+}
+
+/* ============================================================
+   1. REAL-TIME BROADCAST PRESENCE BANNER
+   ============================================================ */
+.activity-live-banner {
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.72) 0%, rgba(15, 23, 42, 0.88) 100%);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(16, 185, 129, 0.25);
+    border-radius: 22px;
+    padding: 1.4rem 1.65rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+    box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.35);
+}
+
+:root:not(.dark) .activity-live-banner {
+    background: #ffffff;
+    border-color: rgba(16, 185, 129, 0.3);
+    box-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.05);
+}
+
+.broadcast-indicator-cluster {
+    display: flex;
+    align-items: center;
+    gap: 1.15rem;
+}
+
+.live-broadcast-dot-wrap {
+    position: relative;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.live-broadcast-core {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #10b981;
+    box-shadow: 0 0 10px #10b981;
+}
+
+.live-broadcast-pulse {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 2px solid #10b981;
+    animation: liveBeacon 2s infinite ease-out;
+}
+
+@keyframes liveBeacon {
+    0% { transform: scale(0.6); opacity: 1; }
+    100% { transform: scale(1.6); opacity: 0; }
+}
+
+.broadcast-text-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.broadcast-title-row {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    flex-wrap: wrap;
+}
+
+.broadcast-title {
+    margin: 0;
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #f8fafc;
+    letter-spacing: -0.01em;
+}
+
+:root:not(.dark) .broadcast-title {
+    color: #0f172a;
+}
+
+.live-network-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 0.15rem 0.5rem;
+    border-radius: 9999px;
+    background: rgba(16, 185, 129, 0.12);
+    color: #34d399;
+    border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+.broadcast-subtitle {
+    margin: 0;
+    font-size: 0.8rem;
+    color: #94a3b8;
+}
+
+:root:not(.dark) .broadcast-subtitle {
+    color: #64748b;
+}
+
+.broadcast-action-cluster {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    flex-wrap: wrap;
+}
+
+.online-presence-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #cbd5e1;
+    padding: 0.4rem 0.8rem;
+    border-radius: 12px;
+    font-size: 0.74rem;
+    font-weight: 600;
+}
+
+:root:not(.dark) .online-presence-chip {
+    background: #f1f5f9;
+    border-color: #e2e8f0;
+    color: #334155;
+}
+
+.presence-green-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #10b981;
+    box-shadow: 0 0 6px #10b981;
+}
+
+.btn-post-activity {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    border: none;
+    padding: 0.55rem 1.1rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);
+}
+
+.btn-post-activity:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(16, 185, 129, 0.4);
+}
+
+/* ============================================================
+   2. FILTER RAIL
+   ============================================================ */
+.activity-filter-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.activity-filter-pills {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding: 0.2rem 0;
+}
+
+.activity-filter-pills::-webkit-scrollbar {
+    display: none;
+}
+
+.activity-filter-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.45rem 0.95rem;
+    border-radius: 9999px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.03);
+    color: #94a3b8;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+:root:not(.dark) .activity-filter-btn {
+    background: #f1f5f9;
+    border-color: #e2e8f0;
+    color: #64748b;
+}
+
+.activity-filter-btn:hover {
+    color: #f8fafc;
+    background: rgba(255, 255, 255, 0.07);
+}
+
+:root:not(.dark) .activity-filter-btn:hover {
+    color: #0f172a;
+    background: #e2e8f0;
+}
+
+.activity-filter-btn.active {
+    background: #10b981;
+    border-color: #10b981;
+    color: #ffffff;
+    font-weight: 700;
+    box-shadow: 0 2px 10px rgba(16, 185, 129, 0.3);
+}
+
+/* ============================================================
+   3. ACTIVITY FEED TIMELINE & CARDS
+   ============================================================ */
+.activity-feed-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    position: relative;
+}
+
+.activity-item-card {
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.6) 0%, rgba(15, 23, 42, 0.8) 100%);
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 20px;
+    padding: 1.25rem 1.45rem;
+    display: flex;
+    gap: 1.15rem;
+    position: relative;
+    transition: all 0.2s ease;
+    box-shadow: 0 8px 24px -8px rgba(0, 0, 0, 0.25);
+}
+
+:root:not(.dark) .activity-item-card {
+    background: #ffffff;
+    border-color: rgba(15, 23, 42, 0.08);
+    box-shadow: 0 8px 24px -8px rgba(15, 23, 42, 0.04);
+}
+
+.activity-item-card:hover {
+    border-color: rgba(255, 255, 255, 0.16);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px -8px rgba(0, 0, 0, 0.35);
+}
+
+:root:not(.dark) .activity-item-card:hover {
+    border-color: #cbd5e1;
+    box-shadow: 0 12px 30px -8px rgba(15, 23, 42, 0.06);
+}
+
+.activity-type-marker {
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1.5px solid;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 0.15rem;
+}
+
+:root:not(.dark) .activity-type-marker {
+    background: #f8fafc;
+}
+
+.activity-item-main {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    flex: 1;
+    min-width: 0;
+}
+
+/* Zero-Pill Metadata Line */
+.activity-meta-line {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.74rem;
+    color: #94a3b8;
+    flex-wrap: wrap;
+}
+
+:root:not(.dark) .activity-meta-line {
+    color: #64748b;
+}
+
+.activity-category-text {
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+.activity-location-text {
+    color: #cbd5e1;
+    font-weight: 500;
+}
+
+:root:not(.dark) .activity-location-text {
+    color: #475569;
+}
+
+.activity-timestamp-text {
+    color: #94a3b8;
+}
+
+.meta-sep {
+    color: #475569;
+    font-weight: 700;
+}
+
+.activity-item-title {
+    margin: 0;
+    font-size: 1.02rem;
+    font-weight: 800;
+    color: #f8fafc;
+    letter-spacing: -0.01em;
+    line-height: 1.35;
+}
+
+:root:not(.dark) .activity-item-title {
+    color: #0f172a;
+}
+
+.activity-item-prose {
+    margin: 0.15rem 0 0;
+    font-size: 0.84rem;
+    color: #cbd5e1;
+    line-height: 1.5;
+}
+
+:root:not(.dark) .activity-item-prose {
+    color: #475569;
+}
+
+/* Extra Context Metrics */
+.activity-metrics-row {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    margin-top: 0.35rem;
+}
+
+.metric-tag-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #cbd5e1;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 0.2rem 0.55rem;
+    border-radius: 8px;
+}
+
+:root:not(.dark) .metric-tag-item {
+    background: #f8fafc;
+    border-color: #e2e8f0;
+    color: #475569;
+}
+
+/* Social Actions Strip */
+.activity-actions-strip {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    margin-top: 0.65rem;
+    padding-top: 0.65rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+:root:not(.dark) .activity-actions-strip {
+    border-top-color: #f1f5f9;
+}
+
+.btn-act-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #94a3b8;
+    padding: 0.3rem 0.65rem;
+    border-radius: 8px;
+    font-size: 0.74rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+:root:not(.dark) .btn-act-action {
+    background: #f8fafc;
+    border-color: #e2e8f0;
+    color: #64748b;
+}
+
+.btn-act-action:hover {
+    color: #f8fafc;
+    background: rgba(255, 255, 255, 0.06);
+}
+
+:root:not(.dark) .btn-act-action:hover {
+    color: #0f172a;
+    background: #ffffff;
+}
+
+.btn-act-action.liked {
+    color: #f87171;
+    border-color: rgba(239, 68, 68, 0.35);
+    background: rgba(239, 68, 68, 0.1);
+}
+
+/* Reply Drawer */
+.activity-reply-drawer {
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px dashed rgba(255, 255, 255, 0.08);
+}
+
+:root:not(.dark) .activity-reply-drawer {
+    border-top-color: #e2e8f0;
+}
+
+.reply-input-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.reply-input-field {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+    padding: 0.45rem 0.85rem;
+    font-size: 0.8rem;
+    color: #f8fafc;
+    outline: none;
+}
+
+:root:not(.dark) .reply-input-field {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+    color: #0f172a;
+}
+
+.btn-reply-send {
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: #10b981;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-reply-send:hover {
+    background: #059669;
+}
+
+/* Empty Placeholder */
+.empty-activity-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 3rem 1.5rem;
+    background: rgba(255, 255, 255, 0.02);
+    border: 2px dashed rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+}
+
+:root:not(.dark) .empty-activity-placeholder {
+    background: #f8fafc;
+    border-color: #e2e8f0;
+}
+
+.empty-activity-placeholder h4 {
+    margin: 0.5rem 0 0.25rem;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #f8fafc;
+}
+
+:root:not(.dark) .empty-activity-placeholder h4 {
+    color: #0f172a;
+}
+
+.empty-activity-placeholder p {
+    font-size: 0.82rem;
+    color: #94a3b8;
+    max-width: 420px;
+    margin: 0;
+}
+
+:root:not(.dark) .empty-activity-placeholder p {
+    color: #64748b;
+}
+
+/* ============================================================
+   4. POST NEW ACTIVITY MODAL COMPOSER
+   ============================================================ */
+.composer-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.8);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 1rem;
+}
+
+.composer-modal-card {
+    background: #111827;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 24px;
+    width: 100%;
+    max-width: 520px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+    overflow: hidden;
+}
+
+:root:not(.dark) .composer-modal-card {
+    background: #ffffff;
+    border-color: #e2e8f0;
+    box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.15);
+}
+
+.composer-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+:root:not(.dark) .composer-modal-header {
+    border-color: #f1f5f9;
+}
+
+.composer-form-body {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.15rem;
+}
+
+.composer-type-segmented {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+    background: rgba(255, 255, 255, 0.04);
+    padding: 4px;
+    border-radius: 12px;
+}
+
+:root:not(.dark) .composer-type-segmented {
+    background: #f1f5f9;
+}
+
+.type-segment-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    padding: 0.5rem 0.25rem;
+    border-radius: 9px;
+    background: transparent;
+    border: none;
+    color: #94a3b8;
+    font-size: 0.76rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+:root:not(.dark) .type-segment-btn {
+    color: #64748b;
+}
+
+.type-segment-btn.active {
+    background: #10b981;
+    color: #ffffff;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+}

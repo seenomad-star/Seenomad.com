@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
     UserCheck, Mail, ExternalLink, Globe, Award, Star,
     Briefcase, MapPin, Bookmark, Trash2, Compass, Film, Sparkles,
-    Flame, Zap, Shield, Edit3, Share2, Check, Plus, Laptop,
+    Flame, Zap, Shield, ShieldCheck, Edit3, Share2, Check, Plus, Laptop,
     Camera, Wifi, DollarSign, Heart, ChevronRight, Calendar, User,
     FileText, Coffee, Activity, Download, X, QrCode, Copy, CheckCircle
 } from 'lucide-react';
@@ -14,11 +14,15 @@ import { useSavedVibesStore } from '../../../store/savedVibesStore';
 import { useToastStore } from '../../../store/toastStore';
 import { useUserProfileStore } from '../../../store/userProfileStore';
 import { useNomadReputationStore } from '../../../store/nomadReputationStore';
+import { useNomadActivityStore } from '../../../store/nomadActivityStore';
 import EditProfileModal from './EditProfileModal';
 import NomadPassportStamps from './NomadPassportStamps';
 import NomadRetentionQuests from './NomadRetentionQuests';
 import NomadReputationBadges, { renderBadgeIcon } from './NomadReputationBadges';
+import NomadActivityFeed from './NomadActivityFeed';
 import SavedVibesVault from './SavedVibesVault';
+import ProfileBottomBar from './ProfileBottomBar';
+import ProfileEndFootbar from './ProfileEndFootbar';
 import './NomadProfile.css';
 import '../styles/Professional.css';
 
@@ -163,6 +167,8 @@ const NomadProfile = () => {
         badges = []
     } = useNomadReputationStore();
 
+    const { activities = [], addActivity } = useNomadActivityStore();
+
     const pinnedBadges = badges.filter(b => b.isPinned && b.unlocked);
     const unlockedBadgesCount = badges.filter(b => b.unlocked).length;
 
@@ -228,6 +234,13 @@ const NomadProfile = () => {
         checkIn();
         addXP(50);
         addToast('🔥 Daily Nomad Check-in verified! +50 XP and streak maintained!', 'success');
+        addActivity({
+            type: 'check_in',
+            title: `Daily Nomad Coordinates Verified (${dailyStreak + 1}d Streak)`,
+            location: profile.location,
+            content: `Confirmed active nomad coordinates from ${profile.location}. Maintained ${dailyStreak + 1}-day active nomad streak on SeeNomad OS!`,
+            metrics: { streak: `${dailyStreak + 1} days` }
+        });
     };
 
     const handleSaveNewTrip = (e) => {
@@ -265,6 +278,16 @@ const NomadProfile = () => {
 
         addXP(100);
         addToast(`🎉 New base "${newBase.city}" logged! +100 XP added to your passport!`, 'success');
+
+        // Broadcast to Real-Time Activity Feed
+        addActivity({
+            type: 'check_in',
+            title: `Checked in & Logged Base: ${newBase.city}`,
+            location: newBase.city,
+            content: newBase.highlight || `Remote work exploration based in ${newBase.city}. Verified ${newBase.wifiSpeed} fiber and ${newBase.monthlyCost}/mo living cost.`,
+            metrics: { wifi: newBase.wifiSpeed, cost: newBase.monthlyCost }
+        });
+
         setIsLogTripModalOpen(false);
         setNewTripData({
             city: '',
@@ -558,6 +581,16 @@ const NomadProfile = () => {
                 <button
                     type="button"
                     role="tab"
+                    aria-selected={activeProfileTab === 'activity'}
+                    className={`profile-view-tab-btn ${activeProfileTab === 'activity' ? 'active' : ''}`}
+                    onClick={() => handleSwitchTab('activity')}
+                >
+                    <Activity size={16} />
+                    <span>Live Activity Feed ({activities.length})</span>
+                </button>
+                <button
+                    type="button"
+                    role="tab"
                     aria-selected={activeProfileTab === 'saved'}
                     className={`profile-view-tab-btn ${activeProfileTab === 'saved' ? 'active' : ''}`}
                     onClick={() => handleSwitchTab('saved')}
@@ -578,6 +611,11 @@ const NomadProfile = () => {
             </div>
 
             {/* 3. Tab Contents */}
+
+            {/* TAB: REAL-TIME ACTIVITY FEED */}
+            {activeProfileTab === 'activity' && (
+                <NomadActivityFeed />
+            )}
 
             {/* TAB: NOMAD REPUTATION & ACHIEVEMENT BADGES */}
             {activeProfileTab === 'reputation' && (
@@ -769,6 +807,27 @@ const NomadProfile = () => {
                                 ))}
                             </div>
                         </section>
+
+                        {/* Real-Time Community Activity Stream Preview */}
+                        <section className="profile-card mt-6">
+                            <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
+                                <h2 className="card-title" style={{ marginBottom: 0 }}>
+                                    <Activity size={20} className="text-emerald-400" />
+                                    <span>Real-Time Community Activity ({activities.length})</span>
+                                </h2>
+                                <button
+                                    type="button"
+                                    onClick={() => handleSwitchTab('activity')}
+                                    className="btn-add-skill-trigger"
+                                    style={{ color: '#34d399', borderColor: 'rgba(16, 185, 129, 0.3)', background: 'rgba(16, 185, 129, 0.12)' }}
+                                >
+                                    <span>Full Stream</span>
+                                    <ChevronRight size={13} />
+                                </button>
+                            </div>
+
+                            <NomadActivityFeed embedded={true} />
+                        </section>
                     </div>
 
                     {/* Right Column: Skills, Endorsements, Nomad Persona DNA & Gear */}
@@ -912,6 +971,30 @@ const NomadProfile = () => {
                     </div>
                 </div>
             )}
+
+            {/* 4. Profile End Milestone Footbar Card (Modeled after Home Feed Page FeedEndFootbar) */}
+            <ProfileEndFootbar 
+                profile={profile}
+                level={level}
+                dailyStreak={dailyStreak}
+                badgeCount={unlockedBadgesCount}
+                onEditProfile={() => setIsEditModalOpen(true)}
+                onShareProfile={() => setIsShareModalOpen(true)}
+            />
+
+            {/* 5. Profile Bottom Bar & Accessible Footbar Drawer (Modeled after Home Feed Page FeedBottomBar) */}
+            <ProfileBottomBar 
+                activeTab={activeProfileTab}
+                onTabChange={handleSwitchTab}
+                onEditProfile={() => setIsEditModalOpen(true)}
+                onShareProfile={() => setIsShareModalOpen(true)}
+                badgeCount={unlockedBadgesCount}
+                activityCount={activities.length}
+                stampCount={profile?.stats?.passportStamps || 14}
+                streakCount={dailyStreak || 14}
+                savedCount={savedDestinations?.length || 4}
+                profileName={profile?.name || 'Alex Rivera'}
+            />
 
             {/* Edit Profile Modal Component */}
             <EditProfileModal

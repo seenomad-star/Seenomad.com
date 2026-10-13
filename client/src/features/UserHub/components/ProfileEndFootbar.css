@@ -1,0 +1,209 @@
+/* ProfileEndFootbar.css - Milestone Footbar Card at the bottom of the Nomad Profile */
+
+.profile-end-container {
+    position: relative;
+    width: 100%;
+    margin: 1.5rem 0 1rem 0;
+}
+
+.profile-end-footbar-card {
+    background: #ffffff;
+    border: 1px solid rgba(226, 232, 240, 0.95);
+    border-radius: 20px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    transition: background 0.2s ease, border-color 0.2s ease;
+    box-sizing: border-box;
+}
+
+:root.dark .profile-end-footbar-card {
+    background: rgba(15, 23, 42, 0.85);
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+}
+
+.profile-stream-status-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 0.85rem;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+:root.dark .profile-stream-status-row {
+    border-bottom-color: rgba(255, 255, 255, 0.06);
+}
+
+.profile-stream-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.profile-live-pulse {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #10b981;
+    box-shadow: 0 0 8px #10b981;
+    animation: profilePulse 2s infinite ease-in-out;
+}
+
+@keyframes profilePulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.85); }
+}
+
+.profile-stream-tag {
+    font-size: 0.72rem;
+    font-weight: 800;
+    color: #10b981;
+    letter-spacing: 0.06em;
+}
+
+.profile-stream-meta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.74rem;
+    font-weight: 600;
+    color: #64748b;
+}
+
+:root.dark .profile-stream-meta {
+    color: #94a3b8;
+}
+
+/* Profile End Content */
+.profile-end-content {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.5rem 0.5rem 0.5rem;
+}
+
+.profile-end-badge {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(2, 132, 199, 0.1);
+    border: 1px solid rgba(2, 132, 199, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.75rem;
+}
+
+:root.dark .profile-end-badge {
+    background: rgba(2, 132, 199, 0.18);
+    border-color: rgba(2, 132, 199, 0.35);
+}
+
+.profile-end-title {
+    font-size: 1.12rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0 0 0.4rem;
+    letter-spacing: -0.01em;
+}
+
+:root.dark .profile-end-title {
+    color: #f8fafc;
+}
+
+.profile-end-desc {
+    font-size: 0.84rem;
+    color: #64748b;
+    max-width: 520px;
+    line-height: 1.55;
+    margin: 0 0 1.25rem;
+}
+
+:root.dark .profile-end-desc {
+    color: #94a3b8;
+}
+
+.profile-end-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.profile-end-edit-btn,
+.profile-end-share-btn,
+.profile-back-to-top-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border-radius: 9999px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.profile-end-edit-btn {
+    background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
+    border: none;
+    color: #ffffff;
+    box-shadow: 0 3px 10px rgba(37, 99, 235, 0.35);
+}
+
+.profile-end-edit-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 5px 14px rgba(37, 99, 235, 0.45);
+    filter: brightness(1.05);
+}
+
+.profile-end-share-btn {
+    background: rgba(241, 245, 249, 0.8);
+    border: 1px solid rgba(226, 232, 240, 0.9);
+    color: #475569;
+}
+
+:root.dark .profile-end-share-btn {
+    background: rgba(30, 41, 59, 0.7);
+    border-color: rgba(255, 255, 255, 0.1);
+    color: #cbd5e1;
+}
+
+.profile-end-share-btn:hover {
+    background: #e2e8f0;
+    color: #0f172a;
+    transform: translateY(-1px);
+}
+
+:root.dark .profile-end-share-btn:hover {
+    background: rgba(51, 65, 85, 0.8);
+    color: #ffffff;
+}
+
+.profile-back-to-top-btn {
+    background: #f1f5f9;
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    color: #475569;
+}
+
+:root.dark .profile-back-to-top-btn {
+    background: rgba(30, 41, 59, 0.8);
+    border-color: rgba(255, 255, 255, 0.08);
+    color: #cbd5e1;
+}
+
+.profile-back-to-top-btn:hover {
+    background: #e2e8f0;
+    color: #0f172a;
+    transform: translateY(-1px);
+}
+
+:root.dark .profile-back-to-top-btn:hover {
+    background: rgba(51, 65, 85, 0.9);
+    color: #ffffff;
+}

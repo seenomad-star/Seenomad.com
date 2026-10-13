@@ -121,7 +121,7 @@ const BaseLayout = ({ children }) => {
         if (dockState === 'hud') setDockState('command');
     };
 
-    // Hide large static footer on feed and endless stream pages
+    // Hide large static footer on feed, profile, and endless stream pages
     const hideFooter = location.pathname === '/' || 
         location.pathname === '/popular' || 
         location.pathname.startsWith('/feed') ||
@@ -129,7 +129,8 @@ const BaseLayout = ({ children }) => {
         location.pathname.startsWith('/community') ||
         location.pathname.startsWith('/creator-studio') ||
         location.pathname.startsWith('/ai-agents') ||
-        location.pathname.startsWith('/travel-games');
+        location.pathname.startsWith('/travel-games') ||
+        location.pathname.startsWith('/user');
     
     // Calculate header height dynamically (Desktop: CoreNav + AddressBar + ModuleNavbar = 110px; Mobile: CoreNav only = 54px)
     const currentHeaderHeight = isMobile ? '54px' : '110px';
