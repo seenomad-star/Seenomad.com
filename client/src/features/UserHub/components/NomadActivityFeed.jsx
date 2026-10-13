@@ -3,7 +3,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
     Activity, MapPin, MessageSquare, Award, Wifi, Heart,
     Share2, Plus, Send, Sparkles, CheckCircle2, ChevronRight,
-    MessageCircle, ExternalLink, Flame, CornerDownRight, X, Clock, Radio
+    MessageCircle, ExternalLink, Flame, CornerDownRight, X, Clock,
+    Radio, FileCheck, Users, ShieldCheck, Calendar, ArrowUpRight,
+    Filter, Check, ThumbsUp
 } from 'lucide-react';
 import { useNomadActivityStore } from '../../../store/nomadActivityStore';
 import { useNomadOSStore } from '../../../store/nomadOSStore';
@@ -30,20 +32,24 @@ const NomadActivityFeed = ({ embedded = false }) => {
 
     // Composer form state
     const [composerData, setComposerData] = useState({
-        type: 'check_in',
+        type: 'visa_checkin',
         title: '',
         location: '',
         thread: '',
         content: '',
-        wifiSpeed: ''
+        wifiSpeed: '',
+        visaType: 'Digital Nomad Visa',
+        validity: '1 Year'
     });
 
     const checkInsCount = activities.filter(a => a.type === 'check_in').length;
-    const forumRepliesCount = activities.filter(a => a.type === 'forum_reply').length;
+    const visaCount = activities.filter(a => a.type === 'visa_checkin').length;
     const contributionsCount = activities.filter(a => a.type === 'contribution').length;
+    const communityCount = activities.filter(a => a.type === 'community' || a.type === 'forum_reply').length;
 
     const filteredActivities = activities.filter(a => {
         if (filter === 'all') return true;
+        if (filter === 'community') return a.type === 'community' || a.type === 'forum_reply';
         return a.type === filter;
     });
 
@@ -55,35 +61,52 @@ const NomadActivityFeed = ({ embedded = false }) => {
         }
 
         let title = composerData.title.trim();
+        let metrics = {};
+
         if (!title) {
-            if (composerData.type === 'check_in') {
+            if (composerData.type === 'visa_checkin') {
+                title = `${composerData.visaType || 'Digital Nomad Visa'} Check-In & Entry Verification`;
+            } else if (composerData.type === 'check_in') {
                 title = `Checked in at ${composerData.location || 'Current Base'}`;
-            } else if (composerData.type === 'forum_reply') {
-                title = `Replied in: "${composerData.thread || 'Nomad Community Discussion'}"`;
+            } else if (composerData.type === 'community') {
+                title = composerData.thread ? `Community: "${composerData.thread}"` : 'Nomad Community Interaction';
             } else {
                 title = 'Submitted Nomad Telemetry & Contribution';
             }
         }
 
-        const newAct = addActivity({
+        if (composerData.type === 'visa_checkin') {
+            metrics = {
+                visaType: composerData.visaType || 'Nomad Permit',
+                validity: composerData.validity || 'Valid'
+            };
+        } else if (composerData.type === 'contribution' && composerData.wifiSpeed) {
+            metrics = { wifi: `${composerData.wifiSpeed} Mbps` };
+        } else if (composerData.type === 'community') {
+            metrics = { topic: composerData.thread || 'Nomad Network' };
+        }
+
+        addActivity({
             type: composerData.type,
             title,
             location: composerData.location.trim() || 'Current Base',
             thread: composerData.thread.trim() || null,
             content: composerData.content.trim(),
-            metrics: composerData.wifiSpeed ? { wifi: `${composerData.wifiSpeed} Mbps` } : {}
+            metrics
         });
 
         addXP(30);
-        addToast(`🚀 Real-time activity broadcasted! +30 XP earned!`, 'success');
+        addToast(`🚀 Real-time activity logged to timeline! +30 XP earned!`, 'success');
         setIsComposerOpen(false);
         setComposerData({
-            type: 'check_in',
+            type: 'visa_checkin',
             title: '',
             location: '',
             thread: '',
             content: '',
-            wifiSpeed: ''
+            wifiSpeed: '',
+            visaType: 'Digital Nomad Visa',
+            validity: '1 Year'
         });
     };
 
@@ -99,19 +122,50 @@ const NomadActivityFeed = ({ embedded = false }) => {
         if (!replyInput.trim()) return;
         addReplyToActivity(actId);
         addXP(15);
-        addToast(`💬 Reply posted to community activity! +15 XP`, 'success');
+        addToast(`💬 Reply posted to activity! +15 XP`, 'success');
         setReplyInput('');
         setReplyingToId(null);
     };
 
     const handleShareActivity = (act) => {
-        navigator.clipboard?.writeText(`${window.location.origin}/user/profile?activity=${act.id}`);
-        addToast('Activity permalink copied to clipboard!', 'info');
+        navigator.clipboard?.writeText(`${window.location.origin}/user/profile?tab=activity&id=${act.id}`);
+        addToast('Activity timeline permalink copied to clipboard!', 'info');
+    };
+
+    // Helper for badge indicator based on type
+    const renderTypeIcon = (type) => {
+        switch (type) {
+            case 'visa_checkin':
+                return <FileCheck size={16} />;
+            case 'contribution':
+                return <Award size={16} />;
+            case 'community':
+            case 'forum_reply':
+                return <Users size={16} />;
+            case 'check_in':
+            default:
+                return <MapPin size={16} />;
+        }
+    };
+
+    const getTypeColor = (type) => {
+        switch (type) {
+            case 'visa_checkin':
+                return '#10b981'; // Emerald
+            case 'contribution':
+                return '#f59e0b'; // Amber
+            case 'community':
+            case 'forum_reply':
+                return '#8b5cf6'; // Violet
+            case 'check_in':
+            default:
+                return '#06b6d4'; // Cyan
+        }
     };
 
     return (
         <div className={`nomad-activity-feed-wrapper ${embedded ? 'embedded-view' : ''}`}>
-            {/* 1. Real-Time Broadcast Presence Header */}
+            {/* 1. Real-Time Timeline Stepper Header */}
             <div className="activity-live-banner">
                 <div className="broadcast-indicator-cluster">
                     <div className="live-broadcast-dot-wrap">
@@ -120,14 +174,14 @@ const NomadActivityFeed = ({ embedded = false }) => {
                     </div>
                     <div className="broadcast-text-stack">
                         <div className="broadcast-title-row">
-                            <h3 className="broadcast-title">Live Nomad Activity Stream</h3>
+                            <h3 className="broadcast-title">Recent Activity & Nomad Milestones</h3>
                             <span className="live-network-badge">
                                 <Radio size={12} className="text-emerald-400" />
-                                <span>Real-Time Network</span>
+                                <span>Vertical Stepper Timeline</span>
                             </span>
                         </div>
                         <p className="broadcast-subtitle">
-                            Chronicle of your verified contributions, community discussions, and location check-ins.
+                            Chronological timeline of your visa check-ins, verified contributions, and global community interactions.
                         </p>
                     </div>
                 </div>
@@ -141,22 +195,23 @@ const NomadActivityFeed = ({ embedded = false }) => {
                         type="button"
                         onClick={() => setIsComposerOpen(true)}
                         className="btn-post-activity"
-                        title="Post a live check-in or contribution"
+                        title="Log a new milestone, visa check-in, or contribution"
                     >
                         <Plus size={15} />
-                        <span>Post Live Update</span>
+                        <span>Log Activity</span>
                     </button>
                 </div>
             </div>
 
-            {/* 2. Interactive Activity Filters Rail */}
+            {/* 2. Interactive Activity Filters Rail (Vertical Stepper Modes) */}
             <div className="activity-filter-bar">
                 <div className="activity-filter-pills" role="tablist" aria-label="Filter user activities">
                     {[
-                        { id: 'all', label: `All Updates (${activities.length})`, icon: Activity },
-                        { id: 'check_in', label: `Trip Check-Ins (${checkInsCount})`, icon: MapPin },
-                        { id: 'forum_reply', label: `Forum Replies (${forumRepliesCount})`, icon: MessageSquare },
-                        { id: 'contribution', label: `Contributions (${contributionsCount})`, icon: Award }
+                        { id: 'all', label: `All Timeline (${activities.length})`, icon: Activity },
+                        { id: 'visa_checkin', label: `Visa Check-Ins (${visaCount})`, icon: FileCheck },
+                        { id: 'contribution', label: `Contributions (${contributionsCount})`, icon: Award },
+                        { id: 'community', label: `Community (${communityCount})`, icon: Users },
+                        { id: 'check_in', label: `Trip Check-Ins (${checkInsCount})`, icon: MapPin }
                     ].map(tab => (
                         <button
                             key={tab.id}
@@ -173,119 +228,194 @@ const NomadActivityFeed = ({ embedded = false }) => {
                 </div>
             </div>
 
-            {/* 3. Real-Time Activity Feed Timeline */}
-            <div className="activity-feed-timeline">
+            {/* 3. Refined Vertical Stepper Timeline Feed */}
+            <div className="stepper-timeline-container">
+                <div className="stepper-vertical-spine" aria-hidden="true" />
+
                 <AnimatePresence mode="popLayout">
                     {filteredActivities.length > 0 ? (
-                        filteredActivities.map((act) => {
-                            const isCheckIn = act.type === 'check_in';
-                            const isForum = act.type === 'forum_reply';
-                            const isContrib = act.type === 'contribution';
+                        filteredActivities.map((act, index) => {
+                            const isLatest = index === 0;
+                            const isLast = index === filteredActivities.length - 1;
+                            const color = act.color || getTypeColor(act.type);
 
                             return (
                                 <motion.div
                                     key={act.id}
                                     layout
-                                    initial={{ opacity: 0, y: 12 }}
+                                    initial={{ opacity: 0, y: 15 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     exit={{ opacity: 0, scale: 0.96 }}
-                                    transition={{ duration: 0.2 }}
-                                    className={`activity-item-card type-${act.type}`}
+                                    transition={{ duration: 0.22, delay: Math.min(index * 0.04, 0.2) }}
+                                    className={`stepper-step-row type-${act.type} ${isLatest ? 'is-latest' : ''} ${isLast ? 'is-last' : ''}`}
                                 >
-                                    {/* Icon Accent */}
-                                    <div className="activity-type-marker" style={{ borderColor: act.color }}>
-                                        {isCheckIn && <MapPin size={16} style={{ color: act.color }} />}
-                                        {isForum && <MessageSquare size={16} style={{ color: act.color }} />}
-                                        {isContrib && <Award size={16} style={{ color: act.color }} />}
+                                    {/* Vertical Stepper Left Node Anchor */}
+                                    <div className="stepper-node-anchor">
+                                        <div 
+                                            className="stepper-node-bubble" 
+                                            style={{ 
+                                                borderColor: color,
+                                                color: color,
+                                                boxShadow: isLatest ? `0 0 16px ${color}55` : undefined
+                                            }}
+                                        >
+                                            {renderTypeIcon(act.type)}
+                                        </div>
+                                        {!isLast && <div className="stepper-connecting-line" aria-hidden="true" />}
                                     </div>
 
-                                    <div className="activity-item-main">
-                                        {/* Metadata Row (Zero-Pill Discipline) */}
-                                        <div className="activity-meta-line">
-                                            <span className="activity-category-text" style={{ color: act.color }}>
-                                                {act.category}
-                                            </span>
-                                            <span className="meta-sep" aria-hidden="true">·</span>
-                                            {act.location && (
-                                                <>
-                                                    <span className="activity-location-text">{act.location}</span>
-                                                    <span className="meta-sep" aria-hidden="true">·</span>
-                                                </>
+                                    {/* Stepper Content Card */}
+                                    <div className="stepper-step-card">
+                                        {/* Stepper Step Header / Metadata Line */}
+                                        <div className="stepper-meta-bar">
+                                            <div className="stepper-category-pill" style={{ color: color, borderColor: `${color}35`, background: `${color}12` }}>
+                                                {act.category || 'Activity'}
+                                            </div>
+
+                                            <div className="stepper-time-location">
+                                                {act.location && (
+                                                    <span className="stepper-location-text">
+                                                        <MapPin size={12} className="inline mr-1 text-slate-400" />
+                                                        {act.location}
+                                                    </span>
+                                                )}
+                                                <span className="stepper-sep">·</span>
+                                                <span className="stepper-timestamp">
+                                                    <Clock size={11} className="inline mr-1 text-slate-400" />
+                                                    {act.timestamp}
+                                                </span>
+                                            </div>
+
+                                            {isLatest && (
+                                                <span className="stepper-live-tag">
+                                                    <span className="stepper-live-dot" />
+                                                    Latest Milestone
+                                                </span>
                                             )}
-                                            <span className="activity-timestamp-text">{act.timestamp}</span>
                                         </div>
 
-                                        {/* Activity Title */}
-                                        <h4 className="activity-item-title">{act.title}</h4>
+                                        {/* Activity Step Title */}
+                                        <h4 className="stepper-step-title">{act.title}</h4>
 
-                                        {/* Activity Content Body */}
-                                        <p className="activity-item-prose">{act.content}</p>
+                                        {/* Thread Context if forum */}
+                                        {act.thread && (
+                                            <div className="stepper-thread-badge">
+                                                <MessageSquare size={12} />
+                                                <span>Thread: {act.thread}</span>
+                                            </div>
+                                        )}
 
-                                        {/* Extra Context / Metrics Chip (if any) */}
+                                        {/* Activity Step Narrative */}
+                                        <p className="stepper-step-body">{act.content}</p>
+
+                                        {/* Step Specific Telemetry Metrics */}
                                         {act.metrics && Object.keys(act.metrics).length > 0 && (
-                                            <div className="activity-metrics-row">
+                                            <div className="stepper-metrics-cluster">
+                                                {act.metrics.visaType && (
+                                                    <div className="stepper-metric-tag border-emerald-500/30 text-emerald-300">
+                                                        <ShieldCheck size={12} className="text-emerald-400" />
+                                                        <span>{act.metrics.visaType}</span>
+                                                    </div>
+                                                )}
+                                                {act.metrics.validity && (
+                                                    <div className="stepper-metric-tag border-emerald-500/30 text-emerald-300">
+                                                        <Calendar size={12} className="text-emerald-400" />
+                                                        <span>Validity: {act.metrics.validity}</span>
+                                                    </div>
+                                                )}
+                                                {act.metrics.borderEntry && (
+                                                    <div className="stepper-metric-tag border-cyan-500/30 text-cyan-300">
+                                                        <MapPin size={12} className="text-cyan-400" />
+                                                        <span>{act.metrics.borderEntry}</span>
+                                                    </div>
+                                                )}
                                                 {act.metrics.wifi && (
-                                                    <div className="metric-tag-item">
-                                                        <Wifi size={12} className="text-emerald-400" />
-                                                        <span>Verified {act.metrics.wifi} Fiber</span>
+                                                    <div className="stepper-metric-tag border-amber-500/30 text-amber-300">
+                                                        <Wifi size={12} className="text-amber-400" />
+                                                        <span>Verified {act.metrics.wifi}</span>
+                                                    </div>
+                                                )}
+                                                {act.metrics.attendees && (
+                                                    <div className="stepper-metric-tag border-purple-500/30 text-purple-300">
+                                                        <Users size={12} className="text-purple-400" />
+                                                        <span>{act.metrics.attendees}</span>
                                                     </div>
                                                 )}
                                                 {act.metrics.upvotes && (
-                                                    <div className="metric-tag-item">
-                                                        <Flame size={12} className="text-amber-400" />
-                                                        <span>{act.metrics.upvotes} Nomad Upvotes</span>
+                                                    <div className="stepper-metric-tag border-sky-500/30 text-sky-300">
+                                                        <Flame size={12} className="text-sky-400" />
+                                                        <span>{act.metrics.upvotes} Upvotes</span>
                                                     </div>
                                                 )}
                                                 {act.metrics.distance && (
-                                                    <div className="metric-tag-item">
-                                                        <MapPin size={12} className="text-sky-400" />
+                                                    <div className="stepper-metric-tag border-cyan-500/30 text-cyan-300">
+                                                        <MapPin size={12} className="text-cyan-400" />
                                                         <span>{act.metrics.distance} Route</span>
+                                                    </div>
+                                                )}
+                                                {act.metrics.views && (
+                                                    <div className="stepper-metric-tag border-amber-500/30 text-amber-300">
+                                                        <Award size={12} className="text-amber-400" />
+                                                        <span>{act.metrics.views} Nomad Views</span>
+                                                    </div>
+                                                )}
+                                                {act.metrics.xp && (
+                                                    <div className="stepper-metric-tag border-pink-500/30 text-pink-300">
+                                                        <Sparkles size={12} className="text-pink-400" />
+                                                        <span>{act.metrics.xp}</span>
                                                     </div>
                                                 )}
                                             </div>
                                         )}
 
-                                        {/* Interactive Reactions & Social Controls */}
-                                        <div className="activity-actions-strip">
-                                            <button
-                                                type="button"
-                                                onClick={() => handleLike(act.id, act.title)}
-                                                className={`btn-act-action ${act.isLiked ? 'liked' : ''}`}
-                                                title={act.isLiked ? 'Remove upvote' : 'Upvote activity'}
-                                            >
-                                                <Heart size={14} fill={act.isLiked ? '#ef4444' : 'none'} color={act.isLiked ? '#ef4444' : 'currentColor'} />
-                                                <span>{act.likes}</span>
-                                            </button>
+                                        {/* Stepper Step Footer Controls */}
+                                        <div className="stepper-footer-bar">
+                                            <div className="stepper-actions-group">
+                                                <button
+                                                    type="button"
+                                                    onClick={() => handleLike(act.id, act.title)}
+                                                    className={`btn-stepper-action ${act.isLiked ? 'liked' : ''}`}
+                                                    title={act.isLiked ? 'Remove upvote' : 'Upvote activity'}
+                                                >
+                                                    <Heart size={14} fill={act.isLiked ? '#ef4444' : 'none'} color={act.isLiked ? '#ef4444' : 'currentColor'} />
+                                                    <span>{act.likes}</span>
+                                                </button>
 
-                                            <button
-                                                type="button"
-                                                onClick={() => setReplyingToId(replyingToId === act.id ? null : act.id)}
-                                                className="btn-act-action"
-                                                title="View or add reply"
-                                            >
-                                                <MessageCircle size={14} />
-                                                <span>{act.repliesCount} Replies</span>
-                                            </button>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setReplyingToId(replyingToId === act.id ? null : act.id)}
+                                                    className={`btn-stepper-action ${replyingToId === act.id ? 'active' : ''}`}
+                                                    title="View or reply"
+                                                >
+                                                    <MessageCircle size={14} />
+                                                    <span>{act.repliesCount} Replies</span>
+                                                </button>
 
-                                            <button
-                                                type="button"
-                                                onClick={() => handleShareActivity(act)}
-                                                className="btn-act-action"
-                                                title="Share activity"
-                                            >
-                                                <Share2 size={13} />
-                                                <span>Share</span>
-                                            </button>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => handleShareActivity(act)}
+                                                    className="btn-stepper-action"
+                                                    title="Share activity link"
+                                                >
+                                                    <Share2 size={13} />
+                                                    <span>Share</span>
+                                                </button>
+                                            </div>
+
+                                            <span className="stepper-verified-tick" title="Verified SeeNomad ledger event">
+                                                <CheckCircle2 size={13} className="text-emerald-400" />
+                                                <span>Verified Entry</span>
+                                            </span>
                                         </div>
 
-                                        {/* Inline Quick Reply Drawer */}
+                                        {/* Inline Stepper Reply Drawer */}
                                         {replyingToId === act.id && (
                                             <div className="activity-reply-drawer">
                                                 <div className="reply-input-wrap">
                                                     <input
                                                         type="text"
                                                         className="reply-input-field"
-                                                        placeholder="Write a quick comment or reaction..."
+                                                        placeholder="Write a comment or congrats on this milestone..."
                                                         value={replyInput}
                                                         onChange={(e) => setReplyInput(e.target.value)}
                                                         onKeyDown={(e) => {
@@ -297,6 +427,7 @@ const NomadActivityFeed = ({ embedded = false }) => {
                                                         type="button"
                                                         onClick={() => handleSendReply(act.id)}
                                                         className="btn-reply-send"
+                                                        title="Send reply (+15 XP)"
                                                     >
                                                         <Send size={14} />
                                                     </button>
@@ -311,20 +442,20 @@ const NomadActivityFeed = ({ embedded = false }) => {
                         <div className="empty-activity-placeholder">
                             <Activity size={36} className="text-slate-500 mb-2" />
                             <h4>No activities found in this filter</h4>
-                            <p>Post a quick check-in from your current base or contribute a verified wifi speed test.</p>
+                            <p>Record a new visa check-in, share a community event, or post verified wifi telemetry.</p>
                             <button
                                 type="button"
                                 onClick={() => setIsComposerOpen(true)}
                                 className="btn-post-activity mt-3"
                             >
-                                <Plus size={14} /> Post Live Update
+                                <Plus size={14} /> Log Milestone
                             </button>
                         </div>
                     )}
                 </AnimatePresence>
             </div>
 
-            {/* 4. Post New Live Activity Modal */}
+            {/* 4. Log New Activity Modal */}
             <AnimatePresence>
                 {isComposerOpen && (
                     <div className="composer-modal-backdrop" onClick={() => setIsComposerOpen(false)} role="dialog" aria-modal="true">
@@ -338,8 +469,8 @@ const NomadActivityFeed = ({ embedded = false }) => {
                         >
                             <div className="composer-modal-header">
                                 <div className="flex items-center gap-2">
-                                    <Sparkles size={18} className="text-amber-400" />
-                                    <h3 style={{ margin: 0, fontSize: '1.15rem', fontWeight: 800 }}>Broadcast Live Nomad Activity</h3>
+                                    <Sparkles size={18} className="text-emerald-400" />
+                                    <h3 style={{ margin: 0, fontSize: '1.15rem', fontWeight: 800 }}>Record Timeline Milestone</h3>
                                 </div>
                                 <button
                                     type="button"
@@ -354,34 +485,81 @@ const NomadActivityFeed = ({ embedded = false }) => {
                             <form onSubmit={handleCreateActivity} className="composer-form-body">
                                 {/* Type Selector Segmented Control */}
                                 <div className="form-group">
-                                    <label className="form-label">Activity Type</label>
-                                    <div className="composer-type-segmented">
+                                    <label className="form-label">Activity Category</label>
+                                    <div className="composer-type-segmented" style={{ gridTemplateColumns: 'repeat(4, 1fr)' }}>
                                         <button
                                             type="button"
-                                            className={`type-segment-btn ${composerData.type === 'check_in' ? 'active' : ''}`}
-                                            onClick={() => setComposerData({ ...composerData, type: 'check_in' })}
+                                            className={`type-segment-btn ${composerData.type === 'visa_checkin' ? 'active' : ''}`}
+                                            onClick={() => setComposerData({ ...composerData, type: 'visa_checkin' })}
                                         >
-                                            <MapPin size={14} />
-                                            <span>Trip Check-In</span>
-                                        </button>
-                                        <button
-                                            type="button"
-                                            className={`type-segment-btn ${composerData.type === 'forum_reply' ? 'active' : ''}`}
-                                            onClick={() => setComposerData({ ...composerData, type: 'forum_reply' })}
-                                        >
-                                            <MessageSquare size={14} />
-                                            <span>Forum Thought</span>
+                                            <FileCheck size={13} />
+                                            <span>Visa</span>
                                         </button>
                                         <button
                                             type="button"
                                             className={`type-segment-btn ${composerData.type === 'contribution' ? 'active' : ''}`}
                                             onClick={() => setComposerData({ ...composerData, type: 'contribution' })}
                                         >
-                                            <Award size={14} />
+                                            <Award size={13} />
                                             <span>Contribution</span>
+                                        </button>
+                                        <button
+                                            type="button"
+                                            className={`type-segment-btn ${composerData.type === 'community' ? 'active' : ''}`}
+                                            onClick={() => setComposerData({ ...composerData, type: 'community' })}
+                                        >
+                                            <Users size={13} />
+                                            <span>Community</span>
+                                        </button>
+                                        <button
+                                            type="button"
+                                            className={`type-segment-btn ${composerData.type === 'check_in' ? 'active' : ''}`}
+                                            onClick={() => setComposerData({ ...composerData, type: 'check_in' })}
+                                        >
+                                            <MapPin size={13} />
+                                            <span>Check-In</span>
                                         </button>
                                     </div>
                                 </div>
+
+                                {composerData.type === 'visa_checkin' && (
+                                    <>
+                                        <div className="form-row-2">
+                                            <div className="form-group">
+                                                <label className="form-label">Visa / Permit Type</label>
+                                                <input
+                                                    type="text"
+                                                    className="form-input"
+                                                    placeholder="e.g. Portugal D8 Digital Nomad Visa or India e-Visa"
+                                                    value={composerData.visaType}
+                                                    onChange={(e) => setComposerData({ ...composerData, visaType: e.target.value })}
+                                                    required
+                                                />
+                                            </div>
+                                            <div className="form-group">
+                                                <label className="form-label">Approved Validity</label>
+                                                <input
+                                                    type="text"
+                                                    className="form-input"
+                                                    placeholder="e.g. 1 Year or 2 Years (2028)"
+                                                    value={composerData.validity}
+                                                    onChange={(e) => setComposerData({ ...composerData, validity: e.target.value })}
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="form-group">
+                                            <label className="form-label">Immigration / Port of Entry Location</label>
+                                            <input
+                                                type="text"
+                                                className="form-input"
+                                                placeholder="e.g. AIMA Lisbon or Indira Gandhi International Airport (DEL)"
+                                                value={composerData.location}
+                                                onChange={(e) => setComposerData({ ...composerData, location: e.target.value })}
+                                                required
+                                            />
+                                        </div>
+                                    </>
+                                )}
 
                                 {composerData.type === 'check_in' && (
                                     <div className="form-group">
@@ -397,18 +575,30 @@ const NomadActivityFeed = ({ embedded = false }) => {
                                     </div>
                                 )}
 
-                                {composerData.type === 'forum_reply' && (
-                                    <div className="form-group">
-                                        <label className="form-label">Topic / Thread Title</label>
-                                        <input
-                                            type="text"
-                                            className="form-input"
-                                            placeholder="e.g. Best fiber cafes in Delhi or Bali visa renewal 2026"
-                                            value={composerData.thread}
-                                            onChange={(e) => setComposerData({ ...composerData, thread: e.target.value })}
-                                            required
-                                        />
-                                    </div>
+                                {composerData.type === 'community' && (
+                                    <>
+                                        <div className="form-group">
+                                            <label className="form-label">Interaction Topic / Event Title</label>
+                                            <input
+                                                type="text"
+                                                className="form-input"
+                                                placeholder="e.g. Hosted Nomad Sunset Meetup or Delhi Coworking Discussion"
+                                                value={composerData.thread}
+                                                onChange={(e) => setComposerData({ ...composerData, thread: e.target.value })}
+                                                required
+                                            />
+                                        </div>
+                                        <div className="form-group">
+                                            <label className="form-label">Location / Hub</label>
+                                            <input
+                                                type="text"
+                                                className="form-input"
+                                                placeholder="e.g. Miradouro de Santa Catarina or Cyber City Gurugram"
+                                                value={composerData.location}
+                                                onChange={(e) => setComposerData({ ...composerData, location: e.target.value })}
+                                            />
+                                        </div>
+                                    </>
                                 )}
 
                                 {composerData.type === 'contribution' && (
@@ -418,7 +608,7 @@ const NomadActivityFeed = ({ embedded = false }) => {
                                             <input
                                                 type="text"
                                                 className="form-input"
-                                                placeholder="e.g. Qutub Minar or Blue Tokai"
+                                                placeholder="e.g. Qutub Minar, Lisbon Studio, or Blue Tokai"
                                                 value={composerData.location}
                                                 onChange={(e) => setComposerData({ ...composerData, location: e.target.value })}
                                                 required
@@ -438,11 +628,11 @@ const NomadActivityFeed = ({ embedded = false }) => {
                                 )}
 
                                 <div className="form-group">
-                                    <label className="form-label">Description / Field Notes</label>
+                                    <label className="form-label">Timeline Description / Field Notes</label>
                                     <textarea
                                         rows={3}
                                         className="form-textarea"
-                                        placeholder="Share what you are exploring, speed test observations, or helpful tips for fellow nomads..."
+                                        placeholder="Share verified details, documentation experience, tips, or takeaways for fellow nomads..."
                                         value={composerData.content}
                                         onChange={(e) => setComposerData({ ...composerData, content: e.target.value })}
                                         required
@@ -462,7 +652,7 @@ const NomadActivityFeed = ({ embedded = false }) => {
                                         className="btn-save"
                                     >
                                         <Send size={15} />
-                                        <span>Broadcast Update (+30 XP)</span>
+                                        <span>Log Milestone (+30 XP)</span>
                                     </button>
                                 </div>
                             </form>

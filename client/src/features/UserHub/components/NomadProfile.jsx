@@ -647,7 +647,7 @@ const NomadProfile = () => {
                     onClick={() => handleSwitchTab('activity')}
                 >
                     <Activity size={16} />
-                    <span>Live Activity Feed ({activities.length})</span>
+                    <span>Recent Activity ({activities.length})</span>
                 </button>
                 <button
                     type="button"
@@ -869,12 +869,12 @@ const NomadProfile = () => {
                             </div>
                         </section>
 
-                        {/* Real-Time Community Activity Stream Preview */}
+                        {/* Recent Activity Timeline Stepper Feed Preview */}
                         <section className="profile-card mt-6">
                             <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
                                 <h2 className="card-title" style={{ marginBottom: 0 }}>
                                     <Activity size={20} className="text-emerald-400" />
-                                    <span>Real-Time Community Activity ({activities.length})</span>
+                                    <span>Recent Activity Timeline ({activities.length})</span>
                                 </h2>
                                 <button
                                     type="button"
@@ -882,7 +882,7 @@ const NomadProfile = () => {
                                     className="btn-add-skill-trigger"
                                     style={{ color: '#34d399', borderColor: 'rgba(16, 185, 129, 0.3)', background: 'rgba(16, 185, 129, 0.12)' }}
                                 >
-                                    <span>Full Stream</span>
+                                    <span>Full Timeline</span>
                                     <ChevronRight size={13} />
                                 </button>
                             </div>

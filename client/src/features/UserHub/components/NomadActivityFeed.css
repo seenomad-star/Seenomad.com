@@ -1,4 +1,4 @@
-/* NomadActivityFeed.css - Real-Time User Activity Feed Styling */
+/* NomadActivityFeed.css - Timeline-based Recent Activity Vertical Stepper UI */
 
 .nomad-activity-feed-wrapper {
     display: flex;
@@ -237,212 +237,338 @@
 }
 
 /* ============================================================
-   3. ACTIVITY FEED TIMELINE & CARDS
+   3. REFINED VERTICAL STEPPER TIMELINE ARCHITECTURE
    ============================================================ */
-.activity-feed-timeline {
+.stepper-timeline-container {
+    position: relative;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-    position: relative;
+    padding-left: 0.5rem;
 }
 
-.activity-item-card {
+/* Main continuous vertical stepper guide spine */
+.stepper-vertical-spine {
+    position: absolute;
+    top: 24px;
+    bottom: 30px;
+    left: 28px;
+    width: 2px;
+    background: linear-gradient(180deg, rgba(16, 185, 129, 0.6) 0%, rgba(56, 189, 248, 0.4) 50%, rgba(139, 92, 246, 0.2) 100%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+:root:not(.dark) .stepper-vertical-spine {
+    background: linear-gradient(180deg, rgba(16, 185, 129, 0.4) 0%, rgba(14, 165, 233, 0.3) 50%, rgba(168, 85, 247, 0.2) 100%);
+}
+
+.stepper-step-row {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    padding-bottom: 2rem;
+    z-index: 2;
+}
+
+.stepper-step-row.is-last {
+    padding-bottom: 0.5rem;
+}
+
+/* Left Node Anchor */
+.stepper-node-anchor {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+    width: 48px;
+}
+
+.stepper-node-bubble {
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    background: #0f172a;
+    border: 2px solid;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 3;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+}
+
+:root:not(.dark) .stepper-node-bubble {
+    background: #ffffff;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+.stepper-step-row:hover .stepper-node-bubble {
+    transform: scale(1.08);
+}
+
+.stepper-connecting-line {
+    width: 2px;
+    flex: 1;
+    background: rgba(255, 255, 255, 0.08);
+    min-height: 20px;
+}
+
+:root:not(.dark) .stepper-connecting-line {
+    background: #e2e8f0;
+}
+
+/* Right Stepper Card Content */
+.stepper-step-card {
+    flex: 1;
+    min-width: 0;
     background: linear-gradient(135deg, rgba(30, 41, 59, 0.6) 0%, rgba(15, 23, 42, 0.8) 100%);
     -webkit-backdrop-filter: blur(16px);
     backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 20px;
-    padding: 1.25rem 1.45rem;
+    padding: 1.35rem 1.6rem;
     display: flex;
-    gap: 1.15rem;
-    position: relative;
+    flex-direction: column;
+    gap: 0.5rem;
     transition: all 0.2s ease;
     box-shadow: 0 8px 24px -8px rgba(0, 0, 0, 0.25);
+    position: relative;
 }
 
-:root:not(.dark) .activity-item-card {
+:root:not(.dark) .stepper-step-card {
     background: #ffffff;
     border-color: rgba(15, 23, 42, 0.08);
     box-shadow: 0 8px 24px -8px rgba(15, 23, 42, 0.04);
 }
 
-.activity-item-card:hover {
-    border-color: rgba(255, 255, 255, 0.16);
+.stepper-step-row:hover .stepper-step-card {
+    border-color: rgba(255, 255, 255, 0.18);
     transform: translateY(-2px);
-    box-shadow: 0 12px 30px -8px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 14px 34px -8px rgba(0, 0, 0, 0.35);
 }
 
-:root:not(.dark) .activity-item-card:hover {
+:root:not(.dark) .stepper-step-row:hover .stepper-step-card {
     border-color: #cbd5e1;
-    box-shadow: 0 12px 30px -8px rgba(15, 23, 42, 0.06);
+    box-shadow: 0 14px 34px -8px rgba(15, 23, 42, 0.07);
 }
 
-.activity-type-marker {
-    width: 38px;
-    height: 38px;
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1.5px solid;
+/* Stepper Meta Bar */
+.stepper-meta-bar {
     display: flex;
     align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    margin-top: 0.15rem;
-}
-
-:root:not(.dark) .activity-type-marker {
-    background: #f8fafc;
-}
-
-.activity-item-main {
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-    flex: 1;
-    min-width: 0;
-}
-
-/* Zero-Pill Metadata Line */
-.activity-meta-line {
-    display: flex;
-    align-items: center;
-    gap: 0.45rem;
-    font-size: 0.74rem;
-    color: #94a3b8;
+    gap: 0.65rem;
     flex-wrap: wrap;
+    font-size: 0.74rem;
 }
 
-:root:not(.dark) .activity-meta-line {
-    color: #64748b;
-}
-
-.activity-category-text {
+.stepper-category-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.2rem 0.6rem;
+    border-radius: 9999px;
+    font-size: 0.72rem;
     font-weight: 700;
+    border: 1px solid;
     letter-spacing: 0.02em;
 }
 
-.activity-location-text {
-    color: #cbd5e1;
-    font-weight: 500;
-}
-
-:root:not(.dark) .activity-location-text {
-    color: #475569;
-}
-
-.activity-timestamp-text {
+.stepper-time-location {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
     color: #94a3b8;
+    font-weight: 500;
+    flex-wrap: wrap;
 }
 
-.meta-sep {
+:root:not(.dark) .stepper-time-location {
+    color: #64748b;
+}
+
+.stepper-location-text {
+    color: #cbd5e1;
+    font-weight: 600;
+}
+
+:root:not(.dark) .stepper-location-text {
+    color: #334155;
+}
+
+.stepper-sep {
     color: #475569;
-    font-weight: 700;
 }
 
-.activity-item-title {
-    margin: 0;
-    font-size: 1.02rem;
+.stepper-live-tag {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #34d399;
+    background: rgba(16, 185, 129, 0.12);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    padding: 0.15rem 0.5rem;
+    border-radius: 9999px;
+}
+
+.stepper-live-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #10b981;
+    box-shadow: 0 0 6px #10b981;
+}
+
+/* Stepper Titles and Body */
+.stepper-step-title {
+    margin: 0.15rem 0 0;
+    font-size: 1.05rem;
     font-weight: 800;
     color: #f8fafc;
     letter-spacing: -0.01em;
     line-height: 1.35;
 }
 
-:root:not(.dark) .activity-item-title {
+:root:not(.dark) .stepper-step-title {
     color: #0f172a;
 }
 
-.activity-item-prose {
-    margin: 0.15rem 0 0;
-    font-size: 0.84rem;
-    color: #cbd5e1;
-    line-height: 1.5;
+.stepper-thread-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.74rem;
+    color: #38bdf8;
+    background: rgba(56, 189, 248, 0.1);
+    border: 1px solid rgba(56, 189, 248, 0.2);
+    padding: 0.2rem 0.55rem;
+    border-radius: 6px;
+    width: fit-content;
 }
 
-:root:not(.dark) .activity-item-prose {
+.stepper-step-body {
+    margin: 0.25rem 0 0;
+    font-size: 0.85rem;
+    color: #cbd5e1;
+    line-height: 1.55;
+}
+
+:root:not(.dark) .stepper-step-body {
     color: #475569;
 }
 
-/* Extra Context Metrics */
-.activity-metrics-row {
+/* Metrics Cluster */
+.stepper-metrics-cluster {
     display: flex;
     align-items: center;
     gap: 0.6rem;
     flex-wrap: wrap;
-    margin-top: 0.35rem;
+    margin-top: 0.45rem;
 }
 
-.metric-tag-item {
+.stepper-metric-tag {
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
     font-size: 0.72rem;
     font-weight: 600;
-    color: #cbd5e1;
     background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    padding: 0.2rem 0.55rem;
+    border: 1px solid;
+    padding: 0.25rem 0.6rem;
     border-radius: 8px;
 }
 
-:root:not(.dark) .metric-tag-item {
+:root:not(.dark) .stepper-metric-tag {
     background: #f8fafc;
-    border-color: #e2e8f0;
-    color: #475569;
 }
 
-/* Social Actions Strip */
-.activity-actions-strip {
+/* Stepper Footer Controls */
+.stepper-footer-bar {
     display: flex;
     align-items: center;
-    gap: 0.65rem;
-    margin-top: 0.65rem;
-    padding-top: 0.65rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    justify-content: space-between;
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    flex-wrap: wrap;
+    gap: 0.75rem;
 }
 
-:root:not(.dark) .activity-actions-strip {
+:root:not(.dark) .stepper-footer-bar {
     border-top-color: #f1f5f9;
 }
 
-.btn-act-action {
+.stepper-actions-group {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+}
+
+.btn-stepper-action {
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
     background: transparent;
     border: 1px solid rgba(255, 255, 255, 0.08);
     color: #94a3b8;
-    padding: 0.3rem 0.65rem;
+    padding: 0.32rem 0.7rem;
     border-radius: 8px;
-    font-size: 0.74rem;
+    font-size: 0.75rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s ease;
 }
 
-:root:not(.dark) .btn-act-action {
+:root:not(.dark) .btn-stepper-action {
     background: #f8fafc;
     border-color: #e2e8f0;
     color: #64748b;
 }
 
-.btn-act-action:hover {
+.btn-stepper-action:hover {
     color: #f8fafc;
     background: rgba(255, 255, 255, 0.06);
 }
 
-:root:not(.dark) .btn-act-action:hover {
+:root:not(.dark) .btn-stepper-action:hover {
     color: #0f172a;
     background: #ffffff;
 }
 
-.btn-act-action.liked {
+.btn-stepper-action.liked {
     color: #f87171;
     border-color: rgba(239, 68, 68, 0.35);
     background: rgba(239, 68, 68, 0.1);
 }
 
-/* Reply Drawer */
+.btn-stepper-action.active {
+    color: #38bdf8;
+    border-color: rgba(56, 189, 248, 0.35);
+    background: rgba(56, 189, 248, 0.1);
+}
+
+.stepper-verified-tick {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #94a3b8;
+}
+
+:root:not(.dark) .stepper-verified-tick {
+    color: #64748b;
+}
+
+/* ============================================================
+   4. INLINE REPLY DRAWER
+   ============================================================ */
 .activity-reply-drawer {
     margin-top: 0.75rem;
     padding-top: 0.75rem;
@@ -464,8 +590,8 @@
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: 10px;
-    padding: 0.45rem 0.85rem;
-    font-size: 0.8rem;
+    padding: 0.5rem 0.9rem;
+    font-size: 0.82rem;
     color: #f8fafc;
     outline: none;
 }
@@ -477,8 +603,8 @@
 }
 
 .btn-reply-send {
-    width: 34px;
-    height: 34px;
+    width: 36px;
+    height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -494,7 +620,9 @@
     background: #059669;
 }
 
-/* Empty Placeholder */
+/* ============================================================
+   5. EMPTY PLACEHOLDER
+   ============================================================ */
 .empty-activity-placeholder {
     display: flex;
     flex-direction: column;
@@ -505,6 +633,7 @@
     background: rgba(255, 255, 255, 0.02);
     border: 2px dashed rgba(255, 255, 255, 0.08);
     border-radius: 20px;
+    margin-left: 2.5rem;
 }
 
 :root:not(.dark) .empty-activity-placeholder {
@@ -535,7 +664,7 @@
 }
 
 /* ============================================================
-   4. POST NEW ACTIVITY MODAL COMPOSER
+   6. POST NEW ACTIVITY MODAL COMPOSER
    ============================================================ */
 .composer-modal-backdrop {
     position: fixed;
@@ -555,7 +684,7 @@
     border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: 24px;
     width: 100%;
-    max-width: 520px;
+    max-width: 540px;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
     overflow: hidden;
 }
@@ -587,8 +716,8 @@
 
 .composer-type-segmented {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.5rem;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.4rem;
     background: rgba(255, 255, 255, 0.04);
     padding: 4px;
     border-radius: 12px;
@@ -600,15 +729,16 @@
 
 .type-segment-btn {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 0.35rem;
-    padding: 0.5rem 0.25rem;
+    gap: 0.25rem;
+    padding: 0.5rem 0.2rem;
     border-radius: 9px;
     background: transparent;
     border: none;
     color: #94a3b8;
-    font-size: 0.76rem;
+    font-size: 0.72rem;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -622,4 +752,24 @@
     background: #10b981;
     color: #ffffff;
     box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+}
+
+/* Responsive adjustment for stepper */
+@media (max-width: 640px) {
+    .stepper-timeline-container {
+        padding-left: 0;
+    }
+    .stepper-vertical-spine {
+        left: 20px;
+    }
+    .stepper-node-anchor {
+        width: 40px;
+    }
+    .stepper-node-bubble {
+        width: 38px;
+        height: 38px;
+    }
+    .stepper-step-card {
+        padding: 1.1rem 1.25rem;
+    }
 }
