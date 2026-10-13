@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Camera, Check, Globe, MapPin, Briefcase, Link, Sparkles, User, Upload, Palette } from 'lucide-react';
 import { useToastStore } from '../../../store/toastStore';
@@ -43,6 +43,25 @@ const EditProfileModal = ({ isOpen, onClose, currentProfile, onSave, onOpenBanne
         coverUrl: currentProfile?.coverUrl || COVER_OPTIONS[0].url,
         avatarUrl: currentProfile?.avatarUrl || AVATAR_OPTIONS[0].url
     });
+
+    // Synchronize form state whenever modal is opened or currentProfile changes
+    useEffect(() => {
+        if (isOpen && currentProfile) {
+            setFormData({
+                name: currentProfile?.name || 'Alex Rivera',
+                title: currentProfile?.title || 'Senior Full Stack Developer & Digital Nomad',
+                bio: currentProfile?.bio || '',
+                location: currentProfile?.location || 'Lisbon, Portugal',
+                statusKey: currentProfile?.statusKey || 'available_meet',
+                statusMessage: currentProfile?.statusMessage || 'Coding from Cowork Lisbon · Open for coffee',
+                website: currentProfile?.website || 'https://alexrivera.dev',
+                twitter: currentProfile?.twitter || '@alexriveranomad',
+                github: currentProfile?.github || 'alexrivera-nomad',
+                coverUrl: currentProfile?.coverUrl || COVER_OPTIONS[0].url,
+                avatarUrl: currentProfile?.avatarUrl || AVATAR_OPTIONS[0].url
+            });
+        }
+    }, [isOpen, currentProfile]);
 
     if (!isOpen) return null;
 
@@ -181,19 +200,23 @@ const EditProfileModal = ({ isOpen, onClose, currentProfile, onSave, onOpenBanne
                         {/* Name and Professional Title */}
                         <div className="form-row-2">
                             <div className="form-group">
-                                <label className="form-label" htmlFor="profile-name">Full Name</label>
-                                <input
-                                    id="profile-name"
-                                    type="text"
-                                    className="form-input"
-                                    value={formData.name}
-                                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                    required
-                                />
+                                <label className="form-label" htmlFor="profile-name">Display Name</label>
+                                <div className="input-with-icon">
+                                    <User size={16} className="field-icon" />
+                                    <input
+                                        id="profile-name"
+                                        type="text"
+                                        className="form-input with-left-icon"
+                                        value={formData.name}
+                                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                        placeholder="Your full display name"
+                                        required
+                                    />
+                                </div>
                             </div>
 
                             <div className="form-group">
-                                <label className="form-label" htmlFor="profile-location">Current Base / City</label>
+                                <label className="form-label" htmlFor="profile-location">Location / Current Base</label>
                                 <div className="input-with-icon">
                                     <MapPin size={16} className="field-icon" />
                                     <input
@@ -202,7 +225,7 @@ const EditProfileModal = ({ isOpen, onClose, currentProfile, onSave, onOpenBanne
                                         className="form-input with-left-icon"
                                         value={formData.location}
                                         onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-                                        placeholder="City, Country"
+                                        placeholder="City, Country (e.g. Lisbon, Portugal)"
                                     />
                                 </div>
                             </div>
@@ -226,14 +249,19 @@ const EditProfileModal = ({ isOpen, onClose, currentProfile, onSave, onOpenBanne
 
                         {/* Bio */}
                         <div className="form-group">
-                            <label className="form-label" htmlFor="profile-bio">Nomad Bio & Travel Philosophy</label>
+                            <div className="flex items-center justify-between mb-1">
+                                <label className="form-label" htmlFor="profile-bio" style={{ margin: 0 }}>Bio</label>
+                                <span className="text-xs text-slate-400">
+                                    {formData.bio?.length || 0} characters
+                                </span>
+                            </div>
                             <textarea
                                 id="profile-bio"
                                 rows={3}
                                 className="form-textarea"
                                 value={formData.bio}
                                 onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
-                                placeholder="Describe what you do, how you travel, and what inspires you..."
+                                placeholder="Describe your travel philosophy, remote work routine, and what inspires you..."
                             />
                         </div>
 

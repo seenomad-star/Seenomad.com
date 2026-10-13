@@ -206,6 +206,14 @@ const NomadProfile = () => {
         const merged = { ...profile, ...updatedData };
         setProfile(merged);
         localStorage.setItem('seenomad_user_profile', JSON.stringify(merged));
+        addXP(15);
+        addActivity({
+            type: 'profile_update',
+            title: 'Updated Nomad Profile',
+            location: merged.location || profile.location,
+            content: `Updated profile details including display name (${merged.name}), bio, and base location (${merged.location}).`,
+            metrics: { xp: '+15 XP' }
+        });
     };
 
     const handleSaveBannerConfig = (bannerConfig) => {
@@ -427,6 +435,9 @@ const NomadProfile = () => {
                             type="button"
                             onClick={() => setIsEditModalOpen(true)}
                             className="btn-hero-action primary"
+                            data-testid="edit-profile-btn"
+                            aria-label="Edit Profile"
+                            title="Edit profile display name, location, bio, and details"
                         >
                             <Edit3 size={14} />
                             <span>Edit Profile</span>
@@ -467,7 +478,16 @@ const NomadProfile = () => {
                         <span className="live-status-pulse-dot" />
                         <span className="live-status-text">{profile.statusMessage}</span>
                     </div>
-                    <p className="hero-bio-prose">"{profile.bio}"</p>
+                    <p 
+                        className="hero-bio-prose group cursor-pointer" 
+                        onClick={() => setIsEditModalOpen(true)}
+                        title="Click to edit bio & profile info"
+                    >
+                        "{profile.bio}"
+                        <span className="inline-block ml-2 opacity-50 hover:opacity-100 text-xs text-sky-400">
+                            (edit)
+                        </span>
+                    </p>
                 </div>
 
                 {/* Featured Nomad Reputation Badges Strip */}
