@@ -248,28 +248,74 @@ const INITIAL_SPATIAL_NODES = [
         soundscape: 'Tram 28 Brass Bell + Atlantic Breeze & Fado Guitar',
         videoUrl: '',
         panoramaImg: 'https://images.unsplash.com/photo-1585211756843-dc3828965111?w=1400&auto=format&fit=crop&q=85',
-        summary: 'Explore terraced miradouros, historic tram corridors, and Europe’s highest concentration of remote tech founders.',
+        summary: 'Explore Lisbon’s sun-drenched miradouros, historical tram corridors, and high-speed coworking districts.',
         eras: {
             past: {
-                year: '1515 AD · Age of Discovery',
-                title: 'Ribeira Shipyards & Maritime Cartography Guilds',
-                desc: 'Caravels departing Belém along the Tagus estuary with hand-drawn celestial navigation charts.'
+                year: '1755 AD · Reconstruction',
+                title: 'Pombaline Grid & Stone Arches',
+                desc: 'Historic earthquake-resistant timber cage structures and azulejo tiled facades.'
             },
             present: {
-                year: '2026 AD · Atlantic Tech & Nomad Hub',
-                title: 'Miradouro Rooftop Workspaces & Web Summit District',
-                desc: 'Live tram tracking, verified coliving residences in Santos, and instant community meetup pins.'
+                year: '2026 AD · Digital Nomad Epicenter',
+                title: 'Tagus River Tech Corridors & Micro-Roasters',
+                desc: 'Over 12,000 active remote workers, seamless D8 visa pathways, and fiber-connected sunny terrace cafes.'
             },
             future: {
-                year: '2050 AD · Blue-Economy Autonomous Port',
-                title: 'Solar Ferry Network & Pedestrian Sky-Miradouros',
-                desc: 'Seamless high-speed rail to Madrid and zero-carbon coastal boardwalks across the Tagus.'
+                year: '2050 AD · Solar Maritime Metropolis',
+                title: 'Autonomous River Ferries & Decarbonized Docks',
+                desc: 'Clean kinetic mobility connects coastal surfing outposts to historic hilltop creative sanctuaries.'
             }
         },
         hotspots: [
-            { id: 'h1', x: 38, y: 48, label: 'Miradouro de Santa Luzia', detail: 'Panoramic terracotta roof & river overlook' },
-            { id: 'h2', x: 62, y: 65, label: 'LX Factory Creative Campus', detail: '42 startups · Roastery & rooftop library' },
-            { id: 'h3', x: 25, y: 60, label: 'Time Out Culinary Hall', detail: '26 Michelin-curated food stalls' }
+            { id: 'h1', x: 30, y: 45, label: 'Miradouro Santa Catarina', detail: 'Live acoustic music & sunset gathering' },
+            { id: 'h2', x: 62, y: 55, label: 'Second Home Creative Campus', detail: '500 Mbps Fiber · 1,000 living plants' },
+            { id: 'h3', x: 45, y: 70, label: 'Cais do Sodré Ferry Terminal', detail: 'Fast transit to Costa da Caparica surf' }
+        ]
+    },
+    {
+        id: 'node-delhi',
+        name: 'New Delhi & Kartavya Corridor Spatial Twin',
+        city: 'Delhi, India',
+        domain: 'cultural-heritage',
+        domainBadge: 'Capital & Heritage Hub',
+        coordinates: '28.6139° N, 77.2090° E',
+        mapX: 68,
+        mapY: 42,
+        rating: 4.96,
+        liveExplorers: 2480,
+        telemetry: {
+            metric1Label: 'Metro Speed',
+            metric1Value: '390 km High Speed',
+            metric2Label: 'Fiber Speeds',
+            metric2Value: '500 Mbps 5G Ready',
+            metric3Label: 'Nomad Visa',
+            metric3Value: '1-Year e-Tourist'
+        },
+        soundscape: 'Sitar Harmonics + Evening Kartavya Path Breeze',
+        videoUrl: '',
+        panoramaImg: 'https://images.unsplash.com/photo-1587474260584-136574528ed5?w=1400&auto=format&fit=crop&q=85',
+        summary: 'Explore 360° volumetric vistas of India Gate, Qutub Minar, and high-speed Hauz Khas creative workspaces.',
+        eras: {
+            past: {
+                year: '1192–1648 AD · Seven Imperial Cities',
+                title: 'Mughal Citadel & Qutub Complex',
+                desc: 'Ancient stone minarets, red sandstone fortresses, and bustling spice bazaars of Shahjahanabad.'
+            },
+            present: {
+                year: '2026 AD · Tech Capital & Metro Twin',
+                title: 'Fiber-Connected Heritage & Vibrant Nomad Villages',
+                desc: 'World-class 390km air-conditioned metro system, flourishing coliving hubs in South Delhi, and 1Gbps fiber cafes.'
+            },
+            future: {
+                year: '2050 AD · Smart Heritage Garden Metropolis',
+                title: 'Autonomous Solar Corridors & Green Smog-Free Corridors',
+                desc: 'Regenerative urban forests, electric hyperloop links to Agra and Jaipur, and preserved historical monuments.'
+            }
+        },
+        hotspots: [
+            { id: 'h1', x: 50, y: 48, label: 'India Gate & Kartavya Promenade', detail: 'Imperial triumphal arch & evening garden strolls' },
+            { id: 'h2', x: 32, y: 65, label: 'Hauz Khas Village & Lake Cafes', detail: 'Lakefront remote work stations & 14th-century ruins' },
+            { id: 'h3', x: 74, y: 35, label: 'Qutub Minar Complex', detail: 'UNESCO World Heritage 72.5m brick minaret' }
         ]
     },
     {

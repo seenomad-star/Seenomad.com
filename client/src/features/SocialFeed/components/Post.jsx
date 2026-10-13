@@ -649,140 +649,144 @@ const Post = ({ post }) => {
 
             {/* Interactions Bar (Twitter & Facebook Hybrid) */}
             <div className="post-action-bar">
-                {/* 1. Like / Facebook Reaction Button */}
-                <div 
-                    className="reaction-anchor-wrapper"
-                    onMouseEnter={handleMouseEnterLike}
-                    onMouseLeave={handleMouseLeaveLike}
-                >
-                    <AnimatePresence>
-                        {showReactionsMenu && (
-                            <motion.div 
-                                className="fb-reactions-popover"
-                                initial={{ opacity: 0, y: 10, scale: 0.85 }}
-                                animate={{ opacity: 1, y: 0, scale: 1 }}
-                                exit={{ opacity: 0, y: 10, scale: 0.85 }}
-                                transition={{ duration: 0.15 }}
-                                onMouseEnter={() => setShowReactionsMenu(true)}
-                                onMouseLeave={() => setShowReactionsMenu(false)}
-                            >
-                                {FB_REACTIONS.map((r) => (
-                                    <button 
-                                        key={r.id}
-                                        type="button"
-                                        className="fb-reaction-bubble"
-                                        onClick={() => handleReactionSelect(r.id)}
-                                        title={r.label}
-                                    >
-                                        <span className="fb-reaction-emoji">{r.icon}</span>
-                                        <span className="fb-reaction-label">{r.label}</span>
+                {/* Left Primary Interactions Group */}
+                <div className="post-action-group-left">
+                    {/* 1. Like / Facebook Reaction Button */}
+                    <div 
+                        className="reaction-anchor-wrapper"
+                        onMouseEnter={handleMouseEnterLike}
+                        onMouseLeave={handleMouseLeaveLike}
+                    >
+                        <AnimatePresence>
+                            {showReactionsMenu && (
+                                <motion.div 
+                                    className="fb-reactions-popover"
+                                    initial={{ opacity: 0, y: 10, scale: 0.85 }}
+                                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                                    exit={{ opacity: 0, y: 10, scale: 0.85 }}
+                                    transition={{ duration: 0.15 }}
+                                    onMouseEnter={() => setShowReactionsMenu(true)}
+                                    onMouseLeave={() => setShowReactionsMenu(false)}
+                                >
+                                    {FB_REACTIONS.map((r) => (
+                                        <button 
+                                            key={r.id}
+                                            type="button"
+                                            className="fb-reaction-bubble"
+                                            onClick={() => handleReactionSelect(r.id)}
+                                            title={r.label}
+                                        >
+                                            <span className="fb-reaction-emoji">{r.icon}</span>
+                                            <span className="fb-reaction-label">{r.label}</span>
+                                        </button>
+                                    ))}
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
+
+                        <button 
+                            type="button"
+                            className={`action-btn like ${currentReaction ? 'active' : ''}`}
+                            onClick={handleSimpleLikeClick}
+                            style={{ color: activeReactionObj ? activeReactionObj.color : undefined }}
+                            aria-label="React to post"
+                        >
+                            {activeReactionObj ? (
+                                <span className="active-reaction-display">{activeReactionObj.icon}</span>
+                            ) : (
+                                <Heart size={16} />
+                            )}
+                            <span className="action-count">
+                                {activeReactionObj ? activeReactionObj.label : 'Like'}
+                            </span>
+                        </button>
+                    </div>
+
+                    {/* 2. Twitter Reply */}
+                    <button 
+                        type="button"
+                        className={`action-btn reply ${showComments ? 'active' : ''}`}
+                        onClick={() => setShowComments(!showComments)}
+                        aria-label="Comments"
+                    >
+                        <MessageCircle size={16} />
+                        <span className="action-count">{comments.length}</span>
+                    </button>
+
+                    {/* 3. Twitter Repost */}
+                    <button 
+                        type="button"
+                        className={`action-btn repost ${isReposted ? 'active' : ''}`}
+                        onClick={handleRepost}
+                        aria-label="Repost"
+                    >
+                        <Repeat2 size={16} />
+                        <span className="action-count">{repostsCount}</span>
+                    </button>
+
+                    {/* 4. Twitter Views Analytics */}
+                    <div className="action-btn views" title="Impressions">
+                        <BarChart2 size={16} />
+                        <span className="action-count">{post.views || '14.2K'}</span>
+                    </div>
+                </div>
+
+                {/* Right Utility Group */}
+                <div className="post-action-group-right">
+                    {/* 5. Tip Creator */}
+                    <button 
+                        type="button"
+                        className="action-btn tip"
+                        onClick={handleTip}
+                        title="Tip Creator (50 NMD Coins)"
+                        aria-label="Tip creator"
+                    >
+                        <Coins size={15} className="text-amber-400" />
+                    </button>
+
+                    {/* 6. Bookmark / Save to Wishlist */}
+                    <button 
+                        type="button"
+                        className={`action-btn bookmark ${isBookmarked ? 'active' : ''}`}
+                        onClick={handleBookmark}
+                        title="Save to Travel Wishlist"
+                        aria-label="Bookmark"
+                    >
+                        <Bookmark size={15} fill={isBookmarked ? "#0284c7" : "none"} stroke={isBookmarked ? "#0284c7" : "currentColor"} />
+                    </button>
+
+                    {/* 7. Share Button with Dropdown */}
+                    <div className="share-menu-wrapper">
+                        <button 
+                            type="button"
+                            className="action-btn share"
+                            onClick={() => setShowShareMenu(!showShareMenu)}
+                            title="Share post"
+                            aria-label="Share"
+                        >
+                            <Share2 size={15} />
+                        </button>
+
+                        <AnimatePresence>
+                            {showShareMenu && (
+                                <motion.div 
+                                    className="post-share-dropdown"
+                                    initial={{ opacity: 0, scale: 0.95 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    exit={{ opacity: 0, scale: 0.95 }}
+                                >
+                                    <button type="button" onClick={handleCopyLink} className="share-dropdown-item">
+                                        <Link2 size={14} />
+                                        <span>Copy Link to Post</span>
                                     </button>
-                                ))}
-                            </motion.div>
-                        )}
-                    </AnimatePresence>
-
-                    <button 
-                        type="button"
-                        className={`action-btn like ${currentReaction ? 'active' : ''}`}
-                        onClick={handleSimpleLikeClick}
-                        style={{ color: activeReactionObj ? activeReactionObj.color : undefined }}
-                        aria-label="React to post"
-                    >
-                        {activeReactionObj ? (
-                            <span className="active-reaction-display">{activeReactionObj.icon}</span>
-                        ) : (
-                            <Heart size={18} />
-                        )}
-                        <span className="action-count">
-                            {activeReactionObj ? activeReactionObj.label : 'Like'}
-                        </span>
-                    </button>
-                </div>
-
-                {/* 2. Twitter Reply */}
-                <button 
-                    type="button"
-                    className={`action-btn reply ${showComments ? 'active' : ''}`}
-                    onClick={() => setShowComments(!showComments)}
-                    aria-label="Comments"
-                >
-                    <MessageCircle size={18} />
-                    <span className="action-count">{comments.length}</span>
-                </button>
-
-                {/* 3. Twitter Repost */}
-                <button 
-                    type="button"
-                    className={`action-btn repost ${isReposted ? 'active' : ''}`}
-                    onClick={handleRepost}
-                    aria-label="Repost"
-                >
-                    <Repeat2 size={18} />
-                    <span className="action-count">{repostsCount}</span>
-                </button>
-
-                {/* 4. Twitter Views Analytics */}
-                <div className="action-btn views" title="Impressions">
-                    <BarChart2 size={18} />
-                    <span className="action-count">{post.views || '14.2K'}</span>
-                </div>
-
-                <div className="actions-spacer" />
-
-                {/* 5. Tip Creator */}
-                <button 
-                    type="button"
-                    className="action-btn tip"
-                    onClick={handleTip}
-                    title="Tip Creator (50 NMD Coins)"
-                    aria-label="Tip creator"
-                >
-                    <Coins size={17} className="text-amber-400" />
-                </button>
-
-                {/* 6. Bookmark / Save to Wishlist */}
-                <button 
-                    type="button"
-                    className={`action-btn bookmark ${isBookmarked ? 'active' : ''}`}
-                    onClick={handleBookmark}
-                    title="Save to Travel Wishlist"
-                    aria-label="Bookmark"
-                >
-                    <Bookmark size={17} fill={isBookmarked ? "#0284c7" : "none"} stroke={isBookmarked ? "#0284c7" : "currentColor"} />
-                </button>
-
-                {/* 7. Share Button with Dropdown */}
-                <div className="share-menu-wrapper">
-                    <button 
-                        type="button"
-                        className="action-btn share"
-                        onClick={() => setShowShareMenu(!showShareMenu)}
-                        title="Share post"
-                        aria-label="Share"
-                    >
-                        <Share2 size={17} />
-                    </button>
-
-                    <AnimatePresence>
-                        {showShareMenu && (
-                            <motion.div 
-                                className="post-share-dropdown"
-                                initial={{ opacity: 0, scale: 0.95 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                exit={{ opacity: 0, scale: 0.95 }}
-                            >
-                                <button type="button" onClick={handleCopyLink} className="share-dropdown-item">
-                                    <Link2 size={15} />
-                                    <span>Copy Link to Post</span>
-                                </button>
-                                <button type="button" onClick={handleShareStory} className="share-dropdown-item">
-                                    <Sparkles size={15} className="text-amber-500" />
-                                    <span>Add to Travel Story</span>
-                                </button>
-                            </motion.div>
-                        )}
-                    </AnimatePresence>
+                                    <button type="button" onClick={handleShareStory} className="share-dropdown-item">
+                                        <Sparkles size={14} className="text-amber-500" />
+                                        <span>Add to Travel Story</span>
+                                    </button>
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
+                    </div>
                 </div>
             </div>
 

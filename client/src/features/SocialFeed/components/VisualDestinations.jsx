@@ -88,16 +88,40 @@ const destinations = [
         size: 'wide',
     },
     {
-        id: 8,
-        image: 'https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=800',
-        author: 'Anya W.',
-        avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=anya',
-        location: 'Prague, Czech Republic',
-        caption: 'Old Town Square just before Christmas markets open.',
-        likes: '5.7K',
-        saves: '890',
-        tags: ['Czech Republic', 'Europe', 'Winter'],
+        id: 9,
+        image: 'https://images.unsplash.com/photo-1587474260584-136574528ed5?w=800',
+        author: 'Arjun M.',
+        avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150',
+        location: 'India Gate, New Delhi',
+        caption: 'Sunset along Kartavya Path with the triumphal arch illuminated. Delhi evenings at their finest.',
+        likes: '16.4K',
+        saves: '4.2K',
+        tags: ['Delhi', 'India', 'Asia', 'Culture', 'City'],
+        size: 'tall',
+    },
+    {
+        id: 10,
+        image: 'https://images.unsplash.com/photo-1548013146-72479768bada?w=800',
+        author: 'Zoya K.',
+        avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150',
+        location: 'Qutub Minar, Delhi',
+        caption: 'Standing beneath the 72m world heritage minaret. 800+ years of architectural grandeur.',
+        likes: '19.8K',
+        saves: '7.1K',
+        tags: ['Delhi', 'India', 'Asia', 'Culture', 'History'],
         size: 'normal',
+    },
+    {
+        id: 11,
+        image: 'https://images.unsplash.com/photo-1598890777032-bde835ba27c2?w=800',
+        author: 'Kabir S.',
+        avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=kabir',
+        location: 'Lotus Temple, New Delhi',
+        caption: 'Pure marble petals reflected in geometric ponds. The most serene meditation space in the capital.',
+        likes: '12.6K',
+        saves: '3.4K',
+        tags: ['Delhi', 'India', 'Asia', 'Architecture', 'Culture'],
+        size: 'wide',
     },
 ];
 
@@ -106,11 +130,11 @@ const storyUsers = [
     { id: 2, username: 'alexplorer', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150', location: 'Kyoto' },
     { id: 3, username: 'sofia_r', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150', location: 'Bali' },
     { id: 4, username: 'marco_p', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=marco', location: 'Venice' },
-    { id: 5, username: 'priya_n', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=priya', location: 'Marrakech' },
+    { id: 5, username: 'priya_n', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=priya', location: 'Delhi' },
     { id: 6, username: 'luca_b', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=luca', location: 'Paris' },
 ];
 
-const allTags = ['All', 'Asia', 'Europe', 'Africa', 'Hiking', 'Island', 'City', 'Nature', 'Culture'];
+const allTags = ['All', 'Delhi', 'Asia', 'Europe', 'Africa', 'Hiking', 'Island', 'City', 'Nature', 'Culture'];
 
 const VisualDestinations = () => {
     const [liked, setLiked] = useState({});

@@ -244,6 +244,124 @@ const curatedCityData = {
             nomadCommunity: 'Original Global Nomad Capital',
             visaStatus: '60d Visa-Free + Destination Thailand Visa (DTV)'
         }
+    },
+    'new-delhi': {
+        weather: {
+            tempC: 28,
+            tempF: 82,
+            condition: 'Clear & Golden Sun',
+            conditionIcon: 'Sun',
+            highC: 31,
+            lowC: 21,
+            humidity: '48%',
+            uvIndex: '7 (High)',
+            rainChance: '5%',
+            bestSeason: 'Oct – Mar (Pleasant Autumn & Winter)',
+            forecast: [
+                { day: 'Today', temp: '28°C', condition: 'Sunny', icon: 'Sun' },
+                { day: 'Tomorrow', temp: '29°C', condition: 'Clear Sky', icon: 'Sun' },
+                { day: 'Wed', temp: '27°C', condition: 'Pleasant Breeze', icon: 'Wind' },
+                { day: 'Thu', temp: '28°C', condition: 'Golden Sunshine', icon: 'Sun' },
+                { day: 'Fri', temp: '30°C', condition: 'Clear Sky', icon: 'Sun' }
+            ]
+        },
+        internet: {
+            downloadMbps: 320,
+            uploadMbps: 180,
+            pingMs: 9,
+            stabilityScore: '98%',
+            mobileCoverage: '5G Nationwide (Jio / Airtel True 5G)',
+            eSimSupport: true,
+            topCoworking: [
+                { name: 'WeWork Aerocity (Worldmark)', speed: '500 Mbps', price: '$140/mo' },
+                { name: 'Innov8 Coworking (Connaught Place)', speed: '350 Mbps', price: '$110/mo' },
+                { name: 'Hauz Khas Social & Colab Hub', speed: '300 Mbps', price: '$90/mo' }
+            ]
+        },
+        costs: {
+            totalEstimated: '$850',
+            currency: 'USD',
+            rating: 'Very Affordable',
+            trend: {
+                direction: 'stable',
+                change: '+0.8%',
+                period: 'Quarterly shift',
+                label: 'Nomad High Value',
+                description: 'World-class metro transit and competitive fiber tariffs keep Delhi living costs exceptionally favorable for international remote earners.'
+            },
+            breakdown: [
+                { category: 'Private 1BR in South Delhi / Hauz Khas', amount: '$420/mo', note: 'Furnished with high-speed fiber', trend: { direction: 'stable', change: '+0.5%', label: 'Stable', detail: 'Steady rental supply across South Delhi' } },
+                { category: 'Coworking Hot Desk Membership', amount: '$110/mo', note: '24/7 access + meeting room credits', trend: { direction: 'falling', change: '-1.5%', label: 'Competitive', detail: 'Expanding flexible hub supply' } },
+                { category: 'Food & Dining Out', amount: '$220/mo', note: 'Street specialties, Mughlai & organic cafes', trend: { direction: 'stable', change: '0.0%', label: 'Affordable', detail: 'Exceptional food variety & low street cost' } },
+                { category: 'Delhi Metro Transit Pass', amount: '$25/mo', note: '390km world-class air-conditioned metro', trend: { direction: 'stable', change: '0.0%', label: 'Subsidized', detail: 'Fixed affordable transit card rates' } },
+                { category: 'Specialty Coffee / Chai', amount: '$1.50/cup', note: 'Third-wave roaster flat white or kulhad chai', trend: { direction: 'stable', change: '0.0%', label: 'Value', detail: 'Abundant specialty cafes' } }
+            ]
+        },
+        lifestyle: {
+            safetyScore: '82/100',
+            walkability: '84/100 (Metro Corridors & Lutyens)',
+            nomadCommunity: 'Rapidly Growing Tech & Creator Hub',
+            visaStatus: 'Indian e-Tourist / e-Business Visa (1-Yr & 5-Yr Multiple Entry)'
+        }
+    },
+    'delhi': {
+        weather: {
+            tempC: 28,
+            tempF: 82,
+            condition: 'Clear & Golden Sun',
+            conditionIcon: 'Sun',
+            highC: 31,
+            lowC: 21,
+            humidity: '48%',
+            uvIndex: '7 (High)',
+            rainChance: '5%',
+            bestSeason: 'Oct – Mar (Pleasant Autumn & Winter)',
+            forecast: [
+                { day: 'Today', temp: '28°C', condition: 'Sunny', icon: 'Sun' },
+                { day: 'Tomorrow', temp: '29°C', condition: 'Clear Sky', icon: 'Sun' },
+                { day: 'Wed', temp: '27°C', condition: 'Pleasant Breeze', icon: 'Wind' },
+                { day: 'Thu', temp: '28°C', condition: 'Golden Sunshine', icon: 'Sun' },
+                { day: 'Fri', temp: '30°C', condition: 'Clear Sky', icon: 'Sun' }
+            ]
+        },
+        internet: {
+            downloadMbps: 320,
+            uploadMbps: 180,
+            pingMs: 9,
+            stabilityScore: '98%',
+            mobileCoverage: '5G Nationwide (Jio / Airtel True 5G)',
+            eSimSupport: true,
+            topCoworking: [
+                { name: 'WeWork Aerocity (Worldmark)', speed: '500 Mbps', price: '$140/mo' },
+                { name: 'Innov8 Coworking (Connaught Place)', speed: '350 Mbps', price: '$110/mo' },
+                { name: 'Hauz Khas Social & Colab Hub', speed: '300 Mbps', price: '$90/mo' }
+            ]
+        },
+        costs: {
+            totalEstimated: '$850',
+            currency: 'USD',
+            rating: 'Very Affordable',
+            trend: {
+                direction: 'stable',
+                change: '+0.8%',
+                period: 'Quarterly shift',
+                label: 'Nomad High Value',
+                description: 'World-class metro transit and competitive fiber tariffs keep Delhi living costs exceptionally favorable for international remote earners.'
+            },
+            breakdown: [
+                { category: 'Private 1BR in South Delhi / Hauz Khas', amount: '$420/mo', note: 'Furnished with high-speed fiber', trend: { direction: 'stable', change: '+0.5%', label: 'Stable', detail: 'Steady rental supply across South Delhi' } },
+                { category: 'Coworking Hot Desk Membership', amount: '$110/mo', note: '24/7 access + meeting room credits', trend: { direction: 'falling', change: '-1.5%', label: 'Competitive', detail: 'Expanding flexible hub supply' } },
+                { category: 'Food & Dining Out', amount: '$220/mo', note: 'Street specialties, Mughlai & organic cafes', trend: { direction: 'stable', change: '0.0%', label: 'Affordable', detail: 'Exceptional food variety & low street cost' } },
+                { category: 'Delhi Metro Transit Pass', amount: '$25/mo', note: '390km world-class air-conditioned metro', trend: { direction: 'stable', change: '0.0%', label: 'Subsidized', detail: 'Fixed affordable transit card rates' } },
+                { category: 'Specialty Coffee / Chai', amount: '$1.50/cup', note: 'Third-wave roaster flat white or kulhad chai', trend: { direction: 'stable', change: '0.0%', label: 'Value', detail: 'Abundant specialty cafes' } }
+            ]
+        },
+        lifestyle: {
+            safetyScore: '82/100',
+            walkability: '84/100 (Metro Corridors & Lutyens)',
+            nomadCommunity: 'Rapidly Growing Tech & Creator Hub',
+            visaStatus: 'Indian e-Tourist / e-Business Visa (1-Yr & 5-Yr Multiple Entry)'
+        }
     }
 };
 
