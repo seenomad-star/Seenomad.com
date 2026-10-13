@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { allDestinations } from '../../../data/destinationsData';
 import { useDestinationStore } from '../../../store/destinationFilterStore';
@@ -9,6 +9,7 @@ import MysteryCard from './common/MysteryCard';
 import IntelligenceSidecar from './sidecar/IntelligenceSidecar';
 import CompareDestinationsModal from './CompareDestinationsModal';
 import ExploreFilterSlidePanel from './ExploreFilterSlidePanel';
+import DelhiCategoryFilterBar from './DelhiCategoryFilterBar';
 import { useNavStore } from '../../../store/navStore';
 import { getDestinationDomainStatus } from '../../../utils/destinationDomainUtils';
 import { getDestinationIntelligence } from '../../../utils/destinationIntelligenceUtils';
@@ -44,20 +45,52 @@ const Destinations = () => {
 
     const savedDestinations = useSavedStore((state) => state.savedDestinations);
 
+    // Curated Delhi Destinations and Category Counts
+    const delhiDestinations = useMemo(() => {
+        return allDestinations.filter(d => d.isDelhi || d.location?.toLowerCase().includes('delhi'));
+    }, []);
+
+    const delhiCategoryCounts = useMemo(() => {
+        const counts = { all: delhiDestinations.length, historical: 0, food: 0, culture: 0, adventure: 0 };
+        delhiDestinations.forEach(d => {
+            const cat = (d.delhiCategory || d.category || '').toLowerCase();
+            if (cat.includes('historic')) counts.historical++;
+            else if (cat.includes('food')) counts.food++;
+            else if (cat.includes('culture') || cat.includes('cultural')) counts.culture++;
+            else if (cat.includes('adventure')) counts.adventure++;
+        });
+        return counts;
+    }, [delhiDestinations]);
+
+    const initialDelhiCat = searchParams.get('delhiCategory') || searchParams.get('category');
+    const [activeDelhiCategory, setActiveDelhiCategory] = useState(
+        initialDelhiCat && ['historical', 'food', 'culture', 'adventure', 'all'].includes(initialDelhiCat.toLowerCase())
+            ? initialDelhiCat.toLowerCase()
+            : 'all'
+    );
+    const [isDelhiFocusMode, setIsDelhiFocusMode] = useState(true);
+
+    const handleSelectDelhiCategory = (catId) => {
+        setIsDelhiFocusMode(true);
+        setActiveDelhiCategory(catId);
+    };
+
+    const handleToggleGlobalMode = () => {
+        setIsDelhiFocusMode(prev => !prev);
+    };
+
     // Register Dock Configuration for Destinations Module
     useEffect(() => {
         setDockConfig({
             module: 'Explore',
             placeholder: 'Search destinations, categories...',
             quickFilters: [
+                { id: 'historical', label: 'Historical', icon: 'Landmark' },
+                { id: 'food', label: 'Food', icon: 'UtensilsCrossed' },
+                { id: 'culture', label: 'Culture', icon: 'Sparkles' },
+                { id: 'adventure', label: 'Adventure', icon: 'Compass' },
                 { id: 'trending', label: 'Trending', icon: 'Zap' },
-                { id: 'visa-friendly', label: 'Visa-Free', icon: 'Shield' },
-                { id: 'budget', label: 'Budget', icon: 'DollarSign' },
-                { id: 'solo', label: 'Solo', icon: 'User' },
-                { id: 'family', label: 'Family', icon: 'Users' },
-                { id: 'beach', label: 'Beaches', icon: 'Sun' },
-                { id: 'mountain', label: 'Mountains', icon: 'Mountain' },
-                { id: 'ai-picks', label: 'AI Picks', icon: 'Sparkles' }
+                { id: 'budget', label: 'Budget', icon: 'DollarSign' }
             ]
         });
     }, [setDockConfig]);
@@ -82,9 +115,16 @@ const Destinations = () => {
         const statusParam = searchParams.get('domainStatus') || searchParams.get('status');
         if (query && query !== searchQuery) {
             setSearchQuery(query);
+            if (!query.toLowerCase().includes('delhi')) {
+                setIsDelhiFocusMode(false);
+            }
         }
         if (filter) {
             const filterLower = filter.toLowerCase();
+            if (['historical', 'food', 'culture', 'adventure', 'all'].includes(filterLower)) {
+                setActiveDelhiCategory(filterLower);
+                setIsDelhiFocusMode(true);
+            }
             if (!selectedFilters.includes(filterLower)) {
                 setSelectedFilters([filterLower]);
             }
@@ -111,6 +151,19 @@ const Destinations = () => {
         const activeFiltersList = selectedFilters.length > 0 ? selectedFilters : globalActiveFilters;
 
         const filtered = allDestinations.filter(dest => {
+            // Delhi Focus Mode & Category Filter
+            if (isDelhiFocusMode) {
+                const isMatchDelhi = dest.isDelhi || dest.location?.toLowerCase().includes('delhi');
+                if (!isMatchDelhi) return false;
+
+                if (activeDelhiCategory && activeDelhiCategory !== 'all') {
+                    const cat = (dest.delhiCategory || dest.category || '').toLowerCase();
+                    if (activeDelhiCategory === 'historical' && !cat.includes('historic')) return false;
+                    if (activeDelhiCategory === 'food' && !cat.includes('food')) return false;
+                    if (activeDelhiCategory === 'culture' && !cat.includes('cultur')) return false;
+                    if (activeDelhiCategory === 'adventure' && !cat.includes('adventure')) return false;
+                }
+            }
             // Text Search matching
             if (activeSearch) {
                 const matchesSearch =
@@ -186,6 +239,17 @@ const Destinations = () => {
                             const text = (locLower + ' ' + (dest.socialProof || '')).toLowerCase();
                             return partySpots.some(s => text.includes(s)) || text.includes('party') || text.includes('club') || text.includes('carnival');
                         }
+                        case 'historical':
+                        case 'history':
+                            return (dest.delhiCategory || dest.category || '').toLowerCase().includes('historic') || dest.tags?.some(t => t.toLowerCase().includes('historic'));
+                        case 'food':
+                        case 'culinary':
+                            return (dest.delhiCategory || dest.category || '').toLowerCase().includes('food') || dest.tags?.some(t => t.toLowerCase().includes('food'));
+                        case 'culture':
+                        case 'cultural':
+                            return (dest.delhiCategory || dest.category || '').toLowerCase().includes('cultur') || dest.tags?.some(t => t.toLowerCase().includes('cultur'));
+                        case 'adventure':
+                            return (dest.delhiCategory || dest.category || '').toLowerCase().includes('adventure') || dest.tags?.some(t => t.toLowerCase().includes('adventure'));
                         case 'trending':
                             return dest.trending || dest.socialProof === 'Trending Now' || dest.liveViewers?.includes('k');
                         case 'visa-friendly':
@@ -358,7 +422,7 @@ const Destinations = () => {
             }
             return 0; // 'featured' or default retains data order
         });
-    }, [searchQuery, globalSearchQuery, selectedFilters, globalActiveFilters, advancedFilters, domainStatus, sortBy, savedDestinations]);
+    }, [searchQuery, globalSearchQuery, selectedFilters, globalActiveFilters, advancedFilters, domainStatus, sortBy, savedDestinations, isDelhiFocusMode, activeDelhiCategory]);
 
     useEffect(() => {
         if (processedDestinations.length > 0) {
@@ -371,12 +435,24 @@ const Destinations = () => {
         resetFilters();
         setGlobalSearchQuery('');
         setGlobalActiveFilters([]);
+        setIsDelhiFocusMode(true);
+        setActiveDelhiCategory('all');
     };
 
     return (
         <div className="destinations-page">
             <div className="destinations-main-layout">
                 <div className="destinations-feed-column">
+                    {/* Interactive Delhi Category Filter Bar */}
+                    <DelhiCategoryFilterBar
+                        activeCategory={activeDelhiCategory}
+                        onSelectCategory={handleSelectDelhiCategory}
+                        categoryCounts={delhiCategoryCounts}
+                        totalDelhiCount={delhiDestinations.length}
+                        onResetToGlobal={handleToggleGlobalMode}
+                        isGlobalMode={!isDelhiFocusMode}
+                    />
+
                     {/* Destinations Grid (Discovery Canvas) */}
                     <div className={`destinations-grid ${viewMode === 'list' ? 'list-view-container' : ''}`}>
                         {processedDestinations.length > 0 ? (
@@ -395,7 +471,7 @@ const Destinations = () => {
                                     <Compass size={32} />
                                 </div>
                                 <h3>No destinations match your search</h3>
-                                <p>We couldn't find any destinations matching your current query or filters. Try adjusting your keywords or clearing the filters.</p>
+                                <p>We couldn't find any destinations matching your current query or filters in this category. Try switching categories or clearing search keywords.</p>
                                 <div className="empty-search-actions">
                                     <button
                                         type="button"
@@ -408,22 +484,23 @@ const Destinations = () => {
                                     <button
                                         type="button"
                                         onClick={() => {
-                                            handleReset();
-                                            setSearchQuery('Bali');
+                                            setIsDelhiFocusMode(true);
+                                            setActiveDelhiCategory('all');
+                                            setSearchQuery('');
                                         }}
                                         className="empty-suggestion-pill"
                                     >
-                                        Explore Bali
+                                        View All Delhi Destinations ({delhiDestinations.length})
                                     </button>
                                     <button
                                         type="button"
                                         onClick={() => {
-                                            handleReset();
-                                            setSearchQuery('Tokyo');
+                                            setIsDelhiFocusMode(false);
+                                            setSearchQuery('');
                                         }}
                                         className="empty-suggestion-pill"
                                     >
-                                        Explore Tokyo
+                                        Browse Global Destinations
                                     </button>
                                 </div>
                             </div>

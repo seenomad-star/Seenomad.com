@@ -32,12 +32,37 @@ const Navbar = ({ isSidebarCollapsed, toggleSidebar, toggleRightSidebar }) => {
                     <HelpCircle size={20} />
                 </button>
                 <ThemeToggle className="navbar-icon-btn" />
-                <div className="navbar-user" onClick={() => navigate('/user/wallet')} style={{ cursor: 'pointer' }}>
-                    <div className="navbar-user-avatar">
-                        <User size={16} />
-                    </div>
-                    <span className="navbar-user-name">John Doe</span>
-                </div>
+                {(() => {
+                    let userName = 'Alex Rivera';
+                    let avatarUrl = null;
+                    try {
+                        const saved = localStorage.getItem('seenomad_user_profile');
+                        if (saved) {
+                            const parsed = JSON.parse(saved);
+                            if (parsed.name) userName = parsed.name;
+                            if (parsed.avatarUrl) avatarUrl = parsed.avatarUrl;
+                        }
+                    } catch {
+                        // fallback to default
+                    }
+                    return (
+                        <div 
+                            className="navbar-user" 
+                            onClick={() => navigate('/user/profile')} 
+                            style={{ cursor: 'pointer' }}
+                            title="View My Nomad Profile"
+                        >
+                            <div className="navbar-user-avatar" style={{ overflow: 'hidden' }}>
+                                {avatarUrl ? (
+                                    <img src={avatarUrl} alt={userName} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                ) : (
+                                    <User size={16} />
+                                )}
+                            </div>
+                            <span className="navbar-user-name">{userName}</span>
+                        </div>
+                    );
+                })()}
                 <button className="navbar-toggle-btn" onClick={toggleRightSidebar} aria-label="Toggle right sidebar">
                     <MoreVertical size={20} />
                 </button>

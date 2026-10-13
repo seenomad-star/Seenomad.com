@@ -445,6 +445,34 @@ body.theme-light .location-pin-icon,
     text-transform: uppercase;
     letter-spacing: 0.04em;
     color: var(--color-text-secondary, #94a3b8);
+    padding: 0.1rem 0.45rem;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.category-pill.cat-badge-historical {
+    color: #f59e0b;
+    background: rgba(245, 158, 11, 0.15);
+    border: 1px solid rgba(245, 158, 11, 0.28);
+}
+
+.category-pill.cat-badge-food {
+    color: #ef4444;
+    background: rgba(239, 68, 68, 0.15);
+    border: 1px solid rgba(239, 68, 68, 0.28);
+}
+
+.category-pill.cat-badge-culture,
+.category-pill.cat-badge-cultural {
+    color: #a855f7;
+    background: rgba(168, 85, 247, 0.15);
+    border: 1px solid rgba(168, 85, 247, 0.28);
+}
+
+.category-pill.cat-badge-adventure {
+    color: #10b981;
+    background: rgba(16, 185, 129, 0.15);
+    border: 1px solid rgba(16, 185, 129, 0.28);
 }
 
 .header-actions-block {

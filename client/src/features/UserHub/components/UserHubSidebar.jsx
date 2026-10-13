@@ -7,10 +7,12 @@ import {
 } from 'lucide-react';
 import { useSavedStore } from '../../../store/savedStore';
 import { useSavedVibesStore } from '../../../store/savedVibesStore';
+import { useNomadReputationStore } from '../../../store/nomadReputationStore';
 
 const UserHubSidebar = () => {
     const savedCount = useSavedStore((state) => state.savedDestinations.length);
     const savedVibesCount = useSavedVibesStore((state) => state.savedVibes.length);
+    const { reputationScore, rankTier } = useNomadReputationStore();
 
     // Core Account Features matching the canonical top-right Account dropdown & user's reference
     const primaryAccountItems = [
@@ -26,7 +28,7 @@ const UserHubSidebar = () => {
     const passportAndGrowthItems = [
         { id: 'travel-journey', label: 'Travel Journey', icon: Globe, to: '/user/travel-journey' },
         { id: 'favorites', label: 'Saved & Wishlist', icon: Bookmark, to: '/user/favorites', badge: savedCount > 0 ? String(savedCount) : null },
-        { id: 'achievements', label: 'Achievements & Stamps', icon: Award, to: '/user/achievements' },
+        { id: 'achievements', label: 'Reputation & Badges', icon: Award, to: '/user/achievements', badge: 'Diamond' },
         { id: 'xp-tracker', label: 'XP & Level', icon: TrendingUp, to: '/user/xp-tracker' },
         { id: 'impact', label: 'Impact & XP', icon: Target, to: '/user/impact' },
         { id: 'budget', label: 'AI Budgeting', icon: DollarSign, to: '/user/budget' },
@@ -37,19 +39,31 @@ const UserHubSidebar = () => {
         { id: 'flash-missions', label: 'Flash Missions', icon: Zap, to: '/user/flash-missions', badge: 'New' },
     ];
 
+    let userProfile = { name: 'Alex Rivera', avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=160&auto=format&fit=crop&q=80' };
+    try {
+        const saved = localStorage.getItem('seenomad_user_profile');
+        if (saved) {
+            const parsed = JSON.parse(saved);
+            if (parsed.name) userProfile.name = parsed.name;
+            if (parsed.avatarUrl) userProfile.avatarUrl = parsed.avatarUrl;
+        }
+    } catch {
+        // fallback
+    }
+
     return (
         <aside className="user-hub-sidebar">
             <div className="user-hub-profile-mini">
                 <div className="avatar-ring">
-                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=160&auto=format&fit=crop&q=80" alt="Alex Rivera" />
+                    <img src={userProfile.avatarUrl} alt={userProfile.name} />
                     <div className="level-badge">Lv.12</div>
                 </div>
                 <div className="profile-info">
-                    <h3>Alex Rivera</h3>
+                    <h3>{userProfile.name}</h3>
                     <div className="xp-bar-mini">
                         <div className="xp-progress" style={{ width: '65%' }}></div>
                     </div>
-                    <span>Elite Explorer • 14 Stamps</span>
+                    <span>{rankTier} • {reputationScore} Rep</span>
                 </div>
             </div>
 

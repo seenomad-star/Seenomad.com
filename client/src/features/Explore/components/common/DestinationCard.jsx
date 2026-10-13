@@ -205,10 +205,12 @@ const DestinationCard = ({ dest, viewMode }) => {
                                         <MapPin size={12} className="location-pin-icon" />
                                         <span>{dest?.location}</span>
                                     </div>
-                                    {dest?.category && (
+                                    {(dest?.delhiCategory || dest?.category) && (
                                         <>
                                             <span className="meta-bullet" aria-hidden="true">·</span>
-                                            <span className="category-pill">{dest.category}</span>
+                                            <span className={`category-pill cat-badge-${(dest?.delhiCategory || dest?.category || '').toLowerCase()}`}>
+                                                {dest.delhiCategory || dest.category}
+                                            </span>
                                         </>
                                     )}
                                 </div>

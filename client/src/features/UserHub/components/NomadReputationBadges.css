@@ -1,0 +1,838 @@
+/* NomadReputationBadges.css - Prestigious Nomad Reputation System Styles */
+
+.nomad-reputation-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+    width: 100%;
+}
+
+/* ============================================================
+   1. REPUTATION SCORE & PILLARS CARD
+   ============================================================ */
+.reputation-score-card {
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.9) 100%);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(245, 158, 11, 0.25);
+    border-radius: 24px;
+    padding: 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.4);
+    position: relative;
+    overflow: hidden;
+}
+
+:root:not(.dark) .reputation-score-card {
+    background: #ffffff;
+    border-color: rgba(245, 158, 11, 0.35);
+    box-shadow: 0 15px 35px -10px rgba(15, 23, 42, 0.06);
+}
+
+.reputation-overview-main {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+@media (min-width: 900px) {
+    .reputation-overview-main {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+}
+
+.reputation-crest-cluster {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+/* Ring Gauge */
+.reputation-score-ring {
+    position: relative;
+    width: 104px;
+    height: 104px;
+    flex-shrink: 0;
+}
+
+.ring-svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+
+.ring-track {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.08);
+    stroke-width: 8;
+}
+
+:root:not(.dark) .ring-track {
+    stroke: #e2e8f0;
+}
+
+.ring-progress {
+    fill: none;
+    stroke: url(#reputationGradient);
+    stroke: #f59e0b;
+    stroke-width: 8;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 1s ease-in-out;
+}
+
+.ring-center-content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.ring-score-val {
+    font-size: 1.45rem;
+    font-weight: 900;
+    line-height: 1;
+    color: #f8fafc;
+    letter-spacing: -0.02em;
+}
+
+:root:not(.dark) .ring-score-val {
+    color: #0f172a;
+}
+
+.ring-score-max {
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: #94a3b8;
+    margin-top: 2px;
+}
+
+.reputation-title-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    max-width: 520px;
+}
+
+.reputation-tier-row {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    flex-wrap: wrap;
+}
+
+.prestige-tier-badge {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    color: #ffffff;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 0.22rem 0.65rem;
+    border-radius: 9999px;
+    box-shadow: 0 2px 8px rgba(245, 158, 11, 0.35);
+}
+
+.reputation-rank-text {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #38bdf8;
+}
+
+.reputation-heading {
+    margin: 0;
+    font-size: 1.35rem;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    color: #f8fafc;
+}
+
+:root:not(.dark) .reputation-heading {
+    color: #0f172a;
+}
+
+.reputation-desc {
+    margin: 0;
+    font-size: 0.82rem;
+    color: #94a3b8;
+    line-height: 1.45;
+}
+
+:root:not(.dark) .reputation-desc {
+    color: #64748b;
+}
+
+/* Stats quick pills */
+.reputation-stats-pills {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.rep-stat-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0.65rem 1rem;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    min-width: 90px;
+    text-align: center;
+    gap: 0.15rem;
+}
+
+:root:not(.dark) .rep-stat-box {
+    background: #f8fafc;
+    border-color: #f1f5f9;
+}
+
+.rep-stat-box strong {
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: #f8fafc;
+}
+
+:root:not(.dark) .rep-stat-box strong {
+    color: #0f172a;
+}
+
+.rep-stat-box span {
+    font-size: 0.66rem;
+    font-weight: 600;
+    color: #94a3b8;
+}
+
+:root:not(.dark) .rep-stat-box span {
+    color: #64748b;
+}
+
+/* 4 Pillars Grid */
+.reputation-pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 0.75rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+@media (min-width: 640px) {
+    .reputation-pillars-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .reputation-pillars-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+:root:not(.dark) .reputation-pillars-grid {
+    border-top-color: #e2e8f0;
+}
+
+.rep-pillar-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 14px;
+    padding: 0.75rem 0.95rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+}
+
+:root:not(.dark) .rep-pillar-card {
+    background: #f8fafc;
+    border-color: #f1f5f9;
+}
+
+.pillar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: #cbd5e1;
+    font-weight: 600;
+    gap: 0.45rem;
+}
+
+:root:not(.dark) .pillar-header {
+    color: #475569;
+}
+
+.pillar-header strong {
+    color: #f8fafc;
+    font-weight: 800;
+}
+
+:root:not(.dark) .pillar-header strong {
+    color: #0f172a;
+}
+
+.pillar-progress-track {
+    width: 100%;
+    height: 5px;
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+}
+
+:root:not(.dark) .pillar-progress-track {
+    background: #cbd5e1;
+}
+
+.pillar-progress-fill {
+    height: 100%;
+    border-radius: 9999px;
+    transition: width 0.6s ease;
+}
+
+/* ============================================================
+   2. FILTER RAIL
+   ============================================================ */
+.badge-filter-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.badge-filter-tabs {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.badge-filter-btn {
+    padding: 0.45rem 1rem;
+    border-radius: 9999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.03);
+    color: #94a3b8;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+:root:not(.dark) .badge-filter-btn {
+    background: #f1f5f9;
+    border-color: #e2e8f0;
+    color: #64748b;
+}
+
+.badge-filter-btn:hover {
+    color: #f8fafc;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+:root:not(.dark) .badge-filter-btn:hover {
+    color: #0f172a;
+    background: #e2e8f0;
+}
+
+.badge-filter-btn.active {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    border-color: #f59e0b;
+    color: #ffffff;
+    font-weight: 700;
+    box-shadow: 0 2px 10px rgba(245, 158, 11, 0.3);
+}
+
+.filter-hint-text {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.74rem;
+    color: #94a3b8;
+}
+
+:root:not(.dark) .filter-hint-text {
+    color: #64748b;
+}
+
+/* ============================================================
+   3. BADGES SHOWCASE GRID
+   ============================================================ */
+.badges-showcase-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+}
+
+@media (min-width: 640px) {
+    .badges-showcase-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1100px) {
+    .badges-showcase-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.badge-card {
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.6) 0%, rgba(15, 23, 42, 0.8) 100%);
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 20px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 10px 25px -10px rgba(0, 0, 0, 0.3);
+}
+
+:root:not(.dark) .badge-card {
+    background: #ffffff;
+    border-color: rgba(15, 23, 42, 0.08);
+    box-shadow: 0 10px 25px -10px rgba(15, 23, 42, 0.04);
+}
+
+.badge-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 16px 32px -8px rgba(0, 0, 0, 0.4);
+}
+
+:root:not(.dark) .badge-card:hover {
+    border-color: #cbd5e1;
+    box-shadow: 0 16px 32px -8px rgba(15, 23, 42, 0.08);
+}
+
+.badge-card.locked {
+    opacity: 0.72;
+    filter: grayscale(0.25);
+}
+
+/* Pin Toggle Button */
+.badge-pin-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #94a3b8;
+    padding: 0.25rem 0.6rem;
+    border-radius: 8px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 5;
+}
+
+:root:not(.dark) .badge-pin-btn {
+    background: #f1f5f9;
+    border-color: #e2e8f0;
+    color: #64748b;
+}
+
+.badge-pin-btn:hover {
+    background: rgba(245, 158, 11, 0.15);
+    border-color: rgba(245, 158, 11, 0.3);
+    color: #fbbf24;
+}
+
+.badge-pin-btn.pinned {
+    background: rgba(245, 158, 11, 0.2);
+    border-color: rgba(245, 158, 11, 0.4);
+    color: #fbbf24;
+}
+
+/* Emblem Wrap */
+.badge-emblem-wrap {
+    width: 64px;
+    height: 64px;
+    border-radius: 18px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.06) 0%, rgba(15, 23, 42, 0.8) 100%);
+    border: 2px solid;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin-top: 0.25rem;
+}
+
+:root:not(.dark) .badge-emblem-wrap {
+    background: #f8fafc;
+}
+
+.badge-icon-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.badge-tier-tag {
+    position: absolute;
+    bottom: -8px;
+    font-size: 0.6rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 1px 6px;
+    border-radius: 4px;
+}
+
+.tier-tag-legendary {
+    background: #f59e0b;
+    color: #0f172a;
+}
+
+.tier-tag-epic {
+    background: #38bdf8;
+    color: #0f172a;
+}
+
+.tier-tag-rare {
+    background: #10b981;
+    color: #ffffff;
+}
+
+.tier-tag-verified {
+    background: #6366f1;
+    color: #ffffff;
+}
+
+/* Content block */
+.badge-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    flex: 1;
+}
+
+.badge-title-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.badge-title {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #f8fafc;
+    letter-spacing: -0.01em;
+}
+
+:root:not(.dark) .badge-title {
+    color: #0f172a;
+}
+
+.badge-category-label {
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+:root:not(.dark) .badge-category-label {
+    color: #64748b;
+}
+
+.badge-desc {
+    margin: 0;
+    font-size: 0.8rem;
+    color: #94a3b8;
+    line-height: 1.45;
+}
+
+:root:not(.dark) .badge-desc {
+    color: #64748b;
+}
+
+/* Unlocked status meta */
+.badge-unlocked-status {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    margin-top: auto;
+    padding-top: 0.65rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+:root:not(.dark) .badge-unlocked-status {
+    border-top-color: #f1f5f9;
+}
+
+.unlocked-check-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.74rem;
+    font-weight: 700;
+    color: #34d399;
+}
+
+.unlocked-date {
+    font-size: 0.68rem;
+    color: #64748b;
+}
+
+/* Locked progress track */
+.badge-progress-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    margin-top: auto;
+    padding-top: 0.65rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+:root:not(.dark) .badge-progress-wrap {
+    border-top-color: #f1f5f9;
+}
+
+.progress-labels {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.72rem;
+    color: #94a3b8;
+}
+
+:root:not(.dark) .progress-labels {
+    color: #64748b;
+}
+
+.target-metric {
+    font-weight: 500;
+}
+
+.progress-pct {
+    font-weight: 700;
+    color: #f8fafc;
+}
+
+:root:not(.dark) .progress-pct {
+    color: #0f172a;
+}
+
+.badge-progress-track {
+    width: 100%;
+    height: 6px;
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+}
+
+:root:not(.dark) .badge-progress-track {
+    background: #cbd5e1;
+}
+
+.badge-progress-fill {
+    height: 100%;
+    border-radius: 9999px;
+    transition: width 0.4s ease;
+}
+
+/* Claim reward CTA */
+.badge-claim-action {
+    margin-top: 0.25rem;
+}
+
+.btn-claim-reward {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.2) 0%, rgba(239, 68, 68, 0.2) 100%);
+    border: 1px solid rgba(245, 158, 11, 0.4);
+    color: #fbbf24;
+    padding: 0.45rem;
+    border-radius: 10px;
+    font-size: 0.76rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-claim-reward:hover {
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.3) 0%, rgba(239, 68, 68, 0.3) 100%);
+    transform: translateY(-1px);
+}
+
+/* ============================================================
+   4. DETAILED INSPECTION MODAL
+   ============================================================ */
+.badge-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.8);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 1rem;
+}
+
+.badge-modal-card {
+    background: #111827;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 24px;
+    width: 100%;
+    max-width: 480px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+    overflow: hidden;
+}
+
+:root:not(.dark) .badge-modal-card {
+    background: #ffffff;
+    border-color: #e2e8f0;
+    box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.15);
+}
+
+.badge-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+:root:not(.dark) .badge-modal-header {
+    border-color: #f1f5f9;
+}
+
+.badge-modal-body {
+    padding: 1.75rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1.25rem;
+}
+
+.badge-modal-emblem {
+    width: 88px;
+    height: 88px;
+    border-radius: 24px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, rgba(15, 23, 42, 0.9) 100%);
+    border: 2px solid;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+:root:not(.dark) .badge-modal-emblem {
+    background: #f8fafc;
+}
+
+.modal-badge-name {
+    margin: 0;
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: #f8fafc;
+}
+
+:root:not(.dark) .modal-badge-name {
+    color: #0f172a;
+}
+
+.modal-badge-cat {
+    font-size: 0.76rem;
+    font-weight: 600;
+    color: #94a3b8;
+    text-transform: uppercase;
+}
+
+:root:not(.dark) .modal-badge-cat {
+    color: #64748b;
+}
+
+.modal-badge-desc {
+    font-size: 0.85rem;
+    color: #cbd5e1;
+    margin: 0.5rem 0 0;
+    line-height: 1.5;
+}
+
+:root:not(.dark) .modal-badge-desc {
+    color: #475569;
+}
+
+.badge-criteria-box {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 16px;
+    padding: 1rem 1.25rem;
+    text-align: left;
+}
+
+:root:not(.dark) .badge-criteria-box {
+    background: #f8fafc;
+    border-color: #f1f5f9;
+}
+
+.badge-criteria-box h5 {
+    margin: 0 0 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #94a3b8;
+    text-transform: uppercase;
+}
+
+:root:not(.dark) .badge-criteria-box h5 {
+    color: #64748b;
+}
+
+.badge-criteria-box ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    font-size: 0.78rem;
+    color: #cbd5e1;
+}
+
+:root:not(.dark) .badge-criteria-box ul {
+    color: #475569;
+}
+
+.badge-criteria-box strong {
+    color: #f8fafc;
+}
+
+:root:not(.dark) .badge-criteria-box strong {
+    color: #0f172a;
+}
+
+.modal-actions-row {
+    display: flex;
+    gap: 0.75rem;
+    width: 100%;
+}
