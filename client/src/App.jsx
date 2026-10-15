@@ -70,6 +70,10 @@ function App() {
             <Route path="/destinations/:id" element={<DestinationDetail />} />
             <Route path="/destinations" element={<Navigate to="/explore/destinations" replace />} />
             <Route path="/destinations/*" element={<Navigate to="/explore/destinations" replace />} />
+            <Route path="/itinerary-builder" element={<Navigate to="/explore/itinerary-builder" replace />} />
+            <Route path="/trip-builder" element={<Navigate to="/explore/trip-builder" replace />} />
+            <Route path="/trip-itinerary" element={<Navigate to="/explore/itinerary-builder" replace />} />
+            <Route path="/planner" element={<Navigate to="/explore/planner" replace />} />
             <Route path="/ai-agents/*" element={<AIAgents />} />
             <Route path="/travel-games/*" element={<TravelGames />} />
 

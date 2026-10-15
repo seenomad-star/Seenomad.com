@@ -9,6 +9,7 @@ import {
 import { getDestinationDomainStatus, getDestinationDomainName } from '../../../../utils/destinationDomainUtils';
 import { useDestinationStore } from '../../../../store/destinationFilterStore';
 import { useToastStore } from '../../../../store/toastStore';
+import { useItineraryStore } from '../../../../store/itineraryStore';
 import CardActionBar from './CardActionBar';
 import CardHorizontalActions from './CardHorizontalActions';
 import CardTopMonetization from './CardTopMonetization';
@@ -27,6 +28,7 @@ const DestinationCard = ({ dest, viewMode }) => {
     const [isShareOpen, setIsShareOpen] = useState(false);
     const { compareDestinations, toggleCompareDestination, setIsCompareModalOpen } = useDestinationStore();
     const { addToast } = useToastStore();
+    const { addDestinationToDay } = useItineraryStore();
     const isCompared = compareDestinations.includes(dest?.id);
 
     // Standardized slug generation for destination navigation
@@ -423,6 +425,33 @@ const DestinationCard = ({ dest, viewMode }) => {
 
                             {/* Footer Actions: Expand Details & Full Analysis CTA */}
                             <div className="footer-right-actions">
+                                <button
+                                    type="button"
+                                    className="up-card-plan-btn"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        const { stop, dayNumber } = addDestinationToDay(dest);
+                                        addToast(`Added "${dest?.name}" to Day ${dayNumber} in Trip Plan! 📍`, 'success');
+                                    }}
+                                    title={`Add ${dest?.name} to Day-by-Day Travel Plan`}
+                                    style={{
+                                        display: 'inline-flex',
+                                        alignItems: 'center',
+                                        gap: '4px',
+                                        padding: '0.35rem 0.65rem',
+                                        fontSize: '0.74rem',
+                                        fontWeight: 700,
+                                        borderRadius: '6px',
+                                        background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.2) 0%, rgba(217, 119, 6, 0.25) 100%)',
+                                        color: '#fbbf24',
+                                        border: '1px solid rgba(245, 158, 11, 0.4)',
+                                        cursor: 'pointer'
+                                    }}
+                                >
+                                    <Plus size={12} />
+                                    <span>+ Plan Stop</span>
+                                </button>
+
                                 <button
                                     type="button"
                                     className={`expand-details-btn ${dest?.district ? 'up-card-expand-btn' : ''}`}

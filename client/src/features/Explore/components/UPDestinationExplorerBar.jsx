@@ -1,8 +1,9 @@
 import React, { useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
     MapPin, Landmark, Sparkles, Compass, Globe2,
     ShieldCheck, Filter, Search, RotateCcw, ChevronDown,
-    Flame, Check, Award
+    Flame, Check, Award, Calendar
 } from 'lucide-react';
 import './UPDestinationExplorerBar.css';
 
@@ -28,6 +29,7 @@ const UPDestinationExplorerBar = ({
     totalCount = 0,
     onOpen75Districts
 }) => {
+    const navigate = useNavigate();
     // Compute counts per circuit
     const circuitCounts = useMemo(() => {
         const counts = { all: upDestinations.length };
@@ -114,6 +116,20 @@ const UPDestinationExplorerBar = ({
                                         <span>75 Districts Grid</span>
                                     </button>
                                 )}
+                                <button
+                                    type="button"
+                                    onClick={() => navigate('/explore/itinerary-builder')}
+                                    className="up-directory-quick-link"
+                                    style={{
+                                        background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.22) 0%, rgba(217, 119, 6, 0.28) 100%)',
+                                        color: '#fbbf24',
+                                        borderColor: 'rgba(245, 158, 11, 0.45)'
+                                    }}
+                                    title="Build custom Day-by-Day Travel Plan across UP districts"
+                                >
+                                    <Calendar size={12} />
+                                    <span>Build Day-by-Day Itinerary 🗓️</span>
+                                </button>
                             </div>
                             <div className="district-select-box">
                                 <select

@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import UPTripItineraryBuilder from './components/UPTripItineraryBuilder';
 import {
     Calendar,
     MapPin,
@@ -493,9 +494,15 @@ const CATEGORY_META = {
 
 const NomadPlanner = () => {
     const navigate = useNavigate();
+    const location = useLocation();
     const { addToast } = useToastStore();
     const { savedVibes } = useSavedVibesStore();
     const { savedDestinations } = useSavedStore();
+
+    const [plannerMode, setPlannerMode] = useState(() => {
+        if (location.search.includes('mode=global')) return 'global';
+        return 'up';
+    });
 
     const [activeTemplateId, setActiveTemplateId] = useState(PRESET_ITINERARIES[0].id);
     const [tripTitle, setTripTitle] = useState(PRESET_ITINERARIES[0].name);
@@ -764,8 +771,66 @@ const NomadPlanner = () => {
 
     return (
         <div className="itinerary-builder-shell">
-            {/* 1. Top Command Header */}
-            <header className="ib-command-header">
+            {/* Mode Switcher: Uttar Pradesh Day-by-Day vs Global */}
+            <div
+                className="ib-mode-switcher-bar"
+                style={{
+                    display: 'flex',
+                    gap: '0.5rem',
+                    marginBottom: '0.4rem',
+                    padding: '0.35rem',
+                    background: 'rgba(15, 23, 42, 0.75)',
+                    borderRadius: '14px',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    flexWrap: 'wrap'
+                }}
+            >
+                <button
+                    type="button"
+                    className={`ib-btn ${plannerMode === 'up' ? 'ib-btn-primary' : ''}`}
+                    style={{
+                        flex: 1,
+                        minWidth: '260px',
+                        padding: '0.65rem 1rem',
+                        fontSize: '0.86rem',
+                        fontWeight: 700,
+                        borderRadius: '10px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '0.5rem'
+                    }}
+                    onClick={() => setPlannerMode('up')}
+                >
+                    <span>🕉️</span>
+                    <span>Uttar Pradesh Itinerary Builder (All 75 Districts & Day-by-Day Plan)</span>
+                </button>
+                <button
+                    type="button"
+                    className={`ib-btn ${plannerMode === 'global' ? 'ib-btn-primary' : ''}`}
+                    style={{
+                        padding: '0.65rem 1rem',
+                        fontSize: '0.84rem',
+                        fontWeight: 600,
+                        borderRadius: '10px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '0.5rem'
+                    }}
+                    onClick={() => setPlannerMode('global')}
+                >
+                    <span>🌐</span>
+                    <span>Global Nomad Architect (Japan, Portugal, Bali)</span>
+                </button>
+            </div>
+
+            {plannerMode === 'up' ? (
+                <UPTripItineraryBuilder />
+            ) : (
+                <>
+                    {/* 1. Top Command Header */}
+                    <header className="ib-command-header">
                 <div className="ib-header-top-row">
                     <div className="ib-title-area">
                         <span className="ib-kicker">
@@ -1396,6 +1461,8 @@ const NomadPlanner = () => {
                         ))}
                     </div>
                 </div>
+            )}
+                </>
             )}
         </div>
     );

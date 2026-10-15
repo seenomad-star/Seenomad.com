@@ -15,6 +15,7 @@ import { useNomadOSStore } from '../../../store/nomadOSStore';
 import { useSavedStore } from '../../../store/savedStore';
 import { useDestinationStore } from '../../../store/destinationFilterStore';
 import { useToastStore } from '../../../store/toastStore';
+import { useItineraryStore } from '../../../store/itineraryStore';
 import { getDestinationIntelligence } from '../../../utils/destinationIntelligenceUtils';
 import { getDestinationDomainName, getDestinationDomainStatus } from '../../../utils/destinationDomainUtils';
 import SEOManager, { useDestinationOGPreview } from '../../../components/SEOManager';
@@ -29,6 +30,7 @@ const DestinationDetail = () => {
     const navigate = useNavigate();
     const { addXP } = useNomadOSStore();
     const { addToast } = useToastStore();
+    const { addDestinationToDay } = useItineraryStore();
     const {
         compareDestinations,
         toggleCompareDestination,
@@ -201,6 +203,25 @@ const DestinationDetail = () => {
                         </button>
 
                         <div className="dest-hero-top-actions">
+                            <button
+                                type="button"
+                                className="dest-action-chip primary-compare"
+                                style={{
+                                    background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.3) 0%, rgba(217, 119, 6, 0.25) 100%)',
+                                    borderColor: 'rgba(245, 158, 11, 0.5)',
+                                    color: '#fef3c7'
+                                }}
+                                onClick={() => {
+                                    const { stop, dayNumber } = addDestinationToDay(destination);
+                                    addToast(`Added "${destination.name}" to Day ${dayNumber} in Trip Itinerary! 📍`, 'success');
+                                    navigate('/explore/itinerary-builder');
+                                }}
+                                title="Add to Day-by-Day Travel Plan"
+                            >
+                                <Plus size={15} className="text-amber-400" />
+                                <span>+ Plan in Trip Itinerary</span>
+                            </button>
+
                             <button
                                 type="button"
                                 className={`dest-action-chip ${isCompared ? 'active' : ''}`}

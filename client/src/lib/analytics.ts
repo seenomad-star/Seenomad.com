@@ -48,6 +48,11 @@ export const trackEvent = (eventName: string, properties: Record<string, any> = 
         moduleCounts[moduleName] = (moduleCounts[moduleName] || 0) + 1;
         localStorage.setItem('seenomad_module_stats', JSON.stringify(moduleCounts));
 
+        // Google Analytics gtag dispatch
+        if (typeof window !== 'undefined' && typeof (window as any).gtag === 'function') {
+            (window as any).gtag('event', eventName, properties);
+        }
+
         // Plausible / Custom window event dispatch for external script integration
         if (typeof window !== 'undefined' && (window as any).plausible) {
             (window as any).plausible(eventName, { props: properties });
@@ -63,6 +68,13 @@ export const trackPageView = (path: string, title?: string) => {
         title: title || (typeof document !== 'undefined' ? document.title : ''),
         referrer: typeof document !== 'undefined' ? document.referrer : ''
     });
+
+    if (typeof window !== 'undefined' && typeof (window as any).gtag === 'function') {
+        (window as any).gtag('config', 'G-X4D3ZF24LK', {
+            page_path: path,
+            page_title: title || (typeof document !== 'undefined' ? document.title : '')
+        });
+    }
 };
 
 export const getAnalyticsSummary = () => {
