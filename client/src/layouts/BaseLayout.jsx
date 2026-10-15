@@ -125,6 +125,8 @@ const BaseLayout = ({ children }) => {
     const hideFooter = location.pathname === '/' || 
         location.pathname === '/popular' || 
         location.pathname.startsWith('/feed') ||
+        location.pathname.startsWith('/bytes') ||
+        location.pathname.startsWith('/byte') ||
         location.pathname.startsWith('/explore') ||
         location.pathname.startsWith('/community') ||
         location.pathname.startsWith('/creator-studio') ||
