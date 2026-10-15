@@ -397,7 +397,14 @@ export const getDestinationIntelligence = (dest = {}) => {
     let conditionIcon = 'Sun';
     let bestSeason = 'Year-round';
 
-    if (category.includes('beach') || location.includes('asia') || location.includes('pacific')) {
+    const isUP = dest.isUttarPradesh || location.includes('uttar pradesh') || Boolean(dest.district);
+
+    if (isUP) {
+        baseTemp = 23 + (nameSeed % 3);
+        condition = 'Pleasant & Mild (Indo-Gangetic Plain)';
+        conditionIcon = 'Sun';
+        bestSeason = dest.bestSeason || 'Oct – Mar (Pleasant Winter)';
+    } else if (category.includes('beach') || location.includes('asia') || location.includes('pacific')) {
         baseTemp = 28 + (nameSeed % 4);
         condition = 'Tropical & Sunny';
         conditionIcon = 'Sun';
@@ -423,13 +430,18 @@ export const getDestinationIntelligence = (dest = {}) => {
     const tempF = Math.round((tempC * 9) / 5 + 32);
 
     // Dynamic Internet Speeds
-    const downloadMbps = 110 + (nameSeed % 140);
-    const uploadMbps = Math.round(downloadMbps * 0.45);
-    const pingMs = 10 + (nameSeed % 20);
+    const downloadMbps = isUP ? (160 + (nameSeed % 140)) : (110 + (nameSeed % 140));
+    const uploadMbps = isUP ? Math.round(downloadMbps * 0.8) : Math.round(downloadMbps * 0.45);
+    const pingMs = isUP ? (8 + (nameSeed % 12)) : (10 + (nameSeed % 20));
 
     // Dynamic Cost Breakdown & Economic Shift Telemetry
-    const parsedPrice = dest.price ? parseInt(dest.price.replace(/[^0-9]/g, ''), 10) : 1500;
-    const monthlyTotal = isNaN(parsedPrice) || parsedPrice < 400 ? 1450 : parsedPrice;
+    let monthlyTotal;
+    if (isUP) {
+        monthlyTotal = 460 + (nameSeed % 180); // $460 - $640 (approx ₹38,000 - ₹53,000 INR/mo)
+    } else {
+        const parsedPrice = dest.price ? parseInt(dest.price.replace(/[^0-9]/g, ''), 10) : 1500;
+        monthlyTotal = isNaN(parsedPrice) || parsedPrice < 400 ? 1450 : parsedPrice;
+    }
 
     const rentCost = Math.round(monthlyTotal * 0.48);
     const coworkCost = Math.round(monthlyTotal * 0.12);
@@ -508,9 +520,13 @@ export const getDestinationIntelligence = (dest = {}) => {
             uploadMbps,
             pingMs,
             stabilityScore: `${94 + (nameSeed % 5)}%`,
-            mobileCoverage: '4G LTE / 5G Ready',
+            mobileCoverage: isUP ? '5G Jio & Airtel Ultra-Fast' : '4G LTE / 5G Ready',
             eSimSupport: true,
-            topCoworking: [
+            topCoworking: isUP ? [
+                { name: `${dest.district || 'UP'} Awadh Cowork & Fiber Hub`, speed: `${downloadMbps + 40} Mbps`, price: `$${coworkCost}/mo` },
+                { name: `Kashi & Heritage Workstation Lounge`, speed: `${downloadMbps + 20} Mbps`, price: `$${Math.round(coworkCost * 0.85)}/mo` },
+                { name: `JioFiber 5G Digital Nomad Space`, speed: `${downloadMbps + 80} Mbps`, price: `$${Math.round(coworkCost * 1.1)}/mo` }
+            ] : [
                 { name: `${dest.name} Central Cowork`, speed: `${downloadMbps + 50} Mbps`, price: `$${coworkCost}/mo` },
                 { name: `Nomad Hub ${dest.location.split(',')[0]}`, speed: `${downloadMbps} Mbps`, price: `$${Math.round(coworkCost * 0.9)}/mo` },
                 { name: 'The Global Workstation', speed: `${downloadMbps + 80} Mbps`, price: `$${Math.round(coworkCost * 1.15)}/mo` }
@@ -519,7 +535,7 @@ export const getDestinationIntelligence = (dest = {}) => {
         costs: {
             totalEstimated: `$${monthlyTotal.toLocaleString()}`,
             currency: 'USD',
-            rating: costRating,
+            rating: isUP ? 'Exceptional Value (Budget-Friendly)' : costRating,
             trend: {
                 direction: overallTrendDirection,
                 change: overallTrendChange,
@@ -527,7 +543,13 @@ export const getDestinationIntelligence = (dest = {}) => {
                 label: overallTrendLabel,
                 description: overallTrendDesc
             },
-            breakdown: [
+            breakdown: isUP ? [
+                { category: 'Private Heritage Homestay / 1BHK', amount: `$${rentCost.toLocaleString()}/mo`, note: 'Air-conditioned, furnished with fiber Wi-Fi', trend: rentTrend },
+                { category: 'Coworking Hot Desk / Fiber Hub', amount: `$${coworkCost.toLocaleString()}/mo`, note: '24/7 power backup & ergonomic desks', trend: coworkTrend },
+                { category: 'Local Cuisine & Street Delicacies', amount: `$${foodCost.toLocaleString()}/mo`, note: dest.localCuisine || 'Awadhi & Purvanchal thalis, sweets & chaat', trend: foodTrend },
+                { category: 'Auto-Rickshaw & Metro Transit', amount: `$${transitCost.toLocaleString()}/mo`, note: 'E-rickshaws, metro passes & Vande Bharat links', trend: transitTrend },
+                { category: 'Clay Kulhad Masala Chai & Samosa', amount: `$0.35/cup`, note: 'Freshly brewed ginger chai & crispy samosas', trend: coffeeTrend }
+            ] : [
                 { category: 'Private Nomad Apartment / Studio', amount: `$${rentCost.toLocaleString()}/mo`, note: 'Furnished with high-speed Wi-Fi & utilities', trend: rentTrend },
                 { category: 'Dedicated Coworking Hot Desk', amount: `$${coworkCost.toLocaleString()}/mo`, note: 'Ergonomic seating, monitor bays & meeting booths', trend: coworkTrend },
                 { category: 'Dining, Groceries & Local Markets', amount: `$${foodCost.toLocaleString()}/mo`, note: 'Mix of healthy local food & specialty dining', trend: foodTrend },
@@ -536,10 +558,10 @@ export const getDestinationIntelligence = (dest = {}) => {
             ]
         },
         lifestyle: {
-            safetyScore: `${80 + (nameSeed % 18)}/100`,
-            walkability: `${75 + (nameSeed % 20)}/100 (${category.includes('beach') ? 'Bike / Scooter Friendly' : 'Pedestrian Friendly'})`,
-            nomadCommunity: `${dest.travelers || '1.4k'} Active Travelers`,
-            visaStatus: dest.visaFriendly ? 'Visa-Free / Seamless Access' : (dest.visaApprovalRate ? `${dest.visaApprovalRate} Approval Confidence` : 'Check Embassy Requirements')
+            safetyScore: isUP ? '89/100' : `${80 + (nameSeed % 18)}/100`,
+            walkability: isUP ? '88/100 (Pedestrian Heritage Ghats & Bazaars)' : `${75 + (nameSeed % 20)}/100 (${category.includes('beach') ? 'Bike / Scooter Friendly' : 'Pedestrian Friendly'})`,
+            nomadCommunity: isUP ? '15k+ Nomads, Pilgrims & Cultural Explorers' : `${dest.travelers || '1.4k'} Active Travelers`,
+            visaStatus: isUP ? 'India e-Tourist Visa (30-day, 1-yr, 5-yr online entry)' : (dest.visaFriendly ? 'Visa-Free / Seamless Access' : (dest.visaApprovalRate ? `${dest.visaApprovalRate} Approval Confidence` : 'Check Embassy Requirements'))
         }
     };
 };

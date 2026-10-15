@@ -20,6 +20,8 @@ const NomadActivityFeed = ({ embedded = false }) => {
         onlineNomadsCount,
         addActivity,
         toggleLike,
+        addCommentToActivity,
+        toggleLikeComment,
         addReplyToActivity
     } = useNomadActivityStore();
 
@@ -29,6 +31,7 @@ const NomadActivityFeed = ({ embedded = false }) => {
     const [isComposerOpen, setIsComposerOpen] = useState(false);
     const [replyingToId, setReplyingToId] = useState(null);
     const [replyInput, setReplyInput] = useState('');
+    const [quickChips] = useState(['🎉 Congrats!', '🙌 Super helpful!', '☕ Meet up in Lisbon?', '📍 Saving this spot', '⚡ Great tip!']);
 
     // Composer form state
     const [composerData, setComposerData] = useState({
@@ -118,13 +121,35 @@ const NomadActivityFeed = ({ embedded = false }) => {
         }
     };
 
-    const handleSendReply = (actId) => {
+    const handleToggleComment = (actId) => {
+        if (replyingToId === actId) {
+            setReplyingToId(null);
+            setReplyInput('');
+        } else {
+            setReplyingToId(actId);
+            setReplyInput('');
+        }
+    };
+
+    const handleSendComment = (actId) => {
         if (!replyInput.trim()) return;
-        addReplyToActivity(actId);
+        addCommentToActivity(actId, {
+            text: replyInput.trim(),
+            author: 'Alex Rivera',
+            handle: '@alexriveranomad',
+            avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&auto=format&fit=crop&q=80'
+        });
         addXP(15);
-        addToast(`💬 Reply posted to activity! +15 XP`, 'success');
+        addToast(`💬 Comment posted to timeline! +15 XP`, 'success');
         setReplyInput('');
-        setReplyingToId(null);
+    };
+
+    const handleSelectChip = (chipText) => {
+        setReplyInput(prev => prev ? `${prev} ${chipText}` : chipText);
+    };
+
+    const handleCommentLike = (actId, commentId) => {
+        toggleLikeComment(actId, commentId);
     };
 
     const handleShareActivity = (act) => {
@@ -383,12 +408,12 @@ const NomadActivityFeed = ({ embedded = false }) => {
 
                                                 <button
                                                     type="button"
-                                                    onClick={() => setReplyingToId(replyingToId === act.id ? null : act.id)}
-                                                    className={`btn-stepper-action ${replyingToId === act.id ? 'active' : ''}`}
-                                                    title="View or reply"
+                                                    onClick={() => handleToggleComment(act.id)}
+                                                    className={`btn-stepper-action btn-comment-action ${replyingToId === act.id ? 'active' : ''}`}
+                                                    title="Comment on this activity update"
                                                 >
                                                     <MessageCircle size={14} />
-                                                    <span>{act.repliesCount} Replies</span>
+                                                    <span>Comment {act.comments?.length ? `(${act.comments.length})` : (act.repliesCount ? `(${act.repliesCount})` : '')}</span>
                                                 </button>
 
                                                 <button
@@ -408,30 +433,98 @@ const NomadActivityFeed = ({ embedded = false }) => {
                                             </span>
                                         </div>
 
-                                        {/* Inline Stepper Reply Drawer */}
+                                        {/* Inline Stepper Interactive Comments Drawer */}
                                         {replyingToId === act.id && (
                                             <div className="activity-reply-drawer">
-                                                <div className="reply-input-wrap">
-                                                    <input
-                                                        type="text"
-                                                        className="reply-input-field"
-                                                        placeholder="Write a comment or congrats on this milestone..."
-                                                        value={replyInput}
-                                                        onChange={(e) => setReplyInput(e.target.value)}
-                                                        onKeyDown={(e) => {
-                                                            if (e.key === 'Enter') handleSendReply(act.id);
-                                                        }}
-                                                        autoFocus
-                                                    />
-                                                    <button
-                                                        type="button"
-                                                        onClick={() => handleSendReply(act.id)}
-                                                        className="btn-reply-send"
-                                                        title="Send reply (+15 XP)"
-                                                    >
-                                                        <Send size={14} />
-                                                    </button>
+                                                {/* Mini Comment Input Field */}
+                                                <div className="activity-mini-composer">
+                                                    <div className="mini-composer-user-avatar">
+                                                        <img
+                                                            src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80"
+                                                            alt="Alex Rivera"
+                                                            className="mini-composer-avatar-img"
+                                                        />
+                                                    </div>
+                                                    <div className="mini-composer-input-container">
+                                                        <div className="reply-input-wrap">
+                                                            <input
+                                                                type="text"
+                                                                className="reply-input-field"
+                                                                placeholder="Write a comment or interaction on this update..."
+                                                                value={replyInput}
+                                                                onChange={(e) => setReplyInput(e.target.value)}
+                                                                onKeyDown={(e) => {
+                                                                    if (e.key === 'Enter') handleSendComment(act.id);
+                                                                    if (e.key === 'Escape') handleToggleComment(act.id);
+                                                                }}
+                                                                autoFocus
+                                                            />
+                                                            <button
+                                                                type="button"
+                                                                onClick={() => handleSendComment(act.id)}
+                                                                className="btn-reply-send"
+                                                                disabled={!replyInput.trim()}
+                                                                title="Post comment (+15 XP)"
+                                                            >
+                                                                <Send size={14} />
+                                                            </button>
+                                                        </div>
+
+                                                        {/* Quick Reaction Chips */}
+                                                        <div className="mini-comment-quick-chips">
+                                                            <span className="quick-chips-label">Quick reaction:</span>
+                                                            {quickChips.map((chip, idx) => (
+                                                                <button
+                                                                    key={idx}
+                                                                    type="button"
+                                                                    onClick={() => handleSelectChip(chip)}
+                                                                    className="btn-quick-chip"
+                                                                >
+                                                                    {chip}
+                                                                </button>
+                                                            ))}
+                                                        </div>
+                                                    </div>
                                                 </div>
+
+                                                {/* Existing Community Comments Thread */}
+                                                {act.comments && act.comments.length > 0 && (
+                                                    <div className="activity-comments-stream">
+                                                        <div className="activity-comments-heading">
+                                                            <span>Community Comments ({act.comments.length})</span>
+                                                        </div>
+                                                        <div className="activity-comments-list">
+                                                            {act.comments.map((comment) => (
+                                                                <div key={comment.id} className="activity-comment-bubble-row">
+                                                                    <img
+                                                                        src={comment.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100'}
+                                                                        alt={comment.author}
+                                                                        className="comment-author-avatar"
+                                                                    />
+                                                                    <div className="comment-bubble-body">
+                                                                        <div className="comment-meta-bar">
+                                                                            <span className="comment-author-name">{comment.author}</span>
+                                                                            <span className="comment-author-handle">{comment.handle}</span>
+                                                                            <span className="comment-timestamp">· {comment.timestamp}</span>
+                                                                        </div>
+                                                                        <p className="comment-text-content">{comment.text}</p>
+                                                                        <div className="comment-actions-bar">
+                                                                            <button
+                                                                                type="button"
+                                                                                onClick={() => handleCommentLike(act.id, comment.id)}
+                                                                                className={`btn-comment-like ${comment.isLiked ? 'liked' : ''}`}
+                                                                                title="Like comment"
+                                                                            >
+                                                                                <Heart size={12} fill={comment.isLiked ? '#ef4444' : 'none'} color={comment.isLiked ? '#ef4444' : 'currentColor'} />
+                                                                                <span>{comment.likes || 0}</span>
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                    </div>
+                                                )}
                                             </div>
                                         )}
                                     </div>

@@ -10,6 +10,8 @@ import IntelligenceSidecar from './sidecar/IntelligenceSidecar';
 import CompareDestinationsModal from './CompareDestinationsModal';
 import ExploreFilterSlidePanel from './ExploreFilterSlidePanel';
 import DelhiCategoryFilterBar from './DelhiCategoryFilterBar';
+import UPDestinationExplorerBar from './UPDestinationExplorerBar';
+import { UP75DistrictsModal } from './UPDistrictIntelligenceSuite';
 import { useNavStore } from '../../../store/navStore';
 import { getDestinationDomainStatus } from '../../../utils/destinationDomainUtils';
 import { getDestinationIntelligence } from '../../../utils/destinationIntelligenceUtils';
@@ -18,6 +20,7 @@ import './Destinations.css';
 
 const Destinations = () => {
     const [searchParams] = useSearchParams();
+    const [is75DistrictsModalOpen, setIs75DistrictsModalOpen] = useState(false);
     const {
         searchQuery,
         selectedFilters,
@@ -45,6 +48,27 @@ const Destinations = () => {
 
     const savedDestinations = useSavedStore((state) => state.savedDestinations);
 
+    // Curated Uttar Pradesh Destinations & All 75 Districts list
+    const upDestinations = useMemo(() => {
+        return allDestinations.filter(d => d.isUttarPradesh || d.location?.toLowerCase().includes('uttar pradesh'));
+    }, []);
+
+    const districtsList = useMemo(() => {
+        const set = new Set();
+        upDestinations.forEach(d => {
+            if (d.district) set.add(d.district);
+        });
+        return Array.from(set).sort();
+    }, [upDestinations]);
+
+    // Region Mode: 'up' (default for UP tourism) | 'delhi' | 'global'
+    const initialRegionParam = searchParams.get('region') || searchParams.get('state');
+    const [regionMode, setRegionMode] = useState(
+        initialRegionParam === 'delhi' ? 'delhi' : initialRegionParam === 'global' ? 'global' : 'up'
+    );
+    const [selectedDistrict, setSelectedDistrict] = useState(searchParams.get('district') || 'all');
+    const [selectedCircuit, setSelectedCircuit] = useState(searchParams.get('circuit') || 'all');
+
     // Curated Delhi Destinations and Category Counts
     const delhiDestinations = useMemo(() => {
         return allDestinations.filter(d => d.isDelhi || d.location?.toLowerCase().includes('delhi'));
@@ -68,15 +92,17 @@ const Destinations = () => {
             ? initialDelhiCat.toLowerCase()
             : 'all'
     );
-    const [isDelhiFocusMode, setIsDelhiFocusMode] = useState(true);
+    const [isDelhiFocusMode, setIsDelhiFocusMode] = useState(false);
 
     const handleSelectDelhiCategory = (catId) => {
         setIsDelhiFocusMode(true);
+        setRegionMode('delhi');
         setActiveDelhiCategory(catId);
     };
 
     const handleToggleGlobalMode = () => {
-        setIsDelhiFocusMode(prev => !prev);
+        setRegionMode(prev => prev === 'global' ? 'up' : 'global');
+        setIsDelhiFocusMode(false);
     };
 
     // Register Dock Configuration for Destinations Module
@@ -151,8 +177,21 @@ const Destinations = () => {
         const activeFiltersList = selectedFilters.length > 0 ? selectedFilters : globalActiveFilters;
 
         const filtered = allDestinations.filter(dest => {
-            // Delhi Focus Mode & Category Filter
-            if (isDelhiFocusMode) {
+            // Regional Scope Filter ('up' | 'delhi' | 'global')
+            if (regionMode === 'up') {
+                const isUP = dest.isUttarPradesh || dest.location?.toLowerCase().includes('uttar pradesh');
+                if (!isUP) return false;
+
+                // District filter
+                if (selectedDistrict && selectedDistrict !== 'all') {
+                    if (dest.district !== selectedDistrict) return false;
+                }
+
+                // Circuit filter
+                if (selectedCircuit && selectedCircuit !== 'all') {
+                    if (dest.upCircuit !== selectedCircuit) return false;
+                }
+            } else if (regionMode === 'delhi' || isDelhiFocusMode) {
                 const isMatchDelhi = dest.isDelhi || dest.location?.toLowerCase().includes('delhi');
                 if (!isMatchDelhi) return false;
 
@@ -164,11 +203,15 @@ const Destinations = () => {
                     if (activeDelhiCategory === 'adventure' && !cat.includes('adventure')) return false;
                 }
             }
+
             // Text Search matching
             if (activeSearch) {
                 const matchesSearch =
                     dest.name.toLowerCase().includes(activeSearch) ||
                     dest.location.toLowerCase().includes(activeSearch) ||
+                    (dest.district && dest.district.toLowerCase().includes(activeSearch)) ||
+                    (dest.odop && dest.odop.toLowerCase().includes(activeSearch)) ||
+                    (dest.upCircuit && dest.upCircuit.toLowerCase().includes(activeSearch)) ||
                     dest.category.toLowerCase().includes(activeSearch) ||
                     (dest.socialProof && dest.socialProof.toLowerCase().includes(activeSearch)) ||
                     (dest.aiInsight && dest.aiInsight.toLowerCase().includes(activeSearch));
@@ -422,7 +465,7 @@ const Destinations = () => {
             }
             return 0; // 'featured' or default retains data order
         });
-    }, [searchQuery, globalSearchQuery, selectedFilters, globalActiveFilters, advancedFilters, domainStatus, sortBy, savedDestinations, isDelhiFocusMode, activeDelhiCategory]);
+    }, [searchQuery, globalSearchQuery, selectedFilters, globalActiveFilters, advancedFilters, domainStatus, sortBy, savedDestinations, isDelhiFocusMode, activeDelhiCategory, regionMode, selectedDistrict, selectedCircuit]);
 
     useEffect(() => {
         if (processedDestinations.length > 0) {
@@ -435,7 +478,10 @@ const Destinations = () => {
         resetFilters();
         setGlobalSearchQuery('');
         setGlobalActiveFilters([]);
-        setIsDelhiFocusMode(true);
+        setRegionMode('up');
+        setSelectedDistrict('all');
+        setSelectedCircuit('all');
+        setIsDelhiFocusMode(false);
         setActiveDelhiCategory('all');
     };
 
@@ -443,15 +489,55 @@ const Destinations = () => {
         <div className="destinations-page">
             <div className="destinations-main-layout">
                 <div className="destinations-feed-column">
-                    {/* Interactive Delhi Category Filter Bar */}
-                    <DelhiCategoryFilterBar
-                        activeCategory={activeDelhiCategory}
-                        onSelectCategory={handleSelectDelhiCategory}
-                        categoryCounts={delhiCategoryCounts}
-                        totalDelhiCount={delhiDestinations.length}
-                        onResetToGlobal={handleToggleGlobalMode}
-                        isGlobalMode={!isDelhiFocusMode}
+                    {/* Interactive Region & Uttar Pradesh Circuit/District Explorer Bar */}
+                    <UPDestinationExplorerBar
+                        regionMode={regionMode}
+                        onSelectRegionMode={(mode) => {
+                            setRegionMode(mode);
+                            if (mode === 'delhi') {
+                                setIsDelhiFocusMode(true);
+                            } else {
+                                setIsDelhiFocusMode(false);
+                            }
+                        }}
+                        selectedDistrict={selectedDistrict}
+                        onSelectDistrict={setSelectedDistrict}
+                        selectedCircuit={selectedCircuit}
+                        onSelectCircuit={setSelectedCircuit}
+                        upDestinations={upDestinations}
+                        districtsList={districtsList}
+                        totalCount={processedDestinations.length}
+                        onOpen75Districts={() => setIs75DistrictsModalOpen(true)}
                     />
+
+                    {/* Active District Filter Banner */}
+                    {regionMode === 'up' && selectedDistrict !== 'all' && (
+                        <div className="up-active-district-banner">
+                            <div className="active-banner-info">
+                                <span className="active-banner-pin">📍</span>
+                                <span>Filtering by <strong>{selectedDistrict} District</strong> ({processedDestinations.length} destination{processedDestinations.length === 1 ? '' : 's'} displayed)</span>
+                            </div>
+                            <button
+                                type="button"
+                                className="active-banner-clear-btn"
+                                onClick={() => setSelectedDistrict('all')}
+                            >
+                                View All Districts ×
+                            </button>
+                        </div>
+                    )}
+
+                    {/* Interactive Delhi Category Filter Bar (when in Delhi mode) */}
+                    {regionMode === 'delhi' && (
+                        <DelhiCategoryFilterBar
+                            activeCategory={activeDelhiCategory}
+                            onSelectCategory={handleSelectDelhiCategory}
+                            categoryCounts={delhiCategoryCounts}
+                            totalDelhiCount={delhiDestinations.length}
+                            onResetToGlobal={handleToggleGlobalMode}
+                            isGlobalMode={false}
+                        />
+                    )}
 
                     {/* Destinations Grid (Discovery Canvas) */}
                     <div className={`destinations-grid ${viewMode === 'list' ? 'list-view-container' : ''}`}>
@@ -484,6 +570,19 @@ const Destinations = () => {
                                     <button
                                         type="button"
                                         onClick={() => {
+                                            setRegionMode('up');
+                                            setSelectedDistrict('all');
+                                            setSelectedCircuit('all');
+                                            setSearchQuery('');
+                                        }}
+                                        className="empty-suggestion-pill"
+                                    >
+                                        View All Uttar Pradesh Destinations ({upDestinations.length})
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() => {
+                                            setRegionMode('delhi');
                                             setIsDelhiFocusMode(true);
                                             setActiveDelhiCategory('all');
                                             setSearchQuery('');
@@ -495,6 +594,7 @@ const Destinations = () => {
                                     <button
                                         type="button"
                                         onClick={() => {
+                                            setRegionMode('global');
                                             setIsDelhiFocusMode(false);
                                             setSearchQuery('');
                                         }}
@@ -523,6 +623,18 @@ const Destinations = () => {
             {/* Slide-Out Filter Panel (Climate, Cost-of-Living Index & Internet Speed) */}
             <ExploreFilterSlidePanel
                 totalResults={processedDestinations.length}
+            />
+
+            {/* Comprehensive 75 Districts Directory Modal */}
+            <UP75DistrictsModal
+                isOpen={is75DistrictsModalOpen}
+                onClose={() => setIs75DistrictsModalOpen(false)}
+                currentDistrict={selectedDistrict}
+                onSelectDistrict={(dist) => {
+                    setSelectedDistrict(dist);
+                    setRegionMode('up');
+                    setIs75DistrictsModalOpen(false);
+                }}
             />
         </div>
     );

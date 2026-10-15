@@ -6,7 +6,8 @@ import {
     Briefcase, MapPin, Bookmark, Trash2, Compass, Film, Sparkles,
     Flame, Zap, Shield, ShieldCheck, Edit3, Share2, Check, Plus, Laptop,
     Camera, Wifi, DollarSign, Heart, ChevronRight, Calendar, User,
-    FileText, Coffee, Activity, Download, X, QrCode, Copy, CheckCircle
+    FileText, Coffee, Activity, Download, X, QrCode, Copy, CheckCircle,
+    MessageSquare
 } from 'lucide-react';
 import { useNomadOSStore } from '../../../store/nomadOSStore';
 import { useSavedStore } from '../../../store/savedStore';
@@ -15,11 +16,13 @@ import { useToastStore } from '../../../store/toastStore';
 import { useUserProfileStore } from '../../../store/userProfileStore';
 import { useNomadReputationStore } from '../../../store/nomadReputationStore';
 import { useNomadActivityStore } from '../../../store/nomadActivityStore';
+import { useNomadByteStore } from '../../../store/nomadByteStore';
 import EditProfileModal from './EditProfileModal';
 import NomadPassportStamps from './NomadPassportStamps';
 import NomadRetentionQuests from './NomadRetentionQuests';
 import NomadReputationBadges, { renderBadgeIcon } from './NomadReputationBadges';
 import NomadActivityFeed from './NomadActivityFeed';
+import NomadBytesFeed from '../../Bytes/NomadBytesFeed';
 import SavedVibesVault from './SavedVibesVault';
 import ProfileBottomBar from './ProfileBottomBar';
 import ProfileEndFootbar from './ProfileEndFootbar';
@@ -175,6 +178,7 @@ const NomadProfile = () => {
     } = useNomadReputationStore();
 
     const { activities = [], addActivity } = useNomadActivityStore();
+    const { bytes = [] } = useNomadByteStore();
 
     const pinnedBadges = badges.filter(b => b.isPinned && b.unlocked);
     const unlockedBadgesCount = badges.filter(b => b.unlocked).length;
@@ -652,6 +656,16 @@ const NomadProfile = () => {
                 <button
                     type="button"
                     role="tab"
+                    aria-selected={activeProfileTab === 'bytes'}
+                    className={`profile-view-tab-btn ${activeProfileTab === 'bytes' ? 'active' : ''}`}
+                    onClick={() => handleSwitchTab('bytes')}
+                >
+                    <MessageSquare size={16} />
+                    <span>Nomad Bytes ({bytes.length})</span>
+                </button>
+                <button
+                    type="button"
+                    role="tab"
                     aria-selected={activeProfileTab === 'saved'}
                     className={`profile-view-tab-btn ${activeProfileTab === 'saved' ? 'active' : ''}`}
                     onClick={() => handleSwitchTab('saved')}
@@ -676,6 +690,11 @@ const NomadProfile = () => {
             {/* TAB: REAL-TIME ACTIVITY FEED */}
             {activeProfileTab === 'activity' && (
                 <NomadActivityFeed />
+            )}
+
+            {/* TAB: NOMAD BYTES */}
+            {activeProfileTab === 'bytes' && (
+                <NomadBytesFeed />
             )}
 
             {/* TAB: NOMAD REPUTATION & ACHIEVEMENT BADGES */}

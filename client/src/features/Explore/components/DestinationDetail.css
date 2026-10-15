@@ -1436,3 +1436,49 @@ body.theme-light .dest-similar-item {
         grid-template-columns: repeat(2, 1fr);
     }
 }
+
+/* ============================================================
+   UP DISTRICT BADGES & EMBLEMS IN DESTINATION DETAIL
+   ============================================================ */
+.dest-hero-up-badges-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.65rem;
+}
+
+.dest-up-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.25rem 0.65rem;
+    border-radius: 9999px;
+    font-size: 0.76rem;
+    font-weight: 600;
+    backdrop-filter: blur(8px);
+}
+
+.dest-up-badge.district {
+    background: rgba(245, 158, 11, 0.18);
+    border: 1px solid rgba(245, 158, 11, 0.45);
+    color: #fbbf24;
+}
+
+.dest-up-badge.division {
+    background: rgba(56, 189, 248, 0.15);
+    border: 1px solid rgba(56, 189, 248, 0.35);
+    color: #38bdf8;
+}
+
+.dest-up-badge.circuit {
+    background: rgba(168, 85, 247, 0.15);
+    border: 1px solid rgba(168, 85, 247, 0.35);
+    color: #c084fc;
+}
+
+.dest-up-badge.odop {
+    background: rgba(16, 185, 129, 0.15);
+    border: 1px solid rgba(16, 185, 129, 0.35);
+    color: #34d399;
+}

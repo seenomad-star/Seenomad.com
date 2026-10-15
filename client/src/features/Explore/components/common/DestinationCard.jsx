@@ -214,6 +214,25 @@ const DestinationCard = ({ dest, viewMode }) => {
                                         </>
                                     )}
                                 </div>
+
+                                {dest?.district && (
+                                    <div className="up-card-badges-strip" onClick={(e) => e.stopPropagation()}>
+                                        <span className="up-card-district-chip" title={`${dest.district} District, ${dest.division || ''} Division`}>
+                                            <MapPin size={10} className="up-chip-pin text-amber-400" />
+                                            <strong>{dest.district} District</strong>
+                                        </span>
+                                        {dest?.upCircuit && (
+                                            <span className="up-card-circuit-chip" title={`Tourism Circuit: ${dest.upCircuit}`}>
+                                                {dest.upCircuit}
+                                            </span>
+                                        )}
+                                        {dest?.odop && (
+                                            <span className="up-card-odop-chip" title={`One District One Product: ${dest.odop}`}>
+                                                🏺 {dest.odop}
+                                            </span>
+                                        )}
+                                    </div>
+                                )}
                             </div>
 
                             <div className="header-actions-block">
@@ -406,29 +425,29 @@ const DestinationCard = ({ dest, viewMode }) => {
                             <div className="footer-right-actions">
                                 <button
                                     type="button"
-                                    className="expand-details-btn"
+                                    className={`expand-details-btn ${dest?.district ? 'up-card-expand-btn' : ''}`}
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         handleNavigate();
                                     }}
-                                    title={`Expand in-depth details page for ${dest?.name}`}
-                                    aria-label={`Expand details for ${dest?.name}`}
+                                    title={`Open complete details and district guide for ${dest?.name}`}
+                                    aria-label={`View details for ${dest?.name}`}
                                 >
                                     <SlidersHorizontal size={12} className="expand-sliders-icon" />
-                                    <span>Expand Details</span>
+                                    <span>{dest?.district ? `${dest.district} Guide` : 'Expand Details'}</span>
                                 </button>
 
                                 <button
                                     type="button"
-                                    className="primary-intel-cta"
+                                    className={`primary-intel-cta ${dest?.district ? 'up-card-primary-cta' : ''}`}
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         handleNavigate();
                                     }}
-                                    title={`Open complete intelligence dashboard for ${dest?.name}`}
-                                    aria-label={`Analyze intelligence for ${dest?.name}`}
+                                    title={`Open full dedicated details page for ${dest?.name}`}
+                                    aria-label={`Open destination page for ${dest?.name}`}
                                 >
-                                    <span>Analyze Intel</span>
+                                    <span>{dest?.district ? 'Full Details Page' : 'Analyze Intel'}</span>
                                     <ArrowRight size={13} className="cta-arrow" />
                                 </button>
                             </div>

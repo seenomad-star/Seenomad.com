@@ -1,0 +1,405 @@
+/* UPDestinationExplorerBar.css - Uttar Pradesh Tourism Hub & Circuit Filter Controls */
+
+.up-explorer-hub-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    width: 100%;
+}
+
+/* ============================================================
+   1. REGION MODE SWITCHER BAR
+   ============================================================ */
+.region-mode-switcher-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.85) 100%);
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 18px;
+    padding: 0.65rem 1rem;
+    box-shadow: 0 8px 25px -10px rgba(0, 0, 0, 0.35);
+}
+
+:root:not(.dark) .region-mode-switcher-bar {
+    background: #ffffff;
+    border-color: #e2e8f0;
+    box-shadow: 0 6px 20px -8px rgba(15, 23, 42, 0.08);
+}
+
+.region-tabs-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.region-tab-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.95rem;
+    border-radius: 9999px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #94a3b8;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+:root:not(.dark) .region-tab-btn {
+    background: #f8fafc;
+    border-color: #e2e8f0;
+    color: #64748b;
+}
+
+.region-tab-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #f8fafc;
+    transform: translateY(-1px);
+}
+
+:root:not(.dark) .region-tab-btn:hover {
+    background: #f1f5f9;
+    color: #0f172a;
+}
+
+.region-tab-btn.active.up-theme {
+    background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%);
+    border-color: #ea580c;
+    color: #ffffff;
+    box-shadow: 0 4px 15px rgba(234, 88, 12, 0.35);
+}
+
+.region-tab-btn.active.delhi-theme {
+    background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+    border-color: #0284c7;
+    color: #ffffff;
+    box-shadow: 0 4px 15px rgba(2, 132, 199, 0.35);
+}
+
+.region-tab-btn.active.global-theme {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    border-color: #10b981;
+    color: #ffffff;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.35);
+}
+
+.region-badge-count {
+    background: rgba(0, 0, 0, 0.25);
+    padding: 0.1rem 0.45rem;
+    border-radius: 9999px;
+    font-size: 0.7rem;
+    font-weight: 700;
+}
+
+.up-state-motto-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #94a3b8;
+}
+
+:root:not(.dark) .up-state-motto-tag {
+    color: #64748b;
+}
+
+.up-seal-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #ea580c;
+    box-shadow: 0 0 8px #ea580c;
+}
+
+/* ============================================================
+   2. UP CIRCUIT CONTROLS CARD
+   ============================================================ */
+.up-circuit-controls-card {
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.75) 0%, rgba(15, 23, 42, 0.9) 100%);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(234, 88, 12, 0.25);
+    border-radius: 20px;
+    padding: 1.25rem 1.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.35);
+}
+
+:root:not(.dark) .up-circuit-controls-card {
+    background: #ffffff;
+    border-color: rgba(234, 88, 12, 0.3);
+    box-shadow: 0 8px 25px -10px rgba(15, 23, 42, 0.08);
+}
+
+.up-controls-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.up-header-text-block {
+    flex: 1;
+    min-width: 280px;
+}
+
+.up-header-title {
+    margin: 0;
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #f8fafc;
+    letter-spacing: -0.01em;
+}
+
+:root:not(.dark) .up-header-title {
+    color: #0f172a;
+}
+
+.up-header-desc {
+    margin: 0.25rem 0 0;
+    font-size: 0.8rem;
+    line-height: 1.45;
+    color: #94a3b8;
+}
+
+:root:not(.dark) .up-header-desc {
+    color: #64748b;
+}
+
+/* District Dropdown Selector */
+.up-district-dropdown-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    min-width: 250px;
+}
+
+.district-dropdown-labels-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+}
+
+.district-dropdown-label {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #cbd5e1;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.up-directory-quick-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    background: rgba(251, 191, 36, 0.12);
+    border: 1px solid rgba(251, 191, 36, 0.35);
+    color: #fbbf24;
+    padding: 0.15rem 0.5rem;
+    border-radius: 6px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.up-directory-quick-link:hover {
+    background: rgba(251, 191, 36, 0.24);
+    border-color: #fbbf24;
+}
+
+:root:not(.dark) .district-dropdown-label {
+    color: #475569;
+}
+
+.district-select-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.district-native-select {
+    width: 100%;
+    appearance: none;
+    -webkit-appearance: none;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    padding: 0.55rem 2.2rem 0.55rem 0.9rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #f8fafc;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+:root:not(.dark) .district-native-select {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+    color: #0f172a;
+}
+
+.district-native-select:focus {
+    border-color: #ea580c;
+    box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.15);
+}
+
+.select-arrow-icon {
+    position: absolute;
+    right: 12px;
+    color: #94a3b8;
+    pointer-events: none;
+}
+
+/* Circuit Pills Row */
+.up-circuit-pills-row {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    overflow-x: auto;
+    padding-bottom: 0.3rem;
+    scrollbar-width: thin;
+}
+
+.up-circuit-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 9999px;
+    padding: 0.45rem 0.85rem;
+    font-size: 0.76rem;
+    font-weight: 600;
+    color: #cbd5e1;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.18s ease;
+}
+
+:root:not(.dark) .up-circuit-pill {
+    background: #f8fafc;
+    border-color: #e2e8f0;
+    color: #475569;
+}
+
+.up-circuit-pill:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(234, 88, 12, 0.3);
+    color: #f8fafc;
+    transform: translateY(-1px);
+}
+
+:root:not(.dark) .up-circuit-pill:hover {
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+    color: #0f172a;
+}
+
+.up-circuit-pill.active {
+    background: #ea580c;
+    border-color: #ea580c;
+    color: #ffffff;
+    box-shadow: 0 3px 12px rgba(234, 88, 12, 0.35);
+}
+
+.circuit-pill-count {
+    background: rgba(0, 0, 0, 0.25);
+    padding: 0.1rem 0.45rem;
+    border-radius: 9999px;
+    font-size: 0.68rem;
+    font-weight: 700;
+}
+
+/* Telemetry Footbar */
+.up-telemetry-footbar {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    flex-wrap: wrap;
+    padding-top: 0.65rem;
+    border-top: 1px dashed rgba(255, 255, 255, 0.08);
+    font-size: 0.72rem;
+    color: #94a3b8;
+}
+
+:root:not(.dark) .up-telemetry-footbar {
+    border-top-color: #f1f5f9;
+    color: #64748b;
+}
+
+.telemetry-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.telemetry-bullet {
+    color: #64748b;
+}
+
+/* Active District Banner */
+.up-active-district-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.12), rgba(217, 119, 6, 0.18));
+    border: 1px solid rgba(245, 158, 11, 0.35);
+    border-radius: 12px;
+    padding: 0.65rem 1rem;
+    margin-top: 0.75rem;
+    margin-bottom: 0.75rem;
+    color: #fef3c7;
+    font-size: 0.82rem;
+}
+
+.active-banner-info {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+}
+
+.active-banner-pin {
+    font-size: 1rem;
+}
+
+.active-banner-info strong {
+    color: #fbbf24;
+}
+
+.active-banner-clear-btn {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(251, 191, 36, 0.4);
+    color: #fbbf24;
+    padding: 0.25rem 0.65rem;
+    border-radius: 8px;
+    font-size: 0.74rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.active-banner-clear-btn:hover {
+    background: rgba(251, 191, 36, 0.2);
+    border-color: #fbbf24;
+}

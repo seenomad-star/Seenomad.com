@@ -25,6 +25,8 @@ import PageLoader from './components/common/PageLoader';
 import NotificationCenter from './features/Notifications/NotificationCenter';
 import Messaging from './features/Community/components/Messaging';
 import ContentMedia from './features/ContentMedia';
+import NomadBytesFeed from './features/Bytes/NomadBytesFeed';
+import DestinationDetail from './features/Explore/components/DestinationDetail';
 
 // Lazy load heavy features
 const Community = lazy(() => import('./features/Community'));
@@ -55,6 +57,9 @@ function App() {
         <Routes>
           <Route element={<PageTransitionLayout />}>
             <Route path="/" element={<SocialFeed />} />
+            <Route path="/bytes" element={<NomadBytesFeed />} />
+            <Route path="/bytes/*" element={<NomadBytesFeed />} />
+            <Route path="/byte/:id" element={<NomadBytesFeed />} />
             <Route path="/popular" element={<PopularFeed />} />
             <Route path="/explore/*" element={<Explore />} />
             <Route path="/visa/*" element={<Navigate to="/explore/visa" replace />} />
@@ -62,9 +67,9 @@ function App() {
             <Route path="/tax-calculator" element={<Navigate to="/explore/tax-calculator" replace />} />
             <Route path="/tax-compliance" element={<Navigate to="/explore/tax-calculator" replace />} />
             <Route path="/travel-deals" element={<Navigate to="/explore/travel-deals" replace />} />
-            <Route path="/deals" element={<Navigate to="/explore/travel-deals" replace />} />
-            <Route path="/destinations/*" element={<Navigate to="/explore/destinations" replace />} />
+            <Route path="/destinations/:id" element={<DestinationDetail />} />
             <Route path="/destinations" element={<Navigate to="/explore/destinations" replace />} />
+            <Route path="/destinations/*" element={<Navigate to="/explore/destinations" replace />} />
             <Route path="/ai-agents/*" element={<AIAgents />} />
             <Route path="/travel-games/*" element={<TravelGames />} />
 

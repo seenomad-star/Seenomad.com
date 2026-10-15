@@ -1,4 +1,6 @@
-export const allDestinations = [
+import { uttarPradeshDestinations } from './uttarPradeshDestinationsData.js';
+
+const baseDestinations = [
     // BEACH (15)
     { id: 101, name: 'Bora Bora', location: 'French Polynesia', category: 'Beach', image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600', xp: '+500 XP', liveViewers: '1.2k', socialProof: 'Booked 12 times today', deal: 'Flash Deal', price: '$2,499', isSponsored: true },
     { id: 102, name: 'Maldives', location: 'South Asia', category: 'Beach', image: 'https://images.unsplash.com/photo-1514282401047-d79a71a590e8?w=600', xp: '+800 XP', liveViewers: '2.5k', socialProof: 'Trending Now', deal: 'Exclusive', price: '$3,200' },
@@ -792,3 +794,7 @@ export const allDestinations = [
         tags: ['Adventure', 'Camping', 'Rappelling', 'Zipline', 'Aravali', 'Outdoor']
     }
 ];
+
+export { uttarPradeshDestinations };
+export const allDestinations = [...baseDestinations, ...uttarPradeshDestinations];
+

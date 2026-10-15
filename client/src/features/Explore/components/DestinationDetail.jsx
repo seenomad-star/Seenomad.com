@@ -7,7 +7,8 @@ import {
     Clock, DollarSign, Zap, CheckCircle2, AlertCircle,
     ThumbsUp, Globe, TrendingUp, TrendingDown, Shield, Info, Wifi, Repeat,
     Check, X, ExternalLink, Sun, CloudSun, CloudRain, Wind,
-    Building2, Smartphone, ArrowLeftRight, Heart, Navigation, Coffee
+    Building2, Smartphone, ArrowLeftRight, Heart, Navigation, Coffee,
+    Landmark
 } from 'lucide-react';
 import { allDestinations } from '../../../data/destinationsData';
 import { useNomadOSStore } from '../../../store/nomadOSStore';
@@ -20,6 +21,7 @@ import SEOManager, { useDestinationOGPreview } from '../../../components/SEOMana
 import OGPreviewCard from '../../../components/common/OGPreviewCard';
 import CompareDestinationsModal from './CompareDestinationsModal';
 import { Image, UGCImage } from '../../../components/common/Image';
+import { UPDistrictIntelligenceSuite } from './UPDistrictIntelligenceSuite';
 import './DestinationDetail.css';
 
 const DestinationDetail = () => {
@@ -42,9 +44,14 @@ const DestinationDetail = () => {
     const [xpClaimed, setXpClaimed] = useState(false);
     const [showShareModal, setShowShareModal] = useState(false);
 
-    const toSlug = (text) => (text || '').toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
+    const toSlug = (text) => (text || '').toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '');
+    const decodedId = decodeURIComponent(id || '').toLowerCase();
     const destination = allDestinations.find(
-        (d) => toSlug(d.name) === (id || '').toLowerCase() || String(d.id) === String(id)
+        (d) =>
+            toSlug(d.name) === decodedId ||
+            String(d.id) === decodedId ||
+            (d.slug && d.slug.toLowerCase() === decodedId) ||
+            toSlug(d.name).replace(/-+/g, '') === decodedId.replace(/-+/g, '')
     );
 
     const isSaved = useSavedStore((state) =>
@@ -154,10 +161,13 @@ const DestinationDetail = () => {
         );
     };
 
+    const isUP = Boolean(destination?.district || destination?.isUttarPradesh);
+
     const TABS = [
-        { id: 'overview', label: 'Overview & Brief', icon: Compass },
+        { id: 'overview', label: isUP ? 'Overview & Brief' : 'Overview & Brief', icon: Compass },
+        ...(isUP ? [{ id: 'district-suite', label: `${destination.district || 'UP'} District Suite`, icon: Landmark }] : []),
         { id: 'costs', label: 'Cost of Living', icon: DollarSign },
-        { id: 'connectivity', label: 'Wi-Fi & Coworking', icon: Wifi },
+        { id: 'connectivity', label: 'Wi-Fi & 5G', icon: Wifi },
         { id: 'climate', label: 'Climate & Forecast', icon: Sun },
         { id: 'visa', label: 'Visa & Logistics', icon: ShieldCheck },
         { id: 'community', label: 'Neighborhoods & Vibe', icon: Users }
@@ -281,6 +291,30 @@ const DestinationDetail = () => {
                                     <span>({destination.reviewsCount || '142'} verified nomad reviews)</span>
                                 </span>
                             </div>
+
+                            {destination?.district && (
+                                <div className="dest-hero-up-badges-row">
+                                    <span className="dest-up-badge district">
+                                        <MapPin size={12} className="text-amber-400" />
+                                        <span>{destination.district} District</span>
+                                    </span>
+                                    {destination.division && (
+                                        <span className="dest-up-badge division">
+                                            <span>{destination.division} Division</span>
+                                        </span>
+                                    )}
+                                    {destination.upCircuit && (
+                                        <span className="dest-up-badge circuit">
+                                            <span>{destination.upCircuit}</span>
+                                        </span>
+                                    )}
+                                    {destination.odop && (
+                                        <span className="dest-up-badge odop">
+                                            <span>ODOP: {destination.odop}</span>
+                                        </span>
+                                    )}
+                                </div>
+                            )}
                         </div>
 
                         {/* Hero Right: Instant Telemetry Summary Strip */}
@@ -514,6 +548,18 @@ const DestinationDetail = () => {
                                             </div>
                                         </div>
                                     </div>
+
+                                    {/* Dedicated Uttar Pradesh District Intelligence Suite */}
+                                    {isUP && (
+                                        <UPDistrictIntelligenceSuite destination={destination} />
+                                    )}
+                                </div>
+                            )}
+
+                            {/* TAB: UP DISTRICT SUITE & HERITAGE WORKSPACE */}
+                            {activeTab === 'district-suite' && (
+                                <div className="dest-section-stack">
+                                    <UPDistrictIntelligenceSuite destination={destination} />
                                 </div>
                             )}
 

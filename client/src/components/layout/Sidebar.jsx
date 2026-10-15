@@ -36,7 +36,8 @@ import {
     Mic,
     GraduationCap,
     Brain,
-    LayoutGrid
+    LayoutGrid,
+    MessageSquare
 } from 'lucide-react';
 import { useToastStore } from '../../store/toastStore';
 import '../../styles/Sidebar.css';
@@ -263,6 +264,14 @@ const Sidebar = ({ isCollapsed, toggleSidebar, isMobileOpen, isMobile }) => {
                         badge: 'Live',
                         badgeType: 'accent',
                         description: 'Live traveler stories, photos & dispatches'
+                    },
+                    {
+                        icon: MessageSquare,
+                        label: 'Nomad Bytes',
+                        to: '/bytes',
+                        badge: 'Micro',
+                        badgeType: 'hot',
+                        description: 'Twitter-style live nomad updates, wifi alerts & quick travel bytes'
                     },
                     {
                         icon: LineArtExploreIcon,

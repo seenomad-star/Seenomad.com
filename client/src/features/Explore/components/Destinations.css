@@ -1267,3 +1267,77 @@ body.theme-light .sidecar-widget:hover,
     background: #ffffff;
     border-color: rgba(2, 132, 199, 0.3);
 }
+
+/* ============================================================
+   UP DESTINATION CARD BADGES & SPECIALIZED CTAS
+   ============================================================ */
+.up-card-badges-strip {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin-top: 0.35rem;
+    margin-bottom: 0.25rem;
+}
+
+.up-card-district-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    background: rgba(245, 158, 11, 0.14);
+    border: 1px solid rgba(245, 158, 11, 0.35);
+    color: #fbbf24;
+    padding: 0.15rem 0.45rem;
+    border-radius: 6px;
+    font-size: 0.68rem;
+    font-weight: 700;
+}
+
+.up-card-circuit-chip {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(168, 85, 247, 0.12);
+    border: 1px solid rgba(168, 85, 247, 0.28);
+    color: #c084fc;
+    padding: 0.15rem 0.45rem;
+    border-radius: 6px;
+    font-size: 0.65rem;
+    font-weight: 600;
+}
+
+.up-card-odop-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+    background: rgba(56, 189, 248, 0.1);
+    border: 1px solid rgba(56, 189, 248, 0.25);
+    color: #38bdf8;
+    padding: 0.15rem 0.45rem;
+    border-radius: 6px;
+    font-size: 0.65rem;
+    font-weight: 600;
+    max-width: 170px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.up-card-expand-btn {
+    border-color: rgba(245, 158, 11, 0.35) !important;
+    color: #fbbf24 !important;
+}
+
+.up-card-expand-btn:hover {
+    background: rgba(245, 158, 11, 0.12) !important;
+    border-color: #fbbf24 !important;
+}
+
+.up-card-primary-cta {
+    background: linear-gradient(135deg, #0284c7, #0369a1) !important;
+    border-color: #38bdf8 !important;
+}
+
+.up-card-primary-cta:hover {
+    background: linear-gradient(135deg, #0369a1, #075985) !important;
+    box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4) !important;
+}

@@ -17,6 +17,7 @@ import NearbyMap from './components/NearbyMap';
 import ShortsFeed from './components/ShortsFeed';
 import TravelChallenges from './components/TravelChallenges';
 import VisualDestinations from './components/VisualDestinations';
+import NomadBytesFeed from '../Bytes/NomadBytesFeed';
 import RetentionStreakWidget from '../Growth/components/RetentionStreakWidget';
 import AdSenseSlot from '../../components/common/AdSenseSlot';
 import GlassDivider from '../../components/common/GlassDivider';
@@ -788,6 +789,8 @@ const SocialFeed = () => {
                 <main className="feed-stream" id={`panel-${activeTab}`} role="tabpanel" aria-labelledby={`tab-${activeTab}`}>
                     {isLoading || isRefreshing ? (
                         <TravelFeedSkeleton count={3} variant="mixed" />
+                    ) : activeTab === 'bytes' ? (
+                        <NomadBytesFeed />
                     ) : activeTab === 'live' ? (
                         <LiveFeed />
                     ) : activeTab === 'visuals' ? (
