@@ -219,17 +219,30 @@ const DestinationCard = ({ dest, viewMode }) => {
 
                                 {dest?.district && (
                                     <div className="up-card-badges-strip" onClick={(e) => e.stopPropagation()}>
-                                        <span className="up-card-district-chip" title={`${dest.district} District, ${dest.division || ''} Division`}>
+                                        <span className="up-card-district-chip" title={`${dest.district} District, ${dest.division || ''} Division, ${dest.state || ''}`}>
                                             <MapPin size={10} className="up-chip-pin text-amber-400" />
                                             <strong>{dest.district} District</strong>
                                         </span>
+                                        {dest?.mpCircuit && (
+                                            <span
+                                                className="up-card-circuit-chip mp-circuit-chip"
+                                                style={{
+                                                    background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.22), rgba(5, 150, 105, 0.28))',
+                                                    borderColor: 'rgba(52, 211, 153, 0.45)',
+                                                    color: '#6ee7b7'
+                                                }}
+                                                title={`MP Tourism Circuit: ${dest.mpCircuit}`}
+                                            >
+                                                🐅 {dest.mpCircuit}
+                                            </span>
+                                        )}
                                         {dest?.upCircuit && (
                                             <span className="up-card-circuit-chip" title={`Tourism Circuit: ${dest.upCircuit}`}>
                                                 {dest.upCircuit}
                                             </span>
                                         )}
                                         {dest?.odop && (
-                                            <span className="up-card-odop-chip" title={`One District One Product: ${dest.odop}`}>
+                                            <span className="up-card-odop-chip" title={`One District One Product / GI: ${dest.odop}`}>
                                                 🏺 {dest.odop}
                                             </span>
                                         )}

@@ -12,6 +12,7 @@ import ExploreFilterSlidePanel from './ExploreFilterSlidePanel';
 import DelhiCategoryFilterBar from './DelhiCategoryFilterBar';
 import UPDestinationExplorerBar from './UPDestinationExplorerBar';
 import { UP75DistrictsModal } from './UPDistrictIntelligenceSuite';
+import { MP55DistrictsModal } from './MPDistrictIntelligenceSuite';
 import { useNavStore } from '../../../store/navStore';
 import { getDestinationDomainStatus } from '../../../utils/destinationDomainUtils';
 import { getDestinationIntelligence } from '../../../utils/destinationIntelligenceUtils';
@@ -21,6 +22,7 @@ import './Destinations.css';
 const Destinations = () => {
     const [searchParams] = useSearchParams();
     const [is75DistrictsModalOpen, setIs75DistrictsModalOpen] = useState(false);
+    const [is55DistrictsModalOpen, setIs55DistrictsModalOpen] = useState(false);
     const {
         searchQuery,
         selectedFilters,
@@ -61,10 +63,29 @@ const Destinations = () => {
         return Array.from(set).sort();
     }, [upDestinations]);
 
-    // Region Mode: 'up' (default for UP tourism) | 'delhi' | 'global'
-    const initialRegionParam = searchParams.get('region') || searchParams.get('state');
+    // Curated Madhya Pradesh Destinations & All 55 Districts list
+    const mpDestinations = useMemo(() => {
+        return allDestinations.filter(d => d.isMadhyaPradesh || d.location?.toLowerCase().includes('madhya pradesh'));
+    }, []);
+
+    const mpDistrictsList = useMemo(() => {
+        const set = new Set();
+        mpDestinations.forEach(d => {
+            if (d.district) set.add(d.district);
+        });
+        return Array.from(set).sort();
+    }, [mpDestinations]);
+
+    // Region Mode: 'up' | 'mp' | 'delhi' | 'global'
+    const initialRegionParam = (searchParams.get('region') || searchParams.get('state') || '').toLowerCase();
     const [regionMode, setRegionMode] = useState(
-        initialRegionParam === 'delhi' ? 'delhi' : initialRegionParam === 'global' ? 'global' : 'up'
+        ['mp', 'madhya-pradesh', 'madhyapradesh', 'madhya pradesh'].includes(initialRegionParam)
+            ? 'mp'
+            : initialRegionParam === 'delhi'
+            ? 'delhi'
+            : initialRegionParam === 'global'
+            ? 'global'
+            : 'up'
     );
     const [selectedDistrict, setSelectedDistrict] = useState(searchParams.get('district') || 'all');
     const [selectedCircuit, setSelectedCircuit] = useState(searchParams.get('circuit') || 'all');
@@ -177,8 +198,21 @@ const Destinations = () => {
         const activeFiltersList = selectedFilters.length > 0 ? selectedFilters : globalActiveFilters;
 
         const filtered = allDestinations.filter(dest => {
-            // Regional Scope Filter ('up' | 'delhi' | 'global')
-            if (regionMode === 'up') {
+            // Regional Scope Filter ('up' | 'mp' | 'delhi' | 'global')
+            if (regionMode === 'mp') {
+                const isMP = dest.isMadhyaPradesh || dest.location?.toLowerCase().includes('madhya pradesh');
+                if (!isMP) return false;
+
+                // District filter
+                if (selectedDistrict && selectedDistrict !== 'all') {
+                    if (dest.district !== selectedDistrict) return false;
+                }
+
+                // Circuit filter
+                if (selectedCircuit && selectedCircuit !== 'all') {
+                    if (dest.mpCircuit !== selectedCircuit) return false;
+                }
+            } else if (regionMode === 'up') {
                 const isUP = dest.isUttarPradesh || dest.location?.toLowerCase().includes('uttar pradesh');
                 if (!isUP) return false;
 
@@ -212,6 +246,9 @@ const Destinations = () => {
                     (dest.district && dest.district.toLowerCase().includes(activeSearch)) ||
                     (dest.odop && dest.odop.toLowerCase().includes(activeSearch)) ||
                     (dest.upCircuit && dest.upCircuit.toLowerCase().includes(activeSearch)) ||
+                    (dest.mpCircuit && dest.mpCircuit.toLowerCase().includes(activeSearch)) ||
+                    (dest.division && dest.division.toLowerCase().includes(activeSearch)) ||
+                    (dest.state && dest.state.toLowerCase().includes(activeSearch)) ||
                     dest.category.toLowerCase().includes(activeSearch) ||
                     (dest.socialProof && dest.socialProof.toLowerCase().includes(activeSearch)) ||
                     (dest.aiInsight && dest.aiInsight.toLowerCase().includes(activeSearch));

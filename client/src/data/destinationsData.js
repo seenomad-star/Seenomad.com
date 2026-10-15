@@ -1,4 +1,5 @@
 import { uttarPradeshDestinations } from './uttarPradeshDestinationsData.js';
+import { madhyaPradeshDestinations } from './madhyaPradeshDestinationsData.js';
 
 const baseDestinations = [
     // BEACH (15)
@@ -795,6 +796,10 @@ const baseDestinations = [
     }
 ];
 
-export { uttarPradeshDestinations };
-export const allDestinations = [...baseDestinations, ...uttarPradeshDestinations];
+export { uttarPradeshDestinations, madhyaPradeshDestinations };
+export const allDestinations = [
+    ...baseDestinations,
+    ...uttarPradeshDestinations,
+    ...madhyaPradeshDestinations
+];
 

@@ -23,6 +23,7 @@ import OGPreviewCard from '../../../components/common/OGPreviewCard';
 import CompareDestinationsModal from './CompareDestinationsModal';
 import { Image, UGCImage } from '../../../components/common/Image';
 import { UPDistrictIntelligenceSuite } from './UPDistrictIntelligenceSuite';
+import { MPDistrictIntelligenceSuite } from './MPDistrictIntelligenceSuite';
 import './DestinationDetail.css';
 
 const DestinationDetail = () => {
@@ -163,10 +164,12 @@ const DestinationDetail = () => {
         );
     };
 
-    const isUP = Boolean(destination?.district || destination?.isUttarPradesh);
+    const isMP = Boolean(destination?.isMadhyaPradesh || destination?.state === 'Madhya Pradesh' || destination?.location?.toLowerCase().includes('madhya pradesh'));
+    const isUP = !isMP && Boolean(destination?.district || destination?.isUttarPradesh);
 
     const TABS = [
-        { id: 'overview', label: isUP ? 'Overview & Brief' : 'Overview & Brief', icon: Compass },
+        { id: 'overview', label: 'Overview & Brief', icon: Compass },
+        ...(isMP ? [{ id: 'district-suite', label: `${destination.district || 'MP'} District Suite`, icon: Landmark }] : []),
         ...(isUP ? [{ id: 'district-suite', label: `${destination.district || 'UP'} District Suite`, icon: Landmark }] : []),
         { id: 'costs', label: 'Cost of Living', icon: DollarSign },
         { id: 'connectivity', label: 'Wi-Fi & 5G', icon: Wifi },
@@ -315,6 +318,11 @@ const DestinationDetail = () => {
 
                             {destination?.district && (
                                 <div className="dest-hero-up-badges-row">
+                                    {isMP && (
+                                        <span className="dest-up-badge state" style={{ background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.28), rgba(5, 150, 105, 0.35))', borderColor: 'rgba(52, 211, 153, 0.5)', color: '#6ee7b7' }}>
+                                            <span>🐅 Madhya Pradesh</span>
+                                        </span>
+                                    )}
                                     <span className="dest-up-badge district">
                                         <MapPin size={12} className="text-amber-400" />
                                         <span>{destination.district} District</span>
@@ -324,6 +332,11 @@ const DestinationDetail = () => {
                                             <span>{destination.division} Division</span>
                                         </span>
                                     )}
+                                    {destination.mpCircuit && (
+                                        <span className="dest-up-badge circuit" style={{ background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.22), rgba(5, 150, 105, 0.28))', borderColor: 'rgba(52, 211, 153, 0.45)', color: '#6ee7b7' }}>
+                                            <span>{destination.mpCircuit}</span>
+                                        </span>
+                                    )}
                                     {destination.upCircuit && (
                                         <span className="dest-up-badge circuit">
                                             <span>{destination.upCircuit}</span>
@@ -331,7 +344,7 @@ const DestinationDetail = () => {
                                     )}
                                     {destination.odop && (
                                         <span className="dest-up-badge odop">
-                                            <span>ODOP: {destination.odop}</span>
+                                            <span>ODOP / GI: {destination.odop}</span>
                                         </span>
                                     )}
                                 </div>
@@ -570,17 +583,21 @@ const DestinationDetail = () => {
                                         </div>
                                     </div>
 
-                                    {/* Dedicated Uttar Pradesh District Intelligence Suite */}
+                                    {/* Dedicated Madhya Pradesh or Uttar Pradesh District Intelligence Suite */}
+                                    {isMP && (
+                                        <MPDistrictIntelligenceSuite destination={destination} />
+                                    )}
                                     {isUP && (
                                         <UPDistrictIntelligenceSuite destination={destination} />
                                     )}
                                 </div>
                             )}
 
-                            {/* TAB: UP DISTRICT SUITE & HERITAGE WORKSPACE */}
+                            {/* TAB: DISTRICT SUITE & HERITAGE WORKSPACE */}
                             {activeTab === 'district-suite' && (
                                 <div className="dest-section-stack">
-                                    <UPDistrictIntelligenceSuite destination={destination} />
+                                    {isMP && <MPDistrictIntelligenceSuite destination={destination} />}
+                                    {isUP && <UPDistrictIntelligenceSuite destination={destination} />}
                                 </div>
                             )}
 
