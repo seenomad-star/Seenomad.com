@@ -54,6 +54,57 @@ export const MP_CIRCUITS = [
     { id: 'Crafts & Heritage', label: 'GI-Tags & Tribal Crafts', icon: '🏺', description: 'Chanderi Sarees, Maheshwari Silk, Bagh Print, Gond Art, Ratlami Sev' }
 ];
 
+// Core Category / Interest filters for Madhya Pradesh
+export const MP_CATEGORIES = [
+    { id: 'all', label: 'All Interests', icon: '🌟', description: 'Explore all 55 districts across Madhya Pradesh' },
+    { id: 'wildlife', label: 'Wildlife', icon: '🐾', description: 'Royal Bengal tiger reserves, cheetah sanctuaries & national parks' },
+    { id: 'historical', label: 'Historical', icon: '🏛️', description: 'UNESCO monuments, ancient rock art, medieval citadels & palaces' },
+    { id: 'pilgrimage', label: 'Pilgrimage', icon: '🕉️', description: 'Jyotirlingas, holy Narmada ghats, Shaktipeeths & sacred shrines' },
+    { id: 'nature', label: 'Nature & Waterfalls', icon: '🌊', description: 'Marble rocks, hill stations, cascading waterfalls & deep gorges' },
+    { id: 'crafts', label: 'GI-Crafts & Culture', icon: '🏺', description: 'Handloom silks, tribal Gond/Bhil art, block prints & ODOP guilds' }
+];
+
+export const matchMPCategory = (dest, categoryId) => {
+    if (!categoryId || categoryId === 'all') return true;
+    const cat = (dest.category || '').toLowerCase();
+    const circuit = (dest.mpCircuit || '').toLowerCase();
+    const tags = Array.isArray(dest.tags) ? dest.tags.map(t => t.toLowerCase()) : [];
+    const name = (dest.name || '').toLowerCase();
+    const text = `${dest.name} ${dest.location} ${dest.aiInsight || ''} ${dest.socialProof || ''}`.toLowerCase();
+
+    if (categoryId === 'wildlife') {
+        if (cat === 'wildlife' || circuit.includes('wildlife') || circuit.includes('tiger')) return true;
+        if (name.includes('national park') || name.includes('tiger reserve') || name.includes('wildlife sanctuary') || name.includes('bird sanctuary') || name.includes('safari') || name.includes('cheetah')) return true;
+        return tags.some(t => ['tiger', 'wildlife', 'safari', 'national park', 'cheetah', 'sanctuary', 'gharial', 'barasingha', 'leopard'].includes(t)) &&
+            !cat.includes('historic') && !cat.includes('spiritual');
+    }
+
+    if (categoryId === 'historical') {
+        if (cat === 'historical' || circuit.includes('heritage') || circuit.includes('fort') || circuit.includes('palace') || circuit.includes('world heritage')) return true;
+        if (name.includes('fort') || name.includes('palace') || name.includes('unesco') || name.includes('stupa') || name.includes('caves') || name.includes('rock shelters') || name.includes('monument') || name.includes('citadel') || name.includes('qila')) return true;
+        return tags.some(t => ['unesco', 'ancient', 'fort', 'palace', 'heritage', 'monument', 'medieval', 'rock art', 'archaeology', 'chandela', 'scindia', 'bundela', 'stupa', 'caves', 'citadel'].includes(t));
+    }
+
+    if (categoryId === 'pilgrimage' || categoryId === 'spiritual') {
+        if (cat === 'spiritual' || circuit.includes('spiritual') || circuit.includes('jyotirlinga')) return true;
+        if (name.includes('jyotirlinga') || name.includes('teerth') || name.includes('shaktipeeth') || name.includes('temple') || name.includes('mandir') || name.includes('ghat') || name.includes('dham') || name.includes('kund') || name.includes('tekri') || name.includes('kshetra')) return true;
+        return tags.some(t => ['jyotirlinga', 'spiritual', 'pilgrimage', 'temple', 'narmada', 'teerth', 'shrine', 'shiva', 'shaktipeeth', 'kumbh mela', 'aarti', 'ghat'].includes(t));
+    }
+
+    if (categoryId === 'nature') {
+        if (cat === 'nature' || circuit.includes('nature') || circuit.includes('waterfall')) return true;
+        if (name.includes('waterfall') || name.includes('falls') || name.includes('marble rocks') || name.includes('hill station') || name.includes('lake') || name.includes('gorge') || name.includes('valley')) return true;
+        return tags.some(t => ['waterfall', 'nature', 'marble rocks', 'hills', 'valley', 'gorge', 'river', 'satpura', 'pachmarhi', 'falls'].includes(t));
+    }
+
+    if (categoryId === 'crafts' || categoryId === 'culture') {
+        if (cat === 'culture' || cat === 'craft' || circuit.includes('craft') || circuit.includes('culture') || circuit.includes('tribal')) return true;
+        return Boolean(dest.odop) && (tags.some(t => ['craft', 'handloom', 'silk', 'print', 'textile', 'pottery', 'art', 'gond', 'bell metal'].includes(t)) || text.includes('gi tag') || text.includes('handloom') || text.includes('weaving') || text.includes('craft'));
+    }
+
+    return cat.includes(categoryId.toLowerCase()) || circuit.includes(categoryId.toLowerCase());
+};
+
 const MPDistrictIntelligenceSuite = ({ destination }) => {
     const navigate = useNavigate();
     const { addToast } = useToastStore();
@@ -99,9 +150,10 @@ const MPDistrictIntelligenceSuite = ({ destination }) => {
 
     // Audio Guide synthesis setup
     useEffect(() => {
+        const synth = synthRef.current;
         return () => {
-            if (synthRef.current && synthRef.current.speaking) {
-                synthRef.current.cancel();
+            if (synth && synth.speaking) {
+                synth.cancel();
             }
         };
     }, []);
@@ -484,6 +536,7 @@ const MPDistrictIntelligenceSuite = ({ destination }) => {
 export const MP55DistrictsModal = ({ isOpen, onClose, currentDistrict = '', onSelectDistrict }) => {
     const navigate = useNavigate();
     const [selectedDivision, setSelectedDivision] = useState('All Divisions');
+    const [selectedCategory, setSelectedCategory] = useState('all');
     const [districtSearch, setDistrictSearch] = useState('');
 
     const toSlug = (text) => (text || '').toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '');
@@ -509,14 +562,15 @@ export const MP55DistrictsModal = ({ isOpen, onClose, currentDistrict = '', onSe
     const filteredDistricts = useMemo(() => {
         return all55DistrictsDirectory.filter(item => {
             const matchesDivision = selectedDivision === 'All Divisions' || item.division.toLowerCase() === selectedDivision.toLowerCase();
+            const matchesCategory = selectedCategory === 'all' || item.destinations.some(d => matchMPCategory(d, selectedCategory));
             const matchesSearch = !districtSearch ||
                 item.district.toLowerCase().includes(districtSearch.toLowerCase()) ||
                 item.odop.toLowerCase().includes(districtSearch.toLowerCase()) ||
                 item.circuit.toLowerCase().includes(districtSearch.toLowerCase()) ||
                 item.destinations.some(dest => dest.name.toLowerCase().includes(districtSearch.toLowerCase()));
-            return matchesDivision && matchesSearch;
+            return matchesDivision && matchesCategory && matchesSearch;
         });
-    }, [all55DistrictsDirectory, selectedDivision, districtSearch]);
+    }, [all55DistrictsDirectory, selectedDivision, selectedCategory, districtSearch]);
 
     if (!isOpen) return null;
 
@@ -585,6 +639,47 @@ export const MP55DistrictsModal = ({ isOpen, onClose, currentDistrict = '', onSe
                         </div>
                     </div>
 
+                    {/* Category Filter Pills in Modal */}
+                    <div className="modal-category-filter-strip" style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', padding: '0.5rem 1.4rem', borderBottom: '1px solid rgba(255, 255, 255, 0.06)', flexWrap: 'wrap', background: 'rgba(0, 0, 0, 0.15)' }}>
+                        <span style={{ fontSize: '0.72rem', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.04em', color: '#94a3b8', marginRight: '0.25rem' }}>
+                            Interest:
+                        </span>
+                        {MP_CATEGORIES.map(cat => {
+                            const isCatActive = selectedCategory === cat.id;
+                            const count = cat.id === 'all'
+                                ? all55DistrictsDirectory.length
+                                : all55DistrictsDirectory.filter(d => d.destinations.some(item => matchMPCategory(item, cat.id))).length;
+                            return (
+                                <button
+                                    key={cat.id}
+                                    type="button"
+                                    onClick={() => setSelectedCategory(cat.id)}
+                                    style={{
+                                        display: 'inline-flex',
+                                        alignItems: 'center',
+                                        gap: '0.35rem',
+                                        padding: '0.3rem 0.65rem',
+                                        borderRadius: '9999px',
+                                        fontSize: '0.74rem',
+                                        fontWeight: '600',
+                                        cursor: 'pointer',
+                                        transition: 'all 0.15s ease',
+                                        background: isCatActive ? 'linear-gradient(135deg, #10b981, #059669)' : 'rgba(255, 255, 255, 0.05)',
+                                        color: isCatActive ? '#ffffff' : '#cbd5e1',
+                                        border: isCatActive ? '1px solid #10b981' : '1px solid rgba(255, 255, 255, 0.1)',
+                                        boxShadow: isCatActive ? '0 2px 10px rgba(16, 185, 129, 0.35)' : 'none'
+                                    }}
+                                >
+                                    <span>{cat.icon}</span>
+                                    <span>{cat.label}</span>
+                                    <span style={{ fontSize: '0.65rem', padding: '0.05rem 0.35rem', borderRadius: '9999px', background: isCatActive ? 'rgba(255, 255, 255, 0.25)' : 'rgba(0, 0, 0, 0.3)', color: '#fff' }}>
+                                        {count}
+                                    </span>
+                                </button>
+                            );
+                        })}
+                    </div>
+
                     {/* Districts Grid (55 Districts) */}
                     <div className="modal-districts-grid">
                         {filteredDistricts.map(item => {
@@ -635,3 +730,4 @@ export const MP55DistrictsModal = ({ isOpen, onClose, currentDistrict = '', onSe
 };
 
 export default MPDistrictIntelligenceSuite;
+export { MPDistrictIntelligenceSuite };

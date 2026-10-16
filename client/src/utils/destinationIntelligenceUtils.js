@@ -397,10 +397,16 @@ export const getDestinationIntelligence = (dest = {}) => {
     let conditionIcon = 'Sun';
     let bestSeason = 'Year-round';
 
-    const isMP = Boolean(dest.isMadhyaPradesh || location.includes('madhya pradesh'));
-    const isUP = !isMP && Boolean(dest.isUttarPradesh || location.includes('uttar pradesh') || dest.district);
+    const isMH = Boolean(dest.isMaharashtra || location.includes('maharashtra'));
+    const isMP = !isMH && Boolean(dest.isMadhyaPradesh || location.includes('madhya pradesh'));
+    const isUP = !isMH && !isMP && Boolean(dest.isUttarPradesh || location.includes('uttar pradesh') || dest.district);
 
-    if (isMP) {
+    if (isMH) {
+        baseTemp = 25 + (nameSeed % 3);
+        condition = 'Pleasant Sahyadri Ghats & Coastal Breeze (Unlimited Maharashtra)';
+        conditionIcon = 'Sun';
+        bestSeason = dest.bestSeason || 'Oct – Mar (Pleasant Season & Winter Escapes)';
+    } else if (isMP) {
         baseTemp = 24 + (nameSeed % 3);
         condition = 'Crisp Plateau & Sal Forest Breeze (Heart of India)';
         conditionIcon = 'Sun';
@@ -436,14 +442,14 @@ export const getDestinationIntelligence = (dest = {}) => {
     const tempF = Math.round((tempC * 9) / 5 + 32);
 
     // Dynamic Internet Speeds
-    const downloadMbps = (isUP || isMP) ? (165 + (nameSeed % 140)) : (110 + (nameSeed % 140));
-    const uploadMbps = (isUP || isMP) ? Math.round(downloadMbps * 0.8) : Math.round(downloadMbps * 0.45);
-    const pingMs = (isUP || isMP) ? (8 + (nameSeed % 12)) : (10 + (nameSeed % 20));
+    const downloadMbps = (isUP || isMP || isMH) ? (175 + (nameSeed % 140)) : (110 + (nameSeed % 140));
+    const uploadMbps = (isUP || isMP || isMH) ? Math.round(downloadMbps * 0.8) : Math.round(downloadMbps * 0.45);
+    const pingMs = (isUP || isMP || isMH) ? (8 + (nameSeed % 12)) : (10 + (nameSeed % 20));
 
     // Dynamic Cost Breakdown & Economic Shift Telemetry
     let monthlyTotal;
-    if (isUP || isMP) {
-        monthlyTotal = 440 + (nameSeed % 180); // $440 - $620 (approx ₹36,000 - ₹51,000 INR/mo)
+    if (isUP || isMP || isMH) {
+        monthlyTotal = 460 + (nameSeed % 190); // $460 - $650 (approx ₹38,000 - ₹54,000 INR/mo)
     } else {
         const parsedPrice = dest.price ? parseInt(dest.price.replace(/[^0-9]/g, ''), 10) : 1500;
         monthlyTotal = isNaN(parsedPrice) || parsedPrice < 400 ? 1450 : parsedPrice;
@@ -526,9 +532,13 @@ export const getDestinationIntelligence = (dest = {}) => {
             uploadMbps,
             pingMs,
             stabilityScore: `${94 + (nameSeed % 5)}%`,
-            mobileCoverage: (isUP || isMP) ? '5G Jio & Airtel Ultra-Fast' : '4G LTE / 5G Ready',
+            mobileCoverage: (isUP || isMP || isMH) ? '5G Jio & Airtel Ultra-Fast' : '4G LTE / 5G Ready',
             eSimSupport: true,
-            topCoworking: isMP ? [
+            topCoworking: isMH ? [
+                { name: `${dest.district || 'MH'} Sahyadri & Tech Nomad Hub`, speed: `${downloadMbps + 50} Mbps`, price: `$${coworkCost}/mo` },
+                { name: `WeWork Mumbai / Pune Cyber City Lounge`, speed: `${downloadMbps + 80} Mbps`, price: `$${Math.round(coworkCost * 1.15)}/mo` },
+                { name: `Konkan Coastal Fiber Workstation`, speed: `${downloadMbps + 20} Mbps`, price: `$${Math.round(coworkCost * 0.85)}/mo` }
+            ] : isMP ? [
                 { name: `${dest.district || 'MP'} Malwa & Vindhya Fiber Hub`, speed: `${downloadMbps + 40} Mbps`, price: `$${coworkCost}/mo` },
                 { name: `Bhopal Smart City & Indore IT Park Lounge`, speed: `${downloadMbps + 60} Mbps`, price: `$${Math.round(coworkCost * 0.9)}/mo` },
                 { name: `Narmada & Heritage Workstation Lounge`, speed: `${downloadMbps + 20} Mbps`, price: `$${Math.round(coworkCost * 0.85)}/mo` }
@@ -545,7 +555,7 @@ export const getDestinationIntelligence = (dest = {}) => {
         costs: {
             totalEstimated: `$${monthlyTotal.toLocaleString()}`,
             currency: 'USD',
-            rating: (isUP || isMP) ? 'Exceptional Value (Budget-Friendly)' : costRating,
+            rating: (isUP || isMP || isMH) ? 'Exceptional Value (Budget-Friendly)' : costRating,
             trend: {
                 direction: overallTrendDirection,
                 change: overallTrendChange,
@@ -553,7 +563,13 @@ export const getDestinationIntelligence = (dest = {}) => {
                 label: overallTrendLabel,
                 description: overallTrendDesc
             },
-            breakdown: isMP ? [
+            breakdown: isMH ? [
+                { category: 'Private Studio / Heritage Homestay', amount: `$${rentCost.toLocaleString()}/mo`, note: 'Furnished AC stay with high-speed fiber Wi-Fi', trend: rentTrend },
+                { category: 'Coworking Hot Desk / Tech Hub', amount: `$${coworkCost.toLocaleString()}/mo`, note: 'Ergonomic seating & 24/7 power backup', trend: coworkTrend },
+                { category: 'Authentic Maharashtrian Cuisine', amount: `$${foodCost.toLocaleString()}/mo`, note: dest.localCuisine || 'Puran Poli, Misal Pav, Vada Pav, seafood & thalis', trend: foodTrend },
+                { category: 'Transit, Metro & Rail Corridors', amount: `$${transitCost.toLocaleString()}/mo`, note: 'Local trains, metro, Vande Bharat & Samruddhi Mahamarg', trend: transitTrend },
+                { category: 'Cutting Chai & Vada Pav Snacking', amount: `$0.30/cup`, note: 'Hot ginger cutting chai & fresh vada pav', trend: coffeeTrend }
+            ] : isMP ? [
                 { category: 'Heritage Haveli / 1BHK Apartment', amount: `$${rentCost.toLocaleString()}/mo`, note: 'Air-conditioned, furnished with high-speed fiber Wi-Fi', trend: rentTrend },
                 { category: 'Coworking Hot Desk / Fiber Hub', amount: `$${coworkCost.toLocaleString()}/mo`, note: '24/7 power backup & ergonomic setup', trend: coworkTrend },
                 { category: 'Local Malwa & Bundeli Cuisine', amount: `$${foodCost.toLocaleString()}/mo`, note: dest.localCuisine || 'Poha Jalebi, Dal Bafla with Desi Ghee & Bhutte Ka Kees', trend: foodTrend },
@@ -574,10 +590,10 @@ export const getDestinationIntelligence = (dest = {}) => {
             ]
         },
         lifestyle: {
-            safetyScore: isMP ? '91/100' : isUP ? '89/100' : `${80 + (nameSeed % 18)}/100`,
-            walkability: (isUP || isMP) ? '88/100 (Pedestrian Heritage Ghats & Bazaars)' : `${75 + (nameSeed % 20)}/100 (${category.includes('beach') ? 'Bike / Scooter Friendly' : 'Pedestrian Friendly'})`,
-            nomadCommunity: isMP ? '14k+ Wildlife Lovers, Historians & Remote Explorers' : isUP ? '15k+ Nomads, Pilgrims & Cultural Explorers' : `${dest.travelers || '1.4k'} Active Travelers`,
-            visaStatus: (isUP || isMP) ? 'India e-Tourist Visa (30-day, 1-yr, 5-yr online entry)' : (dest.visaFriendly ? 'Visa-Free / Seamless Access' : (dest.visaApprovalRate ? `${dest.visaApprovalRate} Approval Confidence` : 'Check Embassy Requirements'))
+            safetyScore: isMH ? '93/100' : isMP ? '91/100' : isUP ? '89/100' : `${80 + (nameSeed % 18)}/100`,
+            walkability: (isUP || isMP || isMH) ? '89/100 (Pedestrian Heritage Promenades, Forts & Bazaars)' : `${75 + (nameSeed % 20)}/100 (${category.includes('beach') ? 'Bike / Scooter Friendly' : 'Pedestrian Friendly'})`,
+            nomadCommunity: isMH ? '18k+ Tech Nomads, Fort Trekkers & Wildlife Enthusiasts' : isMP ? '14k+ Wildlife Lovers, Historians & Remote Explorers' : isUP ? '15k+ Nomads, Pilgrims & Cultural Explorers' : `${dest.travelers || '1.4k'} Active Travelers`,
+            visaStatus: (isUP || isMP || isMH) ? 'India e-Tourist Visa (30-day, 1-yr, 5-yr online entry)' : (dest.visaFriendly ? 'Visa-Free / Seamless Access' : (dest.visaApprovalRate ? `${dest.visaApprovalRate} Approval Confidence` : 'Check Embassy Requirements'))
         }
     };
 };

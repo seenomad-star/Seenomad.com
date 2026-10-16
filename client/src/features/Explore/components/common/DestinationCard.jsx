@@ -223,6 +223,61 @@ const DestinationCard = ({ dest, viewMode }) => {
                                             <MapPin size={10} className="up-chip-pin text-amber-400" />
                                             <strong>{dest.district} District</strong>
                                         </span>
+                                        {dest?.category && (dest?.isMadhyaPradesh || dest?.location?.toLowerCase().includes('madhya pradesh')) && (
+                                            <span
+                                                className="up-card-circuit-chip mp-category-chip"
+                                                style={{
+                                                    background: dest.category === 'Wildlife'
+                                                        ? 'linear-gradient(135deg, rgba(245, 158, 11, 0.22), rgba(217, 119, 6, 0.28))'
+                                                        : dest.category === 'Historical'
+                                                        ? 'linear-gradient(135deg, rgba(59, 130, 246, 0.22), rgba(37, 99, 235, 0.28))'
+                                                        : dest.category === 'Spiritual'
+                                                        ? 'linear-gradient(135deg, rgba(168, 85, 247, 0.22), rgba(147, 51, 234, 0.28))'
+                                                        : 'linear-gradient(135deg, rgba(16, 185, 129, 0.22), rgba(5, 150, 105, 0.28))',
+                                                    borderColor: dest.category === 'Wildlife' ? 'rgba(245, 158, 11, 0.45)' : dest.category === 'Historical' ? 'rgba(59, 130, 246, 0.45)' : dest.category === 'Spiritual' ? 'rgba(168, 85, 247, 0.45)' : 'rgba(52, 211, 153, 0.45)',
+                                                    color: dest.category === 'Wildlife' ? '#fcd34d' : dest.category === 'Historical' ? '#93c5fd' : dest.category === 'Spiritual' ? '#d8b4fe' : '#6ee7b7'
+                                                }}
+                                                title={`Category: ${dest.category === 'Spiritual' ? 'Pilgrimage' : dest.category}`}
+                                            >
+                                                {dest.category === 'Wildlife' ? '🐾 Wildlife' : dest.category === 'Historical' ? '🏛️ Historical' : dest.category === 'Spiritual' ? '🕉️ Pilgrimage' : `✨ ${dest.category}`}
+                                            </span>
+                                        )}
+                                        {dest?.category && (dest?.isMaharashtra || dest?.location?.toLowerCase().includes('maharashtra')) && (
+                                            <span
+                                                className="up-card-circuit-chip mh-category-chip"
+                                                style={{
+                                                    background: dest.category === 'Wildlife'
+                                                        ? 'linear-gradient(135deg, rgba(245, 158, 11, 0.25), rgba(217, 119, 6, 0.32))'
+                                                        : dest.category === 'Historical'
+                                                        ? 'linear-gradient(135deg, rgba(234, 88, 12, 0.25), rgba(194, 65, 12, 0.32))'
+                                                        : dest.category === 'Spiritual'
+                                                        ? 'linear-gradient(135deg, rgba(168, 85, 247, 0.25), rgba(147, 51, 234, 0.32))'
+                                                        : dest.category === 'Beach'
+                                                        ? 'linear-gradient(135deg, rgba(14, 165, 233, 0.25), rgba(2, 132, 199, 0.32))'
+                                                        : dest.category === 'Nature'
+                                                        ? 'linear-gradient(135deg, rgba(16, 185, 129, 0.25), rgba(5, 150, 105, 0.32))'
+                                                        : 'linear-gradient(135deg, rgba(249, 115, 22, 0.25), rgba(234, 88, 12, 0.32))',
+                                                    borderColor: dest.category === 'Wildlife' ? 'rgba(245, 158, 11, 0.45)' : dest.category === 'Historical' ? 'rgba(234, 88, 12, 0.5)' : dest.category === 'Spiritual' ? 'rgba(168, 85, 247, 0.5)' : dest.category === 'Beach' ? 'rgba(14, 165, 233, 0.5)' : dest.category === 'Nature' ? 'rgba(16, 185, 129, 0.5)' : 'rgba(249, 115, 22, 0.5)',
+                                                    color: dest.category === 'Wildlife' ? '#fcd34d' : dest.category === 'Historical' ? '#fdba74' : dest.category === 'Spiritual' ? '#d8b4fe' : dest.category === 'Beach' ? '#7dd3fc' : dest.category === 'Nature' ? '#6ee7b7' : '#fed7aa'
+                                                }}
+                                                title={`Category: ${dest.category === 'Spiritual' ? 'Pilgrimage' : dest.category}`}
+                                            >
+                                                {dest.category === 'Wildlife' ? '🐾 Wildlife' : dest.category === 'Historical' ? '🚩 Forts & Heritage' : dest.category === 'Spiritual' ? '🕉️ Pilgrimage' : dest.category === 'Beach' ? '🏖️ Konkan Beach' : dest.category === 'Nature' ? '⛰️ Western Ghats' : `✨ ${dest.category}`}
+                                            </span>
+                                        )}
+                                        {dest?.mhCircuit && (
+                                            <span
+                                                className="up-card-circuit-chip mh-circuit-chip"
+                                                style={{
+                                                    background: 'linear-gradient(135deg, rgba(234, 88, 12, 0.22), rgba(194, 65, 12, 0.28))',
+                                                    borderColor: 'rgba(249, 115, 22, 0.45)',
+                                                    color: '#fdba74'
+                                                }}
+                                                title={`MH Tourism Circuit: ${dest.mhCircuit}`}
+                                            >
+                                                🚩 {dest.mhCircuit}
+                                            </span>
+                                        )}
                                         {dest?.mpCircuit && (
                                             <span
                                                 className="up-card-circuit-chip mp-circuit-chip"

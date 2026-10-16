@@ -12,7 +12,8 @@ import ExploreFilterSlidePanel from './ExploreFilterSlidePanel';
 import DelhiCategoryFilterBar from './DelhiCategoryFilterBar';
 import UPDestinationExplorerBar from './UPDestinationExplorerBar';
 import { UP75DistrictsModal } from './UPDistrictIntelligenceSuite';
-import { MP55DistrictsModal } from './MPDistrictIntelligenceSuite';
+import { MP55DistrictsModal, MP_CATEGORIES, matchMPCategory } from './MPDistrictIntelligenceSuite';
+import { MH36DistrictsModal, MH_CATEGORIES, matchMHCategory } from './MHDistrictIntelligenceSuite';
 import { useNavStore } from '../../../store/navStore';
 import { getDestinationDomainStatus } from '../../../utils/destinationDomainUtils';
 import { getDestinationIntelligence } from '../../../utils/destinationIntelligenceUtils';
@@ -23,6 +24,7 @@ const Destinations = () => {
     const [searchParams] = useSearchParams();
     const [is75DistrictsModalOpen, setIs75DistrictsModalOpen] = useState(false);
     const [is55DistrictsModalOpen, setIs55DistrictsModalOpen] = useState(false);
+    const [is36DistrictsModalOpen, setIs36DistrictsModalOpen] = useState(false);
     const {
         searchQuery,
         selectedFilters,
@@ -76,10 +78,25 @@ const Destinations = () => {
         return Array.from(set).sort();
     }, [mpDestinations]);
 
-    // Region Mode: 'up' | 'mp' | 'delhi' | 'global'
+    // Curated Maharashtra Destinations & All 36 Districts list
+    const mhDestinations = useMemo(() => {
+        return allDestinations.filter(d => d.isMaharashtra || d.location?.toLowerCase().includes('maharashtra'));
+    }, []);
+
+    const mhDistrictsList = useMemo(() => {
+        const set = new Set();
+        mhDestinations.forEach(d => {
+            if (d.district) set.add(d.district);
+        });
+        return Array.from(set).sort();
+    }, [mhDestinations]);
+
+    // Region Mode: 'up' | 'mp' | 'mh' | 'delhi' | 'global'
     const initialRegionParam = (searchParams.get('region') || searchParams.get('state') || '').toLowerCase();
     const [regionMode, setRegionMode] = useState(
-        ['mp', 'madhya-pradesh', 'madhyapradesh', 'madhya pradesh'].includes(initialRegionParam)
+        ['mh', 'maharashtra'].includes(initialRegionParam)
+            ? 'mh'
+            : ['mp', 'madhya-pradesh', 'madhyapradesh', 'madhya pradesh'].includes(initialRegionParam)
             ? 'mp'
             : initialRegionParam === 'delhi'
             ? 'delhi'
@@ -89,6 +106,22 @@ const Destinations = () => {
     );
     const [selectedDistrict, setSelectedDistrict] = useState(searchParams.get('district') || 'all');
     const [selectedCircuit, setSelectedCircuit] = useState(searchParams.get('circuit') || 'all');
+
+    // Madhya Pradesh Category / Interest Filter ('wildlife' | 'historical' | 'pilgrimage' | 'nature' | 'crafts' | 'all')
+    const initialCategoryParam = (searchParams.get('category') || searchParams.get('mpCategory') || '').toLowerCase();
+    const [selectedMPCategory, setSelectedMPCategory] = useState(
+        ['wildlife', 'historical', 'pilgrimage', 'spiritual', 'nature', 'crafts', 'culture', 'all'].includes(initialCategoryParam)
+            ? initialCategoryParam
+            : 'all'
+    );
+
+    // Maharashtra Category / Interest Filter ('wildlife' | 'historical' | 'pilgrimage' | 'beach' | 'nature' | 'crafts' | 'all')
+    const initialMHCategoryParam = (searchParams.get('category') || searchParams.get('mhCategory') || '').toLowerCase();
+    const [selectedMHCategory, setSelectedMHCategory] = useState(
+        ['wildlife', 'historical', 'pilgrimage', 'spiritual', 'beach', 'nature', 'crafts', 'culture', 'all'].includes(initialMHCategoryParam)
+            ? initialMHCategoryParam
+            : 'all'
+    );
 
     // Curated Delhi Destinations and Category Counts
     const delhiDestinations = useMemo(() => {
@@ -198,10 +231,33 @@ const Destinations = () => {
         const activeFiltersList = selectedFilters.length > 0 ? selectedFilters : globalActiveFilters;
 
         const filtered = allDestinations.filter(dest => {
-            // Regional Scope Filter ('up' | 'mp' | 'delhi' | 'global')
-            if (regionMode === 'mp') {
+            // Regional Scope Filter ('up' | 'mp' | 'mh' | 'delhi' | 'global')
+            if (regionMode === 'mh') {
+                const isMH = dest.isMaharashtra || dest.location?.toLowerCase().includes('maharashtra');
+                if (!isMH) return false;
+
+                // Category filter ('wildlife', 'historical', 'pilgrimage', 'beach', etc.)
+                if (selectedMHCategory && selectedMHCategory !== 'all') {
+                    if (!matchMHCategory(dest, selectedMHCategory)) return false;
+                }
+
+                // District filter
+                if (selectedDistrict && selectedDistrict !== 'all') {
+                    if (dest.district !== selectedDistrict) return false;
+                }
+
+                // Circuit filter
+                if (selectedCircuit && selectedCircuit !== 'all') {
+                    if (dest.mhCircuit !== selectedCircuit) return false;
+                }
+            } else if (regionMode === 'mp') {
                 const isMP = dest.isMadhyaPradesh || dest.location?.toLowerCase().includes('madhya pradesh');
                 if (!isMP) return false;
+
+                // Category filter ('wildlife', 'historical', 'pilgrimage', etc.)
+                if (selectedMPCategory && selectedMPCategory !== 'all') {
+                    if (!matchMPCategory(dest, selectedMPCategory)) return false;
+                }
 
                 // District filter
                 if (selectedDistrict && selectedDistrict !== 'all') {
@@ -502,7 +558,7 @@ const Destinations = () => {
             }
             return 0; // 'featured' or default retains data order
         });
-    }, [searchQuery, globalSearchQuery, selectedFilters, globalActiveFilters, advancedFilters, domainStatus, sortBy, savedDestinations, isDelhiFocusMode, activeDelhiCategory, regionMode, selectedDistrict, selectedCircuit]);
+    }, [searchQuery, globalSearchQuery, selectedFilters, globalActiveFilters, advancedFilters, domainStatus, sortBy, savedDestinations, isDelhiFocusMode, activeDelhiCategory, regionMode, selectedDistrict, selectedCircuit, selectedMPCategory, selectedMHCategory]);
 
     useEffect(() => {
         if (processedDestinations.length > 0) {
@@ -518,6 +574,8 @@ const Destinations = () => {
         setRegionMode('up');
         setSelectedDistrict('all');
         setSelectedCircuit('all');
+        setSelectedMPCategory('all');
+        setSelectedMHCategory('all');
         setIsDelhiFocusMode(false);
         setActiveDelhiCategory('all');
     };
@@ -526,11 +584,15 @@ const Destinations = () => {
         <div className="destinations-page">
             <div className="destinations-main-layout">
                 <div className="destinations-feed-column">
-                    {/* Interactive Region & Uttar Pradesh Circuit/District Explorer Bar */}
+                    {/* Interactive Region & Uttar Pradesh / Madhya Pradesh / Maharashtra Circuit & District Explorer Bar */}
                     <UPDestinationExplorerBar
                         regionMode={regionMode}
                         onSelectRegionMode={(mode) => {
                             setRegionMode(mode);
+                            setSelectedDistrict('all');
+                            setSelectedCircuit('all');
+                            setSelectedMPCategory('all');
+                            setSelectedMHCategory('all');
                             if (mode === 'delhi') {
                                 setIsDelhiFocusMode(true);
                             } else {
@@ -541,25 +603,110 @@ const Destinations = () => {
                         onSelectDistrict={setSelectedDistrict}
                         selectedCircuit={selectedCircuit}
                         onSelectCircuit={setSelectedCircuit}
+                        selectedMPCategory={selectedMPCategory}
+                        onSelectMPCategory={setSelectedMPCategory}
+                        selectedMHCategory={selectedMHCategory}
+                        onSelectMHCategory={setSelectedMHCategory}
                         upDestinations={upDestinations}
                         districtsList={districtsList}
+                        mpDestinations={mpDestinations}
+                        mpDistrictsList={mpDistrictsList}
+                        mhDestinations={mhDestinations}
+                        mhDistrictsList={mhDistrictsList}
                         totalCount={processedDestinations.length}
                         onOpen75Districts={() => setIs75DistrictsModalOpen(true)}
+                        onOpen55Districts={() => setIs55DistrictsModalOpen(true)}
+                        onOpen36Districts={() => setIs36DistrictsModalOpen(true)}
                     />
 
-                    {/* Active District Filter Banner */}
+                    {/* Active District Filter Banner for UP */}
                     {regionMode === 'up' && selectedDistrict !== 'all' && (
                         <div className="up-active-district-banner">
                             <div className="active-banner-info">
                                 <span className="active-banner-pin">📍</span>
-                                <span>Filtering by <strong>{selectedDistrict} District</strong> ({processedDestinations.length} destination{processedDestinations.length === 1 ? '' : 's'} displayed)</span>
+                                <span>Filtering UP by <strong>{selectedDistrict} District</strong> ({processedDestinations.length} destination{processedDestinations.length === 1 ? '' : 's'} displayed)</span>
                             </div>
                             <button
                                 type="button"
                                 className="active-banner-clear-btn"
                                 onClick={() => setSelectedDistrict('all')}
                             >
-                                View All Districts ×
+                                View All 75 Districts ×
+                            </button>
+                        </div>
+                    )}
+
+                    {/* Active District Filter Banner for MP */}
+                    {regionMode === 'mp' && selectedDistrict !== 'all' && (
+                        <div className="up-active-district-banner" style={{ background: 'rgba(16, 185, 129, 0.1)', borderColor: 'rgba(52, 211, 153, 0.4)' }}>
+                            <div className="active-banner-info">
+                                <span className="active-banner-pin">📍</span>
+                                <span>Filtering MP by <strong>{selectedDistrict} District</strong> ({processedDestinations.length} destination{processedDestinations.length === 1 ? '' : 's'} displayed)</span>
+                            </div>
+                            <button
+                                type="button"
+                                className="active-banner-clear-btn"
+                                onClick={() => setSelectedDistrict('all')}
+                            >
+                                View All 55 Districts ×
+                            </button>
+                        </div>
+                    )}
+
+                    {/* Active Category / Interest Filter Banner for MP */}
+                    {regionMode === 'mp' && selectedMPCategory !== 'all' && (
+                        <div className="up-active-district-banner" style={{ background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.16) 0%, rgba(5, 150, 105, 0.22) 100%)', borderColor: 'rgba(52, 211, 153, 0.45)', color: '#d1fae5' }}>
+                            <div className="active-banner-info">
+                                <span className="active-banner-pin">
+                                    {selectedMPCategory === 'wildlife' ? '🐾' : selectedMPCategory === 'historical' ? '🏛️' : selectedMPCategory === 'pilgrimage' ? '🕉️' : selectedMPCategory === 'nature' ? '🌊' : '🏺'}
+                                </span>
+                                <span>Filtering MP by Category: <strong>{MP_CATEGORIES.find(c => c.id === selectedMPCategory)?.label || selectedMPCategory}</strong> ({processedDestinations.length} destination{processedDestinations.length === 1 ? '' : 's'} matched)</span>
+                            </div>
+                            <button
+                                type="button"
+                                className="active-banner-clear-btn"
+                                style={{ background: 'rgba(0, 0, 0, 0.35)', borderColor: 'rgba(52, 211, 153, 0.5)', color: '#6ee7b7' }}
+                                onClick={() => setSelectedMPCategory('all')}
+                            >
+                                Clear Category Filter ×
+                            </button>
+                        </div>
+                    )}
+
+                    {/* Active District Filter Banner for MH */}
+                    {regionMode === 'mh' && selectedDistrict !== 'all' && (
+                        <div className="up-active-district-banner" style={{ background: 'rgba(234, 88, 12, 0.12)', borderColor: 'rgba(249, 115, 22, 0.45)', color: '#fed7aa' }}>
+                            <div className="active-banner-info">
+                                <span className="active-banner-pin">📍</span>
+                                <span>Filtering Maharashtra by <strong>{selectedDistrict} District</strong> ({processedDestinations.length} destination{processedDestinations.length === 1 ? '' : 's'} displayed)</span>
+                            </div>
+                            <button
+                                type="button"
+                                className="active-banner-clear-btn"
+                                style={{ background: 'rgba(0, 0, 0, 0.35)', borderColor: 'rgba(249, 115, 22, 0.5)', color: '#fdba74' }}
+                                onClick={() => setSelectedDistrict('all')}
+                            >
+                                View All 36 Districts ×
+                            </button>
+                        </div>
+                    )}
+
+                    {/* Active Category / Interest Filter Banner for MH */}
+                    {regionMode === 'mh' && selectedMHCategory !== 'all' && (
+                        <div className="up-active-district-banner" style={{ background: 'linear-gradient(135deg, rgba(234, 88, 12, 0.16) 0%, rgba(194, 65, 12, 0.22) 100%)', borderColor: 'rgba(249, 115, 22, 0.45)', color: '#fed7aa' }}>
+                            <div className="active-banner-info">
+                                <span className="active-banner-pin">
+                                    {selectedMHCategory === 'wildlife' ? '🐾' : selectedMHCategory === 'historical' ? '🚩' : selectedMHCategory === 'pilgrimage' ? '🕉️' : selectedMHCategory === 'beach' ? '🏖️' : selectedMHCategory === 'nature' ? '⛰️' : '🏺'}
+                                </span>
+                                <span>Filtering Maharashtra by Category: <strong>{MH_CATEGORIES.find(c => c.id === selectedMHCategory)?.label || selectedMHCategory}</strong> ({processedDestinations.length} destination{processedDestinations.length === 1 ? '' : 's'} matched)</span>
+                            </div>
+                            <button
+                                type="button"
+                                className="active-banner-clear-btn"
+                                style={{ background: 'rgba(0, 0, 0, 0.35)', borderColor: 'rgba(249, 115, 22, 0.5)', color: '#fdba74' }}
+                                onClick={() => setSelectedMHCategory('all')}
+                            >
+                                Clear Category Filter ×
                             </button>
                         </div>
                     )}
@@ -619,6 +766,34 @@ const Destinations = () => {
                                     <button
                                         type="button"
                                         onClick={() => {
+                                            setRegionMode('mp');
+                                            setSelectedDistrict('all');
+                                            setSelectedCircuit('all');
+                                            setSelectedMPCategory('all');
+                                            setSearchQuery('');
+                                        }}
+                                        className="empty-suggestion-pill"
+                                        style={{ borderColor: 'rgba(52, 211, 153, 0.4)', color: '#6ee7b7' }}
+                                    >
+                                        View All Madhya Pradesh Destinations ({mpDestinations.length})
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() => {
+                                            setRegionMode('mh');
+                                            setSelectedDistrict('all');
+                                            setSelectedCircuit('all');
+                                            setSelectedMHCategory('all');
+                                            setSearchQuery('');
+                                        }}
+                                        className="empty-suggestion-pill"
+                                        style={{ borderColor: 'rgba(249, 115, 22, 0.4)', color: '#fdba74' }}
+                                    >
+                                        View All Maharashtra Destinations ({mhDestinations.length})
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() => {
                                             setRegionMode('delhi');
                                             setIsDelhiFocusMode(true);
                                             setActiveDelhiCategory('all');
@@ -671,6 +846,30 @@ const Destinations = () => {
                     setSelectedDistrict(dist);
                     setRegionMode('up');
                     setIs75DistrictsModalOpen(false);
+                }}
+            />
+
+            {/* Comprehensive 55 Districts Directory Modal for Madhya Pradesh */}
+            <MP55DistrictsModal
+                isOpen={is55DistrictsModalOpen}
+                onClose={() => setIs55DistrictsModalOpen(false)}
+                currentDistrict={selectedDistrict}
+                onSelectDistrict={(dist) => {
+                    setSelectedDistrict(dist);
+                    setRegionMode('mp');
+                    setIs55DistrictsModalOpen(false);
+                }}
+            />
+
+            {/* Comprehensive 36 Districts Directory Modal for Maharashtra */}
+            <MH36DistrictsModal
+                isOpen={is36DistrictsModalOpen}
+                onClose={() => setIs36DistrictsModalOpen(false)}
+                currentDistrict={selectedDistrict}
+                onSelectDistrict={(dist) => {
+                    setSelectedDistrict(dist);
+                    setRegionMode('mh');
+                    setIs36DistrictsModalOpen(false);
                 }}
             />
         </div>

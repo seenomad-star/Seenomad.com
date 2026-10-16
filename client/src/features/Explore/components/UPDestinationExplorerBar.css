@@ -85,6 +85,13 @@
     box-shadow: 0 4px 15px rgba(16, 185, 129, 0.35);
 }
 
+.region-tab-btn.active.mh-theme {
+    background: linear-gradient(135deg, #f97316 0%, #c2410c 100%);
+    border-color: #f97316;
+    color: #ffffff;
+    box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4);
+}
+
 .region-tab-btn.active.delhi-theme {
     background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
     border-color: #0284c7;
@@ -409,4 +416,126 @@
 .active-banner-clear-btn:hover {
     background: rgba(251, 191, 36, 0.2);
     border-color: #fbbf24;
+}
+
+/* ============================================================
+   MP CATEGORY & INTEREST FILTER PILLS
+   ============================================================ */
+.mp-category-filters-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    padding: 0.85rem 1rem;
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(5, 150, 105, 0.04) 100%);
+    border: 1px solid rgba(52, 211, 153, 0.25);
+    border-radius: 14px;
+    margin-bottom: 0.65rem;
+}
+
+:root:not(.dark) .mp-category-filters-container {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, #f0fdf4 100%);
+    border-color: rgba(16, 185, 129, 0.2);
+}
+
+.mp-category-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.mp-category-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #e2e8f0;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+:root:not(.dark) .mp-category-eyebrow {
+    color: #0f172a;
+}
+
+.mp-category-hint {
+    font-size: 0.74rem;
+    color: #94a3b8;
+}
+
+:root:not(.dark) .mp-category-hint {
+    color: #64748b;
+}
+
+.mp-category-pills-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.mp-category-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.45rem 0.85rem;
+    border-radius: 9999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #94a3b8;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+:root:not(.dark) .mp-category-pill {
+    background: #ffffff;
+    border-color: #e2e8f0;
+    color: #475569;
+}
+
+.mp-category-pill:hover {
+    background: rgba(16, 185, 129, 0.12);
+    border-color: rgba(52, 211, 153, 0.4);
+    color: #f8fafc;
+    transform: translateY(-1px);
+}
+
+:root:not(.dark) .mp-category-pill:hover {
+    background: #ecfdf5;
+    color: #065f46;
+    border-color: #a7f3d0;
+}
+
+.mp-category-pill.active {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    border-color: #10b981;
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4);
+    transform: translateY(-1px);
+}
+
+.mp-category-pill .cat-pill-icon {
+    font-size: 0.95rem;
+}
+
+.mp-category-pill .cat-pill-label {
+    font-size: 0.78rem;
+    letter-spacing: -0.01em;
+}
+
+.mp-category-pill .cat-pill-count {
+    background: rgba(0, 0, 0, 0.25);
+    padding: 0.08rem 0.45rem;
+    border-radius: 9999px;
+    font-size: 0.68rem;
+    font-weight: 700;
+}
+
+.mp-category-pill.active .cat-pill-count {
+    background: rgba(255, 255, 255, 0.25);
+    color: #ffffff;
 }

@@ -24,6 +24,7 @@ import CompareDestinationsModal from './CompareDestinationsModal';
 import { Image, UGCImage } from '../../../components/common/Image';
 import { UPDistrictIntelligenceSuite } from './UPDistrictIntelligenceSuite';
 import { MPDistrictIntelligenceSuite } from './MPDistrictIntelligenceSuite';
+import { MHDistrictIntelligenceSuite } from './MHDistrictIntelligenceSuite';
 import './DestinationDetail.css';
 
 const DestinationDetail = () => {
@@ -164,11 +165,13 @@ const DestinationDetail = () => {
         );
     };
 
-    const isMP = Boolean(destination?.isMadhyaPradesh || destination?.state === 'Madhya Pradesh' || destination?.location?.toLowerCase().includes('madhya pradesh'));
-    const isUP = !isMP && Boolean(destination?.district || destination?.isUttarPradesh);
+    const isMH = Boolean(destination?.isMaharashtra || destination?.state === 'Maharashtra' || destination?.location?.toLowerCase().includes('maharashtra'));
+    const isMP = !isMH && Boolean(destination?.isMadhyaPradesh || destination?.state === 'Madhya Pradesh' || destination?.location?.toLowerCase().includes('madhya pradesh'));
+    const isUP = !isMH && !isMP && Boolean(destination?.district || destination?.isUttarPradesh);
 
     const TABS = [
         { id: 'overview', label: 'Overview & Brief', icon: Compass },
+        ...(isMH ? [{ id: 'district-suite', label: `${destination.district || 'MH'} District Suite`, icon: Landmark }] : []),
         ...(isMP ? [{ id: 'district-suite', label: `${destination.district || 'MP'} District Suite`, icon: Landmark }] : []),
         ...(isUP ? [{ id: 'district-suite', label: `${destination.district || 'UP'} District Suite`, icon: Landmark }] : []),
         { id: 'costs', label: 'Cost of Living', icon: DollarSign },
@@ -318,10 +321,73 @@ const DestinationDetail = () => {
 
                             {destination?.district && (
                                 <div className="dest-hero-up-badges-row">
+                                    {isMH && (
+                                        <span className="dest-up-badge state" style={{ background: 'linear-gradient(135deg, rgba(234, 88, 12, 0.28), rgba(194, 65, 12, 0.35))', borderColor: 'rgba(249, 115, 22, 0.5)', color: '#fed7aa' }}>
+                                            <span>🚩 Maharashtra</span>
+                                        </span>
+                                    )}
+                                    {isMH && destination.category && (
+                                        <button
+                                            type="button"
+                                            onClick={() => {
+                                                const catParam = destination.category === 'Wildlife' ? 'wildlife' : destination.category === 'Historical' ? 'historical' : destination.category === 'Spiritual' ? 'pilgrimage' : destination.category === 'Beach' ? 'beach' : destination.category === 'Nature' ? 'nature' : 'all';
+                                                navigate(`/explore?region=mh&category=${catParam}`);
+                                            }}
+                                            className="dest-up-badge category-link-badge"
+                                            style={{
+                                                background: destination.category === 'Wildlife'
+                                                    ? 'linear-gradient(135deg, rgba(245, 158, 11, 0.28), rgba(217, 119, 6, 0.35))'
+                                                    : destination.category === 'Historical'
+                                                    ? 'linear-gradient(135deg, rgba(234, 88, 12, 0.28), rgba(194, 65, 12, 0.35))'
+                                                    : destination.category === 'Spiritual'
+                                                    ? 'linear-gradient(135deg, rgba(168, 85, 247, 0.28), rgba(147, 51, 234, 0.35))'
+                                                    : destination.category === 'Beach'
+                                                    ? 'linear-gradient(135deg, rgba(14, 165, 233, 0.28), rgba(2, 132, 199, 0.35))'
+                                                    : destination.category === 'Nature'
+                                                    ? 'linear-gradient(135deg, rgba(16, 185, 129, 0.28), rgba(5, 150, 105, 0.35))'
+                                                    : 'linear-gradient(135deg, rgba(249, 115, 22, 0.28), rgba(234, 88, 12, 0.35))',
+                                                borderColor: destination.category === 'Wildlife' ? 'rgba(245, 158, 11, 0.5)' : destination.category === 'Historical' ? 'rgba(234, 88, 12, 0.5)' : destination.category === 'Spiritual' ? 'rgba(168, 85, 247, 0.5)' : destination.category === 'Beach' ? 'rgba(14, 165, 233, 0.5)' : destination.category === 'Nature' ? 'rgba(16, 185, 129, 0.5)' : 'rgba(249, 115, 22, 0.5)',
+                                                color: destination.category === 'Wildlife' ? '#fcd34d' : destination.category === 'Historical' ? '#fdba74' : destination.category === 'Spiritual' ? '#d8b4fe' : destination.category === 'Beach' ? '#7dd3fc' : destination.category === 'Nature' ? '#6ee7b7' : '#fed7aa',
+                                                cursor: 'pointer'
+                                            }}
+                                            title={`Explore all Maharashtra ${destination.category === 'Spiritual' ? 'Pilgrimage' : destination.category} destinations`}
+                                        >
+                                            <span>
+                                                {destination.category === 'Wildlife' ? '🐾 Wildlife' : destination.category === 'Historical' ? '🚩 Forts & Heritage' : destination.category === 'Spiritual' ? '🕉️ Pilgrimage' : destination.category === 'Beach' ? '🏖️ Konkan Beach' : destination.category === 'Nature' ? '⛰️ Western Ghats' : `✨ ${destination.category}`}
+                                            </span>
+                                        </button>
+                                    )}
                                     {isMP && (
                                         <span className="dest-up-badge state" style={{ background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.28), rgba(5, 150, 105, 0.35))', borderColor: 'rgba(52, 211, 153, 0.5)', color: '#6ee7b7' }}>
                                             <span>🐅 Madhya Pradesh</span>
                                         </span>
+                                    )}
+                                    {isMP && destination.category && (
+                                        <button
+                                            type="button"
+                                            onClick={() => {
+                                                const catParam = destination.category === 'Wildlife' ? 'wildlife' : destination.category === 'Historical' ? 'historical' : destination.category === 'Spiritual' ? 'pilgrimage' : 'all';
+                                                navigate(`/explore?region=mp&category=${catParam}`);
+                                            }}
+                                            className="dest-up-badge category-link-badge"
+                                            style={{
+                                                background: destination.category === 'Wildlife'
+                                                    ? 'linear-gradient(135deg, rgba(245, 158, 11, 0.28), rgba(217, 119, 6, 0.35))'
+                                                    : destination.category === 'Historical'
+                                                    ? 'linear-gradient(135deg, rgba(59, 130, 246, 0.28), rgba(37, 99, 235, 0.35))'
+                                                    : destination.category === 'Spiritual'
+                                                    ? 'linear-gradient(135deg, rgba(168, 85, 247, 0.28), rgba(147, 51, 234, 0.35))'
+                                                    : 'linear-gradient(135deg, rgba(16, 185, 129, 0.28), rgba(5, 150, 105, 0.35))',
+                                                borderColor: destination.category === 'Wildlife' ? 'rgba(245, 158, 11, 0.5)' : destination.category === 'Historical' ? 'rgba(59, 130, 246, 0.5)' : destination.category === 'Spiritual' ? 'rgba(168, 85, 247, 0.5)' : 'rgba(52, 211, 153, 0.5)',
+                                                color: destination.category === 'Wildlife' ? '#fcd34d' : destination.category === 'Historical' ? '#93c5fd' : destination.category === 'Spiritual' ? '#d8b4fe' : '#6ee7b7',
+                                                cursor: 'pointer'
+                                            }}
+                                            title={`Explore all Madhya Pradesh ${destination.category === 'Spiritual' ? 'Pilgrimage' : destination.category} destinations`}
+                                        >
+                                            <span>
+                                                {destination.category === 'Wildlife' ? '🐾 Wildlife' : destination.category === 'Historical' ? '🏛️ Historical' : destination.category === 'Spiritual' ? '🕉️ Pilgrimage' : `✨ ${destination.category}`}
+                                            </span>
+                                        </button>
                                     )}
                                     <span className="dest-up-badge district">
                                         <MapPin size={12} className="text-amber-400" />
@@ -330,6 +396,11 @@ const DestinationDetail = () => {
                                     {destination.division && (
                                         <span className="dest-up-badge division">
                                             <span>{destination.division} Division</span>
+                                        </span>
+                                    )}
+                                    {destination.mhCircuit && (
+                                        <span className="dest-up-badge circuit" style={{ background: 'linear-gradient(135deg, rgba(234, 88, 12, 0.22), rgba(194, 65, 12, 0.28))', borderColor: 'rgba(249, 115, 22, 0.45)', color: '#fdba74' }}>
+                                            <span>🚩 {destination.mhCircuit}</span>
                                         </span>
                                     )}
                                     {destination.mpCircuit && (
@@ -583,7 +654,10 @@ const DestinationDetail = () => {
                                         </div>
                                     </div>
 
-                                    {/* Dedicated Madhya Pradesh or Uttar Pradesh District Intelligence Suite */}
+                                    {/* Dedicated Maharashtra, Madhya Pradesh or Uttar Pradesh District Intelligence Suite */}
+                                    {isMH && (
+                                        <MHDistrictIntelligenceSuite destination={destination} />
+                                    )}
                                     {isMP && (
                                         <MPDistrictIntelligenceSuite destination={destination} />
                                     )}
@@ -596,6 +670,7 @@ const DestinationDetail = () => {
                             {/* TAB: DISTRICT SUITE & HERITAGE WORKSPACE */}
                             {activeTab === 'district-suite' && (
                                 <div className="dest-section-stack">
+                                    {isMH && <MHDistrictIntelligenceSuite destination={destination} />}
                                     {isMP && <MPDistrictIntelligenceSuite destination={destination} />}
                                     {isUP && <UPDistrictIntelligenceSuite destination={destination} />}
                                 </div>
