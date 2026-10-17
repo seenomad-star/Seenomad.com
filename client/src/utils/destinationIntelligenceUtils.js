@@ -397,11 +397,17 @@ export const getDestinationIntelligence = (dest = {}) => {
     let conditionIcon = 'Sun';
     let bestSeason = 'Year-round';
 
-    const isMH = Boolean(dest.isMaharashtra || location.includes('maharashtra'));
-    const isMP = !isMH && Boolean(dest.isMadhyaPradesh || location.includes('madhya pradesh'));
-    const isUP = !isMH && !isMP && Boolean(dest.isUttarPradesh || location.includes('uttar pradesh') || dest.district);
+    const isRJ = Boolean(dest.isRajasthan || location.includes('rajasthan'));
+    const isMH = !isRJ && Boolean(dest.isMaharashtra || location.includes('maharashtra'));
+    const isMP = !isRJ && !isMH && Boolean(dest.isMadhyaPradesh || location.includes('madhya pradesh'));
+    const isUP = !isRJ && !isMH && !isMP && Boolean(dest.isUttarPradesh || location.includes('uttar pradesh') || dest.district);
 
-    if (isMH) {
+    if (isRJ) {
+        baseTemp = 24 + (nameSeed % 4);
+        condition = 'Golden Desert Breeze & Crisp Aravalli Air (Padharo Mhare Desh)';
+        conditionIcon = 'Sun';
+        bestSeason = dest.bestSeason || 'Oct – Mar (Pleasant Royal Heritage Season)';
+    } else if (isMH) {
         baseTemp = 25 + (nameSeed % 3);
         condition = 'Pleasant Sahyadri Ghats & Coastal Breeze (Unlimited Maharashtra)';
         conditionIcon = 'Sun';
@@ -442,13 +448,13 @@ export const getDestinationIntelligence = (dest = {}) => {
     const tempF = Math.round((tempC * 9) / 5 + 32);
 
     // Dynamic Internet Speeds
-    const downloadMbps = (isUP || isMP || isMH) ? (175 + (nameSeed % 140)) : (110 + (nameSeed % 140));
-    const uploadMbps = (isUP || isMP || isMH) ? Math.round(downloadMbps * 0.8) : Math.round(downloadMbps * 0.45);
-    const pingMs = (isUP || isMP || isMH) ? (8 + (nameSeed % 12)) : (10 + (nameSeed % 20));
+    const downloadMbps = (isUP || isMP || isMH || isRJ) ? (175 + (nameSeed % 140)) : (110 + (nameSeed % 140));
+    const uploadMbps = (isUP || isMP || isMH || isRJ) ? Math.round(downloadMbps * 0.8) : Math.round(downloadMbps * 0.45);
+    const pingMs = (isUP || isMP || isMH || isRJ) ? (8 + (nameSeed % 12)) : (10 + (nameSeed % 20));
 
     // Dynamic Cost Breakdown & Economic Shift Telemetry
     let monthlyTotal;
-    if (isUP || isMP || isMH) {
+    if (isUP || isMP || isMH || isRJ) {
         monthlyTotal = 460 + (nameSeed % 190); // $460 - $650 (approx ₹38,000 - ₹54,000 INR/mo)
     } else {
         const parsedPrice = dest.price ? parseInt(dest.price.replace(/[^0-9]/g, ''), 10) : 1500;
@@ -532,9 +538,13 @@ export const getDestinationIntelligence = (dest = {}) => {
             uploadMbps,
             pingMs,
             stabilityScore: `${94 + (nameSeed % 5)}%`,
-            mobileCoverage: (isUP || isMP || isMH) ? '5G Jio & Airtel Ultra-Fast' : '4G LTE / 5G Ready',
+            mobileCoverage: (isUP || isMP || isMH || isRJ) ? '5G Jio & Airtel Ultra-Fast' : '4G LTE / 5G Ready',
             eSimSupport: true,
-            topCoworking: isMH ? [
+            topCoworking: isRJ ? [
+                { name: `${dest.district || 'RJ'} Royal Nomad Tech Lounge`, speed: `${downloadMbps + 50} Mbps`, price: `$${coworkCost}/mo` },
+                { name: `Jaipur C-Scheme / Udaipur Lakeview Fiber Hub`, speed: `${downloadMbps + 80} Mbps`, price: `$${Math.round(coworkCost * 1.15)}/mo` },
+                { name: `Thar Desert Oasis & Heritage Workstation`, speed: `${downloadMbps + 20} Mbps`, price: `$${Math.round(coworkCost * 0.85)}/mo` }
+            ] : isMH ? [
                 { name: `${dest.district || 'MH'} Sahyadri & Tech Nomad Hub`, speed: `${downloadMbps + 50} Mbps`, price: `$${coworkCost}/mo` },
                 { name: `WeWork Mumbai / Pune Cyber City Lounge`, speed: `${downloadMbps + 80} Mbps`, price: `$${Math.round(coworkCost * 1.15)}/mo` },
                 { name: `Konkan Coastal Fiber Workstation`, speed: `${downloadMbps + 20} Mbps`, price: `$${Math.round(coworkCost * 0.85)}/mo` }
@@ -555,7 +565,7 @@ export const getDestinationIntelligence = (dest = {}) => {
         costs: {
             totalEstimated: `$${monthlyTotal.toLocaleString()}`,
             currency: 'USD',
-            rating: (isUP || isMP || isMH) ? 'Exceptional Value (Budget-Friendly)' : costRating,
+            rating: (isUP || isMP || isMH || isRJ) ? 'Exceptional Value (Budget-Friendly)' : costRating,
             trend: {
                 direction: overallTrendDirection,
                 change: overallTrendChange,
@@ -563,7 +573,13 @@ export const getDestinationIntelligence = (dest = {}) => {
                 label: overallTrendLabel,
                 description: overallTrendDesc
             },
-            breakdown: isMH ? [
+            breakdown: isRJ ? [
+                { category: 'Heritage Haveli / Royal Studio Homestay', amount: `$${rentCost.toLocaleString()}/mo`, note: 'Furnished AC stay with high-speed fiber Wi-Fi', trend: rentTrend },
+                { category: 'Coworking Hot Desk / Heritage Hub', amount: `$${coworkCost.toLocaleString()}/mo`, note: 'Ergonomic seating & 24/7 power backup', trend: coworkTrend },
+                { category: 'Authentic Royal Rajasthani Cuisine', amount: `$${foodCost.toLocaleString()}/mo`, note: dest.localCuisine || 'Dal Baati Churma, Ker Sangri, Gatte & Ghevar', trend: foodTrend },
+                { category: 'Transit, Vande Bharat & Expressway Corridors', amount: `$${transitCost.toLocaleString()}/mo`, note: 'Delhi-Mumbai Expressway, Vande Bharat & local autos', trend: transitTrend },
+                { category: 'Masala Chai & Pyaaz Kachori Snacking', amount: `$0.30/cup`, note: 'Fresh ginger-cardamom chai & crisp piping kachoris', trend: coffeeTrend }
+            ] : isMH ? [
                 { category: 'Private Studio / Heritage Homestay', amount: `$${rentCost.toLocaleString()}/mo`, note: 'Furnished AC stay with high-speed fiber Wi-Fi', trend: rentTrend },
                 { category: 'Coworking Hot Desk / Tech Hub', amount: `$${coworkCost.toLocaleString()}/mo`, note: 'Ergonomic seating & 24/7 power backup', trend: coworkTrend },
                 { category: 'Authentic Maharashtrian Cuisine', amount: `$${foodCost.toLocaleString()}/mo`, note: dest.localCuisine || 'Puran Poli, Misal Pav, Vada Pav, seafood & thalis', trend: foodTrend },

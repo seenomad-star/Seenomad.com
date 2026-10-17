@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { MP_CIRCUITS, MP_CATEGORIES, matchMPCategory } from './MPDistrictIntelligenceSuite';
 import { MH_CIRCUITS, MH_CATEGORIES, matchMHCategory } from './MHDistrictIntelligenceSuite';
+import { RJ_CIRCUITS, RJ_CATEGORIES, matchRJCategory } from './RJDistrictIntelligenceSuite';
 import './UPDestinationExplorerBar.css';
 
 export const UP_CIRCUITS = [
@@ -20,7 +21,7 @@ export const UP_CIRCUITS = [
 ];
 
 const UPDestinationExplorerBar = ({
-    regionMode = 'up', // 'up' | 'mp' | 'mh' | 'delhi' | 'global'
+    regionMode = 'up', // 'up' | 'mp' | 'mh' | 'rj' | 'delhi' | 'global'
     onSelectRegionMode,
     selectedDistrict = 'all',
     onSelectDistrict,
@@ -30,16 +31,21 @@ const UPDestinationExplorerBar = ({
     onSelectMPCategory,
     selectedMHCategory = 'all',
     onSelectMHCategory,
+    selectedRJCategory = 'all',
+    onSelectRJCategory,
     upDestinations = [],
     districtsList = [],
     mpDestinations = [],
     mpDistrictsList = [],
     mhDestinations = [],
     mhDistrictsList = [],
+    rjDestinations = [],
+    rjDistrictsList = [],
     totalCount = 0,
     onOpen75Districts,
     onOpen55Districts,
-    onOpen36Districts
+    onOpen36Districts,
+    onOpen50Districts
 }) => {
     const navigate = useNavigate();
 
@@ -67,6 +73,31 @@ const UPDestinationExplorerBar = ({
         });
         return counts;
     }, [mhDestinations]);
+
+    // Compute counts per RJ category
+    const rjCategoryCounts = useMemo(() => {
+        const counts = { all: rjDestinations.length };
+        RJ_CATEGORIES.forEach(cat => {
+            if (cat.id !== 'all') {
+                counts[cat.id] = rjDestinations.filter(d => matchRJCategory(d, cat.id)).length;
+            }
+        });
+        return counts;
+    }, [rjDestinations]);
+
+    // Compute counts per RJ circuit
+    const rjCircuitCounts = useMemo(() => {
+        const counts = { all: rjDestinations.length };
+        RJ_CIRCUITS.forEach(c => {
+            if (c.id !== 'all') counts[c.id] = 0;
+        });
+        rjDestinations.forEach(d => {
+            if (d.rjCircuit && counts[d.rjCircuit] !== undefined) {
+                counts[d.rjCircuit]++;
+            }
+        });
+        return counts;
+    }, [rjDestinations]);
 
     // Compute counts per MP category
     const mpCategoryCounts = useMemo(() => {
@@ -109,7 +140,7 @@ const UPDestinationExplorerBar = ({
 
     return (
         <div className="up-explorer-hub-container">
-            {/* 1. Region Switcher Tabs (Uttar Pradesh vs Madhya Pradesh vs Delhi vs Global) */}
+            {/* 1. Region Switcher Tabs (Uttar Pradesh vs Madhya Pradesh vs Maharashtra vs Rajasthan vs Delhi vs Global) */}
             <div className="region-mode-switcher-bar">
                 <div className="region-tabs-group">
                     <button
@@ -144,6 +175,16 @@ const UPDestinationExplorerBar = ({
 
                     <button
                         type="button"
+                        onClick={() => onSelectRegionMode('rj')}
+                        className={`region-tab-btn ${regionMode === 'rj' ? 'active rj-theme' : ''}`}
+                    >
+                        <span className="region-flag">🐪</span>
+                        <span className="font-bold">Rajasthan (50 Districts)</span>
+                        <span className="region-badge-count">{rjDestinations.length}</span>
+                    </button>
+
+                    <button
+                        type="button"
                         onClick={() => onSelectRegionMode('delhi')}
                         className={`region-tab-btn ${regionMode === 'delhi' ? 'active delhi-theme' : ''}`}
                     >
@@ -164,7 +205,9 @@ const UPDestinationExplorerBar = ({
                 <div className="up-state-motto-tag">
                     <span className="up-seal-dot" />
                     <span>
-                        {regionMode === 'mh'
+                        {regionMode === 'rj'
+                            ? 'Rajasthan Tourism · Padharo Mhare Desh · Incredible India'
+                            : regionMode === 'mh'
                             ? 'Maharashtra Tourism · Unlimited Maharashtra · Incredible India'
                             : regionMode === 'mp'
                             ? 'Madhya Pradesh Tourism · The Heart of Incredible India'
@@ -481,6 +524,167 @@ const UPDestinationExplorerBar = ({
                         <div className="telemetry-item">
                             <Sparkles size={13} className="text-cyan-400" />
                             <span>5 Sacred Jyotirlingas (Trimbakeshwar, Bhimashankar, Grishneshwar, Parli, Aundha)</span>
+                        </div>
+                        <div className="telemetry-bullet">·</div>
+                        <div className="telemetry-item">
+                            <ShieldCheck size={13} className="text-emerald-400" />
+                            <span>Full Dedicated Intelligence Detail Pages</span>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* 3. When Region Mode is 'rj', show RJ District Dropdown & Circuit Pills */}
+            {regionMode === 'rj' && (
+                <div className="up-circuit-controls-card rj-controls-card" style={{ borderColor: 'rgba(245, 158, 11, 0.35)' }}>
+                    {/* Header Banner */}
+                    <div className="up-controls-header">
+                        <div className="up-header-text-block">
+                            <h2 className="up-header-title">
+                                Explore Rajasthan Destinations by District, Category & Circuit
+                            </h2>
+                            <p className="up-header-desc">
+                                Padharo Mhare Desh · 50 Districts: From UNESCO World Heritage Hill Forts, Lake Palaces of Udaipur & Golden Thar Dunes of Jaisalmer to Ranthambore Tiger Corridors, Sacred Pushkar & Shekhawati Painted Havelis.
+                            </p>
+                        </div>
+
+                        {/* District Dropdown Selector & 50 Districts Quick Modal Trigger */}
+                        <div className="up-district-dropdown-wrap">
+                            <div className="district-dropdown-labels-row">
+                                <label htmlFor="rj-district-select" className="district-dropdown-label">
+                                    <MapPin size={14} className="text-amber-400" />
+                                    <span>Filter by RJ District:</span>
+                                </label>
+                                {onOpen50Districts && (
+                                    <button
+                                        type="button"
+                                        onClick={onOpen50Districts}
+                                        className="up-directory-quick-link"
+                                        style={{
+                                            background: 'linear-gradient(135deg, rgba(217, 119, 6, 0.22) 0%, rgba(180, 83, 9, 0.28) 100%)',
+                                            color: '#fcd34d',
+                                            borderColor: 'rgba(245, 158, 11, 0.45)'
+                                        }}
+                                        title="Browse full directory of all 50 districts of Rajasthan"
+                                    >
+                                        <Compass size={12} />
+                                        <span>50 Districts Grid</span>
+                                    </button>
+                                )}
+                                <button
+                                    type="button"
+                                    onClick={() => navigate('/explore/itinerary-builder')}
+                                    className="up-directory-quick-link"
+                                    style={{
+                                        background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.22) 0%, rgba(217, 119, 6, 0.28) 100%)',
+                                        color: '#fbbf24',
+                                        borderColor: 'rgba(245, 158, 11, 0.45)'
+                                    }}
+                                    title="Build custom Day-by-Day Travel Plan"
+                                >
+                                    <Calendar size={12} />
+                                    <span>Build Day-by-Day Itinerary 🗓️</span>
+                                </button>
+                            </div>
+                            <div className="district-select-box">
+                                <select
+                                    id="rj-district-select"
+                                    value={selectedDistrict}
+                                    onChange={(e) => onSelectDistrict(e.target.value)}
+                                    className="district-native-select"
+                                >
+                                    <option value="all">🌟 All 50 Districts ({rjDistrictsList.length} Covered)</option>
+                                    {rjDistrictsList.map((district) => (
+                                        <option key={district} value={district}>
+                                            📍 {district} District
+                                        </option>
+                                    ))}
+                                </select>
+                                <ChevronDown size={14} className="select-arrow-icon" />
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* RJ Category / Interest Filters (Forts, Wildlife, Desert, Pilgrimage, Lakes, Crafts) */}
+                    <div className="mp-category-filters-container" style={{ background: 'linear-gradient(135deg, rgba(217, 119, 6, 0.08) 0%, rgba(180, 83, 9, 0.04) 100%)', borderColor: 'rgba(245, 158, 11, 0.25)' }}>
+                        <div className="mp-category-header-row">
+                            <span className="mp-category-eyebrow">
+                                <Sparkles size={13} className="text-amber-400" />
+                                <strong>Filter by Interest / Category:</strong>
+                            </span>
+                            <span className="mp-category-hint">
+                                Quickly find UNESCO hill forts & palaces, Thar desert dunes, tiger reserves, or sacred tirthas
+                            </span>
+                        </div>
+                        <div className="mp-category-pills-row" role="group" aria-label="Filter Rajasthan by Category">
+                            {RJ_CATEGORIES.map((cat) => {
+                                const count = rjCategoryCounts[cat.id] || 0;
+                                const isActive = (selectedRJCategory || 'all') === cat.id;
+                                return (
+                                    <button
+                                        key={cat.id}
+                                        type="button"
+                                        onClick={() => onSelectRJCategory && onSelectRJCategory(cat.id)}
+                                        className={`mp-category-pill ${isActive ? 'active' : ''}`}
+                                        style={isActive ? {
+                                            background: 'linear-gradient(135deg, #d97706 0%, #b45309 100%)',
+                                            borderColor: '#f59e0b',
+                                            color: '#ffffff',
+                                            boxShadow: '0 4px 14px rgba(245, 158, 11, 0.4)'
+                                        } : {}}
+                                        title={cat.description}
+                                    >
+                                        <span className="cat-pill-icon">{cat.icon}</span>
+                                        <span className="cat-pill-label">{cat.label}</span>
+                                        <span className="cat-pill-count">{count}</span>
+                                    </button>
+                                );
+                            })}
+                        </div>
+                    </div>
+
+                    {/* RJ Circuit Filter Pills */}
+                    <div className="up-circuit-pills-row">
+                        {RJ_CIRCUITS.map((circuit) => {
+                            const count = rjCircuitCounts[circuit.id] || 0;
+                            const isActive = selectedCircuit === circuit.id;
+                            return (
+                                <button
+                                    key={circuit.id}
+                                    type="button"
+                                    onClick={() => onSelectCircuit(circuit.id)}
+                                    className={`up-circuit-pill ${isActive ? 'active' : ''}`}
+                                    style={isActive ? {
+                                        background: 'linear-gradient(135deg, #d97706 0%, #b45309 100%)',
+                                        borderColor: '#f59e0b',
+                                        color: '#ffffff',
+                                        boxShadow: '0 4px 15px rgba(245, 158, 11, 0.35)'
+                                    } : {}}
+                                    title={circuit.description}
+                                >
+                                    <span className="circuit-pill-icon">{circuit.icon}</span>
+                                    <span className="circuit-pill-label">{circuit.label}</span>
+                                    <span className="circuit-pill-count">{count}</span>
+                                </button>
+                            );
+                        })}
+                    </div>
+
+                    {/* Quick Telemetry Footbar */}
+                    <div className="up-telemetry-footbar">
+                        <div className="telemetry-item">
+                            <Check size={13} className="text-amber-400" />
+                            <span>50 Districts Represented</span>
+                        </div>
+                        <div className="telemetry-bullet">·</div>
+                        <div className="telemetry-item">
+                            <Award size={13} className="text-amber-400" />
+                            <span>6 UNESCO World Heritage Hill Forts (Amber, Chittorgarh, Kumbhalgarh, Jaisalmer, Ranthambore, Gagron)</span>
+                        </div>
+                        <div className="telemetry-bullet">·</div>
+                        <div className="telemetry-item">
+                            <Sparkles size={13} className="text-cyan-400" />
+                            <span>Ranthambore, Sariska, Keoladeo Ghana & Jawai Leopard Corridors</span>
                         </div>
                         <div className="telemetry-bullet">·</div>
                         <div className="telemetry-item">

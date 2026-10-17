@@ -25,6 +25,7 @@ import { Image, UGCImage } from '../../../components/common/Image';
 import { UPDistrictIntelligenceSuite } from './UPDistrictIntelligenceSuite';
 import { MPDistrictIntelligenceSuite } from './MPDistrictIntelligenceSuite';
 import { MHDistrictIntelligenceSuite } from './MHDistrictIntelligenceSuite';
+import { RJDistrictIntelligenceSuite } from './RJDistrictIntelligenceSuite';
 import './DestinationDetail.css';
 
 const DestinationDetail = () => {
@@ -165,12 +166,14 @@ const DestinationDetail = () => {
         );
     };
 
-    const isMH = Boolean(destination?.isMaharashtra || destination?.state === 'Maharashtra' || destination?.location?.toLowerCase().includes('maharashtra'));
-    const isMP = !isMH && Boolean(destination?.isMadhyaPradesh || destination?.state === 'Madhya Pradesh' || destination?.location?.toLowerCase().includes('madhya pradesh'));
-    const isUP = !isMH && !isMP && Boolean(destination?.district || destination?.isUttarPradesh);
+    const isRJ = Boolean(destination?.isRajasthan || destination?.state === 'Rajasthan' || destination?.location?.toLowerCase().includes('rajasthan'));
+    const isMH = !isRJ && Boolean(destination?.isMaharashtra || destination?.state === 'Maharashtra' || destination?.location?.toLowerCase().includes('maharashtra'));
+    const isMP = !isRJ && !isMH && Boolean(destination?.isMadhyaPradesh || destination?.state === 'Madhya Pradesh' || destination?.location?.toLowerCase().includes('madhya pradesh'));
+    const isUP = !isRJ && !isMH && !isMP && Boolean(destination?.district || destination?.isUttarPradesh);
 
     const TABS = [
         { id: 'overview', label: 'Overview & Brief', icon: Compass },
+        ...(isRJ ? [{ id: 'district-suite', label: `${destination.district || 'Rajasthan'} District Suite`, icon: Landmark }] : []),
         ...(isMH ? [{ id: 'district-suite', label: `${destination.district || 'MH'} District Suite`, icon: Landmark }] : []),
         ...(isMP ? [{ id: 'district-suite', label: `${destination.district || 'MP'} District Suite`, icon: Landmark }] : []),
         ...(isUP ? [{ id: 'district-suite', label: `${destination.district || 'UP'} District Suite`, icon: Landmark }] : []),
@@ -321,6 +324,42 @@ const DestinationDetail = () => {
 
                             {destination?.district && (
                                 <div className="dest-hero-up-badges-row">
+                                    {isRJ && (
+                                        <span className="dest-up-badge state" style={{ background: 'linear-gradient(135deg, rgba(217, 119, 6, 0.28), rgba(180, 83, 9, 0.35))', borderColor: 'rgba(245, 158, 11, 0.5)', color: '#fde68a' }}>
+                                            <span>🐪 Rajasthan</span>
+                                        </span>
+                                    )}
+                                    {isRJ && destination.category && (
+                                        <button
+                                            type="button"
+                                            onClick={() => {
+                                                const catParam = destination.category === 'Wildlife' ? 'wildlife' : destination.category === 'Historical' ? 'historical' : destination.category === 'Desert' ? 'desert' : destination.category === 'Spiritual' ? 'pilgrimage' : destination.category === 'Nature' ? 'nature' : 'all';
+                                                navigate(`/explore?region=rj&category=${catParam}`);
+                                            }}
+                                            className="dest-up-badge category-link-badge"
+                                            style={{
+                                                background: destination.category === 'Wildlife'
+                                                    ? 'linear-gradient(135deg, rgba(245, 158, 11, 0.28), rgba(217, 119, 6, 0.35))'
+                                                    : destination.category === 'Historical'
+                                                    ? 'linear-gradient(135deg, rgba(217, 119, 6, 0.28), rgba(180, 83, 9, 0.35))'
+                                                    : destination.category === 'Desert'
+                                                    ? 'linear-gradient(135deg, rgba(234, 179, 8, 0.28), rgba(202, 138, 4, 0.35))'
+                                                    : destination.category === 'Spiritual'
+                                                    ? 'linear-gradient(135deg, rgba(168, 85, 247, 0.28), rgba(147, 51, 234, 0.35))'
+                                                    : destination.category === 'Nature'
+                                                    ? 'linear-gradient(135deg, rgba(16, 185, 129, 0.28), rgba(5, 150, 105, 0.35))'
+                                                    : 'linear-gradient(135deg, rgba(245, 158, 11, 0.28), rgba(217, 119, 6, 0.35))',
+                                                borderColor: destination.category === 'Wildlife' ? 'rgba(245, 158, 11, 0.5)' : destination.category === 'Historical' ? 'rgba(217, 119, 6, 0.5)' : destination.category === 'Desert' ? 'rgba(234, 179, 8, 0.5)' : destination.category === 'Spiritual' ? 'rgba(168, 85, 247, 0.5)' : destination.category === 'Nature' ? 'rgba(16, 185, 129, 0.5)' : 'rgba(245, 158, 11, 0.5)',
+                                                color: destination.category === 'Wildlife' ? '#fcd34d' : destination.category === 'Historical' ? '#fde68a' : destination.category === 'Desert' ? '#fef08a' : destination.category === 'Spiritual' ? '#d8b4fe' : destination.category === 'Nature' ? '#6ee7b7' : '#fde68a',
+                                                cursor: 'pointer'
+                                            }}
+                                            title={`Explore all Rajasthan ${destination.category === 'Spiritual' ? 'Pilgrimage' : destination.category} destinations`}
+                                        >
+                                            <span>
+                                                {destination.category === 'Wildlife' ? '🐾 Wildlife' : destination.category === 'Historical' ? '🏰 Forts & Palaces' : destination.category === 'Desert' ? '🐪 Thar Desert' : destination.category === 'Spiritual' ? '🕉️ Pilgrimage' : destination.category === 'Nature' ? '⛰️ Lakes & Hills' : `✨ ${destination.category}`}
+                                            </span>
+                                        </button>
+                                    )}
                                     {isMH && (
                                         <span className="dest-up-badge state" style={{ background: 'linear-gradient(135deg, rgba(234, 88, 12, 0.28), rgba(194, 65, 12, 0.35))', borderColor: 'rgba(249, 115, 22, 0.5)', color: '#fed7aa' }}>
                                             <span>🚩 Maharashtra</span>
@@ -396,6 +435,11 @@ const DestinationDetail = () => {
                                     {destination.division && (
                                         <span className="dest-up-badge division">
                                             <span>{destination.division} Division</span>
+                                        </span>
+                                    )}
+                                    {destination.rjCircuit && (
+                                        <span className="dest-up-badge circuit" style={{ background: 'linear-gradient(135deg, rgba(217, 119, 6, 0.22), rgba(180, 83, 9, 0.28))', borderColor: 'rgba(245, 158, 11, 0.45)', color: '#fcd34d' }}>
+                                            <span>🐪 {destination.rjCircuit}</span>
                                         </span>
                                     )}
                                     {destination.mhCircuit && (
@@ -654,7 +698,10 @@ const DestinationDetail = () => {
                                         </div>
                                     </div>
 
-                                    {/* Dedicated Maharashtra, Madhya Pradesh or Uttar Pradesh District Intelligence Suite */}
+                                    {/* Dedicated Rajasthan, Maharashtra, Madhya Pradesh or Uttar Pradesh District Intelligence Suite */}
+                                    {isRJ && (
+                                        <RJDistrictIntelligenceSuite destination={destination} />
+                                    )}
                                     {isMH && (
                                         <MHDistrictIntelligenceSuite destination={destination} />
                                     )}
@@ -670,6 +717,7 @@ const DestinationDetail = () => {
                             {/* TAB: DISTRICT SUITE & HERITAGE WORKSPACE */}
                             {activeTab === 'district-suite' && (
                                 <div className="dest-section-stack">
+                                    {isRJ && <RJDistrictIntelligenceSuite destination={destination} />}
                                     {isMH && <MHDistrictIntelligenceSuite destination={destination} />}
                                     {isMP && <MPDistrictIntelligenceSuite destination={destination} />}
                                     {isUP && <UPDistrictIntelligenceSuite destination={destination} />}

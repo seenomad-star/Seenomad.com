@@ -92,6 +92,13 @@
     box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4);
 }
 
+.region-tab-btn.active.rj-theme {
+    background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+    border-color: #f59e0b;
+    color: #ffffff;
+    box-shadow: 0 4px 15px rgba(245, 158, 11, 0.45);
+}
+
 .region-tab-btn.active.delhi-theme {
     background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
     border-color: #0284c7;

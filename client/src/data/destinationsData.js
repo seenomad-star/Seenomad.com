@@ -1,6 +1,7 @@
 import { uttarPradeshDestinations } from './uttarPradeshDestinationsData.js';
 import { madhyaPradeshDestinations } from './madhyaPradeshDestinationsData.js';
 import { maharashtraDestinations } from './maharashtraDestinationsData.js';
+import { rajasthanDestinations } from './rajasthanDestinationsData.js';
 
 const baseDestinations = [
     // BEACH (15)
@@ -797,12 +798,13 @@ const baseDestinations = [
     }
 ];
 
-export { uttarPradeshDestinations, madhyaPradeshDestinations, maharashtraDestinations };
+export { uttarPradeshDestinations, madhyaPradeshDestinations, maharashtraDestinations, rajasthanDestinations };
 export const allDestinations = [
     ...baseDestinations,
     ...uttarPradeshDestinations,
     ...madhyaPradeshDestinations,
-    ...maharashtraDestinations
+    ...maharashtraDestinations,
+    ...rajasthanDestinations
 ];
 
 

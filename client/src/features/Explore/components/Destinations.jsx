@@ -14,6 +14,7 @@ import UPDestinationExplorerBar from './UPDestinationExplorerBar';
 import { UP75DistrictsModal } from './UPDistrictIntelligenceSuite';
 import { MP55DistrictsModal, MP_CATEGORIES, matchMPCategory } from './MPDistrictIntelligenceSuite';
 import { MH36DistrictsModal, MH_CATEGORIES, matchMHCategory } from './MHDistrictIntelligenceSuite';
+import { RJ50DistrictsModal, RJ_CATEGORIES, matchRJCategory } from './RJDistrictIntelligenceSuite';
 import { useNavStore } from '../../../store/navStore';
 import { getDestinationDomainStatus } from '../../../utils/destinationDomainUtils';
 import { getDestinationIntelligence } from '../../../utils/destinationIntelligenceUtils';
@@ -25,6 +26,7 @@ const Destinations = () => {
     const [is75DistrictsModalOpen, setIs75DistrictsModalOpen] = useState(false);
     const [is55DistrictsModalOpen, setIs55DistrictsModalOpen] = useState(false);
     const [is36DistrictsModalOpen, setIs36DistrictsModalOpen] = useState(false);
+    const [is50DistrictsModalOpen, setIs50DistrictsModalOpen] = useState(false);
     const {
         searchQuery,
         selectedFilters,
@@ -91,10 +93,25 @@ const Destinations = () => {
         return Array.from(set).sort();
     }, [mhDestinations]);
 
-    // Region Mode: 'up' | 'mp' | 'mh' | 'delhi' | 'global'
+    // Curated Rajasthan Destinations & All 50 Districts list
+    const rjDestinations = useMemo(() => {
+        return allDestinations.filter(d => d.isRajasthan || d.location?.toLowerCase().includes('rajasthan'));
+    }, []);
+
+    const rjDistrictsList = useMemo(() => {
+        const set = new Set();
+        rjDestinations.forEach(d => {
+            if (d.district) set.add(d.district);
+        });
+        return Array.from(set).sort();
+    }, [rjDestinations]);
+
+    // Region Mode: 'up' | 'mp' | 'mh' | 'rj' | 'delhi' | 'global'
     const initialRegionParam = (searchParams.get('region') || searchParams.get('state') || '').toLowerCase();
     const [regionMode, setRegionMode] = useState(
-        ['mh', 'maharashtra'].includes(initialRegionParam)
+        ['rj', 'rajasthan'].includes(initialRegionParam)
+            ? 'rj'
+            : ['mh', 'maharashtra'].includes(initialRegionParam)
             ? 'mh'
             : ['mp', 'madhya-pradesh', 'madhyapradesh', 'madhya pradesh'].includes(initialRegionParam)
             ? 'mp'
@@ -120,6 +137,14 @@ const Destinations = () => {
     const [selectedMHCategory, setSelectedMHCategory] = useState(
         ['wildlife', 'historical', 'pilgrimage', 'spiritual', 'beach', 'nature', 'crafts', 'culture', 'all'].includes(initialMHCategoryParam)
             ? initialMHCategoryParam
+            : 'all'
+    );
+
+    // Rajasthan Category / Interest Filter ('wildlife' | 'historical' | 'pilgrimage' | 'desert' | 'nature' | 'crafts' | 'all')
+    const initialRJCategoryParam = (searchParams.get('category') || searchParams.get('rjCategory') || '').toLowerCase();
+    const [selectedRJCategory, setSelectedRJCategory] = useState(
+        ['wildlife', 'historical', 'pilgrimage', 'spiritual', 'desert', 'nature', 'crafts', 'culture', 'all'].includes(initialRJCategoryParam)
+            ? initialRJCategoryParam
             : 'all'
     );
 
@@ -231,8 +256,26 @@ const Destinations = () => {
         const activeFiltersList = selectedFilters.length > 0 ? selectedFilters : globalActiveFilters;
 
         const filtered = allDestinations.filter(dest => {
-            // Regional Scope Filter ('up' | 'mp' | 'mh' | 'delhi' | 'global')
-            if (regionMode === 'mh') {
+            // Regional Scope Filter ('up' | 'mp' | 'mh' | 'rj' | 'delhi' | 'global')
+            if (regionMode === 'rj') {
+                const isRJ = dest.isRajasthan || dest.location?.toLowerCase().includes('rajasthan');
+                if (!isRJ) return false;
+
+                // Category filter ('wildlife', 'historical', 'pilgrimage', 'desert', 'nature', 'crafts', etc.)
+                if (selectedRJCategory && selectedRJCategory !== 'all') {
+                    if (!matchRJCategory(dest, selectedRJCategory)) return false;
+                }
+
+                // District filter
+                if (selectedDistrict && selectedDistrict !== 'all') {
+                    if (dest.district !== selectedDistrict) return false;
+                }
+
+                // Circuit filter
+                if (selectedCircuit && selectedCircuit !== 'all') {
+                    if (dest.rjCircuit !== selectedCircuit) return false;
+                }
+            } else if (regionMode === 'mh') {
                 const isMH = dest.isMaharashtra || dest.location?.toLowerCase().includes('maharashtra');
                 if (!isMH) return false;
 
@@ -558,7 +601,7 @@ const Destinations = () => {
             }
             return 0; // 'featured' or default retains data order
         });
-    }, [searchQuery, globalSearchQuery, selectedFilters, globalActiveFilters, advancedFilters, domainStatus, sortBy, savedDestinations, isDelhiFocusMode, activeDelhiCategory, regionMode, selectedDistrict, selectedCircuit, selectedMPCategory, selectedMHCategory]);
+    }, [searchQuery, globalSearchQuery, selectedFilters, globalActiveFilters, advancedFilters, domainStatus, sortBy, savedDestinations, isDelhiFocusMode, activeDelhiCategory, regionMode, selectedDistrict, selectedCircuit, selectedMPCategory, selectedMHCategory, selectedRJCategory]);
 
     useEffect(() => {
         if (processedDestinations.length > 0) {
@@ -576,6 +619,7 @@ const Destinations = () => {
         setSelectedCircuit('all');
         setSelectedMPCategory('all');
         setSelectedMHCategory('all');
+        setSelectedRJCategory('all');
         setIsDelhiFocusMode(false);
         setActiveDelhiCategory('all');
     };
@@ -584,7 +628,7 @@ const Destinations = () => {
         <div className="destinations-page">
             <div className="destinations-main-layout">
                 <div className="destinations-feed-column">
-                    {/* Interactive Region & Uttar Pradesh / Madhya Pradesh / Maharashtra Circuit & District Explorer Bar */}
+                    {/* Interactive Region & Uttar Pradesh / Madhya Pradesh / Maharashtra / Rajasthan Circuit & District Explorer Bar */}
                     <UPDestinationExplorerBar
                         regionMode={regionMode}
                         onSelectRegionMode={(mode) => {
@@ -593,6 +637,7 @@ const Destinations = () => {
                             setSelectedCircuit('all');
                             setSelectedMPCategory('all');
                             setSelectedMHCategory('all');
+                            setSelectedRJCategory('all');
                             if (mode === 'delhi') {
                                 setIsDelhiFocusMode(true);
                             } else {
@@ -607,16 +652,21 @@ const Destinations = () => {
                         onSelectMPCategory={setSelectedMPCategory}
                         selectedMHCategory={selectedMHCategory}
                         onSelectMHCategory={setSelectedMHCategory}
+                        selectedRJCategory={selectedRJCategory}
+                        onSelectRJCategory={setSelectedRJCategory}
                         upDestinations={upDestinations}
                         districtsList={districtsList}
                         mpDestinations={mpDestinations}
                         mpDistrictsList={mpDistrictsList}
                         mhDestinations={mhDestinations}
                         mhDistrictsList={mhDistrictsList}
+                        rjDestinations={rjDestinations}
+                        rjDistrictsList={rjDistrictsList}
                         totalCount={processedDestinations.length}
                         onOpen75Districts={() => setIs75DistrictsModalOpen(true)}
                         onOpen55Districts={() => setIs55DistrictsModalOpen(true)}
                         onOpen36Districts={() => setIs36DistrictsModalOpen(true)}
+                        onOpen50Districts={() => setIs50DistrictsModalOpen(true)}
                     />
 
                     {/* Active District Filter Banner for UP */}
@@ -711,6 +761,44 @@ const Destinations = () => {
                         </div>
                     )}
 
+                    {/* Active District Filter Banner for RJ */}
+                    {regionMode === 'rj' && selectedDistrict !== 'all' && (
+                        <div className="up-active-district-banner" style={{ background: 'rgba(217, 119, 6, 0.12)', borderColor: 'rgba(245, 158, 11, 0.45)', color: '#fde68a' }}>
+                            <div className="active-banner-info">
+                                <span className="active-banner-pin">📍</span>
+                                <span>Filtering Rajasthan by <strong>{selectedDistrict} District</strong> ({processedDestinations.length} destination{processedDestinations.length === 1 ? '' : 's'} displayed)</span>
+                            </div>
+                            <button
+                                type="button"
+                                className="active-banner-clear-btn"
+                                style={{ background: 'rgba(0, 0, 0, 0.35)', borderColor: 'rgba(245, 158, 11, 0.5)', color: '#fcd34d' }}
+                                onClick={() => setSelectedDistrict('all')}
+                            >
+                                View All 50 Districts ×
+                            </button>
+                        </div>
+                    )}
+
+                    {/* Active Category / Interest Filter Banner for RJ */}
+                    {regionMode === 'rj' && selectedRJCategory !== 'all' && (
+                        <div className="up-active-district-banner" style={{ background: 'linear-gradient(135deg, rgba(217, 119, 6, 0.16) 0%, rgba(180, 83, 9, 0.22) 100%)', borderColor: 'rgba(245, 158, 11, 0.45)', color: '#fde68a' }}>
+                            <div className="active-banner-info">
+                                <span className="active-banner-pin">
+                                    {selectedRJCategory === 'wildlife' ? '🐾' : selectedRJCategory === 'historical' ? '🏰' : selectedRJCategory === 'desert' ? '🐪' : selectedRJCategory === 'pilgrimage' ? '🕉️' : selectedRJCategory === 'nature' ? '⛰️' : '🏺'}
+                                </span>
+                                <span>Filtering Rajasthan by Category: <strong>{RJ_CATEGORIES.find(c => c.id === selectedRJCategory)?.label || selectedRJCategory}</strong> ({processedDestinations.length} destination{processedDestinations.length === 1 ? '' : 's'} matched)</span>
+                            </div>
+                            <button
+                                type="button"
+                                className="active-banner-clear-btn"
+                                style={{ background: 'rgba(0, 0, 0, 0.35)', borderColor: 'rgba(245, 158, 11, 0.5)', color: '#fcd34d' }}
+                                onClick={() => setSelectedRJCategory('all')}
+                            >
+                                Clear Category Filter ×
+                            </button>
+                        </div>
+                    )}
+
                     {/* Interactive Delhi Category Filter Bar (when in Delhi mode) */}
                     {regionMode === 'delhi' && (
                         <DelhiCategoryFilterBar
@@ -794,6 +882,20 @@ const Destinations = () => {
                                     <button
                                         type="button"
                                         onClick={() => {
+                                            setRegionMode('rj');
+                                            setSelectedDistrict('all');
+                                            setSelectedCircuit('all');
+                                            setSelectedRJCategory('all');
+                                            setSearchQuery('');
+                                        }}
+                                        className="empty-suggestion-pill"
+                                        style={{ borderColor: 'rgba(245, 158, 11, 0.4)', color: '#fcd34d' }}
+                                    >
+                                        View All Rajasthan Destinations ({rjDestinations.length})
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() => {
                                             setRegionMode('delhi');
                                             setIsDelhiFocusMode(true);
                                             setActiveDelhiCategory('all');
@@ -870,6 +972,18 @@ const Destinations = () => {
                     setSelectedDistrict(dist);
                     setRegionMode('mh');
                     setIs36DistrictsModalOpen(false);
+                }}
+            />
+
+            {/* Comprehensive 50 Districts Directory Modal for Rajasthan */}
+            <RJ50DistrictsModal
+                isOpen={is50DistrictsModalOpen}
+                onClose={() => setIs50DistrictsModalOpen(false)}
+                currentDistrict={selectedDistrict}
+                onSelectDistrict={(dist) => {
+                    setSelectedDistrict(dist);
+                    setRegionMode('rj');
+                    setIs50DistrictsModalOpen(false);
                 }}
             />
         </div>
