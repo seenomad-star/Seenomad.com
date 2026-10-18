@@ -5,10 +5,12 @@ import {
     MapPin, Landmark, Sparkles, Compass, Clock,
     Volume2, VolumeX, Play, Pause, ChevronRight, X,
     Calendar, Check, ShieldCheck, Award, Train, Utensils,
-    Navigation, ExternalLink, Search, Globe, Waves, Mountain, Sun
+    Navigation, ExternalLink, Search, Globe, Waves, Mountain, Sun,
+    CheckCircle2, Copy, Plus, AlertCircle
 } from 'lucide-react';
 import { useToastStore } from '../../../store/toastStore';
 import { useNomadOSStore } from '../../../store/nomadOSStore';
+import { useItineraryStore } from '../../../store/itineraryStore';
 import { chhattisgarhDestinations } from '../../../data/chhattisgarhDestinationsData.js';
 import './UPDistrictIntelligenceSuite.css';
 
@@ -91,15 +93,54 @@ export const CGDistrictIntelligenceSuite = ({ destination }) => {
     const navigate = useNavigate();
     const { addXP } = useNomadOSStore();
     const { addToast } = useToastStore();
+    const { addDestinationToDay } = useItineraryStore();
 
     const [isPlayingAudio, setIsPlayingAudio] = useState(false);
     const [audioProgress, setAudioProgress] = useState(0);
-    const [selectedTab, setSelectedTab] = useState('heritage'); // 'heritage' | 'telemetry' | 'odop' | 'transit'
+    const [selectedTab, setSelectedTab] = useState('heritage'); // 'heritage' | 'activities' | 'tips' | 'telemetry' | 'odop' | 'cuisine'
+    const [completedActs, setCompletedActs] = useState({});
     const synthRef = useRef(typeof window !== 'undefined' && 'speechSynthesis' in window ? window.speechSynthesis : null);
 
     const destDistrict = destination?.district || 'Raipur';
     const destDivision = destination?.division || 'Raipur';
     const destId = destination?.id;
+
+    const activitiesList = destination?.activities && destination.activities.length > 0
+        ? destination.activities
+        : [
+            `Embark on a guided morning exploration of ${destination?.name || 'this destination'}`,
+            `Engage with local Bastar bell metal and Dhokra artisan workshops`,
+            `Capture sunrise and sunset landscape vistas across the regional viewpoints`,
+            `Taste authentic Chhattisgarhi steamed Farra and Chila at village haats`
+        ];
+
+    const travelTipsList = destination?.travelTips && destination.travelTips.length > 0
+        ? destination.travelTips
+        : [
+            `Best season to visit is ${destination?.bestSeason || 'October to March'} for pleasant weather.`,
+            `Carry sufficient local currency notes for tribal markets and remote handicraft haats.`,
+            `Ensure sturdy footwear for nature trails, waterfalls, and ancient temple steps.`,
+            `Nearest airport and SECR railhead: ${destination?.nearestAirport || 'Raipur (RPR)'} / ${destination?.railConnectivity || 'SECR Network'}.`
+        ];
+
+    const toggleActComplete = (idx, text) => {
+        setCompletedActs(prev => {
+            const next = { ...prev, [idx]: !prev[idx] };
+            if (next[idx]) {
+                addXP(35);
+                addToast(`Logged experience: "${text.slice(0, 34)}..." (+35 XP) 🌿`, 'success');
+            }
+            return next;
+        });
+    };
+
+    const copyTipsToClipboard = () => {
+        const textToCopy = `Travel Tips for ${destination.name} (${destDistrict} District, Chhattisgarh):\n\n` +
+            travelTipsList.map((tip, i) => `${i + 1}. ${tip}`).join('\n') +
+            `\n\nOptimal Season: ${destination.bestSeason || 'Oct – Mar'}\nAir: ${destination.nearestAirport || 'Raipur (RPR)'}\nRail: ${destination.railConnectivity || 'SECR Network'}`;
+        navigator.clipboard?.writeText(textToCopy);
+        addToast('Copied Chhattisgarh Travel Tips to clipboard! 📋', 'success');
+    };
 
     // Same district or division siblings
     const nearbySpots = useMemo(() => {
@@ -193,6 +234,8 @@ export const CGDistrictIntelligenceSuite = ({ destination }) => {
             <div className="up-suite-tabs-nav" role="tablist">
                 {[
                     { id: 'heritage', label: 'Cultural Lore & AI Insight', icon: Landmark },
+                    { id: 'activities', label: `Activities (${activitiesList.length})`, icon: Sparkles },
+                    { id: 'tips', label: `Travel Tips (${travelTipsList.length})`, icon: ShieldCheck },
                     { id: 'telemetry', label: 'District Matrix & Transit', icon: Train },
                     { id: 'odop', label: 'ODOP & Tribal Guild', icon: Award },
                     { id: 'cuisine', label: 'Flavors & Forest Fare', icon: Utensils }
@@ -216,7 +259,7 @@ export const CGDistrictIntelligenceSuite = ({ destination }) => {
                 })}
             </div>
 
-            {/* Tab 1: Heritage & AI Insight */}
+            {/* Tab Panes */}
             <div className="up-suite-tab-content">
                 {selectedTab === 'heritage' && (
                     <motion.div
@@ -282,6 +325,236 @@ export const CGDistrictIntelligenceSuite = ({ destination }) => {
                                 </div>
                             </div>
                         )}
+                    </motion.div>
+                )}
+
+                {/* Tab: Curated Activities & Experiences */}
+                {selectedTab === 'activities' && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="up-tab-pane"
+                    >
+                        <div className="up-insight-quote-box" style={{ borderColor: 'rgba(16, 185, 129, 0.45)', background: 'linear-gradient(135deg, rgba(5, 150, 105, 0.12) 0%, rgba(4, 120, 87, 0.18) 100%)' }}>
+                            <div className="quote-icon-wrap" style={{ color: '#10b981' }}>
+                                <Sparkles size={22} />
+                            </div>
+                            <div className="quote-text-wrap">
+                                <h4 className="quote-title">Curated Experiences & Field Activities in {destination.name}</h4>
+                                <p className="quote-body">
+                                    Handpicked cultural, adventure, and eco-tourism activities across {destDistrict} District. Check off experiences you've completed (+35 XP) or add them straight into your Nomad Trip Planner.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className="cg-activities-list-container" style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginTop: '16px' }}>
+                            {activitiesList.map((act, idx) => {
+                                const isDone = Boolean(completedActs[idx]);
+                                return (
+                                    <div
+                                        key={idx}
+                                        className={`cg-activity-card ${isDone ? 'is-completed' : ''}`}
+                                        style={{
+                                            display: 'flex',
+                                            alignItems: 'flex-start',
+                                            justifyContent: 'space-between',
+                                            gap: '16px',
+                                            padding: '16px 18px',
+                                            background: isDone ? 'rgba(5, 150, 105, 0.18)' : 'rgba(15, 23, 42, 0.65)',
+                                            border: `1px solid ${isDone ? '#10b981' : 'rgba(16, 185, 129, 0.22)'}`,
+                                            borderRadius: '12px',
+                                            transition: 'all 0.2s ease'
+                                        }}
+                                    >
+                                        <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', flex: 1 }}>
+                                            <span
+                                                style={{
+                                                    display: 'inline-flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center',
+                                                    minWidth: '28px',
+                                                    height: '28px',
+                                                    borderRadius: '8px',
+                                                    background: isDone ? '#10b981' : 'rgba(16, 185, 129, 0.15)',
+                                                    color: isDone ? '#ffffff' : '#6ee7b7',
+                                                    fontSize: '0.75rem',
+                                                    fontWeight: 700
+                                                }}
+                                            >
+                                                #{String(idx + 1).padStart(2, '0')}
+                                            </span>
+                                            <div>
+                                                <p style={{ margin: 0, fontSize: '0.94rem', lineHeight: '1.5', color: isDone ? '#a7f3d0' : '#f1f5f9', fontWeight: 500, textDecoration: isDone ? 'line-through' : 'none' }}>
+                                                    {act}
+                                                </p>
+                                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '8px', flexWrap: 'wrap' }}>
+                                                    <span style={{ fontSize: '0.72rem', color: '#6ee7b7', background: 'rgba(16, 185, 129, 0.12)', padding: '2px 8px', borderRadius: '4px', border: '1px solid rgba(16, 185, 129, 0.25)' }}>
+                                                        🌿 {destination.cgCircuit || 'Chhattisgarh Circuit'}
+                                                    </span>
+                                                    <span style={{ fontSize: '0.72rem', color: '#94a3b8' }}>
+                                                        📍 {destDistrict} District
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
+                                            <button
+                                                type="button"
+                                                onClick={() => {
+                                                    const { dayNumber } = addDestinationToDay(destination, null, 'Morning', act);
+                                                    addToast(`Added activity to Day ${dayNumber} in Trip Plan! 📍`, 'success');
+                                                }}
+                                                style={{
+                                                    display: 'inline-flex',
+                                                    alignItems: 'center',
+                                                    gap: '5px',
+                                                    padding: '6px 12px',
+                                                    fontSize: '0.78rem',
+                                                    fontWeight: 600,
+                                                    background: 'rgba(245, 158, 11, 0.18)',
+                                                    border: '1px solid rgba(245, 158, 11, 0.35)',
+                                                    color: '#fbbf24',
+                                                    borderRadius: '8px',
+                                                    cursor: 'pointer'
+                                                }}
+                                                title="Add this activity to your Nomad Day Plan"
+                                            >
+                                                <Plus size={13} />
+                                                <span>Plan Stop</span>
+                                            </button>
+
+                                            <button
+                                                type="button"
+                                                onClick={() => toggleActComplete(idx, act)}
+                                                style={{
+                                                    display: 'inline-flex',
+                                                    alignItems: 'center',
+                                                    gap: '5px',
+                                                    padding: '6px 12px',
+                                                    fontSize: '0.78rem',
+                                                    fontWeight: 600,
+                                                    background: isDone ? '#10b981' : 'rgba(255, 255, 255, 0.06)',
+                                                    border: `1px solid ${isDone ? '#10b981' : 'rgba(255, 255, 255, 0.15)'}`,
+                                                    color: isDone ? '#ffffff' : '#cbd5e1',
+                                                    borderRadius: '8px',
+                                                    cursor: 'pointer'
+                                                }}
+                                                title={isDone ? 'Mark as incomplete' : 'Mark activity as experienced (+35 XP)'}
+                                            >
+                                                <CheckCircle2 size={13} />
+                                                <span>{isDone ? 'Done ✓' : 'Complete (+35 XP)'}</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </motion.div>
+                )}
+
+                {/* Tab: Essential Travel Tips & Advisory */}
+                {selectedTab === 'tips' && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="up-tab-pane"
+                    >
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px', marginBottom: '16px' }}>
+                            <div>
+                                <h4 style={{ margin: 0, fontSize: '1.1rem', fontWeight: 700, color: '#f8fafc' }}>
+                                    Essential Travel Tips & Advisory for {destination.name}
+                                </h4>
+                                <span style={{ fontSize: '0.82rem', color: '#94a3b8' }}>
+                                    Local guidelines, seasonality notices, transport tips, and tribal etiquette
+                                </span>
+                            </div>
+                            <button
+                                type="button"
+                                onClick={copyTipsToClipboard}
+                                style={{
+                                    display: 'inline-flex',
+                                    alignItems: 'center',
+                                    gap: '6px',
+                                    padding: '6px 14px',
+                                    fontSize: '0.8rem',
+                                    fontWeight: 600,
+                                    background: 'rgba(16, 185, 129, 0.18)',
+                                    border: '1px solid rgba(16, 185, 129, 0.4)',
+                                    color: '#6ee7b7',
+                                    borderRadius: '8px',
+                                    cursor: 'pointer'
+                                }}
+                            >
+                                <Copy size={13} />
+                                <span>Copy Tips Guide</span>
+                            </button>
+                        </div>
+
+                        {/* Seasonal Advisory Banner */}
+                        <div style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '12px',
+                            padding: '14px 18px',
+                            borderRadius: '12px',
+                            background: 'linear-gradient(135deg, rgba(6, 182, 212, 0.15) 0%, rgba(14, 165, 233, 0.22) 100%)',
+                            border: '1px solid rgba(6, 182, 212, 0.35)',
+                            marginBottom: '16px'
+                        }}>
+                            <Sun size={22} className="text-cyan-400" />
+                            <div>
+                                <span style={{ fontSize: '0.74rem', textTransform: 'uppercase', letterSpacing: '0.06em', color: '#67e8f9', fontWeight: 700, display: 'block' }}>
+                                    Optimal Visiting Window
+                                </span>
+                                <strong style={{ color: '#ffffff', fontSize: '0.96rem' }}>
+                                    {destination.bestSeason || 'October to March (Post-monsoon cascades & pleasant winter sun)'}
+                                </strong>
+                            </div>
+                        </div>
+
+                        {/* Tips Grid */}
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '14px' }}>
+                            {travelTipsList.map((tip, idx) => (
+                                <div
+                                    key={idx}
+                                    style={{
+                                        display: 'flex',
+                                        gap: '12px',
+                                        padding: '16px',
+                                        background: 'rgba(15, 23, 42, 0.7)',
+                                        border: '1px solid rgba(255, 255, 255, 0.08)',
+                                        borderRadius: '12px'
+                                    }}
+                                >
+                                    <div style={{
+                                        width: '28px',
+                                        height: '28px',
+                                        borderRadius: '8px',
+                                        background: 'rgba(16, 185, 129, 0.15)',
+                                        color: '#6ee7b7',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        flexShrink: 0,
+                                        fontSize: '0.78rem',
+                                        fontWeight: 700
+                                    }}>
+                                        💡
+                                    </div>
+                                    <div>
+                                        <h5 style={{ margin: '0 0 6px 0', fontSize: '0.86rem', fontWeight: 700, color: '#6ee7b7' }}>
+                                            Tip #{idx + 1}
+                                        </h5>
+                                        <p style={{ margin: 0, fontSize: '0.88rem', lineHeight: '1.5', color: '#e2e8f0' }}>
+                                            {tip}
+                                        </p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
                     </motion.div>
                 )}
 

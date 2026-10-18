@@ -8,7 +8,7 @@ import {
     ThumbsUp, Globe, TrendingUp, TrendingDown, Shield, Info, Wifi, Repeat,
     Check, X, ExternalLink, Sun, CloudSun, CloudRain, Wind,
     Building2, Smartphone, ArrowLeftRight, Heart, Navigation, Coffee,
-    Landmark
+    Landmark, Copy, Plus, Award
 } from 'lucide-react';
 import { allDestinations } from '../../../data/destinationsData';
 import { useNomadOSStore } from '../../../store/nomadOSStore';
@@ -49,6 +49,7 @@ const DestinationDetail = () => {
     const [liked, setLiked] = useState(false);
     const [xpClaimed, setXpClaimed] = useState(false);
     const [showShareModal, setShowShareModal] = useState(false);
+    const [completedActivities, setCompletedActivities] = useState({});
 
     const toSlug = (text) => (text || '').toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '');
     const decodedId = decodeURIComponent(id || '').toLowerCase();
@@ -125,6 +126,46 @@ const DestinationDetail = () => {
         ? destination.highlights
         : ['Digital Nomad Hub', 'Fast Fiber Internet', 'Coworking Culture', 'Vibrant Expat Scene'];
 
+    // Curated Activities & Essential Travel Tips
+    const activitiesList = destination.activities && destination.activities.length > 0
+        ? destination.activities
+        : [
+            `Embark on a guided morning cultural expedition across iconic landmarks of ${destination.name}`,
+            `Explore historic bazaars, indigenous artisan quarters, and local craft studios`,
+            `Visit panoramic landscape viewpoints and nature trails around ${destination.name}`,
+            `Sample authentic regional culinary specialties and traditional delicacies`,
+            `Connect with verified local guardians and fellow travelers in ${destination.name}`
+        ];
+
+    const travelTipsList = destination.travelTips && destination.travelTips.length > 0
+        ? destination.travelTips
+        : [
+            `Optimal visiting window is ${destination.bestSeason || 'October to March'} for pleasant weather and clear visibility.`,
+            `Carry sufficient local currency notes for traditional markets, craft haats, and rural transit.`,
+            `Pack sturdy walking or trekking shoes suited for exploring stone temple steps and nature paths.`,
+            `Transit connections: ${destination.railConnectivity || 'Nearest SECR railhead'} / ${destination.nearestAirport || 'Regional Airport'}.`,
+            `Respect local traditions, sacred spaces, and seek permission before photographing in village sanctuaries.`
+        ];
+
+    const toggleActivity = (idx, text) => {
+        setCompletedActivities(prev => {
+            const next = { ...prev, [idx]: !prev[idx] };
+            if (next[idx]) {
+                if (addXP) addXP(30);
+                addToast(`Completed activity: "${text.slice(0, 32)}..." (+30 XP) ✨`, 'success');
+            }
+            return next;
+        });
+    };
+
+    const handleCopyTips = () => {
+        const textToCopy = `Travel Tips for ${destination.name} (${destination.location}):\n\n` +
+            travelTipsList.map((tip, i) => `${i + 1}. ${tip}`).join('\n') +
+            `\n\nBest Season: ${destination.bestSeason || 'Oct – Mar'}\nAirport: ${destination.nearestAirport || 'Regional Airport'}\nRail: ${destination.railConnectivity || 'SECR / Regional Mainline'}`;
+        navigator.clipboard?.writeText(textToCopy);
+        addToast('Travel tips copied to clipboard! 📋', 'success');
+    };
+
     // Generate neighborhood hubs tailored to the destination
     const neighborhoods = [
         {
@@ -180,6 +221,7 @@ const DestinationDetail = () => {
         ...(isMH ? [{ id: 'district-suite', label: `${destination.district || 'MH'} District Suite`, icon: Landmark }] : []),
         ...(isMP ? [{ id: 'district-suite', label: `${destination.district || 'MP'} District Suite`, icon: Landmark }] : []),
         ...(isUP ? [{ id: 'district-suite', label: `${destination.district || 'UP'} District Suite`, icon: Landmark }] : []),
+        { id: 'activities-tips', label: `Activities & Tips (${activitiesList.length})`, icon: Sparkles },
         { id: 'costs', label: 'Cost of Living', icon: DollarSign },
         { id: 'connectivity', label: 'Wi-Fi & 5G', icon: Wifi },
         { id: 'climate', label: 'Climate & Forecast', icon: Sun },
@@ -742,35 +784,378 @@ const DestinationDetail = () => {
                                         </div>
                                     </div>
 
-                                    {/* Dedicated Chhattisgarh, Rajasthan, Maharashtra, Madhya Pradesh or Uttar Pradesh District Intelligence Suite */}
-                                    {isCG && (
-                                        <CGDistrictIntelligenceSuite destination={destination} />
-                                    )}
-                                    {isRJ && (
-                                        <RJDistrictIntelligenceSuite destination={destination} />
-                                    )}
-                                    {isMH && (
-                                        <MHDistrictIntelligenceSuite destination={destination} />
-                                    )}
-                                    {isMP && (
-                                        <MPDistrictIntelligenceSuite destination={destination} />
-                                    )}
-                                    {isUP && (
-                                        <UPDistrictIntelligenceSuite destination={destination} />
-                                    )}
-                                </div>
-                            )}
+                                        {/* Curated Activities & Essential Travel Tips Showcase on Overview */}
+                                        <div className="dest-panel-card dest-activities-preview-card" style={{ borderColor: isCG ? 'rgba(16, 185, 129, 0.35)' : 'rgba(56, 189, 248, 0.25)', marginTop: '1.25rem' }}>
+                                            <div className="dest-panel-header">
+                                                <div>
+                                                    <span className="dest-section-eyebrow" style={{ color: isCG ? '#6ee7b7' : '#38bdf8' }}>
+                                                        {isCG ? '🌿 Chhattisgarh Tourism Highlights' : 'Curated Exploration & Field Advisory'}
+                                                    </span>
+                                                    <h3 className="dest-section-title">
+                                                        Activities & Travel Tips for {destination.name}
+                                                    </h3>
+                                                </div>
+                                                <button
+                                                    type="button"
+                                                    className="dest-text-link-btn"
+                                                    onClick={() => setActiveTab('activities-tips')}
+                                                    style={{ color: isCG ? '#6ee7b7' : '#38bdf8' }}
+                                                >
+                                                    Full Guide ({activitiesList.length} Activities · {travelTipsList.length} Tips) →
+                                                </button>
+                                            </div>
 
-                            {/* TAB: DISTRICT SUITE & HERITAGE WORKSPACE */}
-                            {activeTab === 'district-suite' && (
-                                <div className="dest-section-stack">
-                                    {isCG && <CGDistrictIntelligenceSuite destination={destination} />}
-                                    {isRJ && <RJDistrictIntelligenceSuite destination={destination} />}
-                                    {isMH && <MHDistrictIntelligenceSuite destination={destination} />}
-                                    {isMP && <MPDistrictIntelligenceSuite destination={destination} />}
-                                    {isUP && <UPDistrictIntelligenceSuite destination={destination} />}
-                                </div>
-                            )}
+                                            <div className="dest-preview-split-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '14px', marginTop: '14px' }}>
+                                                {/* Top Activities Preview */}
+                                                <div style={{ background: 'rgba(15, 23, 42, 0.65)', padding: '16px', borderRadius: '12px', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
+                                                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
+                                                        <span style={{ fontSize: '0.84rem', fontWeight: 700, color: '#f8fafc', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                                            <Sparkles size={14} color="#10b981" /> Curated Activities
+                                                        </span>
+                                                        <span style={{ fontSize: '0.74rem', color: '#94a3b8' }}>
+                                                            {activitiesList.length} Available
+                                                        </span>
+                                                    </div>
+                                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                                                        {activitiesList.slice(0, 3).map((act, i) => (
+                                                            <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+                                                                <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#10b981', minWidth: '22px', background: 'rgba(16, 185, 129, 0.15)', padding: '2px 5px', borderRadius: '4px', textAlign: 'center' }}>
+                                                                    #{i + 1}
+                                                                </span>
+                                                                <p style={{ margin: 0, fontSize: '0.85rem', color: '#cbd5e1', lineHeight: '1.45' }}>
+                                                                    {act}
+                                                                </p>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </div>
+
+                                                {/* Top Travel Tips Preview */}
+                                                <div style={{ background: 'rgba(15, 23, 42, 0.65)', padding: '16px', borderRadius: '12px', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
+                                                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
+                                                        <span style={{ fontSize: '0.84rem', fontWeight: 700, color: '#f8fafc', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                                            <ShieldCheck size={14} color="#38bdf8" /> Essential Travel Advisory
+                                                        </span>
+                                                        <span style={{ fontSize: '0.74rem', color: '#94a3b8' }}>
+                                                            {travelTipsList.length} Verified Tips
+                                                        </span>
+                                                    </div>
+                                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                                                        {travelTipsList.slice(0, 2).map((tip, i) => (
+                                                            <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+                                                                <span style={{ fontSize: '0.85rem' }}>💡</span>
+                                                                <p style={{ margin: 0, fontSize: '0.85rem', color: '#cbd5e1', lineHeight: '1.45' }}>
+                                                                    {tip}
+                                                                </p>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Dedicated Chhattisgarh, Rajasthan, Maharashtra, Madhya Pradesh or Uttar Pradesh District Intelligence Suite */}
+                                        {isCG && (
+                                            <CGDistrictIntelligenceSuite destination={destination} />
+                                        )}
+                                        {isRJ && (
+                                            <RJDistrictIntelligenceSuite destination={destination} />
+                                        )}
+                                        {isMH && (
+                                            <MHDistrictIntelligenceSuite destination={destination} />
+                                        )}
+                                        {isMP && (
+                                            <MPDistrictIntelligenceSuite destination={destination} />
+                                        )}
+                                        {isUP && (
+                                            <UPDistrictIntelligenceSuite destination={destination} />
+                                        )}
+                                    </div>
+                                )}
+
+                                {/* TAB: DISTRICT SUITE & HERITAGE WORKSPACE */}
+                                {activeTab === 'district-suite' && (
+                                    <div className="dest-section-stack">
+                                        {isCG && <CGDistrictIntelligenceSuite destination={destination} />}
+                                        {isRJ && <RJDistrictIntelligenceSuite destination={destination} />}
+                                        {isMH && <MHDistrictIntelligenceSuite destination={destination} />}
+                                        {isMP && <MPDistrictIntelligenceSuite destination={destination} />}
+                                        {isUP && <UPDistrictIntelligenceSuite destination={destination} />}
+                                    </div>
+                                )}
+
+                                {/* TAB: CURATED ACTIVITIES & ESSENTIAL TRAVEL TIPS */}
+                                {activeTab === 'activities-tips' && (
+                                    <div className="dest-section-stack">
+                                        {/* Header Banner */}
+                                        <div className="dest-panel-card" style={{ borderColor: isCG ? 'rgba(16, 185, 129, 0.45)' : 'rgba(56, 189, 248, 0.35)', background: isCG ? 'linear-gradient(135deg, rgba(5, 150, 105, 0.12) 0%, rgba(4, 120, 87, 0.2) 100%)' : 'rgba(15, 23, 42, 0.7)' }}>
+                                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '14px' }}>
+                                                <div>
+                                                    <span className="dest-section-eyebrow" style={{ color: isCG ? '#6ee7b7' : '#38bdf8' }}>
+                                                        {isCG ? `🌿 Chhattisgarh Tourism · ${destination.district || 'Bastar'} District` : `Travel Intelligence Hub · ${destination.location}`}
+                                                    </span>
+                                                    <h2 className="dest-section-title" style={{ margin: '4px 0 6px 0' }}>
+                                                        Curated Activities & Essential Travel Tips for {destination.name}
+                                                    </h2>
+                                                    <p style={{ margin: 0, fontSize: '0.9rem', color: '#94a3b8' }}>
+                                                        {activitiesList.length} Handpicked Experiences · {travelTipsList.length} Verified Field Tips · Circuit: {destination.cgCircuit || destination.upCircuit || destination.rjCircuit || destination.category}
+                                                    </p>
+                                                </div>
+
+                                                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                                    <button
+                                                        type="button"
+                                                        onClick={handleCopyTips}
+                                                        className="dest-secondary-btn"
+                                                        style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}
+                                                    >
+                                                        <Copy size={14} />
+                                                        <span>Copy Travel Tips</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* 1. Activities Grid */}
+                                        <div className="dest-panel-card">
+                                            <div className="dest-panel-header">
+                                                <div>
+                                                    <span className="dest-section-eyebrow" style={{ color: '#10b981' }}>01. Field Experiences</span>
+                                                    <h3 className="dest-section-title">Curated Activities & Things to Do</h3>
+                                                </div>
+                                                <span style={{ fontSize: '0.82rem', color: '#94a3b8' }}>
+                                                    Check off completed activities (+30 XP) or plan them in your itinerary
+                                                </span>
+                                            </div>
+
+                                            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginTop: '16px' }}>
+                                                {activitiesList.map((act, idx) => {
+                                                    const isDone = Boolean(completedActivities[idx]);
+                                                    return (
+                                                        <div
+                                                            key={idx}
+                                                            style={{
+                                                                display: 'flex',
+                                                                alignItems: 'flex-start',
+                                                                justifyContent: 'space-between',
+                                                                gap: '16px',
+                                                                padding: '16px 18px',
+                                                                background: isDone ? 'rgba(5, 150, 105, 0.16)' : 'rgba(15, 23, 42, 0.65)',
+                                                                border: `1px solid ${isDone ? '#10b981' : 'rgba(255, 255, 255, 0.08)'}`,
+                                                                borderRadius: '12px',
+                                                                transition: 'all 0.2s ease'
+                                                            }}
+                                                        >
+                                                            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '14px', flex: 1 }}>
+                                                                <span
+                                                                    style={{
+                                                                        display: 'inline-flex',
+                                                                        alignItems: 'center',
+                                                                        justifyContent: 'center',
+                                                                        minWidth: '32px',
+                                                                        height: '32px',
+                                                                        borderRadius: '8px',
+                                                                        background: isDone ? '#10b981' : 'rgba(16, 185, 129, 0.16)',
+                                                                        color: isDone ? '#ffffff' : '#6ee7b7',
+                                                                        fontSize: '0.82rem',
+                                                                        fontWeight: 700
+                                                                    }}
+                                                                >
+                                                                    #{String(idx + 1).padStart(2, '0')}
+                                                                </span>
+                                                                <div>
+                                                                    <p style={{ margin: 0, fontSize: '0.96rem', lineHeight: '1.5', color: isDone ? '#a7f3d0' : '#f8fafc', fontWeight: 500, textDecoration: isDone ? 'line-through' : 'none' }}>
+                                                                        {act}
+                                                                    </p>
+                                                                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '8px', flexWrap: 'wrap' }}>
+                                                                        <span style={{ fontSize: '0.72rem', color: '#6ee7b7', background: 'rgba(16, 185, 129, 0.12)', padding: '2px 8px', borderRadius: '4px', border: '1px solid rgba(16, 185, 129, 0.25)' }}>
+                                                                            ✨ {destination.category || 'Adventure'}
+                                                                        </span>
+                                                                        {destination.district && (
+                                                                            <span style={{ fontSize: '0.72rem', color: '#94a3b8' }}>
+                                                                                📍 {destination.district} District
+                                                                            </span>
+                                                                        )}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
+                                                                <button
+                                                                    type="button"
+                                                                    onClick={() => {
+                                                                        const { dayNumber } = addDestinationToDay(destination, null, 'Morning', act);
+                                                                        addToast(`Added activity to Day ${dayNumber} in Trip Plan! 📍`, 'success');
+                                                                    }}
+                                                                    style={{
+                                                                        display: 'inline-flex',
+                                                                        alignItems: 'center',
+                                                                        gap: '5px',
+                                                                        padding: '7px 12px',
+                                                                        fontSize: '0.78rem',
+                                                                        fontWeight: 600,
+                                                                        background: 'rgba(245, 158, 11, 0.18)',
+                                                                        border: '1px solid rgba(245, 158, 11, 0.4)',
+                                                                        color: '#fbbf24',
+                                                                        borderRadius: '8px',
+                                                                        cursor: 'pointer'
+                                                                    }}
+                                                                    title="Add this activity to your Nomad Day Plan"
+                                                                >
+                                                                    <Plus size={13} />
+                                                                    <span>Plan Stop</span>
+                                                                </button>
+
+                                                                <button
+                                                                    type="button"
+                                                                    onClick={() => toggleActivity(idx, act)}
+                                                                    style={{
+                                                                        display: 'inline-flex',
+                                                                        alignItems: 'center',
+                                                                        gap: '5px',
+                                                                        padding: '7px 12px',
+                                                                        fontSize: '0.78rem',
+                                                                        fontWeight: 600,
+                                                                        background: isDone ? '#10b981' : 'rgba(255, 255, 255, 0.06)',
+                                                                        border: `1px solid ${isDone ? '#10b981' : 'rgba(255, 255, 255, 0.15)'}`,
+                                                                        color: isDone ? '#ffffff' : '#cbd5e1',
+                                                                        borderRadius: '8px',
+                                                                        cursor: 'pointer'
+                                                                    }}
+                                                                >
+                                                                    <CheckCircle2 size={13} />
+                                                                    <span>{isDone ? 'Completed ✓' : 'Complete (+30 XP)'}</span>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    );
+                                                })}
+                                            </div>
+                                        </div>
+
+                                        {/* 2. Travel Tips & Advisory Hub */}
+                                        <div className="dest-panel-card">
+                                            <div className="dest-panel-header">
+                                                <div>
+                                                    <span className="dest-section-eyebrow" style={{ color: '#38bdf8' }}>02. Field Advisory</span>
+                                                    <h3 className="dest-section-title">Essential Travel Tips & Logistics</h3>
+                                                </div>
+                                                <button
+                                                    type="button"
+                                                    onClick={handleCopyTips}
+                                                    style={{
+                                                        display: 'inline-flex',
+                                                        alignItems: 'center',
+                                                        gap: '5px',
+                                                        padding: '6px 12px',
+                                                        fontSize: '0.78rem',
+                                                        fontWeight: 600,
+                                                        background: 'rgba(56, 189, 248, 0.15)',
+                                                        border: '1px solid rgba(56, 189, 248, 0.35)',
+                                                        color: '#38bdf8',
+                                                        borderRadius: '8px',
+                                                        cursor: 'pointer'
+                                                    }}
+                                                >
+                                                    <Copy size={13} />
+                                                    <span>Copy All Tips</span>
+                                                </button>
+                                            </div>
+
+                                            {/* Seasonal Advisory Banner */}
+                                            <div style={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                gap: '14px',
+                                                padding: '16px 20px',
+                                                borderRadius: '12px',
+                                                background: 'linear-gradient(135deg, rgba(6, 182, 212, 0.15) 0%, rgba(14, 165, 233, 0.22) 100%)',
+                                                border: '1px solid rgba(6, 182, 212, 0.35)',
+                                                marginTop: '16px',
+                                                marginBottom: '16px'
+                                            }}>
+                                                <Sun size={24} className="text-cyan-400" />
+                                                <div style={{ flex: 1 }}>
+                                                    <span style={{ fontSize: '0.74rem', textTransform: 'uppercase', letterSpacing: '0.06em', color: '#67e8f9', fontWeight: 700, display: 'block' }}>
+                                                        Recommended Travel Window
+                                                    </span>
+                                                    <strong style={{ color: '#ffffff', fontSize: '1rem' }}>
+                                                        {destination.bestSeason || 'October to March (Ideal weather for exploration & sightseeing)'}
+                                                    </strong>
+                                                </div>
+                                            </div>
+
+                                            {/* Transit Quick Matrix */}
+                                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '12px', marginBottom: '16px' }}>
+                                                {destination.nearestAirport && (
+                                                    <div style={{ padding: '14px', background: 'rgba(15, 23, 42, 0.65)', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '10px' }}>
+                                                        <span style={{ fontSize: '0.74rem', color: '#94a3b8', display: 'block', marginBottom: '4px' }}>✈️ Airport Gateway</span>
+                                                        <strong style={{ fontSize: '0.88rem', color: '#f1f5f9' }}>{destination.nearestAirport}</strong>
+                                                    </div>
+                                                )}
+                                                {destination.railConnectivity && (
+                                                    <div style={{ padding: '14px', background: 'rgba(15, 23, 42, 0.65)', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '10px' }}>
+                                                        <span style={{ fontSize: '0.74rem', color: '#94a3b8', display: 'block', marginBottom: '4px' }}>🚆 Rail Mainline</span>
+                                                        <strong style={{ fontSize: '0.88rem', color: '#f1f5f9' }}>{destination.railConnectivity}</strong>
+                                                    </div>
+                                                )}
+                                                {destination.localCuisine && (
+                                                    <div style={{ padding: '14px', background: 'rgba(15, 23, 42, 0.65)', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '10px' }}>
+                                                        <span style={{ fontSize: '0.74rem', color: '#94a3b8', display: 'block', marginBottom: '4px' }}>🍲 Must-Taste Cuisine</span>
+                                                        <strong style={{ fontSize: '0.88rem', color: '#f1f5f9' }}>{destination.localCuisine}</strong>
+                                                    </div>
+                                                )}
+                                                {destination.odop && (
+                                                    <div style={{ padding: '14px', background: 'rgba(15, 23, 42, 0.65)', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '10px' }}>
+                                                        <span style={{ fontSize: '0.74rem', color: '#94a3b8', display: 'block', marginBottom: '4px' }}>🏺 ODOP / Local Craft</span>
+                                                        <strong style={{ fontSize: '0.88rem', color: '#f1f5f9' }}>{destination.odop}</strong>
+                                                    </div>
+                                                )}
+                                            </div>
+
+                                            {/* Tips Cards */}
+                                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '14px' }}>
+                                                {travelTipsList.map((tip, idx) => (
+                                                    <div
+                                                        key={idx}
+                                                        style={{
+                                                            display: 'flex',
+                                                            gap: '12px',
+                                                            padding: '16px',
+                                                            background: 'rgba(15, 23, 42, 0.7)',
+                                                            border: '1px solid rgba(255, 255, 255, 0.08)',
+                                                            borderRadius: '12px'
+                                                        }}
+                                                    >
+                                                        <div style={{
+                                                            width: '28px',
+                                                            height: '28px',
+                                                            borderRadius: '8px',
+                                                            background: 'rgba(56, 189, 248, 0.15)',
+                                                            color: '#38bdf8',
+                                                            display: 'flex',
+                                                            alignItems: 'center',
+                                                            justifyContent: 'center',
+                                                            flexShrink: 0,
+                                                            fontSize: '0.78rem',
+                                                            fontWeight: 700
+                                                        }}>
+                                                            💡
+                                                        </div>
+                                                        <div>
+                                                            <h5 style={{ margin: '0 0 6px 0', fontSize: '0.86rem', fontWeight: 700, color: '#38bdf8' }}>
+                                                                Tip #{idx + 1}
+                                                            </h5>
+                                                            <p style={{ margin: 0, fontSize: '0.9rem', lineHeight: '1.5', color: '#e2e8f0' }}>
+                                                                {tip}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
 
                             {/* TAB 2: COST OF LIVING & INTERACTIVE BUDGET SIMULATOR */}
                             {activeTab === 'costs' && (

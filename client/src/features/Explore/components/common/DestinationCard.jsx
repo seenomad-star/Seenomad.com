@@ -373,6 +373,20 @@ const DestinationCard = ({ dest, viewMode }) => {
                                                 🏺 {dest.odop}
                                             </span>
                                         )}
+                                        {dest?.activities && dest.activities.length > 0 && (
+                                            <span
+                                                className="up-card-circuit-chip dest-activities-count-chip"
+                                                style={{
+                                                    background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.18), rgba(5, 150, 105, 0.25))',
+                                                    borderColor: 'rgba(16, 185, 129, 0.4)',
+                                                    color: '#6ee7b7',
+                                                    fontWeight: 600
+                                                }}
+                                                title={`${dest.activities.length} Curated Activities & Essential Travel Tips on detail page`}
+                                            >
+                                                ✨ {dest.activities.length} Activities & Tips
+                                            </span>
+                                        )}
                                     </div>
                                 )}
                             </div>
