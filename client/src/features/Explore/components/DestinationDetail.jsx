@@ -26,6 +26,7 @@ import { UPDistrictIntelligenceSuite } from './UPDistrictIntelligenceSuite';
 import { MPDistrictIntelligenceSuite } from './MPDistrictIntelligenceSuite';
 import { MHDistrictIntelligenceSuite } from './MHDistrictIntelligenceSuite';
 import { RJDistrictIntelligenceSuite } from './RJDistrictIntelligenceSuite';
+import { CGDistrictIntelligenceSuite } from './CGDistrictIntelligenceSuite';
 import './DestinationDetail.css';
 
 const DestinationDetail = () => {
@@ -166,13 +167,15 @@ const DestinationDetail = () => {
         );
     };
 
-    const isRJ = Boolean(destination?.isRajasthan || destination?.state === 'Rajasthan' || destination?.location?.toLowerCase().includes('rajasthan'));
-    const isMH = !isRJ && Boolean(destination?.isMaharashtra || destination?.state === 'Maharashtra' || destination?.location?.toLowerCase().includes('maharashtra'));
-    const isMP = !isRJ && !isMH && Boolean(destination?.isMadhyaPradesh || destination?.state === 'Madhya Pradesh' || destination?.location?.toLowerCase().includes('madhya pradesh'));
-    const isUP = !isRJ && !isMH && !isMP && Boolean(destination?.district || destination?.isUttarPradesh);
+    const isCG = Boolean(destination?.isChhattisgarh || destination?.state === 'Chhattisgarh' || destination?.location?.toLowerCase().includes('chhattisgarh'));
+    const isRJ = !isCG && Boolean(destination?.isRajasthan || destination?.state === 'Rajasthan' || destination?.location?.toLowerCase().includes('rajasthan'));
+    const isMH = !isCG && !isRJ && Boolean(destination?.isMaharashtra || destination?.state === 'Maharashtra' || destination?.location?.toLowerCase().includes('maharashtra'));
+    const isMP = !isCG && !isRJ && !isMH && Boolean(destination?.isMadhyaPradesh || destination?.state === 'Madhya Pradesh' || destination?.location?.toLowerCase().includes('madhya pradesh'));
+    const isUP = !isCG && !isRJ && !isMH && !isMP && Boolean(destination?.district || destination?.isUttarPradesh);
 
     const TABS = [
         { id: 'overview', label: 'Overview & Brief', icon: Compass },
+        ...(isCG ? [{ id: 'district-suite', label: `${destination.district || 'Chhattisgarh'} District Suite`, icon: Landmark }] : []),
         ...(isRJ ? [{ id: 'district-suite', label: `${destination.district || 'Rajasthan'} District Suite`, icon: Landmark }] : []),
         ...(isMH ? [{ id: 'district-suite', label: `${destination.district || 'MH'} District Suite`, icon: Landmark }] : []),
         ...(isMP ? [{ id: 'district-suite', label: `${destination.district || 'MP'} District Suite`, icon: Landmark }] : []),
@@ -324,6 +327,42 @@ const DestinationDetail = () => {
 
                             {destination?.district && (
                                 <div className="dest-hero-up-badges-row">
+                                    {isCG && (
+                                        <span className="dest-up-badge state" style={{ background: 'linear-gradient(135deg, rgba(5, 150, 105, 0.28), rgba(4, 120, 87, 0.35))', borderColor: 'rgba(16, 185, 129, 0.5)', color: '#6ee7b7' }}>
+                                            <span>🌿 Chhattisgarh</span>
+                                        </span>
+                                    )}
+                                    {isCG && destination.category && (
+                                        <button
+                                            type="button"
+                                            onClick={() => {
+                                                const catParam = destination.category === 'Waterfalls' ? 'waterfalls' : destination.category === 'Wildlife' ? 'wildlife' : destination.category === 'Historical' ? 'historical' : destination.category === 'Spiritual' ? 'spiritual' : destination.category === 'Tribal & Culture' ? 'tribal' : destination.category === 'Nature' ? 'nature' : 'all';
+                                                navigate(`/explore?region=cg&category=${catParam}`);
+                                            }}
+                                            className="dest-up-badge category-link-badge"
+                                            style={{
+                                                background: destination.category === 'Waterfalls'
+                                                    ? 'linear-gradient(135deg, rgba(6, 182, 212, 0.28), rgba(14, 165, 233, 0.35))'
+                                                    : destination.category === 'Wildlife'
+                                                    ? 'linear-gradient(135deg, rgba(245, 158, 11, 0.28), rgba(217, 119, 6, 0.35))'
+                                                    : destination.category === 'Historical'
+                                                    ? 'linear-gradient(135deg, rgba(59, 130, 246, 0.28), rgba(37, 99, 235, 0.35))'
+                                                    : destination.category === 'Spiritual'
+                                                    ? 'linear-gradient(135deg, rgba(168, 85, 247, 0.28), rgba(147, 51, 234, 0.35))'
+                                                    : destination.category === 'Tribal & Culture'
+                                                    ? 'linear-gradient(135deg, rgba(217, 119, 6, 0.28), rgba(180, 83, 9, 0.35))'
+                                                    : 'linear-gradient(135deg, rgba(16, 185, 129, 0.28), rgba(5, 150, 105, 0.35))',
+                                                borderColor: destination.category === 'Waterfalls' ? 'rgba(6, 182, 212, 0.5)' : destination.category === 'Wildlife' ? 'rgba(245, 158, 11, 0.5)' : destination.category === 'Historical' ? 'rgba(59, 130, 246, 0.5)' : destination.category === 'Spiritual' ? 'rgba(168, 85, 247, 0.5)' : destination.category === 'Tribal & Culture' ? 'rgba(217, 119, 6, 0.5)' : 'rgba(16, 185, 129, 0.5)',
+                                                color: destination.category === 'Waterfalls' ? '#67e8f9' : destination.category === 'Wildlife' ? '#fcd34d' : destination.category === 'Historical' ? '#93c5fd' : destination.category === 'Spiritual' ? '#d8b4fe' : destination.category === 'Tribal & Culture' ? '#fed7aa' : '#6ee7b7',
+                                                cursor: 'pointer'
+                                            }}
+                                            title={`Explore all Chhattisgarh ${destination.category} destinations`}
+                                        >
+                                            <span>
+                                                {destination.category === 'Waterfalls' ? '🌊 Waterfalls' : destination.category === 'Wildlife' ? '🐾 Wildlife' : destination.category === 'Historical' ? '🏛️ Ancient Shrines' : destination.category === 'Spiritual' ? '🕉️ Shaktipeeth' : destination.category === 'Tribal & Culture' ? '🏺 Tribal Arts' : `✨ ${destination.category}`}
+                                            </span>
+                                        </button>
+                                    )}
                                     {isRJ && (
                                         <span className="dest-up-badge state" style={{ background: 'linear-gradient(135deg, rgba(217, 119, 6, 0.28), rgba(180, 83, 9, 0.35))', borderColor: 'rgba(245, 158, 11, 0.5)', color: '#fde68a' }}>
                                             <span>🐪 Rajasthan</span>
@@ -435,6 +474,11 @@ const DestinationDetail = () => {
                                     {destination.division && (
                                         <span className="dest-up-badge division">
                                             <span>{destination.division} Division</span>
+                                        </span>
+                                    )}
+                                    {destination.cgCircuit && (
+                                        <span className="dest-up-badge circuit" style={{ background: 'linear-gradient(135deg, rgba(5, 150, 105, 0.22), rgba(4, 120, 87, 0.28))', borderColor: 'rgba(16, 185, 129, 0.45)', color: '#6ee7b7' }}>
+                                            <span>🌿 {destination.cgCircuit}</span>
                                         </span>
                                     )}
                                     {destination.rjCircuit && (
@@ -698,7 +742,10 @@ const DestinationDetail = () => {
                                         </div>
                                     </div>
 
-                                    {/* Dedicated Rajasthan, Maharashtra, Madhya Pradesh or Uttar Pradesh District Intelligence Suite */}
+                                    {/* Dedicated Chhattisgarh, Rajasthan, Maharashtra, Madhya Pradesh or Uttar Pradesh District Intelligence Suite */}
+                                    {isCG && (
+                                        <CGDistrictIntelligenceSuite destination={destination} />
+                                    )}
                                     {isRJ && (
                                         <RJDistrictIntelligenceSuite destination={destination} />
                                     )}
@@ -717,6 +764,7 @@ const DestinationDetail = () => {
                             {/* TAB: DISTRICT SUITE & HERITAGE WORKSPACE */}
                             {activeTab === 'district-suite' && (
                                 <div className="dest-section-stack">
+                                    {isCG && <CGDistrictIntelligenceSuite destination={destination} />}
                                     {isRJ && <RJDistrictIntelligenceSuite destination={destination} />}
                                     {isMH && <MHDistrictIntelligenceSuite destination={destination} />}
                                     {isMP && <MPDistrictIntelligenceSuite destination={destination} />}

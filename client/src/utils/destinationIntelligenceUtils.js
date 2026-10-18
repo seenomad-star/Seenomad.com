@@ -397,12 +397,18 @@ export const getDestinationIntelligence = (dest = {}) => {
     let conditionIcon = 'Sun';
     let bestSeason = 'Year-round';
 
-    const isRJ = Boolean(dest.isRajasthan || location.includes('rajasthan'));
-    const isMH = !isRJ && Boolean(dest.isMaharashtra || location.includes('maharashtra'));
-    const isMP = !isRJ && !isMH && Boolean(dest.isMadhyaPradesh || location.includes('madhya pradesh'));
-    const isUP = !isRJ && !isMH && !isMP && Boolean(dest.isUttarPradesh || location.includes('uttar pradesh') || dest.district);
+    const isCG = Boolean(dest.isChhattisgarh || location.includes('chhattisgarh'));
+    const isRJ = !isCG && Boolean(dest.isRajasthan || location.includes('rajasthan'));
+    const isMH = !isCG && !isRJ && Boolean(dest.isMaharashtra || location.includes('maharashtra'));
+    const isMP = !isCG && !isRJ && !isMH && Boolean(dest.isMadhyaPradesh || location.includes('madhya pradesh'));
+    const isUP = !isCG && !isRJ && !isMH && !isMP && Boolean(dest.isUttarPradesh || location.includes('uttar pradesh') || dest.district);
 
-    if (isRJ) {
+    if (isCG) {
+        baseTemp = 24 + (nameSeed % 3);
+        condition = 'Fresh Sal Forest Canopy & Waterfall Mist (Full of Surprises)';
+        conditionIcon = 'Sun';
+        bestSeason = dest.bestSeason || 'Oct – Mar (Pleasant Forest & Cascades Season)';
+    } else if (isRJ) {
         baseTemp = 24 + (nameSeed % 4);
         condition = 'Golden Desert Breeze & Crisp Aravalli Air (Padharo Mhare Desh)';
         conditionIcon = 'Sun';
@@ -538,9 +544,13 @@ export const getDestinationIntelligence = (dest = {}) => {
             uploadMbps,
             pingMs,
             stabilityScore: `${94 + (nameSeed % 5)}%`,
-            mobileCoverage: (isUP || isMP || isMH || isRJ) ? '5G Jio & Airtel Ultra-Fast' : '4G LTE / 5G Ready',
+            mobileCoverage: (isUP || isMP || isMH || isRJ || isCG) ? '5G Jio & Airtel Ultra-Fast' : '4G LTE / 5G Ready',
             eSimSupport: true,
-            topCoworking: isRJ ? [
+            topCoworking: isCG ? [
+                { name: `${dest.district || 'CG'} Bastar & Sal Forest Cowork Oasis`, speed: `${downloadMbps + 40} Mbps`, price: `$${coworkCost}/mo` },
+                { name: `Raipur Smart City & Naya Raipur Tech Hub`, speed: `${downloadMbps + 80} Mbps`, price: `$${Math.round(coworkCost * 1.15)}/mo` },
+                { name: `Indravati & Hasdeo Valley Workstation`, speed: `${downloadMbps + 20} Mbps`, price: `$${Math.round(coworkCost * 0.85)}/mo` }
+            ] : isRJ ? [
                 { name: `${dest.district || 'RJ'} Royal Nomad Tech Lounge`, speed: `${downloadMbps + 50} Mbps`, price: `$${coworkCost}/mo` },
                 { name: `Jaipur C-Scheme / Udaipur Lakeview Fiber Hub`, speed: `${downloadMbps + 80} Mbps`, price: `$${Math.round(coworkCost * 1.15)}/mo` },
                 { name: `Thar Desert Oasis & Heritage Workstation`, speed: `${downloadMbps + 20} Mbps`, price: `$${Math.round(coworkCost * 0.85)}/mo` }
@@ -565,7 +575,7 @@ export const getDestinationIntelligence = (dest = {}) => {
         costs: {
             totalEstimated: `$${monthlyTotal.toLocaleString()}`,
             currency: 'USD',
-            rating: (isUP || isMP || isMH || isRJ) ? 'Exceptional Value (Budget-Friendly)' : costRating,
+            rating: (isUP || isMP || isMH || isRJ || isCG) ? 'Exceptional Value (Budget-Friendly)' : costRating,
             trend: {
                 direction: overallTrendDirection,
                 change: overallTrendChange,

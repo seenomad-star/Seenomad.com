@@ -15,6 +15,7 @@ import { UP75DistrictsModal } from './UPDistrictIntelligenceSuite';
 import { MP55DistrictsModal, MP_CATEGORIES, matchMPCategory } from './MPDistrictIntelligenceSuite';
 import { MH36DistrictsModal, MH_CATEGORIES, matchMHCategory } from './MHDistrictIntelligenceSuite';
 import { RJ50DistrictsModal, RJ_CATEGORIES, matchRJCategory } from './RJDistrictIntelligenceSuite';
+import { CG33DistrictsModal, CG_CATEGORIES, matchCGCategory } from './CGDistrictIntelligenceSuite';
 import { useNavStore } from '../../../store/navStore';
 import { getDestinationDomainStatus } from '../../../utils/destinationDomainUtils';
 import { getDestinationIntelligence } from '../../../utils/destinationIntelligenceUtils';
@@ -27,6 +28,7 @@ const Destinations = () => {
     const [is55DistrictsModalOpen, setIs55DistrictsModalOpen] = useState(false);
     const [is36DistrictsModalOpen, setIs36DistrictsModalOpen] = useState(false);
     const [is50DistrictsModalOpen, setIs50DistrictsModalOpen] = useState(false);
+    const [is33DistrictsModalOpen, setIs33DistrictsModalOpen] = useState(false);
     const {
         searchQuery,
         selectedFilters,
@@ -106,10 +108,25 @@ const Destinations = () => {
         return Array.from(set).sort();
     }, [rjDestinations]);
 
-    // Region Mode: 'up' | 'mp' | 'mh' | 'rj' | 'delhi' | 'global'
+    // Curated Chhattisgarh Destinations & All 33 Districts list
+    const cgDestinations = useMemo(() => {
+        return allDestinations.filter(d => d.isChhattisgarh || d.location?.toLowerCase().includes('chhattisgarh'));
+    }, []);
+
+    const cgDistrictsList = useMemo(() => {
+        const set = new Set();
+        cgDestinations.forEach(d => {
+            if (d.district) set.add(d.district);
+        });
+        return Array.from(set).sort();
+    }, [cgDestinations]);
+
+    // Region Mode: 'up' | 'mp' | 'mh' | 'rj' | 'cg' | 'delhi' | 'global'
     const initialRegionParam = (searchParams.get('region') || searchParams.get('state') || '').toLowerCase();
     const [regionMode, setRegionMode] = useState(
-        ['rj', 'rajasthan'].includes(initialRegionParam)
+        ['cg', 'chhattisgarh'].includes(initialRegionParam)
+            ? 'cg'
+            : ['rj', 'rajasthan'].includes(initialRegionParam)
             ? 'rj'
             : ['mh', 'maharashtra'].includes(initialRegionParam)
             ? 'mh'
@@ -145,6 +162,14 @@ const Destinations = () => {
     const [selectedRJCategory, setSelectedRJCategory] = useState(
         ['wildlife', 'historical', 'pilgrimage', 'spiritual', 'desert', 'nature', 'crafts', 'culture', 'all'].includes(initialRJCategoryParam)
             ? initialRJCategoryParam
+            : 'all'
+    );
+
+    // Chhattisgarh Category / Interest Filter ('waterfalls' | 'tribal' | 'wildlife' | 'historical' | 'spiritual' | 'nature' | 'all')
+    const initialCGCategoryParam = (searchParams.get('category') || searchParams.get('cgCategory') || '').toLowerCase();
+    const [selectedCGCategory, setSelectedCGCategory] = useState(
+        ['waterfalls', 'tribal', 'wildlife', 'historical', 'spiritual', 'nature', 'all'].includes(initialCGCategoryParam)
+            ? initialCGCategoryParam
             : 'all'
     );
 
@@ -256,8 +281,26 @@ const Destinations = () => {
         const activeFiltersList = selectedFilters.length > 0 ? selectedFilters : globalActiveFilters;
 
         const filtered = allDestinations.filter(dest => {
-            // Regional Scope Filter ('up' | 'mp' | 'mh' | 'rj' | 'delhi' | 'global')
-            if (regionMode === 'rj') {
+            // Regional Scope Filter ('up' | 'mp' | 'mh' | 'rj' | 'cg' | 'delhi' | 'global')
+            if (regionMode === 'cg') {
+                const isCG = dest.isChhattisgarh || dest.location?.toLowerCase().includes('chhattisgarh');
+                if (!isCG) return false;
+
+                // Category filter ('waterfalls', 'tribal', 'wildlife', 'historical', 'spiritual', 'nature', etc.)
+                if (selectedCGCategory && selectedCGCategory !== 'all') {
+                    if (!matchCGCategory(dest, selectedCGCategory)) return false;
+                }
+
+                // District filter
+                if (selectedDistrict && selectedDistrict !== 'all') {
+                    if (dest.district !== selectedDistrict) return false;
+                }
+
+                // Circuit filter
+                if (selectedCircuit && selectedCircuit !== 'all') {
+                    if (dest.cgCircuit !== selectedCircuit) return false;
+                }
+            } else if (regionMode === 'rj') {
                 const isRJ = dest.isRajasthan || dest.location?.toLowerCase().includes('rajasthan');
                 if (!isRJ) return false;
 
@@ -344,6 +387,9 @@ const Destinations = () => {
                     dest.location.toLowerCase().includes(activeSearch) ||
                     (dest.district && dest.district.toLowerCase().includes(activeSearch)) ||
                     (dest.odop && dest.odop.toLowerCase().includes(activeSearch)) ||
+                    (dest.cgCircuit && dest.cgCircuit.toLowerCase().includes(activeSearch)) ||
+                    (dest.rjCircuit && dest.rjCircuit.toLowerCase().includes(activeSearch)) ||
+                    (dest.mhCircuit && dest.mhCircuit.toLowerCase().includes(activeSearch)) ||
                     (dest.upCircuit && dest.upCircuit.toLowerCase().includes(activeSearch)) ||
                     (dest.mpCircuit && dest.mpCircuit.toLowerCase().includes(activeSearch)) ||
                     (dest.division && dest.division.toLowerCase().includes(activeSearch)) ||
@@ -601,7 +647,7 @@ const Destinations = () => {
             }
             return 0; // 'featured' or default retains data order
         });
-    }, [searchQuery, globalSearchQuery, selectedFilters, globalActiveFilters, advancedFilters, domainStatus, sortBy, savedDestinations, isDelhiFocusMode, activeDelhiCategory, regionMode, selectedDistrict, selectedCircuit, selectedMPCategory, selectedMHCategory, selectedRJCategory]);
+    }, [searchQuery, globalSearchQuery, selectedFilters, globalActiveFilters, advancedFilters, domainStatus, sortBy, savedDestinations, isDelhiFocusMode, activeDelhiCategory, regionMode, selectedDistrict, selectedCircuit, selectedMPCategory, selectedMHCategory, selectedRJCategory, selectedCGCategory]);
 
     useEffect(() => {
         if (processedDestinations.length > 0) {
@@ -620,6 +666,7 @@ const Destinations = () => {
         setSelectedMPCategory('all');
         setSelectedMHCategory('all');
         setSelectedRJCategory('all');
+        setSelectedCGCategory('all');
         setIsDelhiFocusMode(false);
         setActiveDelhiCategory('all');
     };
@@ -628,7 +675,7 @@ const Destinations = () => {
         <div className="destinations-page">
             <div className="destinations-main-layout">
                 <div className="destinations-feed-column">
-                    {/* Interactive Region & Uttar Pradesh / Madhya Pradesh / Maharashtra / Rajasthan Circuit & District Explorer Bar */}
+                    {/* Interactive Region & Uttar Pradesh / Madhya Pradesh / Maharashtra / Rajasthan / Chhattisgarh Circuit & District Explorer Bar */}
                     <UPDestinationExplorerBar
                         regionMode={regionMode}
                         onSelectRegionMode={(mode) => {
@@ -638,6 +685,7 @@ const Destinations = () => {
                             setSelectedMPCategory('all');
                             setSelectedMHCategory('all');
                             setSelectedRJCategory('all');
+                            setSelectedCGCategory('all');
                             if (mode === 'delhi') {
                                 setIsDelhiFocusMode(true);
                             } else {
@@ -654,6 +702,8 @@ const Destinations = () => {
                         onSelectMHCategory={setSelectedMHCategory}
                         selectedRJCategory={selectedRJCategory}
                         onSelectRJCategory={setSelectedRJCategory}
+                        selectedCGCategory={selectedCGCategory}
+                        onSelectCGCategory={setSelectedCGCategory}
                         upDestinations={upDestinations}
                         districtsList={districtsList}
                         mpDestinations={mpDestinations}
@@ -662,11 +712,14 @@ const Destinations = () => {
                         mhDistrictsList={mhDistrictsList}
                         rjDestinations={rjDestinations}
                         rjDistrictsList={rjDistrictsList}
+                        cgDestinations={cgDestinations}
+                        cgDistrictsList={cgDistrictsList}
                         totalCount={processedDestinations.length}
                         onOpen75Districts={() => setIs75DistrictsModalOpen(true)}
                         onOpen55Districts={() => setIs55DistrictsModalOpen(true)}
                         onOpen36Districts={() => setIs36DistrictsModalOpen(true)}
                         onOpen50Districts={() => setIs50DistrictsModalOpen(true)}
+                        onOpen33Districts={() => setIs33DistrictsModalOpen(true)}
                     />
 
                     {/* Active District Filter Banner for UP */}
@@ -799,6 +852,44 @@ const Destinations = () => {
                         </div>
                     )}
 
+                    {/* Active District Filter Banner for CG */}
+                    {regionMode === 'cg' && selectedDistrict !== 'all' && (
+                        <div className="up-active-district-banner" style={{ background: 'rgba(5, 150, 105, 0.12)', borderColor: 'rgba(16, 185, 129, 0.45)', color: '#6ee7b7' }}>
+                            <div className="active-banner-info">
+                                <span className="active-banner-pin">📍</span>
+                                <span>Filtering Chhattisgarh by <strong>{selectedDistrict} District</strong> ({processedDestinations.length} destination{processedDestinations.length === 1 ? '' : 's'} displayed)</span>
+                            </div>
+                            <button
+                                type="button"
+                                className="active-banner-clear-btn"
+                                style={{ background: 'rgba(0, 0, 0, 0.35)', borderColor: 'rgba(16, 185, 129, 0.5)', color: '#a7f3d0' }}
+                                onClick={() => setSelectedDistrict('all')}
+                            >
+                                View All 33 Districts ×
+                            </button>
+                        </div>
+                    )}
+
+                    {/* Active Category / Interest Filter Banner for CG */}
+                    {regionMode === 'cg' && selectedCGCategory !== 'all' && (
+                        <div className="up-active-district-banner" style={{ background: 'linear-gradient(135deg, rgba(5, 150, 105, 0.16) 0%, rgba(4, 120, 87, 0.22) 100%)', borderColor: 'rgba(16, 185, 129, 0.45)', color: '#a7f3d0' }}>
+                            <div className="active-banner-info">
+                                <span className="active-banner-pin">
+                                    {selectedCGCategory === 'waterfalls' ? '🌊' : selectedCGCategory === 'tribal' ? '🏺' : selectedCGCategory === 'wildlife' ? '🐅' : selectedCGCategory === 'historical' ? '🏛️' : selectedCGCategory === 'spiritual' ? '🕉️' : '⛰️'}
+                                </span>
+                                <span>Filtering Chhattisgarh by Category: <strong>{CG_CATEGORIES.find(c => c.id === selectedCGCategory)?.label || selectedCGCategory}</strong> ({processedDestinations.length} destination{processedDestinations.length === 1 ? '' : 's'} matched)</span>
+                            </div>
+                            <button
+                                type="button"
+                                className="active-banner-clear-btn"
+                                style={{ background: 'rgba(0, 0, 0, 0.35)', borderColor: 'rgba(16, 185, 129, 0.5)', color: '#6ee7b7' }}
+                                onClick={() => setSelectedCGCategory('all')}
+                            >
+                                Clear Category Filter ×
+                            </button>
+                        </div>
+                    )}
+
                     {/* Interactive Delhi Category Filter Bar (when in Delhi mode) */}
                     {regionMode === 'delhi' && (
                         <DelhiCategoryFilterBar
@@ -896,6 +987,20 @@ const Destinations = () => {
                                     <button
                                         type="button"
                                         onClick={() => {
+                                            setRegionMode('cg');
+                                            setSelectedDistrict('all');
+                                            setSelectedCircuit('all');
+                                            setSelectedCGCategory('all');
+                                            setSearchQuery('');
+                                        }}
+                                        className="empty-suggestion-pill"
+                                        style={{ borderColor: 'rgba(16, 185, 129, 0.4)', color: '#6ee7b7' }}
+                                    >
+                                        View All Chhattisgarh Destinations ({cgDestinations.length})
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() => {
                                             setRegionMode('delhi');
                                             setIsDelhiFocusMode(true);
                                             setActiveDelhiCategory('all');
@@ -984,6 +1089,18 @@ const Destinations = () => {
                     setSelectedDistrict(dist);
                     setRegionMode('rj');
                     setIs50DistrictsModalOpen(false);
+                }}
+            />
+
+            {/* Comprehensive 33 Districts Directory Modal for Chhattisgarh */}
+            <CG33DistrictsModal
+                isOpen={is33DistrictsModalOpen}
+                onClose={() => setIs33DistrictsModalOpen(false)}
+                currentDistrict={selectedDistrict}
+                onSelectDistrict={(dist) => {
+                    setSelectedDistrict(dist);
+                    setRegionMode('cg');
+                    setIs33DistrictsModalOpen(false);
                 }}
             />
         </div>

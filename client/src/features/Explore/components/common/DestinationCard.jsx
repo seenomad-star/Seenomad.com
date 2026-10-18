@@ -314,6 +314,42 @@ const DestinationCard = ({ dest, viewMode }) => {
                                                 🐪 {dest.rjCircuit}
                                             </span>
                                         )}
+                                        {dest?.category && (dest?.isChhattisgarh || dest?.location?.toLowerCase().includes('chhattisgarh')) && (
+                                            <span
+                                                className="up-card-circuit-chip cg-category-chip"
+                                                style={{
+                                                    background: dest.category === 'Waterfalls'
+                                                        ? 'linear-gradient(135deg, rgba(6, 182, 212, 0.25), rgba(14, 165, 233, 0.32))'
+                                                        : dest.category === 'Wildlife'
+                                                        ? 'linear-gradient(135deg, rgba(245, 158, 11, 0.25), rgba(217, 119, 6, 0.32))'
+                                                        : dest.category === 'Historical'
+                                                        ? 'linear-gradient(135deg, rgba(59, 130, 246, 0.25), rgba(37, 99, 235, 0.32))'
+                                                        : dest.category === 'Spiritual'
+                                                        ? 'linear-gradient(135deg, rgba(168, 85, 247, 0.25), rgba(147, 51, 234, 0.32))'
+                                                        : dest.category === 'Tribal & Culture' || dest.category === 'Culture'
+                                                        ? 'linear-gradient(135deg, rgba(217, 119, 6, 0.25), rgba(180, 83, 9, 0.32))'
+                                                        : 'linear-gradient(135deg, rgba(16, 185, 129, 0.25), rgba(5, 150, 105, 0.32))',
+                                                    borderColor: dest.category === 'Waterfalls' ? 'rgba(6, 182, 212, 0.5)' : dest.category === 'Wildlife' ? 'rgba(245, 158, 11, 0.5)' : dest.category === 'Historical' ? 'rgba(59, 130, 246, 0.5)' : dest.category === 'Spiritual' ? 'rgba(168, 85, 247, 0.5)' : dest.category === 'Tribal & Culture' ? 'rgba(217, 119, 6, 0.5)' : 'rgba(16, 185, 129, 0.5)',
+                                                    color: dest.category === 'Waterfalls' ? '#67e8f9' : dest.category === 'Wildlife' ? '#fcd34d' : dest.category === 'Historical' ? '#93c5fd' : dest.category === 'Spiritual' ? '#d8b4fe' : dest.category === 'Tribal & Culture' ? '#fed7aa' : '#6ee7b7'
+                                                }}
+                                                title={`Category: ${dest.category}`}
+                                            >
+                                                {dest.category === 'Waterfalls' ? '🌊 Waterfalls' : dest.category === 'Wildlife' ? '🐾 Wildlife' : dest.category === 'Historical' ? '🏛️ Ancient Shrines' : dest.category === 'Spiritual' ? '🕉️ Shaktipeeth' : dest.category === 'Tribal & Culture' ? '🏺 Tribal Arts' : `✨ ${dest.category}`}
+                                            </span>
+                                        )}
+                                        {dest?.cgCircuit && (
+                                            <span
+                                                className="up-card-circuit-chip cg-circuit-chip"
+                                                style={{
+                                                    background: 'linear-gradient(135deg, rgba(5, 150, 105, 0.22), rgba(4, 120, 87, 0.28))',
+                                                    borderColor: 'rgba(16, 185, 129, 0.45)',
+                                                    color: '#6ee7b7'
+                                                }}
+                                                title={`CG Tourism Circuit: ${dest.cgCircuit}`}
+                                            >
+                                                🌿 {dest.cgCircuit}
+                                            </span>
+                                        )}
                                         {dest?.mpCircuit && (
                                             <span
                                                 className="up-card-circuit-chip mp-circuit-chip"

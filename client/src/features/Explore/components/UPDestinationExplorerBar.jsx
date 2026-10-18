@@ -8,6 +8,7 @@ import {
 import { MP_CIRCUITS, MP_CATEGORIES, matchMPCategory } from './MPDistrictIntelligenceSuite';
 import { MH_CIRCUITS, MH_CATEGORIES, matchMHCategory } from './MHDistrictIntelligenceSuite';
 import { RJ_CIRCUITS, RJ_CATEGORIES, matchRJCategory } from './RJDistrictIntelligenceSuite';
+import { CG_CIRCUITS, CG_CATEGORIES, matchCGCategory } from './CGDistrictIntelligenceSuite';
 import './UPDestinationExplorerBar.css';
 
 export const UP_CIRCUITS = [
@@ -21,7 +22,7 @@ export const UP_CIRCUITS = [
 ];
 
 const UPDestinationExplorerBar = ({
-    regionMode = 'up', // 'up' | 'mp' | 'mh' | 'rj' | 'delhi' | 'global'
+    regionMode = 'up', // 'up' | 'mp' | 'mh' | 'rj' | 'cg' | 'delhi' | 'global'
     onSelectRegionMode,
     selectedDistrict = 'all',
     onSelectDistrict,
@@ -33,6 +34,8 @@ const UPDestinationExplorerBar = ({
     onSelectMHCategory,
     selectedRJCategory = 'all',
     onSelectRJCategory,
+    selectedCGCategory = 'all',
+    onSelectCGCategory,
     upDestinations = [],
     districtsList = [],
     mpDestinations = [],
@@ -41,13 +44,41 @@ const UPDestinationExplorerBar = ({
     mhDistrictsList = [],
     rjDestinations = [],
     rjDistrictsList = [],
+    cgDestinations = [],
+    cgDistrictsList = [],
     totalCount = 0,
     onOpen75Districts,
     onOpen55Districts,
     onOpen36Districts,
-    onOpen50Districts
+    onOpen50Districts,
+    onOpen33Districts
 }) => {
     const navigate = useNavigate();
+
+    // Compute counts per CG category
+    const cgCategoryCounts = useMemo(() => {
+        const counts = { all: cgDestinations.length };
+        CG_CATEGORIES.forEach(cat => {
+            if (cat.id !== 'all') {
+                counts[cat.id] = cgDestinations.filter(d => matchCGCategory(d, cat.id)).length;
+            }
+        });
+        return counts;
+    }, [cgDestinations]);
+
+    // Compute counts per CG circuit
+    const cgCircuitCounts = useMemo(() => {
+        const counts = { all: cgDestinations.length };
+        CG_CIRCUITS.forEach(c => {
+            if (c.id !== 'all') counts[c.id] = 0;
+        });
+        cgDestinations.forEach(d => {
+            if (d.cgCircuit && counts[d.cgCircuit] !== undefined) {
+                counts[d.cgCircuit]++;
+            }
+        });
+        return counts;
+    }, [cgDestinations]);
 
     // Compute counts per MH category
     const mhCategoryCounts = useMemo(() => {
@@ -185,6 +216,16 @@ const UPDestinationExplorerBar = ({
 
                     <button
                         type="button"
+                        onClick={() => onSelectRegionMode('cg')}
+                        className={`region-tab-btn ${regionMode === 'cg' ? 'active cg-theme' : ''}`}
+                    >
+                        <span className="region-flag">🌿</span>
+                        <span className="font-bold">Chhattisgarh (33 Districts)</span>
+                        <span className="region-badge-count">{cgDestinations.length}</span>
+                    </button>
+
+                    <button
+                        type="button"
                         onClick={() => onSelectRegionMode('delhi')}
                         className={`region-tab-btn ${regionMode === 'delhi' ? 'active delhi-theme' : ''}`}
                     >
@@ -205,7 +246,9 @@ const UPDestinationExplorerBar = ({
                 <div className="up-state-motto-tag">
                     <span className="up-seal-dot" />
                     <span>
-                        {regionMode === 'rj'
+                        {regionMode === 'cg'
+                            ? 'Chhattisgarh Tourism · Full of Surprises · The Herbal State'
+                            : regionMode === 'rj'
                             ? 'Rajasthan Tourism · Padharo Mhare Desh · Incredible India'
                             : regionMode === 'mh'
                             ? 'Maharashtra Tourism · Unlimited Maharashtra · Incredible India'
@@ -695,7 +738,168 @@ const UPDestinationExplorerBar = ({
                 </div>
             )}
 
-            {/* 4. When Region Mode is 'up', show District Dropdown & Circuit Pills */}
+            {/* 4. When Region Mode is 'cg', show CG District Dropdown, Category Filters & Circuit Pills */}
+            {regionMode === 'cg' && (
+                <div className="up-circuit-controls-card cg-controls-card" style={{ borderColor: 'rgba(16, 185, 129, 0.35)' }}>
+                    {/* Header Banner */}
+                    <div className="up-controls-header">
+                        <div className="up-header-text-block">
+                            <h2 className="up-header-title">
+                                Explore Chhattisgarh Destinations by District, Waterfalls & Circuits
+                            </h2>
+                            <p className="up-header-desc">
+                                Full of Surprises · 33 Districts: From Chitrakote Falls (Niagara of India), Kanger Valley Caves & Bastar Dhokra Bell Metal to Sirpur UNESCO Buddhist Heritage, Bhoramdeo Khajuraho of CG, and Mainpat mist plateaus.
+                            </p>
+                        </div>
+
+                        {/* District Dropdown Selector & 33 Districts Quick Modal Trigger */}
+                        <div className="up-district-dropdown-wrap">
+                            <div className="district-dropdown-labels-row">
+                                <label htmlFor="cg-district-select" className="district-dropdown-label">
+                                    <MapPin size={14} className="text-emerald-400" />
+                                    <span>Filter by CG District:</span>
+                                </label>
+                                {onOpen33Districts && (
+                                    <button
+                                        type="button"
+                                        onClick={onOpen33Districts}
+                                        className="up-directory-quick-link"
+                                        style={{
+                                            background: 'linear-gradient(135deg, rgba(5, 150, 105, 0.22) 0%, rgba(4, 120, 87, 0.28) 100%)',
+                                            color: '#6ee7b7',
+                                            borderColor: 'rgba(16, 185, 129, 0.45)'
+                                        }}
+                                        title="Browse full directory of all 33 districts of Chhattisgarh"
+                                    >
+                                        <Compass size={12} />
+                                        <span>33 Districts Grid</span>
+                                    </button>
+                                )}
+                                <button
+                                    type="button"
+                                    onClick={() => navigate('/explore/itinerary-builder')}
+                                    className="up-directory-quick-link"
+                                    style={{
+                                        background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.22) 0%, rgba(217, 119, 6, 0.28) 100%)',
+                                        color: '#fbbf24',
+                                        borderColor: 'rgba(245, 158, 11, 0.45)'
+                                    }}
+                                    title="Build custom Day-by-Day Travel Plan"
+                                >
+                                    <Calendar size={12} />
+                                    <span>Build Day-by-Day Itinerary 🗓️</span>
+                                </button>
+                            </div>
+                            <div className="district-select-box">
+                                <select
+                                    id="cg-district-select"
+                                    value={selectedDistrict}
+                                    onChange={(e) => onSelectDistrict(e.target.value)}
+                                    className="district-native-select"
+                                >
+                                    <option value="all">🌟 All 33 Districts ({cgDistrictsList.length} Covered)</option>
+                                    {cgDistrictsList.map((district) => (
+                                        <option key={district} value={district}>
+                                            📍 {district} District
+                                        </option>
+                                    ))}
+                                </select>
+                                <ChevronDown size={14} className="select-arrow-icon" />
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* CG Category / Interest Filters (Waterfalls, Tribal Lore, Wildlife, Ancient Heritage, Shaktipeeths, Hills) */}
+                    <div className="mp-category-filters-container" style={{ background: 'linear-gradient(135deg, rgba(5, 150, 105, 0.08) 0%, rgba(4, 120, 87, 0.04) 100%)', borderColor: 'rgba(16, 185, 129, 0.25)' }}>
+                        <div className="mp-category-header-row">
+                            <span className="mp-category-eyebrow">
+                                <Sparkles size={13} className="text-emerald-400" />
+                                <strong>Filter by Interest / Category:</strong>
+                            </span>
+                            <span className="mp-category-hint">
+                                Quickly find Chitrakote Niagara waterfalls, Bastar Dhokra craft guilds, or Sirpur Buddhist temples
+                            </span>
+                        </div>
+                        <div className="mp-category-pills-row" role="group" aria-label="Filter Chhattisgarh by Category">
+                            {CG_CATEGORIES.map((cat) => {
+                                const count = cgCategoryCounts[cat.id] || 0;
+                                const isActive = (selectedCGCategory || 'all') === cat.id;
+                                return (
+                                    <button
+                                        key={cat.id}
+                                        type="button"
+                                        onClick={() => onSelectCGCategory && onSelectCGCategory(cat.id)}
+                                        className={`mp-category-pill ${isActive ? 'active' : ''}`}
+                                        style={isActive ? {
+                                            background: 'linear-gradient(135deg, #059669 0%, #047857 100%)',
+                                            borderColor: '#10b981',
+                                            color: '#ffffff',
+                                            boxShadow: '0 4px 14px rgba(16, 185, 129, 0.4)'
+                                        } : {}}
+                                        title={cat.description}
+                                    >
+                                        <span className="cat-pill-icon">{cat.icon}</span>
+                                        <span className="cat-pill-label">{cat.label}</span>
+                                        <span className="cat-pill-count">{count}</span>
+                                    </button>
+                                );
+                            })}
+                        </div>
+                    </div>
+
+                    {/* CG Circuit Filter Pills */}
+                    <div className="up-circuit-pills-row">
+                        {CG_CIRCUITS.map((circuit) => {
+                            const count = cgCircuitCounts[circuit.id] || 0;
+                            const isActive = selectedCircuit === circuit.id;
+                            return (
+                                <button
+                                    key={circuit.id}
+                                    type="button"
+                                    onClick={() => onSelectCircuit(circuit.id)}
+                                    className={`up-circuit-pill ${isActive ? 'active' : ''}`}
+                                    style={isActive ? {
+                                        background: 'linear-gradient(135deg, #059669 0%, #047857 100%)',
+                                        borderColor: '#10b981',
+                                        color: '#ffffff',
+                                        boxShadow: '0 4px 15px rgba(16, 185, 129, 0.35)'
+                                    } : {}}
+                                    title={circuit.description}
+                                >
+                                    <span className="circuit-pill-icon">{circuit.icon}</span>
+                                    <span className="circuit-pill-label">{circuit.label}</span>
+                                    <span className="circuit-pill-count">{count}</span>
+                                </button>
+                            );
+                        })}
+                    </div>
+
+                    {/* Quick Telemetry Footbar */}
+                    <div className="up-telemetry-footbar">
+                        <div className="telemetry-item">
+                            <Check size={13} className="text-emerald-400" />
+                            <span>33 Districts Represented</span>
+                        </div>
+                        <div className="telemetry-bullet">·</div>
+                        <div className="telemetry-item">
+                            <Award size={13} className="text-emerald-400" />
+                            <span>Chitrakote Falls (Niagara of India) & Kanger Valley</span>
+                        </div>
+                        <div className="telemetry-bullet">·</div>
+                        <div className="telemetry-item">
+                            <Sparkles size={13} className="text-cyan-400" />
+                            <span>Sirpur UNESCO Brick Shrines & Bastar Dhokra Artisans</span>
+                        </div>
+                        <div className="telemetry-bullet">·</div>
+                        <div className="telemetry-item">
+                            <ShieldCheck size={13} className="text-emerald-400" />
+                            <span>Full Dedicated Intelligence Detail Pages</span>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* 5. When Region Mode is 'up', show District Dropdown & Circuit Pills */}
             {regionMode === 'up' && (
                 <div className="up-circuit-controls-card">
                     {/* Header Banner */}
