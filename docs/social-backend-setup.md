@@ -28,4 +28,4 @@ In Supabase Authentication URL Configuration, set the Site URL to the deployed S
 - Verify Vercel preview checks, then deploy only after review.
 
 ## Current boundary
-The existing demo feed and browser-local engagement store are preserved. The new database tables and service functions provide the server-side foundation; existing feed components still need to be switched to these functions in the next integration pass. Until a Supabase project and environment variables are configured, the app continues operating without remote authentication.
+The existing demo feed and browser-local engagement store are preserved as a no-configuration fallback. When Supabase is configured, the feed loads database posts, publishing requires sign-in, and reactions, comments, and saved-post state use the authenticated backend. Follow/unfollow UI wiring and a dedicated saved-posts screen remain follow-up integration work. Until a Supabase project and environment variables are configured, the app continues operating without remote authentication.
