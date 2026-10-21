@@ -15,6 +15,15 @@ export const useSocialEngagementStore = create(
       bookmarks: {},
       commentsByPost: {},
 
+      resetEngagement: () => set({
+        reactions: {},
+        likeDeltas: {},
+        reposts: {},
+        repostDeltas: {},
+        bookmarks: {},
+        commentsByPost: {}
+      }),
+
       setReaction: (postId, nextReaction, fallbackReaction = null) => set((state) => {
         const hasStoredReaction = Object.prototype.hasOwnProperty.call(state.reactions, postId);
         const previousReaction = hasStoredReaction ? state.reactions[postId] : fallbackReaction;
