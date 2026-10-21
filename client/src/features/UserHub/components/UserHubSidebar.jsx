@@ -8,16 +8,19 @@ import {
 import { useSavedStore } from '../../../store/savedStore';
 import { useSavedVibesStore } from '../../../store/savedVibesStore';
 import { useNomadReputationStore } from '../../../store/nomadReputationStore';
+import { useSocialEngagementStore } from '../../../store/socialEngagementStore';
 
 const UserHubSidebar = () => {
     const savedCount = useSavedStore((state) => state.savedDestinations.length);
     const savedVibesCount = useSavedVibesStore((state) => state.savedVibes.length);
+    const localSavedPostCount = useSocialEngagementStore((state) => Object.values(state.bookmarks).filter(Boolean).length);
     const { reputationScore, rankTier } = useNomadReputationStore();
 
     // Core Account Features matching the canonical top-right Account dropdown & user's reference
     const primaryAccountItems = [
         { id: 'nomad-cv', label: 'My Profile', icon: User, to: '/user/profile', badge: 'Verified' },
         { id: 'saved-vibes', label: 'Saved Vibes', icon: Film, to: '/user/saved-vibes', badge: savedVibesCount > 0 ? String(savedVibesCount) : 'Clips' },
+        { id: 'saved-social-posts', label: 'Saved Posts', icon: Bookmark, to: '/user/saved-posts', badge: localSavedPostCount > 0 ? String(localSavedPostCount) : 'Community' },
         { id: 'messages', label: 'Messages', icon: MessageCircle, to: '/user/messages', badge: '3' },
         { id: 'notifications', label: 'Notifications', icon: Bell, to: '/user/notifications', badge: '4' },
         { id: 'wallet', label: 'Wallet & Payouts', icon: Wallet, to: '/user/wallet' },
