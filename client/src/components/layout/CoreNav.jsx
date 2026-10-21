@@ -11,6 +11,7 @@ import { useNavStore } from '../../store/navStore';
 import { useSavedStore } from '../../store/savedStore';
 import { useSavedVibesStore } from '../../store/savedVibesStore';
 import { useTheme } from '../../contexts/ThemeContext';
+import { useAuth } from '../../contexts/AuthContext';
 import Logo from '../common/Logo';
 
 const INITIAL_NOTIFICATIONS = [
@@ -96,6 +97,7 @@ const INITIAL_MESSAGES = [
 const CoreNav = ({ toggleSidebar, toggleRightSidebar, isSidebarCollapsed = false, isMobile: propIsMobile }) => {
     const navigate = useNavigate();
     const { isDark } = useTheme();
+    const { user: authenticatedUser, configured: authConfigured } = useAuth();
     const {
         toggleModuleSwitcher,
         setDockState,
@@ -1019,6 +1021,15 @@ const CoreNav = ({ toggleSidebar, toggleRightSidebar, isSidebarCollapsed = false
                                     </div>
 
                                     <div className="profile-menu-footer">
+                                        <button
+                                            type="button"
+                                            className="profile-menu-item logout-item"
+                                            onClick={() => handleNavigateMenu('/auth')}
+                                        >
+                                            <User size={15} />
+                                            <span>{!authConfigured ? 'Set up account' : authenticatedUser ? 'Authenticated account' : 'Sign in / create account'}</span>
+                                            <ChevronRight size={13} className="item-arrow" />
+                                        </button>
                                         <button
                                             type="button"
                                             className="profile-menu-item logout-item"
