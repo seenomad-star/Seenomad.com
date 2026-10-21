@@ -1,11 +1,22 @@
-import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import React, { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { isSupabaseConfigured, supabase } from '../lib/supabaseClient';
+import { useSocialEngagementStore } from '../store/socialEngagementStore';
 
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
   const [session, setSession] = useState(null);
   const [loading, setLoading] = useState(isSupabaseConfigured);
+  const previousUserId = useRef('__uninitialized__');
+
+  const applySession = (nextSession) => {
+    const nextUserId = nextSession?.user?.id ?? null;
+    if (previousUserId.current !== nextUserId) {
+      useSocialEngagementStore.getState().resetEngagement();
+      previousUserId.current = nextUserId;
+    }
+    setSession(nextSession);
+  };
 
   useEffect(() => {
     if (!supabase) {
@@ -17,12 +28,12 @@ export function AuthProvider({ children }) {
     supabase.auth.getSession().then(({ data, error }) => {
       if (!active) return;
       if (error) console.error('Unable to restore Seenomad session:', error.message);
-      setSession(data?.session ?? null);
+      applySession(data?.session ?? null);
       setLoading(false);
     });
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, nextSession) => {
-      setSession(nextSession);
+      applySession(nextSession);
       setLoading(false);
     });
 
