@@ -6,6 +6,7 @@ import './index.css'
 import App from './App.jsx'
 import ErrorBoundary from './components/common/ErrorBoundary.jsx'
 import { ThemeProvider } from './contexts/ThemeContext.jsx'
+import { AuthProvider } from './contexts/AuthContext.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -13,11 +14,12 @@ createRoot(document.getElementById('root')).render(
       <HelmetProvider>
         <BrowserRouter>
           <ThemeProvider>
-            <App />
+            <AuthProvider>
+              <App />
+            </AuthProvider>
           </ThemeProvider>
         </BrowserRouter>
       </HelmetProvider>
     </ErrorBoundary>
   </StrictMode>,
 )
-
