@@ -126,11 +126,11 @@ const Post = ({ post }) => {
             .then((remoteState) => {
                 if (!active) return;
                 setReaction(postId, remoteState.reaction, post.userLiked ? 'love' : null);
-                setBookmark(postId, remoteState.saved);
+                if (post.source === 'supabase') setBookmark(postId, remoteState.saved);
             })
             .catch((error) => console.warn('Unable to load saved social state:', error.message));
         return () => { active = false; };
-    }, [postId, remoteSocialEnabled, user?.id, setReaction, setBookmark, post.userLiked]);
+    }, [postId, remoteSocialEnabled, user?.id, setReaction, setBookmark, post.userLiked, post.source]);
 
     useEffect(() => {
         if (!remoteSocialEnabled || !user || !authorId || authorId === user.id) return undefined;
@@ -274,12 +274,12 @@ const Post = ({ post }) => {
     const handleBookmark = async (e) => {
         e.stopPropagation();
         const nextBookmarked = !isBookmarked;
-        if (remoteSocialEnabled) {
-            if (!user) {
-                addToast('Sign in to save travel posts.', 'info');
-                navigate('/auth');
-                return;
-            }
+        if (remoteSocialEnabled && !user) {
+            addToast('Sign in to save travel posts.', 'info');
+            navigate('/auth');
+            return;
+        }
+        if (remoteSocialEnabled && post.source === 'supabase') {
             try {
                 await setPostSaved(postId, nextBookmarked);
                 setBookmark(postId, nextBookmarked);
@@ -290,7 +290,10 @@ const Post = ({ post }) => {
         } else {
             toggleBookmark(postId, Boolean(post.userBookmarked));
         }
-        addToast(nextBookmarked ? 'Saved to Travel Wishlist 🔖' : 'Removed from Wishlist', 'info');
+        const message = remoteSocialEnabled && post.source !== 'supabase'
+            ? (nextBookmarked ? 'Saved locally; this demo post is not synced yet.' : 'Removed from local saved posts.')
+            : (nextBookmarked ? 'Saved to Travel Wishlist 🔖' : 'Removed from Wishlist');
+        addToast(message, 'info');
     };
 
     // Share Options
