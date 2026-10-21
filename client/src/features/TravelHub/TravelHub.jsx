@@ -8,36 +8,52 @@ import {
 } from 'lucide-react';
 import './TravelHub.css';
 
-const CATEGORIES = ['All', 'Discover', 'Plan a trip', 'Travel tools', 'Community', 'For professionals'];
+const CATEGORIES = ['All', 'Social network', 'Discover', 'Plan a trip', 'Travel tools', 'Resources', 'Communities', 'For professionals'];
 
 const HUB_ITEMS = [
-  { title: 'Explore destinations', description: 'Browse places, destination guides, and ideas for your next journey.', category: 'Discover', icon: Compass, href: '/explore/destinations', label: 'Explore places' },
-  { title: 'Compare destinations', description: 'Shortlist places and compare options before you decide where to go.', category: 'Discover', icon: Globe2, href: '/explore/compare-destinations', label: 'Compare places' },
-  { title: 'Travel inspiration & stories', description: 'Discover travel posts and stories shared by the community.', category: 'Community', icon: Camera, href: '/', label: 'Open social feed' },
-  { title: 'Travel community', description: 'Connect with travellers, ask questions, and find people with similar interests.', category: 'Community', icon: Users, href: '/community', label: 'Join community' },
-  { title: 'Messages', description: 'Continue travel conversations and coordinate with other members.', category: 'Community', icon: MessageCircle, href: '/messages', label: 'Open messages' },
-  { title: 'Plan an itinerary', description: 'Start organizing a trip with a structured itinerary workflow.', category: 'Plan a trip', icon: CalendarDays, href: '/explore/itinerary-builder', label: 'Build itinerary' },
-  { title: 'Trip planner', description: 'Explore planning tools and organize the details of your journey.', category: 'Plan a trip', icon: MapPinned, href: '/explore/planner', label: 'Open planner' },
-  { title: 'Saved places', description: 'Return to destinations and travel items you have saved.', category: 'Plan a trip', icon: Bookmark, href: '/saved', label: 'View saved items' },
-  { title: 'Visa & entry resources', description: 'Find visa-related resources and country entry information. Always verify requirements with official authorities.', category: 'Travel tools', icon: Landmark, href: '/explore/visa', label: 'Explore visa resources' },
-  { title: 'Travel support & utilities', description: 'Find travel support resources and practical utilities in one place.', category: 'Travel tools', icon: Wrench, href: '/support-utility', label: 'Open utilities' },
-  { title: 'AI travel studio', description: 'Explore AI-assisted travel experiences available in Seenomad.', category: 'Travel tools', icon: Sparkles, href: '/explore/ai-studio', label: 'Open AI studio' },
-  { title: 'Travel safety resources', description: 'Review available safety and protection resources before travelling.', category: 'Travel tools', icon: ShieldCheck, href: '/support-utility', label: 'View resources' },
+  { title: 'Travel social feed', description: 'Discover traveller posts, destination photos, short videos, reels, and trip stories.', category: 'Social network', icon: Camera, href: '/', label: 'Open social feed' },
+  { title: 'Traveller profiles & creators', description: 'Find travel creators and people to follow for practical inspiration.', category: 'Social network', icon: Users, href: '/community', label: 'Explore people' },
+  { title: 'Messages & conversations', description: 'Continue travel conversations and coordinate plans with other members.', category: 'Social network', icon: MessageCircle, href: '/messages', label: 'Open messages' },
+  { title: 'Saved posts and places', description: 'Keep useful travel inspiration and destinations together for later.', category: 'Social network', icon: Bookmark, href: '/saved', label: 'View saved items' },
+  { title: 'Explore destinations', description: 'Browse countries, cities, attractions, beaches, mountains, and places to visit.', category: 'Discover', icon: Compass, href: '/explore/destinations', label: 'Explore places' },
+  { title: 'Destination guides', description: 'Explore practical guides, local culture, neighbourhoods, and trip inspiration.', category: 'Discover', icon: BookOpen, href: '/explore/trivenly', label: 'Browse guides' },
+  { title: 'Events & festivals', description: 'Find event and festival inspiration to help plan when and where to travel.', category: 'Discover', icon: Heart, href: '/event-festival', label: 'Explore events' },
+  { title: 'Local experiences', description: 'Discover cultural activities, learning experiences, and local-led activities.', category: 'Discover', icon: Landmark, href: '/learning-voluntourism', label: 'Explore experiences' },
+  { title: 'Travel map & nearby places', description: 'Find map and nearby-place resources for exploring a destination.', category: 'Discover', icon: MapPinned, href: '/explore/travel-map', label: 'Explore map' },
+  { title: 'Trip planner', description: 'Organize destinations and important details for your upcoming journey.', category: 'Plan a trip', icon: MapPinned, href: '/explore/planner', label: 'Open planner' },
+  { title: 'Itinerary builder', description: 'Structure your journey into a day-by-day itinerary and route.', category: 'Plan a trip', icon: CalendarDays, href: '/explore/itinerary-builder', label: 'Build itinerary' },
+  { title: 'Trip builder', description: 'Explore trip-building workflows and planning templates.', category: 'Plan a trip', icon: Backpack, href: '/explore/trip-builder', label: 'Build a trip' },
+  { title: 'Trip checklist & packing', description: 'Prepare a departure checklist and find packing resources for your trip.', category: 'Plan a trip', icon: CheckSquare, href: '/explore/planner', label: 'Prepare a trip' },
+  { title: 'Trip budget & expenses', description: 'Find planning resources for trip costs, budgeting, and shared expenses.', category: 'Plan a trip', icon: Wallet, href: '/explore/itinerary-builder', label: 'Plan trip costs' },
+  { title: 'Travel booking & deals', description: 'Explore travel booking resources and available deal sections.', category: 'Travel tools', icon: Plane, href: '/explore/book-travel', label: 'Explore booking' },
+  { title: 'Flight and transport resources', description: 'Find flight-related and transport planning resources.', category: 'Travel tools', icon: Map, href: '/explore/flights-visa', label: 'Explore transport' },
+  { title: 'Accommodation finder', description: 'Explore accommodation and stay-discovery resources.', category: 'Travel tools', icon: Building2, href: '/explore/hotel-finder', label: 'Find stays' },
+  { title: 'Visa & entry requirements', description: 'Find visa and entry information. Confirm current rules with the official government or embassy source before travel.', category: 'Travel tools', icon: Landmark, href: '/explore/visa', label: 'Explore visa resources' },
+  { title: 'Currency, budget & tax tools', description: 'Explore money-planning and tax/compliance resources. Estimates are not professional financial or legal advice.', category: 'Travel tools', icon: Wallet, href: '/explore/tax-calculator', label: 'Open money tools' },
+  { title: 'Weather & local conditions', description: 'Find travel support and weather-related resources; live forecasts depend on connected providers.', category: 'Travel tools', icon: CloudSun, href: '/support-utility', label: 'Explore utilities' },
+  { title: 'Connectivity & eSIM resources', description: 'Prepare for mobile data, Wi-Fi, and staying connected while travelling.', category: 'Travel tools', icon: Wifi, href: '/support-utility', label: 'View connectivity resources' },
+  { title: 'Travel AI studio', description: 'Explore AI-assisted travel features available in Seenomad.', category: 'Travel tools', icon: Sparkles, href: '/explore/ai-studio', label: 'Open AI studio' },
+  { title: 'Safety & insurance resources', description: 'Find travel safety and insurance resources; check official advisories and policy terms.', category: 'Resources', icon: ShieldCheck, href: '/support-utility', label: 'View safety resources' },
+  { title: 'Travel knowledge library', description: 'Browse destination knowledge, cultural etiquette, travel FAQs, and practical guidance.', category: 'Resources', icon: BookOpen, href: '/content-media', label: 'Explore knowledge' },
+  { title: 'Accessibility resources', description: 'Find information to help research mobility, accessibility, and individual destination needs.', category: 'Resources', icon: Heart, href: '/support-utility', label: 'Explore resources' },
+  { title: 'Responsible & sustainable travel', description: 'Explore resources for responsible tourism, local communities, and lower-impact travel.', category: 'Resources', icon: Globe2, href: '/content-media', label: 'Learn more' },
+  { title: 'Learning & voluntourism', description: 'Explore educational travel, learning opportunities, and voluntourism resources.', category: 'Resources', icon: Backpack, href: '/learning-voluntourism', label: 'Explore opportunities' },
+  { title: 'Travel communities', description: 'Find travel communities, ask questions, and connect with people who share your interests.', category: 'Communities', icon: Users, href: '/community', label: 'Join community' },
+  { title: 'Reviews & traveller tips', description: 'Explore review and recommendation resources to inform your decisions.', category: 'Communities', icon: Heart, href: '/explore/reviews', label: 'Explore reviews' },
   { title: 'Creator studio', description: 'Explore tools for creating and managing travel content.', category: 'For professionals', icon: Camera, href: '/creator-studio', label: 'Open creator studio' },
-  { title: 'Tourism business partners', description: 'Explore partnership opportunities for travel and tourism providers.', category: 'For professionals', icon: Building2, href: '/business-partner', label: 'Explore partnerships' },
-  { title: 'Travel media', description: 'Explore content and media resources for the travel ecosystem.', category: 'For professionals', icon: BookOpen, href: '/content-media', label: 'Explore media' },
-  { title: 'Events & festivals', description: 'Discover event and festival resources for trip inspiration.', category: 'Discover', icon: Heart, href: '/event-festival', label: 'Explore events' },
-  { title: 'Learning & voluntourism', description: 'Explore learning-oriented travel and voluntourism resources.', category: 'Discover', icon: Backpack, href: '/learning-voluntourism', label: 'Explore opportunities' },
-  { title: 'Tourism insights', description: 'Explore travel and tourism insight features available on the platform.', category: 'For professionals', icon: BriefcaseBusiness, href: '/insights-analytics', label: 'View insights' }
+  { title: 'Tourism businesses & partners', description: 'Explore partnership resources for hotels, tour operators, guides, and tourism providers.', category: 'For professionals', icon: Building2, href: '/business-partner', label: 'Explore partnerships' },
+  { title: 'Travel media & publishing', description: 'Explore content, publishing, and media resources for the travel ecosystem.', category: 'For professionals', icon: BookOpen, href: '/content-media', label: 'Explore media' },
+  { title: 'Tourism insights & analytics', description: 'Explore travel and tourism insight features available on the platform.', category: 'For professionals', icon: BriefcaseBusiness, href: '/insights-analytics', label: 'View insights' },
+  { title: 'Travel business resources', description: 'Find business-oriented tools, partner information, and resources for travel professionals.', category: 'For professionals', icon: Building2, href: '/business-partner', label: 'Explore business tools' }
 ];
 
 const QUICK_TOOLS = [
-  { title: 'Trip checklist', detail: 'Prepare before departure', icon: CheckSquare, href: '/explore/planner' },
-  { title: 'Trip budget & planning', detail: 'Organize trip details', icon: Wallet, href: '/explore/itinerary-builder' },
-  { title: 'Weather & local conditions', detail: 'Find planning resources', icon: CloudSun, href: '/support-utility' },
-  { title: 'Connectivity resources', detail: 'Prepare for getting online', icon: Wifi, href: '/support-utility' },
-  { title: 'Transport & maps', detail: 'Explore destinations and routes', icon: Map, href: '/explore/destinations' },
-  { title: 'Travel documentation', detail: 'Find visa and entry resources', icon: Plane, href: '/explore/visa' }
+  { title: 'Build an itinerary', detail: 'Plan day by day', icon: CalendarDays, href: '/explore/itinerary-builder' },
+  { title: 'Trip budget resources', detail: 'Organize trip costs', icon: Wallet, href: '/explore/planner' },
+  { title: 'Visa & entry guidance', detail: 'Check official requirements', icon: Landmark, href: '/explore/visa' },
+  { title: 'Weather & utilities', detail: 'Travel support resources', icon: CloudSun, href: '/support-utility' },
+  { title: 'Maps & destinations', detail: 'Discover places to visit', icon: Map, href: '/explore/destinations' },
+  { title: 'Community & stories', detail: 'Get ideas from travellers', icon: Users, href: '/' }
 ];
 
 function HubCard({ item }) {
