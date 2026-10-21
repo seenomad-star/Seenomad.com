@@ -44,6 +44,8 @@ const FB_REACTIONS = [
     { id: 'sad', label: 'Sad', icon: '😢', color: '#8b5cf6', bg: 'rgba(139, 92, 246, 0.15)' }
 ];
 
+const EMPTY_STORED_COMMENTS = [];
+
 const DEFAULT_POST_COMMENTS = [
     { id: 1, author: 'Maya Lin', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100', text: 'This spot looks incredible! Is the wifi stable for video calls?', time: '25m ago' },
     { id: 2, author: 'Leo Vance', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100', text: 'Yes, 180 Mbps fiber with backup generator. Tested it yesterday!', time: '12m ago' }
@@ -88,7 +90,7 @@ const Post = ({ post }) => {
             : Boolean(post.userBookmarked)
     );
     const toggleBookmark = useSocialEngagementStore((state) => state.toggleBookmark);
-    const storedUserComments = useSocialEngagementStore((state) => state.commentsByPost[postId] || []);
+    const storedUserComments = useSocialEngagementStore((state) => state.commentsByPost[postId] || EMPTY_STORED_COMMENTS);
     const baseComments = Array.isArray(post.comments) ? post.comments : DEFAULT_POST_COMMENTS;
     const comments = [...baseComments, ...storedUserComments];
     const commentsCount = (typeof post.comments === 'number' ? post.comments : baseComments.length) + storedUserComments.length;
