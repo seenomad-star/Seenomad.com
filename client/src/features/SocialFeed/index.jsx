@@ -568,6 +568,7 @@ const SocialFeed = () => {
                     const pollMetadata = metadata.poll;
                     return {
                         id: row.id,
+                        authorId: row.author_id,
                         type: row.post_type || 'standard',
                         author: {
                             name: 'Seenomad Traveler',
