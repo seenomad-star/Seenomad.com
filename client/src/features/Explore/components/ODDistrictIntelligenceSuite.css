@@ -1,0 +1,570 @@
+/**
+ * ODDistrictIntelligenceSuite.css
+ * Distinctive styling for Odisha Tourism Intelligence Suite
+ * Featuring Kalinga Terracotta, Golden Temple Sand, and Coastal Bay Accents
+ */
+
+.od-intelligence-suite-container {
+    margin-top: 1.5rem;
+    background: linear-gradient(180deg, rgba(28, 25, 23, 0.7) 0%, rgba(12, 10, 9, 0.95) 100%);
+    border: 1px solid rgba(217, 119, 6, 0.3);
+    border-radius: 1.25rem;
+    padding: 1.75rem;
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+    color: #f5f5f4;
+}
+
+.od-suite-hero {
+    border-bottom: 1px solid rgba(217, 119, 6, 0.2);
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.od-suite-hero-badge-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-bottom: 0.75rem;
+}
+
+.od-badge-division,
+.od-badge-circuit,
+.od-badge-gi {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.65rem;
+    border-radius: 9999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.od-badge-division {
+    background: rgba(217, 119, 6, 0.15);
+    border: 1px solid rgba(245, 158, 11, 0.4);
+    color: #fef08a;
+}
+
+.od-badge-circuit {
+    background: rgba(225, 29, 72, 0.15);
+    border: 1px solid rgba(244, 63, 94, 0.4);
+    color: #fecdd3;
+}
+
+.od-badge-gi {
+    background: rgba(14, 165, 233, 0.15);
+    border: 1px solid rgba(56, 189, 248, 0.4);
+    color: #bae6fd;
+}
+
+.od-suite-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.01em;
+}
+
+.od-suite-summary {
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: #d6d3d1;
+    margin-bottom: 1.25rem;
+}
+
+/* Audio Immersion Player */
+.od-audio-guide-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    background: rgba(41, 37, 36, 0.65);
+    border: 1px solid rgba(217, 119, 6, 0.25);
+    border-radius: 0.85rem;
+    padding: 0.75rem 1rem;
+}
+
+.od-audio-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.od-audio-label {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #f5f5f4;
+}
+
+.od-audio-timer {
+    display: block;
+    font-size: 0.72rem;
+    color: #a8a29e;
+}
+
+.od-audio-play-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+    color: #ffffff;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.45rem 0.95rem;
+    border-radius: 0.5rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.od-audio-play-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(217, 119, 6, 0.35);
+}
+
+/* Sub-Tabs */
+.od-suite-tabs {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.25rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.od-suite-tab-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.55rem 0.95rem;
+    font-size: 0.82rem;
+    font-weight: 500;
+    border-radius: 0.6rem;
+    background: rgba(41, 37, 36, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    color: #a8a29e;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+}
+
+.od-suite-tab-btn:hover {
+    color: #ffffff;
+    background: rgba(68, 64, 60, 0.5);
+}
+
+.od-suite-tab-btn.active {
+    background: linear-gradient(135deg, rgba(217, 119, 6, 0.25) 0%, rgba(180, 83, 9, 0.35) 100%);
+    border-color: rgba(245, 158, 11, 0.5);
+    color: #fef08a;
+    font-weight: 600;
+}
+
+/* Panes */
+.od-overview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.od-overview-card {
+    background: rgba(41, 37, 36, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0.85rem;
+    padding: 1.1rem;
+}
+
+.od-overview-card h4 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 0.75rem;
+}
+
+.od-highlights-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+}
+
+.od-highlights-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    font-size: 0.83rem;
+    line-height: 1.45;
+    color: #e7e5e4;
+}
+
+.od-info-block {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+}
+
+.od-info-icon {
+    color: #f59e0b;
+    padding-top: 0.15rem;
+}
+
+.od-info-block strong {
+    display: block;
+    font-size: 0.9rem;
+    color: #ffffff;
+    margin-bottom: 0.25rem;
+}
+
+.od-info-block p {
+    font-size: 0.82rem;
+    line-height: 1.45;
+    color: #a8a29e;
+}
+
+.od-cuisine-banner {
+    background: linear-gradient(135deg, rgba(217, 119, 6, 0.12) 0%, rgba(180, 83, 9, 0.18) 100%);
+    border: 1px solid rgba(245, 158, 11, 0.35);
+    border-radius: 0.85rem;
+    padding: 1.1rem;
+    position: relative;
+}
+
+.od-cuisine-badge {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #fbbf24;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.25rem;
+}
+
+.od-cuisine-banner h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 0.35rem;
+}
+
+.od-cuisine-banner p {
+    font-size: 0.86rem;
+    line-height: 1.5;
+    color: #fef08a;
+}
+
+/* Activities Grid */
+.od-pane-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+}
+
+.od-pane-header h4 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.od-pane-header p {
+    font-size: 0.82rem;
+    color: #a8a29e;
+    margin-top: 0.15rem;
+}
+
+.od-badge-count {
+    font-size: 0.75rem;
+    font-weight: 600;
+    background: rgba(217, 119, 6, 0.2);
+    border: 1px solid rgba(245, 158, 11, 0.4);
+    color: #fde68a;
+    padding: 0.25rem 0.65rem;
+    border-radius: 9999px;
+}
+
+.od-activities-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.od-activity-card {
+    display: flex;
+    gap: 1rem;
+    background: rgba(41, 37, 36, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0.85rem;
+    padding: 1rem;
+    transition: all 0.2s ease;
+}
+
+.od-activity-card:hover {
+    border-color: rgba(245, 158, 11, 0.4);
+    background: rgba(41, 37, 36, 0.7);
+}
+
+.od-activity-card.completed {
+    border-color: rgba(16, 185, 129, 0.5);
+    background: rgba(6, 78, 59, 0.15);
+}
+
+.od-act-num {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #d97706;
+    font-variant-numeric: tabular-nums;
+    padding-top: 0.1rem;
+}
+
+.od-act-body {
+    flex: 1;
+}
+
+.od-act-text {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #f5f5f4;
+    margin-bottom: 0.75rem;
+}
+
+.od-act-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.od-act-toggle-btn,
+.od-act-itinerary-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.35rem 0.75rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.od-act-toggle-btn {
+    background: rgba(68, 64, 60, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #d6d3d1;
+}
+
+.od-act-toggle-btn.checked {
+    background: rgba(16, 185, 129, 0.25);
+    border-color: rgba(16, 185, 129, 0.5);
+    color: #a7f3d0;
+}
+
+.od-act-itinerary-btn {
+    background: linear-gradient(135deg, rgba(217, 119, 6, 0.2) 0%, rgba(180, 83, 9, 0.28) 100%);
+    border: 1px solid rgba(245, 158, 11, 0.4);
+    color: #fef08a;
+}
+
+.od-act-itinerary-btn:hover {
+    background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+    color: #ffffff;
+}
+
+/* Tips */
+.od-copy-tips-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    background: rgba(68, 64, 60, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #f5f5f4;
+    padding: 0.4rem 0.8rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.od-copy-tips-btn:hover {
+    background: rgba(68, 64, 60, 0.85);
+}
+
+.od-tips-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+}
+
+.od-tip-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    background: rgba(41, 37, 36, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 0.75rem;
+    padding: 0.85rem 1rem;
+    font-size: 0.86rem;
+    line-height: 1.5;
+    color: #e7e5e4;
+}
+
+/* Cuisine Grid */
+.od-cuisine-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.od-dish-card {
+    background: rgba(41, 37, 36, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0.85rem;
+    padding: 1rem;
+}
+
+.od-dish-emoji {
+    font-size: 1.75rem;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.od-dish-card h5 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 0.35rem;
+}
+
+.od-dish-card p {
+    font-size: 0.8rem;
+    line-height: 1.45;
+    color: #a8a29e;
+}
+
+.od-district-food-note {
+    background: rgba(217, 119, 6, 0.15);
+    border: 1px solid rgba(245, 158, 11, 0.35);
+    border-radius: 0.75rem;
+    padding: 0.85rem 1rem;
+    font-size: 0.86rem;
+    color: #fef08a;
+}
+
+/* ODOP */
+.od-badge-gi-verified {
+    font-size: 0.75rem;
+    font-weight: 600;
+    background: rgba(14, 165, 233, 0.2);
+    border: 1px solid rgba(56, 189, 248, 0.4);
+    color: #bae6fd;
+    padding: 0.25rem 0.65rem;
+    border-radius: 9999px;
+}
+
+.od-odop-featured-card {
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+    background: rgba(41, 37, 36, 0.45);
+    border: 1px solid rgba(217, 119, 6, 0.3);
+    border-radius: 0.95rem;
+    padding: 1.25rem;
+}
+
+.od-odop-icon {
+    font-size: 2.25rem;
+    background: rgba(217, 119, 6, 0.2);
+    border-radius: 0.75rem;
+    padding: 0.5rem 0.75rem;
+}
+
+.od-odop-featured-card h4 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 0.4rem;
+}
+
+.od-odop-featured-card p {
+    font-size: 0.88rem;
+    line-height: 1.55;
+    color: #d6d3d1;
+}
+
+/* Telemetry */
+.od-telemetry-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.od-telemetry-card {
+    display: flex;
+    gap: 0.85rem;
+    align-items: flex-start;
+    background: rgba(41, 37, 36, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0.85rem;
+    padding: 1rem;
+}
+
+.od-telem-icon {
+    color: #f59e0b;
+    padding-top: 0.2rem;
+}
+
+.od-telemetry-card h5 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 0.25rem;
+}
+
+.od-telemetry-card p {
+    font-size: 0.82rem;
+    line-height: 1.45;
+    color: #a8a29e;
+}
+
+.od-telemetry-foot {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.75rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.od-telem-stat {
+    text-align: center;
+    background: rgba(41, 37, 36, 0.35);
+    border-radius: 0.65rem;
+    padding: 0.6rem 0.4rem;
+}
+
+.od-telem-stat .num {
+    display: block;
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #f59e0b;
+}
+
+.od-telem-stat .label {
+    display: block;
+    font-size: 0.72rem;
+    color: #a8a29e;
+    margin-top: 0.15rem;
+}
+
+@media (max-width: 640px) {
+    .od-intelligence-suite-container {
+        padding: 1.1rem;
+    }
+    .od-telemetry-foot {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

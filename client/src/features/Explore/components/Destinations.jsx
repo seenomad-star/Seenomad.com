@@ -16,6 +16,17 @@ import { MP55DistrictsModal, MP_CATEGORIES, matchMPCategory } from './MPDistrict
 import { MH36DistrictsModal, MH_CATEGORIES, matchMHCategory } from './MHDistrictIntelligenceSuite';
 import { RJ50DistrictsModal, RJ_CATEGORIES, matchRJCategory } from './RJDistrictIntelligenceSuite';
 import { CG33DistrictsModal, CG_CATEGORIES, matchCGCategory } from './CGDistrictIntelligenceSuite';
+import { OD30DistrictsModal, OD_CATEGORIES, matchODCategory } from './ODDistrictIntelligenceSuite';
+import { JH24DistrictsModal, JH_CATEGORIES, matchJHCategory } from './JHDistrictIntelligenceSuite';
+import { Bihar38DistrictsModal, BIHAR_CATEGORIES, matchBiharCategory } from './BiharDistrictIntelligenceSuite';
+import { WB23DistrictsModal, WB_CATEGORIES, matchWBCategory } from './WBDistrictIntelligenceSuite';
+import { AssamDistrictsModal, ASSAM_CATEGORIES, matchAssamCategory } from './AssamDistrictIntelligenceSuite';
+import OdishaCategoryFilterBar from './OdishaCategoryFilterBar';
+import JharkhandCategoryFilterBar from './JharkhandCategoryFilterBar';
+import BiharCategoryFilterBar from './BiharCategoryFilterBar';
+import WestBengalCategoryFilterBar from './WestBengalCategoryFilterBar';
+import AssamCategoryFilterBar from './AssamCategoryFilterBar';
+import AdSenseSlot from '../../../components/common/AdSenseSlot';
 import { useNavStore } from '../../../store/navStore';
 import { getDestinationDomainStatus } from '../../../utils/destinationDomainUtils';
 import { getDestinationIntelligence } from '../../../utils/destinationIntelligenceUtils';
@@ -29,6 +40,11 @@ const Destinations = () => {
     const [is36DistrictsModalOpen, setIs36DistrictsModalOpen] = useState(false);
     const [is50DistrictsModalOpen, setIs50DistrictsModalOpen] = useState(false);
     const [is33DistrictsModalOpen, setIs33DistrictsModalOpen] = useState(false);
+    const [is30DistrictsModalOpen, setIs30DistrictsModalOpen] = useState(false);
+    const [is24DistrictsModalOpen, setIs24DistrictsModalOpen] = useState(false);
+    const [is38DistrictsModalOpen, setIs38DistrictsModalOpen] = useState(false);
+    const [is23DistrictsModalOpen, setIs23DistrictsModalOpen] = useState(false);
+    const [isAssamDistrictsModalOpen, setIsAssamDistrictsModalOpen] = useState(false);
     const {
         searchQuery,
         selectedFilters,
@@ -121,10 +137,140 @@ const Destinations = () => {
         return Array.from(set).sort();
     }, [cgDestinations]);
 
-    // Region Mode: 'up' | 'mp' | 'mh' | 'rj' | 'cg' | 'delhi' | 'global'
+    // Curated Odisha Destinations & All 30 Districts list
+    const odDestinations = useMemo(() => {
+        return allDestinations.filter(d => d.isOdisha || d.location?.toLowerCase().includes('odisha'));
+    }, []);
+
+    const odDistrictsList = useMemo(() => {
+        const set = new Set();
+        odDestinations.forEach(d => {
+            if (d.district) set.add(d.district);
+        });
+        return Array.from(set).sort();
+    }, [odDestinations]);
+
+    // Compute counts per Odisha category
+    const odCategoryCounts = useMemo(() => {
+        const counts = { all: odDestinations.length };
+        OD_CATEGORIES.forEach(cat => {
+            if (cat.id !== 'all') {
+                counts[cat.id] = odDestinations.filter(d => matchODCategory(d, cat.id)).length;
+            }
+        });
+        return counts;
+    }, [odDestinations]);
+
+    // Curated Jharkhand Destinations & All 24 Districts list
+    const jhDestinations = useMemo(() => {
+        return allDestinations.filter(d => d.isJharkhand || d.state === 'Jharkhand' || d.location?.toLowerCase().includes('jharkhand'));
+    }, []);
+
+    const jhDistrictsList = useMemo(() => {
+        const set = new Set();
+        jhDestinations.forEach(d => {
+            if (d.district) set.add(d.district);
+        });
+        return Array.from(set).sort();
+    }, [jhDestinations]);
+
+    // Compute counts per Jharkhand category
+    const jhCategoryCounts = useMemo(() => {
+        const counts = { all: jhDestinations.length };
+        JH_CATEGORIES.forEach(cat => {
+            if (cat.id !== 'all') {
+                counts[cat.id] = jhDestinations.filter(d => matchJHCategory(d, cat.id)).length;
+            }
+        });
+        return counts;
+    }, [jhDestinations]);
+
+    // Curated Bihar Destinations & All 38 Districts list
+    const biharDestinations = useMemo(() => {
+        return allDestinations.filter(d => d.isBihar || d.state === 'Bihar' || d.location?.toLowerCase().includes('bihar'));
+    }, []);
+
+    const biharDistrictsList = useMemo(() => {
+        const set = new Set();
+        biharDestinations.forEach(d => {
+            if (d.district) set.add(d.district);
+        });
+        return Array.from(set).sort();
+    }, [biharDestinations]);
+
+    // Compute counts per Bihar category
+    const biharCategoryCounts = useMemo(() => {
+        const counts = { all: biharDestinations.length };
+        BIHAR_CATEGORIES.forEach(cat => {
+            if (cat.id !== 'all') {
+                counts[cat.id] = biharDestinations.filter(d => matchBiharCategory(d, cat.id)).length;
+            }
+        });
+        return counts;
+    }, [biharDestinations]);
+
+    // Curated West Bengal Destinations & All 23 Districts list
+    const wbDestinations = useMemo(() => {
+        return allDestinations.filter(d => d.isWestBengal || d.state === 'West Bengal' || d.location?.toLowerCase().includes('west bengal'));
+    }, []);
+
+    const wbDistrictsList = useMemo(() => {
+        const set = new Set();
+        wbDestinations.forEach(d => {
+            if (d.district) set.add(d.district);
+        });
+        return Array.from(set).sort();
+    }, [wbDestinations]);
+
+    // Compute counts per West Bengal category
+    const wbCategoryCounts = useMemo(() => {
+        const counts = { all: wbDestinations.length };
+        WB_CATEGORIES.forEach(cat => {
+            if (cat.id !== 'all') {
+                counts[cat.id] = wbDestinations.filter(d => matchWBCategory(d, cat.id)).length;
+            }
+        });
+        return counts;
+    }, [wbDestinations]);
+
+    // Curated Assam Destinations & All 35 Districts list
+    const assamDestinations = useMemo(() => {
+        return allDestinations.filter(d => d.isAssam || d.state === 'Assam' || d.location?.toLowerCase().includes('assam'));
+    }, []);
+
+    const assamDistrictsList = useMemo(() => {
+        const set = new Set();
+        assamDestinations.forEach(d => {
+            if (d.district) set.add(d.district);
+        });
+        return Array.from(set).sort();
+    }, [assamDestinations]);
+
+    // Compute counts per Assam category
+    const assamCategoryCounts = useMemo(() => {
+        const counts = { all: assamDestinations.length };
+        ASSAM_CATEGORIES.forEach(cat => {
+            if (cat.id !== 'all') {
+                counts[cat.id] = assamDestinations.filter(d => matchAssamCategory(d, cat.id)).length;
+            }
+        });
+        return counts;
+    }, [assamDestinations]);
+
+    // Region Mode: 'assam' | 'wb' | 'bihar' | 'jh' | 'od' | 'cg' | 'rj' | 'mh' | 'mp' | 'up' | 'delhi' | 'global'
     const initialRegionParam = (searchParams.get('region') || searchParams.get('state') || '').toLowerCase();
     const [regionMode, setRegionMode] = useState(
-        ['cg', 'chhattisgarh'].includes(initialRegionParam)
+        ['assam', 'asom', 'axom'].includes(initialRegionParam)
+            ? 'assam'
+            : ['wb', 'westbengal', 'west-bengal', 'bengal'].includes(initialRegionParam)
+            ? 'wb'
+            : ['bihar', 'bh'].includes(initialRegionParam)
+            ? 'bihar'
+            : ['jh', 'jharkhand'].includes(initialRegionParam)
+            ? 'jh'
+            : ['od', 'odisha', 'odisa'].includes(initialRegionParam)
+            ? 'od'
+            : ['cg', 'chhattisgarh'].includes(initialRegionParam)
             ? 'cg'
             : ['rj', 'rajasthan'].includes(initialRegionParam)
             ? 'rj'
@@ -140,6 +286,46 @@ const Destinations = () => {
     );
     const [selectedDistrict, setSelectedDistrict] = useState(searchParams.get('district') || 'all');
     const [selectedCircuit, setSelectedCircuit] = useState(searchParams.get('circuit') || 'all');
+
+    // Assam Category / Interest Filter ('wildlife' | 'tea' | 'heritage' | 'spiritual' | 'nature' | 'crafts' | 'all')
+    const initialAssamCategoryParam = (searchParams.get('category') || searchParams.get('assamCategory') || '').toLowerCase();
+    const [selectedAssamCategory, setSelectedAssamCategory] = useState(
+        ['wildlife', 'tea', 'heritage', 'spiritual', 'temples', 'nature', 'river', 'crafts', 'culture', 'all'].includes(initialAssamCategoryParam)
+            ? initialAssamCategoryParam
+            : 'all'
+    );
+
+    // West Bengal Category / Interest Filter ('hills' | 'heritage' | 'spiritual' | 'wildlife' | 'beaches' | 'cultural' | 'all')
+    const initialWBCategoryParam = (searchParams.get('category') || searchParams.get('wbCategory') || '').toLowerCase();
+    const [selectedWBCategory, setSelectedWBCategory] = useState(
+        ['hills', 'himalayas', 'heritage', 'spiritual', 'temples', 'wildlife', 'beaches', 'cultural', 'all'].includes(initialWBCategoryParam)
+            ? initialWBCategoryParam
+            : 'all'
+    );
+
+    // Bihar Category / Interest Filter ('spiritual' | 'historical' | 'nature' | 'wildlife' | 'waterfalls' | 'heritage' | 'all')
+    const initialBiharCategoryParam = (searchParams.get('category') || searchParams.get('biharCategory') || '').toLowerCase();
+    const [selectedBiharCategory, setSelectedBiharCategory] = useState(
+        ['spiritual', 'temples', 'historical', 'nature', 'wildlife', 'waterfalls', 'heritage', 'all'].includes(initialBiharCategoryParam)
+            ? initialBiharCategoryParam
+            : 'all'
+    );
+
+    // Jharkhand Category / Interest Filter ('waterfalls' | 'spiritual' | 'nature' | 'wildlife' | 'tribal' | 'historical' | 'all')
+    const initialJHCategoryParam = (searchParams.get('category') || searchParams.get('jhCategory') || '').toLowerCase();
+    const [selectedJHCategory, setSelectedJHCategory] = useState(
+        ['waterfalls', 'spiritual', 'temples', 'nature', 'wildlife', 'tribal', 'culture', 'historical', 'all'].includes(initialJHCategoryParam)
+            ? initialJHCategoryParam
+            : 'all'
+    );
+
+    // Odisha Category / Interest Filter ('beaches' | 'temples' | 'tribal' | 'wildlife' | 'waterfalls' | 'nature' | 'spiritual' | 'historical' | 'all')
+    const initialODCategoryParam = (searchParams.get('category') || searchParams.get('odCategory') || '').toLowerCase();
+    const [selectedODCategory, setSelectedODCategory] = useState(
+        ['beaches', 'temples', 'tribal', 'culture', 'wildlife', 'waterfalls', 'nature', 'spiritual', 'historical', 'all'].includes(initialODCategoryParam)
+            ? initialODCategoryParam
+            : 'all'
+    );
 
     // Madhya Pradesh Category / Interest Filter ('wildlife' | 'historical' | 'pilgrimage' | 'nature' | 'crafts' | 'all')
     const initialCategoryParam = (searchParams.get('category') || searchParams.get('mpCategory') || '').toLowerCase();
@@ -281,8 +467,98 @@ const Destinations = () => {
         const activeFiltersList = selectedFilters.length > 0 ? selectedFilters : globalActiveFilters;
 
         const filtered = allDestinations.filter(dest => {
-            // Regional Scope Filter ('up' | 'mp' | 'mh' | 'rj' | 'cg' | 'delhi' | 'global')
-            if (regionMode === 'cg') {
+            // Regional Scope Filter ('assam' | 'wb' | 'bihar' | 'jh' | 'od' | 'cg' | 'rj' | 'mh' | 'mp' | 'up' | 'delhi' | 'global')
+            if (regionMode === 'assam') {
+                const isAssam = dest.isAssam || dest.state === 'Assam' || dest.location?.toLowerCase().includes('assam');
+                if (!isAssam) return false;
+
+                // Category filter ('wildlife', 'tea', 'heritage', 'spiritual', 'nature', 'crafts', etc.)
+                if (selectedAssamCategory && selectedAssamCategory !== 'all') {
+                    if (!matchAssamCategory(dest, selectedAssamCategory)) return false;
+                }
+
+                // District filter
+                if (selectedDistrict && selectedDistrict !== 'all') {
+                    if (dest.district?.toLowerCase() !== selectedDistrict.toLowerCase()) return false;
+                }
+
+                // Circuit filter
+                if (selectedCircuit && selectedCircuit !== 'all') {
+                    if (dest.assamCircuit !== selectedCircuit) return false;
+                }
+            } else if (regionMode === 'wb') {
+                const isWB = dest.isWestBengal || dest.state === 'West Bengal' || dest.location?.toLowerCase().includes('west bengal');
+                if (!isWB) return false;
+
+                // Category filter ('hills', 'heritage', 'spiritual', 'wildlife', 'beaches', 'cultural', etc.)
+                if (selectedWBCategory && selectedWBCategory !== 'all') {
+                    if (!matchWBCategory(dest, selectedWBCategory)) return false;
+                }
+
+                // District filter
+                if (selectedDistrict && selectedDistrict !== 'all') {
+                    if (dest.district?.toLowerCase() !== selectedDistrict.toLowerCase()) return false;
+                }
+
+                // Circuit filter
+                if (selectedCircuit && selectedCircuit !== 'all') {
+                    if (dest.wbCircuit !== selectedCircuit) return false;
+                }
+            } else if (regionMode === 'bihar') {
+                const isBihar = dest.isBihar || dest.state === 'Bihar' || dest.location?.toLowerCase().includes('bihar');
+                if (!isBihar) return false;
+
+                // Category filter ('spiritual', 'historical', 'nature', 'wildlife', 'waterfalls', 'heritage', etc.)
+                if (selectedBiharCategory && selectedBiharCategory !== 'all') {
+                    if (!matchBiharCategory(dest, selectedBiharCategory)) return false;
+                }
+
+                // District filter
+                if (selectedDistrict && selectedDistrict !== 'all') {
+                    if (dest.district?.toLowerCase() !== selectedDistrict.toLowerCase()) return false;
+                }
+
+                // Circuit filter
+                if (selectedCircuit && selectedCircuit !== 'all') {
+                    if (dest.biharCircuit !== selectedCircuit) return false;
+                }
+            } else if (regionMode === 'jh') {
+                const isJH = dest.isJharkhand || dest.state === 'Jharkhand' || dest.location?.toLowerCase().includes('jharkhand');
+                if (!isJH) return false;
+
+                // Category filter ('waterfalls', 'spiritual', 'nature', 'wildlife', 'tribal', 'historical', etc.)
+                if (selectedJHCategory && selectedJHCategory !== 'all') {
+                    if (!matchJHCategory(dest, selectedJHCategory)) return false;
+                }
+
+                // District filter
+                if (selectedDistrict && selectedDistrict !== 'all') {
+                    if (dest.district !== selectedDistrict) return false;
+                }
+
+                // Circuit filter
+                if (selectedCircuit && selectedCircuit !== 'all') {
+                    if (dest.jhCircuit !== selectedCircuit) return false;
+                }
+            } else if (regionMode === 'od') {
+                const isOD = dest.isOdisha || dest.location?.toLowerCase().includes('odisha');
+                if (!isOD) return false;
+
+                // Category filter ('spiritual', 'historical', 'nature', 'wildlife', 'waterfalls', 'tribal', etc.)
+                if (selectedODCategory && selectedODCategory !== 'all') {
+                    if (!matchODCategory(dest, selectedODCategory)) return false;
+                }
+
+                // District filter
+                if (selectedDistrict && selectedDistrict !== 'all') {
+                    if (dest.district !== selectedDistrict) return false;
+                }
+
+                // Circuit filter
+                if (selectedCircuit && selectedCircuit !== 'all') {
+                    if (dest.odCircuit !== selectedCircuit) return false;
+                }
+            } else if (regionMode === 'cg') {
                 const isCG = dest.isChhattisgarh || dest.location?.toLowerCase().includes('chhattisgarh');
                 if (!isCG) return false;
 
@@ -387,6 +663,11 @@ const Destinations = () => {
                     dest.location.toLowerCase().includes(activeSearch) ||
                     (dest.district && dest.district.toLowerCase().includes(activeSearch)) ||
                     (dest.odop && dest.odop.toLowerCase().includes(activeSearch)) ||
+                    (dest.assamCircuit && dest.assamCircuit.toLowerCase().includes(activeSearch)) ||
+                    (dest.wbCircuit && dest.wbCircuit.toLowerCase().includes(activeSearch)) ||
+                    (dest.biharCircuit && dest.biharCircuit.toLowerCase().includes(activeSearch)) ||
+                    (dest.jhCircuit && dest.jhCircuit.toLowerCase().includes(activeSearch)) ||
+                    (dest.odCircuit && dest.odCircuit.toLowerCase().includes(activeSearch)) ||
                     (dest.cgCircuit && dest.cgCircuit.toLowerCase().includes(activeSearch)) ||
                     (dest.rjCircuit && dest.rjCircuit.toLowerCase().includes(activeSearch)) ||
                     (dest.mhCircuit && dest.mhCircuit.toLowerCase().includes(activeSearch)) ||
@@ -647,7 +928,7 @@ const Destinations = () => {
             }
             return 0; // 'featured' or default retains data order
         });
-    }, [searchQuery, globalSearchQuery, selectedFilters, globalActiveFilters, advancedFilters, domainStatus, sortBy, savedDestinations, isDelhiFocusMode, activeDelhiCategory, regionMode, selectedDistrict, selectedCircuit, selectedMPCategory, selectedMHCategory, selectedRJCategory, selectedCGCategory]);
+    }, [searchQuery, globalSearchQuery, selectedFilters, globalActiveFilters, advancedFilters, domainStatus, sortBy, savedDestinations, isDelhiFocusMode, activeDelhiCategory, regionMode, selectedDistrict, selectedCircuit, selectedMPCategory, selectedMHCategory, selectedRJCategory, selectedCGCategory, selectedODCategory, selectedJHCategory, selectedBiharCategory, selectedWBCategory, selectedAssamCategory]);
 
     useEffect(() => {
         if (processedDestinations.length > 0) {
@@ -667,6 +948,11 @@ const Destinations = () => {
         setSelectedMHCategory('all');
         setSelectedRJCategory('all');
         setSelectedCGCategory('all');
+        setSelectedODCategory('all');
+        setSelectedJHCategory('all');
+        setSelectedBiharCategory('all');
+        setSelectedWBCategory('all');
+        setSelectedAssamCategory('all');
         setIsDelhiFocusMode(false);
         setActiveDelhiCategory('all');
     };
@@ -675,7 +961,7 @@ const Destinations = () => {
         <div className="destinations-page">
             <div className="destinations-main-layout">
                 <div className="destinations-feed-column">
-                    {/* Interactive Region & Uttar Pradesh / Madhya Pradesh / Maharashtra / Rajasthan / Chhattisgarh Circuit & District Explorer Bar */}
+                    {/* Interactive Region & Uttar Pradesh / Madhya Pradesh / Maharashtra / Rajasthan / Chhattisgarh / Odisha Circuit & District Explorer Bar */}
                     <UPDestinationExplorerBar
                         regionMode={regionMode}
                         onSelectRegionMode={(mode) => {
@@ -686,6 +972,11 @@ const Destinations = () => {
                             setSelectedMHCategory('all');
                             setSelectedRJCategory('all');
                             setSelectedCGCategory('all');
+                            setSelectedODCategory('all');
+                            setSelectedJHCategory('all');
+                            setSelectedBiharCategory('all');
+                            setSelectedWBCategory('all');
+                            setSelectedAssamCategory('all');
                             if (mode === 'delhi') {
                                 setIsDelhiFocusMode(true);
                             } else {
@@ -704,6 +995,16 @@ const Destinations = () => {
                         onSelectRJCategory={setSelectedRJCategory}
                         selectedCGCategory={selectedCGCategory}
                         onSelectCGCategory={setSelectedCGCategory}
+                        selectedODCategory={selectedODCategory}
+                        onSelectODCategory={setSelectedODCategory}
+                        selectedJHCategory={selectedJHCategory}
+                        onSelectJHCategory={setSelectedJHCategory}
+                        selectedBiharCategory={selectedBiharCategory}
+                        onSelectBiharCategory={setSelectedBiharCategory}
+                        selectedWBCategory={selectedWBCategory}
+                        onSelectWBCategory={setSelectedWBCategory}
+                        selectedAssamCategory={selectedAssamCategory}
+                        onSelectAssamCategory={setSelectedAssamCategory}
                         upDestinations={upDestinations}
                         districtsList={districtsList}
                         mpDestinations={mpDestinations}
@@ -714,12 +1015,27 @@ const Destinations = () => {
                         rjDistrictsList={rjDistrictsList}
                         cgDestinations={cgDestinations}
                         cgDistrictsList={cgDistrictsList}
+                        odDestinations={odDestinations}
+                        odDistrictsList={odDistrictsList}
+                        jhDestinations={jhDestinations}
+                        jhDistrictsList={jhDistrictsList}
+                        biharDestinations={biharDestinations}
+                        biharDistrictsList={biharDistrictsList}
+                        wbDestinations={wbDestinations}
+                        wbDistrictsList={wbDistrictsList}
+                        assamDestinations={assamDestinations}
+                        assamDistrictsList={assamDistrictsList}
                         totalCount={processedDestinations.length}
                         onOpen75Districts={() => setIs75DistrictsModalOpen(true)}
                         onOpen55Districts={() => setIs55DistrictsModalOpen(true)}
                         onOpen36Districts={() => setIs36DistrictsModalOpen(true)}
                         onOpen50Districts={() => setIs50DistrictsModalOpen(true)}
                         onOpen33Districts={() => setIs33DistrictsModalOpen(true)}
+                        onOpen30Districts={() => setIs30DistrictsModalOpen(true)}
+                        onOpen24Districts={() => setIs24DistrictsModalOpen(true)}
+                        onOpen38Districts={() => setIs38DistrictsModalOpen(true)}
+                        onOpen23Districts={() => setIs23DistrictsModalOpen(true)}
+                        onOpen35Districts={() => setIsAssamDistrictsModalOpen(true)}
                     />
 
                     {/* Active District Filter Banner for UP */}
@@ -890,6 +1206,286 @@ const Destinations = () => {
                         </div>
                     )}
 
+                    {/* Active District Filter Banner for Odisha */}
+                    {regionMode === 'od' && selectedDistrict !== 'all' && (
+                        <div className="up-active-district-banner" style={{ background: 'rgba(217, 119, 6, 0.12)', borderColor: 'rgba(245, 158, 11, 0.45)', color: '#fde68a' }}>
+                            <div className="active-banner-info">
+                                <span className="active-banner-pin">📍</span>
+                                <span>Filtering Odisha by <strong>{selectedDistrict} District</strong> ({processedDestinations.length} destination{processedDestinations.length === 1 ? '' : 's'} displayed)</span>
+                            </div>
+                            <button
+                                type="button"
+                                className="active-banner-clear-btn"
+                                style={{ background: 'rgba(0, 0, 0, 0.35)', borderColor: 'rgba(245, 158, 11, 0.5)', color: '#fcd34d' }}
+                                onClick={() => setSelectedDistrict('all')}
+                            >
+                                View All 30 Districts ×
+                            </button>
+                        </div>
+                    )}
+
+                    {/* Active Category / Interest Filter Banner for Odisha */}
+                    {regionMode === 'od' && selectedODCategory !== 'all' && (
+                        <div className="up-active-district-banner" style={{ background: 'linear-gradient(135deg, rgba(217, 119, 6, 0.16) 0%, rgba(180, 83, 9, 0.22) 100%)', borderColor: 'rgba(245, 158, 11, 0.45)', color: '#fde68a' }}>
+                            <div className="active-banner-info">
+                                <span className="active-banner-pin">
+                                    {selectedODCategory === 'beaches' ? '🏖️' : selectedODCategory === 'temples' ? '🛕' : selectedODCategory === 'tribal' ? '🏺' : selectedODCategory === 'spiritual' ? '🕉️' : selectedODCategory === 'historical' ? '🏛️' : selectedODCategory === 'nature' ? '⛰️' : selectedODCategory === 'wildlife' ? '🐅' : selectedODCategory === 'waterfalls' ? '💧' : '🌟'}
+                                </span>
+                                <span>Filtering Odisha by Category: <strong>{OD_CATEGORIES.find(c => c.id === selectedODCategory)?.label || selectedODCategory}</strong> ({processedDestinations.length} destination{processedDestinations.length === 1 ? '' : 's'} matched)</span>
+                            </div>
+                            <button
+                                type="button"
+                                className="active-banner-clear-btn"
+                                style={{ background: 'rgba(0, 0, 0, 0.35)', borderColor: 'rgba(245, 158, 11, 0.5)', color: '#fcd34d' }}
+                                onClick={() => setSelectedODCategory('all')}
+                            >
+                                Clear Category Filter ×
+                            </button>
+                        </div>
+                    )}
+
+                    {/* Dedicated Odisha Category Filter Bar (when in Odisha mode) */}
+                    {regionMode === 'od' && (
+                        <OdishaCategoryFilterBar
+                            activeCategory={selectedODCategory}
+                            onSelectCategory={setSelectedODCategory}
+                            categoryCounts={odCategoryCounts}
+                            totalCount={odDestinations.length}
+                            selectedDistrict={selectedDistrict}
+                            onOpen30Districts={() => setIs30DistrictsModalOpen(true)}
+                            onResetFilters={() => {
+                                setSelectedODCategory('all');
+                                setSelectedDistrict('all');
+                                setSelectedCircuit('all');
+                            }}
+                            showAdSense={true}
+                        />
+                    )}
+
+                    {/* Active District Filter Banner for Jharkhand */}
+                    {regionMode === 'jh' && selectedDistrict !== 'all' && (
+                        <div className="up-active-district-banner" style={{ background: 'rgba(6, 78, 59, 0.2)', borderColor: 'rgba(16, 185, 129, 0.45)', color: '#6ee7b7' }}>
+                            <div className="active-banner-info">
+                                <span className="active-banner-pin">📍</span>
+                                <span>Filtering Jharkhand by <strong>{selectedDistrict} District</strong> ({processedDestinations.length} destination{processedDestinations.length === 1 ? '' : 's'} displayed)</span>
+                            </div>
+                            <button
+                                type="button"
+                                className="active-banner-clear-btn"
+                                style={{ background: 'rgba(0, 0, 0, 0.35)', borderColor: 'rgba(16, 185, 129, 0.5)', color: '#a7f3d0' }}
+                                onClick={() => setSelectedDistrict('all')}
+                            >
+                                View All 24 Districts ×
+                            </button>
+                        </div>
+                    )}
+
+                    {/* Active Category / Interest Filter Banner for Jharkhand */}
+                    {regionMode === 'jh' && selectedJHCategory !== 'all' && (
+                        <div className="up-active-district-banner" style={{ background: 'linear-gradient(135deg, rgba(6, 78, 59, 0.25) 0%, rgba(4, 120, 87, 0.3) 100%)', borderColor: 'rgba(16, 185, 129, 0.45)', color: '#a7f3d0' }}>
+                            <div className="active-banner-info">
+                                <span className="active-banner-pin">
+                                    {selectedJHCategory === 'waterfalls' ? '💧' : selectedJHCategory === 'spiritual' ? '🕉️' : selectedJHCategory === 'nature' ? '⛰️' : selectedJHCategory === 'wildlife' ? '🐅' : selectedJHCategory === 'tribal' ? '🏺' : selectedJHCategory === 'historical' ? '🏰' : '🌟'}
+                                </span>
+                                <span>Filtering Jharkhand by Category: <strong>{JH_CATEGORIES.find(c => c.id === selectedJHCategory)?.label || selectedJHCategory}</strong> ({processedDestinations.length} destination{processedDestinations.length === 1 ? '' : 's'} matched)</span>
+                            </div>
+                            <button
+                                type="button"
+                                className="active-banner-clear-btn"
+                                style={{ background: 'rgba(0, 0, 0, 0.35)', borderColor: 'rgba(16, 185, 129, 0.5)', color: '#6ee7b7' }}
+                                onClick={() => setSelectedJHCategory('all')}
+                            >
+                                Clear Category Filter ×
+                            </button>
+                        </div>
+                    )}
+
+                    {/* Dedicated Jharkhand Category Filter Bar (when in Jharkhand mode) */}
+                    {regionMode === 'jh' && (
+                        <JharkhandCategoryFilterBar
+                            activeCategory={selectedJHCategory}
+                            onSelectCategory={setSelectedJHCategory}
+                            categoryCounts={jhCategoryCounts}
+                            totalCount={jhDestinations.length}
+                            selectedDistrict={selectedDistrict}
+                            onOpen24Districts={() => setIs24DistrictsModalOpen(true)}
+                            onResetFilters={() => {
+                                setSelectedJHCategory('all');
+                                setSelectedDistrict('all');
+                                setSelectedCircuit('all');
+                            }}
+                            showAdSense={true}
+                        />
+                    )}
+
+                    {/* Active District Filter Banner for Bihar */}
+                    {regionMode === 'bihar' && selectedDistrict !== 'all' && (
+                        <div className="up-active-district-banner" style={{ background: 'rgba(153, 27, 27, 0.2)', borderColor: 'rgba(220, 38, 38, 0.45)', color: '#fca5a5' }}>
+                            <div className="active-banner-info">
+                                <span className="active-banner-pin">📍</span>
+                                <span>Filtering Bihar by <strong>{selectedDistrict} District</strong> ({processedDestinations.length} destination{processedDestinations.length === 1 ? '' : 's'} displayed)</span>
+                            </div>
+                            <button
+                                type="button"
+                                className="active-banner-clear-btn"
+                                style={{ background: 'rgba(0, 0, 0, 0.35)', borderColor: 'rgba(220, 38, 38, 0.5)', color: '#fecaca' }}
+                                onClick={() => setSelectedDistrict('all')}
+                            >
+                                View All 38 Districts ×
+                            </button>
+                        </div>
+                    )}
+
+                    {/* Active Category / Interest Filter Banner for Bihar */}
+                    {regionMode === 'bihar' && selectedBiharCategory !== 'all' && (
+                        <div className="up-active-district-banner" style={{ background: 'linear-gradient(135deg, rgba(153, 27, 27, 0.25) 0%, rgba(185, 28, 28, 0.3) 100%)', borderColor: 'rgba(220, 38, 38, 0.45)', color: '#fecaca' }}>
+                            <div className="active-banner-info">
+                                <span className="active-banner-pin">
+                                    {selectedBiharCategory === 'spiritual' ? '🕉️' : selectedBiharCategory === 'historical' ? '🏛️' : selectedBiharCategory === 'nature' ? '⛰️' : selectedBiharCategory === 'wildlife' ? '🐅' : selectedBiharCategory === 'waterfalls' ? '💧' : selectedBiharCategory === 'heritage' ? '🏺' : '🌟'}
+                                </span>
+                                <span>Filtering Bihar by Category: <strong>{BIHAR_CATEGORIES.find(c => c.id === selectedBiharCategory)?.label || selectedBiharCategory}</strong> ({processedDestinations.length} destination{processedDestinations.length === 1 ? '' : 's'} matched)</span>
+                            </div>
+                            <button
+                                type="button"
+                                className="active-banner-clear-btn"
+                                style={{ background: 'rgba(0, 0, 0, 0.35)', borderColor: 'rgba(220, 38, 38, 0.5)', color: '#fca5a5' }}
+                                onClick={() => setSelectedBiharCategory('all')}
+                            >
+                                Clear Category Filter ×
+                            </button>
+                        </div>
+                    )}
+
+                    {/* Dedicated Bihar Category Filter Bar (when in Bihar mode) */}
+                    {regionMode === 'bihar' && (
+                        <BiharCategoryFilterBar
+                            activeCategory={selectedBiharCategory}
+                            onSelectCategory={setSelectedBiharCategory}
+                            categoryCounts={biharCategoryCounts}
+                            totalCount={biharDestinations.length}
+                            selectedDistrict={selectedDistrict}
+                            onOpen38Districts={() => setIs38DistrictsModalOpen(true)}
+                            onResetFilters={() => {
+                                setSelectedBiharCategory('all');
+                                setSelectedDistrict('all');
+                                setSelectedCircuit('all');
+                            }}
+                            showAdSense={true}
+                        />
+                    )}
+
+                    {/* Active District Filter Banner for West Bengal */}
+                    {regionMode === 'wb' && selectedDistrict !== 'all' && (
+                        <div className="up-active-district-banner" style={{ background: 'rgba(185, 28, 28, 0.2)', borderColor: 'rgba(239, 68, 68, 0.45)', color: '#fca5a5' }}>
+                            <div className="active-banner-info">
+                                <span className="active-banner-pin">📍</span>
+                                <span>Filtering West Bengal by <strong>{selectedDistrict} District</strong> ({processedDestinations.length} destination{processedDestinations.length === 1 ? '' : 's'} displayed)</span>
+                            </div>
+                            <button
+                                type="button"
+                                className="active-banner-clear-btn"
+                                style={{ background: 'rgba(0, 0, 0, 0.35)', borderColor: 'rgba(239, 68, 68, 0.5)', color: '#fca5a5' }}
+                                onClick={() => setSelectedDistrict('all')}
+                            >
+                                View All 23 Districts ×
+                            </button>
+                        </div>
+                    )}
+
+                    {/* Active Category / Interest Filter Banner for West Bengal */}
+                    {regionMode === 'wb' && selectedWBCategory !== 'all' && (
+                        <div className="up-active-district-banner" style={{ background: 'linear-gradient(135deg, rgba(185, 28, 28, 0.25) 0%, rgba(127, 29, 29, 0.3) 100%)', borderColor: 'rgba(239, 68, 68, 0.45)', color: '#fecaca' }}>
+                            <div className="active-banner-info">
+                                <span className="active-banner-pin">
+                                    {selectedWBCategory === 'hills' ? '🏔️' : selectedWBCategory === 'heritage' ? '🏛️' : selectedWBCategory === 'spiritual' ? '🕉️' : selectedWBCategory === 'wildlife' ? '🐅' : selectedWBCategory === 'beaches' ? '🏖️' : selectedWBCategory === 'cultural' ? '🏺' : '🌟'}
+                                </span>
+                                <span>Filtering West Bengal by Category: <strong>{WB_CATEGORIES.find(c => c.id === selectedWBCategory)?.label || selectedWBCategory}</strong> ({processedDestinations.length} destination{processedDestinations.length === 1 ? '' : 's'} matched)</span>
+                            </div>
+                            <button
+                                type="button"
+                                className="active-banner-clear-btn"
+                                style={{ background: 'rgba(0, 0, 0, 0.35)', borderColor: 'rgba(239, 68, 68, 0.5)', color: '#fca5a5' }}
+                                onClick={() => setSelectedWBCategory('all')}
+                            >
+                                Clear Category Filter ×
+                            </button>
+                        </div>
+                    )}
+
+                    {/* Dedicated West Bengal Category Filter Bar (when in West Bengal mode) */}
+                    {regionMode === 'wb' && (
+                        <WestBengalCategoryFilterBar
+                            activeCategory={selectedWBCategory}
+                            onSelectCategory={setSelectedWBCategory}
+                            categoryCounts={wbCategoryCounts}
+                            totalCount={wbDestinations.length}
+                            selectedDistrict={selectedDistrict}
+                            onOpen23Districts={() => setIs23DistrictsModalOpen(true)}
+                            onResetFilters={() => {
+                                setSelectedWBCategory('all');
+                                setSelectedDistrict('all');
+                                setSelectedCircuit('all');
+                            }}
+                            showAdSense={true}
+                        />
+                    )}
+
+                    {/* Active District Filter Banner for Assam */}
+                    {regionMode === 'assam' && selectedDistrict !== 'all' && (
+                        <div className="up-active-district-banner" style={{ background: 'rgba(5, 150, 105, 0.15)', borderColor: 'rgba(16, 185, 129, 0.45)', color: '#a7f3d0' }}>
+                            <div className="active-banner-info">
+                                <span className="active-banner-pin">📍</span>
+                                <span>Filtering Assam by <strong>{selectedDistrict} District</strong> ({processedDestinations.length} destination{processedDestinations.length === 1 ? '' : 's'} displayed)</span>
+                            </div>
+                            <button
+                                type="button"
+                                className="active-banner-clear-btn"
+                                style={{ background: 'rgba(0, 0, 0, 0.35)', borderColor: 'rgba(16, 185, 129, 0.5)', color: '#6ee7b7' }}
+                                onClick={() => setSelectedDistrict('all')}
+                            >
+                                View All 35 Districts ×
+                            </button>
+                        </div>
+                    )}
+
+                    {/* Active Category / Interest Filter Banner for Assam */}
+                    {regionMode === 'assam' && selectedAssamCategory !== 'all' && (
+                        <div className="up-active-district-banner" style={{ background: 'linear-gradient(135deg, rgba(5, 150, 105, 0.2) 0%, rgba(180, 83, 9, 0.22) 100%)', borderColor: 'rgba(16, 185, 129, 0.45)', color: '#fef3c7' }}>
+                            <div className="active-banner-info">
+                                <span className="active-banner-pin">
+                                    {selectedAssamCategory === 'wildlife' ? '🦏' : selectedAssamCategory === 'tea' ? '🍃' : selectedAssamCategory === 'heritage' ? '🏛️' : selectedAssamCategory === 'spiritual' ? '🛕' : selectedAssamCategory === 'nature' ? '🌊' : selectedAssamCategory === 'crafts' ? '🧣' : '🌟'}
+                                </span>
+                                <span>Filtering Assam by Category: <strong>{ASSAM_CATEGORIES.find(c => c.id === selectedAssamCategory)?.label || selectedAssamCategory}</strong> ({processedDestinations.length} destination{processedDestinations.length === 1 ? '' : 's'} matched)</span>
+                            </div>
+                            <button
+                                type="button"
+                                className="active-banner-clear-btn"
+                                style={{ background: 'rgba(0, 0, 0, 0.35)', borderColor: 'rgba(16, 185, 129, 0.5)', color: '#6ee7b7' }}
+                                onClick={() => setSelectedAssamCategory('all')}
+                            >
+                                Clear Category Filter ×
+                            </button>
+                        </div>
+                    )}
+
+                    {/* Dedicated Assam Category Filter Bar (when in Assam mode) */}
+                    {regionMode === 'assam' && (
+                        <AssamCategoryFilterBar
+                            activeCategory={selectedAssamCategory}
+                            onSelectCategory={setSelectedAssamCategory}
+                            categoryCounts={assamCategoryCounts}
+                            totalCount={assamDestinations.length}
+                            selectedDistrict={selectedDistrict}
+                            onOpen35Districts={() => setIsAssamDistrictsModalOpen(true)}
+                            onResetFilters={() => {
+                                setSelectedAssamCategory('all');
+                                setSelectedDistrict('all');
+                                setSelectedCircuit('all');
+                            }}
+                            showAdSense={true}
+                        />
+                    )}
+
                     {/* Interactive Delhi Category Filter Bar (when in Delhi mode) */}
                     {regionMode === 'delhi' && (
                         <DelhiCategoryFilterBar
@@ -909,6 +1505,91 @@ const Destinations = () => {
                                 <React.Fragment key={dest.id}>
                                     <DestinationCard dest={dest} viewMode={viewMode} />
                                     {index === 2 && <MysteryCard />}
+                                    {/* Google AdSense In-Feed Responsive Unit for Odisha section */}
+                                    {regionMode === 'od' && index === 3 && (
+                                        <div 
+                                            className="destination-card-adsense-wrap" 
+                                            style={{ 
+                                                gridColumn: '1 / -1', 
+                                                margin: '0.75rem 0 1.25rem',
+                                                width: '100%'
+                                            }}
+                                        >
+                                            <AdSenseSlot
+                                                format="horizontal"
+                                                slot="7009876543"
+                                                label="Featured Travel Partner • Google AdSense"
+                                            />
+                                        </div>
+                                    )}
+                                    {/* Google AdSense In-Feed Responsive Unit for Jharkhand section */}
+                                    {regionMode === 'jh' && index === 3 && (
+                                        <div 
+                                            className="destination-card-adsense-wrap" 
+                                            style={{ 
+                                                gridColumn: '1 / -1', 
+                                                margin: '0.75rem 0 1.25rem',
+                                                width: '100%'
+                                            }}
+                                        >
+                                            <AdSenseSlot
+                                                format="horizontal"
+                                                slot="7009876543"
+                                                label="Featured Travel Partner • Jharkhand Exploration • Google AdSense"
+                                            />
+                                        </div>
+                                    )}
+                                    {/* Google AdSense In-Feed Responsive Unit for Bihar section */}
+                                    {regionMode === 'bihar' && index === 3 && (
+                                        <div 
+                                            className="destination-card-adsense-wrap" 
+                                            style={{ 
+                                                gridColumn: '1 / -1', 
+                                                margin: '0.75rem 0 1.25rem',
+                                                width: '100%'
+                                            }}
+                                        >
+                                            <AdSenseSlot
+                                                format="horizontal"
+                                                slot="7009876543"
+                                                label="Featured Travel Partner • Bihar Heritage Exploration • Google AdSense"
+                                            />
+                                        </div>
+                                    )}
+                                    {/* Google AdSense In-Feed Responsive Unit for West Bengal section */}
+                                    {regionMode === 'wb' && index === 3 && (
+                                        <div 
+                                            className="destination-card-adsense-wrap" 
+                                            style={{ 
+                                                gridColumn: '1 / -1', 
+                                                margin: '0.75rem 0 1.25rem',
+                                                width: '100%'
+                                            }}
+                                        >
+                                            <AdSenseSlot
+                                                format="horizontal"
+                                                slot="7009876543"
+                                                label="Featured Travel Partner • West Bengal Exploration • Google AdSense"
+                                            />
+                                        </div>
+                                    )}
+                                    {/* Google AdSense In-Feed Responsive Unit for Assam section */}
+                                    {regionMode === 'assam' && index === 3 && (
+                                        <div 
+                                            className="destination-card-adsense-wrap" 
+                                            style={{ 
+                                                gridColumn: '1 / -1', 
+                                                margin: '0.75rem 0 1.25rem',
+                                                width: '100%'
+                                            }}
+                                        >
+                                            <AdSenseSlot
+                                                format="horizontal"
+                                                slot="7009876543"
+                                                label="Featured Travel Partner • Assam Tourism & Tea Trails • Google AdSense"
+                                            />
+                                        </div>
+                                    )}
                                     {(index + 1) % 6 === 0 && (
                                         <AdCard type={index % 12 === 5 ? 'lounge' : 'rental'} />
                                     )}
@@ -997,6 +1678,76 @@ const Destinations = () => {
                                         style={{ borderColor: 'rgba(16, 185, 129, 0.4)', color: '#6ee7b7' }}
                                     >
                                         View All Chhattisgarh Destinations ({cgDestinations.length})
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() => {
+                                            setRegionMode('od');
+                                            setSelectedDistrict('all');
+                                            setSelectedCircuit('all');
+                                            setSelectedODCategory('all');
+                                            setSearchQuery('');
+                                        }}
+                                        className="empty-suggestion-pill"
+                                        style={{ borderColor: 'rgba(217, 119, 6, 0.4)', color: '#fcd34d' }}
+                                    >
+                                        View All Odisha Destinations ({odDestinations.length})
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() => {
+                                            setRegionMode('jh');
+                                            setSelectedDistrict('all');
+                                            setSelectedCircuit('all');
+                                            setSelectedJHCategory('all');
+                                            setSearchQuery('');
+                                        }}
+                                        className="empty-suggestion-pill"
+                                        style={{ borderColor: 'rgba(16, 185, 129, 0.4)', color: '#6ee7b7' }}
+                                    >
+                                        View All Jharkhand Destinations ({jhDestinations.length})
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() => {
+                                            setRegionMode('bihar');
+                                            setSelectedDistrict('all');
+                                            setSelectedCircuit('all');
+                                            setSelectedBiharCategory('all');
+                                            setSearchQuery('');
+                                        }}
+                                        className="empty-suggestion-pill"
+                                        style={{ borderColor: 'rgba(239, 68, 68, 0.4)', color: '#fca5a5' }}
+                                    >
+                                        View All Bihar Destinations ({biharDestinations.length})
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() => {
+                                            setRegionMode('wb');
+                                            setSelectedDistrict('all');
+                                            setSelectedCircuit('all');
+                                            setSelectedWBCategory('all');
+                                            setSearchQuery('');
+                                        }}
+                                        className="empty-suggestion-pill"
+                                        style={{ borderColor: 'rgba(185, 28, 28, 0.45)', color: '#fca5a5' }}
+                                    >
+                                        View All West Bengal Destinations ({wbDestinations.length})
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() => {
+                                            setRegionMode('assam');
+                                            setSelectedDistrict('all');
+                                            setSelectedCircuit('all');
+                                            setSelectedAssamCategory('all');
+                                            setSearchQuery('');
+                                        }}
+                                        className="empty-suggestion-pill"
+                                        style={{ borderColor: 'rgba(16, 185, 129, 0.45)', color: '#6ee7b7' }}
+                                    >
+                                        View All Assam Destinations ({assamDestinations.length})
                                     </button>
                                     <button
                                         type="button"
@@ -1101,6 +1852,62 @@ const Destinations = () => {
                     setSelectedDistrict(dist);
                     setRegionMode('cg');
                     setIs33DistrictsModalOpen(false);
+                }}
+            />
+
+            {/* Comprehensive 30 Districts Directory Modal for Odisha */}
+            <OD30DistrictsModal
+                isOpen={is30DistrictsModalOpen}
+                onClose={() => setIs30DistrictsModalOpen(false)}
+                onSelectDistrict={(dist) => {
+                    setSelectedDistrict(dist);
+                    setRegionMode('od');
+                    setIs30DistrictsModalOpen(false);
+                }}
+            />
+
+            {/* Comprehensive 24 Districts Directory Modal for Jharkhand */}
+            <JH24DistrictsModal
+                isOpen={is24DistrictsModalOpen}
+                onClose={() => setIs24DistrictsModalOpen(false)}
+                onSelectDistrict={(dist) => {
+                    setSelectedDistrict(dist);
+                    setRegionMode('jh');
+                    setIs24DistrictsModalOpen(false);
+                }}
+            />
+
+            {/* Comprehensive 38 Districts Directory Modal for Bihar */}
+            <Bihar38DistrictsModal
+                isOpen={is38DistrictsModalOpen}
+                onClose={() => setIs38DistrictsModalOpen(false)}
+                onSelectDistrict={(dist) => {
+                    setSelectedDistrict(dist);
+                    setRegionMode('bihar');
+                    setIs38DistrictsModalOpen(false);
+                }}
+            />
+
+            {/* Comprehensive 23 Districts Directory Modal for West Bengal */}
+            <WB23DistrictsModal
+                isOpen={is23DistrictsModalOpen}
+                onClose={() => setIs23DistrictsModalOpen(false)}
+                onSelectDistrict={(dist) => {
+                    setSelectedDistrict(dist);
+                    setRegionMode('wb');
+                    setIs23DistrictsModalOpen(false);
+                }}
+            />
+
+            {/* Comprehensive 35 Districts Directory Modal for Assam */}
+            <AssamDistrictsModal
+                isOpen={isAssamDistrictsModalOpen}
+                onClose={() => setIsAssamDistrictsModalOpen(false)}
+                currentDistrict={selectedDistrict}
+                onSelectDistrict={(dist) => {
+                    setSelectedDistrict(dist);
+                    setRegionMode('assam');
+                    setIsAssamDistrictsModalOpen(false);
                 }}
             />
         </div>

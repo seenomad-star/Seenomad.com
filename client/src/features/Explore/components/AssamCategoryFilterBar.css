@@ -1,0 +1,268 @@
+/**
+ * AssamCategoryFilterBar.css
+ * Polished styling for Assam category & interest navigation
+ * Featuring Assam Tea Emerald, Golden Muga, and Brahmaputra River Cyan accents
+ */
+
+.assam-filter-section {
+    margin-bottom: 1.75rem;
+    background: linear-gradient(135deg, rgba(5, 150, 105, 0.22) 0%, rgba(15, 23, 42, 0.85) 100%);
+    border: 1px solid rgba(16, 185, 129, 0.35);
+    border-radius: 1.25rem;
+    padding: 1.5rem;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    position: relative;
+    overflow: hidden;
+}
+
+.assam-filter-section::before {
+    content: '';
+    position: absolute;
+    top: -40px;
+    right: -40px;
+    width: 140px;
+    height: 140px;
+    background: radial-gradient(circle, rgba(16, 185, 129, 0.25) 0%, rgba(0, 0, 0, 0) 70%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.assam-filter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.assam-filter-title-wrap {
+    flex: 1;
+    min-width: 260px;
+}
+
+.assam-filter-badge-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.assam-state-badge {
+    background: rgba(5, 150, 105, 0.25);
+    border: 1px solid rgba(52, 211, 153, 0.45);
+    color: #a7f3d0;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.2rem 0.6rem;
+    border-radius: 9999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    letter-spacing: 0.02em;
+}
+
+.assam-count-badge {
+    background: rgba(217, 119, 6, 0.2);
+    border: 1px solid rgba(245, 158, 11, 0.4);
+    color: #fef08a;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.2rem 0.6rem;
+    border-radius: 9999px;
+}
+
+.assam-adsense-badge {
+    background: rgba(6, 182, 212, 0.15);
+    border: 1px solid rgba(34, 211, 238, 0.35);
+    color: #cffafe;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.2rem 0.5rem;
+    border-radius: 9999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.assam-filter-title {
+    margin: 0 0 0.4rem 0;
+    font-size: 1.45rem;
+    font-weight: 800;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.assam-filter-desc {
+    margin: 0;
+    font-size: 0.88rem;
+    color: #cbd5e1;
+    line-height: 1.5;
+    max-width: 800px;
+}
+
+.assam-filter-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+}
+
+.assam-action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.5rem 0.85rem;
+    border-radius: 0.65rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    border: none;
+}
+
+.assam-action-btn.districts-trigger {
+    background: linear-gradient(135deg, rgba(5, 150, 105, 0.3) 0%, rgba(4, 120, 87, 0.4) 100%);
+    border: 1px solid rgba(16, 185, 129, 0.5);
+    color: #a7f3d0;
+}
+
+.assam-action-btn.districts-trigger:hover {
+    background: linear-gradient(135deg, rgba(5, 150, 105, 0.45) 0%, rgba(4, 120, 87, 0.6) 100%);
+    color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.assam-action-btn.reset-trigger {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #cbd5e1;
+}
+
+.assam-action-btn.reset-trigger:hover {
+    background: rgba(239, 68, 68, 0.2);
+    border-color: rgba(239, 68, 68, 0.4);
+    color: #fca5a5;
+}
+
+/* Category Pills Bar */
+.assam-pills-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.25rem;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(16, 185, 129, 0.3) transparent;
+}
+
+.assam-pills-bar::-webkit-scrollbar {
+    height: 4px;
+}
+
+.assam-pills-bar::-webkit-scrollbar-thumb {
+    background: rgba(16, 185, 129, 0.3);
+    border-radius: 9999px;
+}
+
+.assam-category-pill {
+    background: rgba(15, 23, 42, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 9999px;
+    padding: 0.45rem 0.95rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #cbd5e1;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s ease;
+}
+
+.assam-category-pill:hover {
+    background: rgba(5, 150, 105, 0.15);
+    border-color: rgba(16, 185, 129, 0.4);
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+.assam-category-pill.active {
+    background: linear-gradient(135deg, rgba(5, 150, 105, 0.35) 0%, rgba(4, 120, 87, 0.55) 100%);
+    border-color: #10b981;
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+}
+
+.assam-pill-icon {
+    font-size: 0.95rem;
+}
+
+.assam-pill-label {
+    font-size: 0.82rem;
+}
+
+.assam-pill-badge {
+    background: rgba(255, 255, 255, 0.1);
+    color: #cbd5e1;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.15rem 0.45rem;
+    border-radius: 9999px;
+}
+
+.assam-category-pill.active .assam-pill-badge {
+    background: #10b981;
+    color: #ffffff;
+}
+
+/* Active Category Subtitle Card */
+.assam-active-meta-card {
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(16, 185, 129, 0.25);
+    border-radius: 0.85rem;
+    padding: 0.85rem 1.15rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.25rem;
+}
+
+.assam-active-meta-left {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex: 1;
+    min-width: 250px;
+}
+
+.assam-active-meta-icon {
+    font-size: 1.4rem;
+}
+
+.assam-active-meta-title {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0 0 0.15rem 0;
+}
+
+.assam-active-meta-desc {
+    font-size: 0.78rem;
+    color: #a7f3d0;
+    margin: 0;
+}
+
+/* AdSense Unit */
+.assam-adsense-slot-wrap {
+    margin-top: 0.5rem;
+    width: 100%;
+}

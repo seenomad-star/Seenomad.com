@@ -1,0 +1,208 @@
+/**
+ * WestBengalCategoryFilterBar.css
+ * Polished styling for West Bengal category & interest navigation
+ * Featuring Bengal Terracotta Red, Royal Gold, and Sundarban Emerald accents
+ */
+
+.wb-filter-section {
+    margin-bottom: 1.75rem;
+    background: linear-gradient(135deg, rgba(185, 28, 28, 0.22) 0%, rgba(15, 23, 42, 0.85) 100%);
+    border: 1px solid rgba(239, 68, 68, 0.35);
+    border-radius: 1.25rem;
+    padding: 1.5rem;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    position: relative;
+    overflow: hidden;
+}
+
+.wb-filter-section::before {
+    content: '';
+    position: absolute;
+    top: -40px;
+    right: -40px;
+    width: 140px;
+    height: 140px;
+    background: radial-gradient(circle, rgba(239, 68, 68, 0.25) 0%, rgba(0, 0, 0, 0) 70%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.wb-filter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.wb-filter-title-wrap {
+    flex: 1;
+    min-width: 260px;
+}
+
+.wb-filter-badge-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.wb-state-badge {
+    background: rgba(220, 38, 38, 0.25);
+    border: 1px solid rgba(248, 113, 113, 0.45);
+    color: #fecaca;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.2rem 0.6rem;
+    border-radius: 9999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    letter-spacing: 0.02em;
+}
+
+.wb-count-badge {
+    background: rgba(217, 119, 6, 0.2);
+    border: 1px solid rgba(245, 158, 11, 0.4);
+    color: #fef08a;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.2rem 0.6rem;
+    border-radius: 9999px;
+}
+
+.wb-adsense-badge {
+    background: rgba(16, 185, 129, 0.15);
+    border: 1px solid rgba(52, 211, 153, 0.35);
+    color: #a7f3d0;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.2rem 0.5rem;
+    border-radius: 9999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.wb-filter-title {
+    margin: 0 0 0.4rem 0;
+    font-size: 1.45rem;
+    font-weight: 800;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.wb-filter-desc {
+    margin: 0;
+    color: #cbd5e1;
+    font-size: 0.9rem;
+    line-height: 1.45;
+    max-width: 850px;
+}
+
+.wb-filter-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+}
+
+.wb-action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 0.85rem;
+    border-radius: 0.6rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.wb-action-btn.districts {
+    background: linear-gradient(135deg, rgba(220, 38, 38, 0.25) 0%, rgba(185, 28, 28, 0.35) 100%);
+    border-color: rgba(248, 113, 113, 0.45);
+    color: #fecaca;
+}
+
+.wb-action-btn.districts:hover {
+    background: linear-gradient(135deg, rgba(220, 38, 38, 0.45) 0%, rgba(185, 28, 28, 0.6) 100%);
+    color: #ffffff;
+    box-shadow: 0 0 15px rgba(220, 38, 38, 0.4);
+}
+
+.wb-action-btn.reset {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.15);
+    color: #e2e8f0;
+}
+
+.wb-action-btn.reset:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+}
+
+.wb-categories-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    margin-bottom: 1.25rem;
+}
+
+.wb-cat-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.45rem 0.85rem;
+    border-radius: 9999px;
+    background: rgba(30, 41, 59, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #cbd5e1;
+    font-size: 0.83rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    user-select: none;
+}
+
+.wb-cat-pill:hover {
+    background: rgba(220, 38, 38, 0.2);
+    border-color: rgba(248, 113, 113, 0.4);
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+.wb-cat-pill.active {
+    background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+    border-color: #ef4444;
+    color: #ffffff;
+    box-shadow: 0 4px 14px 0 rgba(220, 38, 38, 0.45);
+}
+
+.wb-cat-pill .pill-icon {
+    font-size: 0.95rem;
+}
+
+.wb-cat-pill .pill-count {
+    background: rgba(0, 0, 0, 0.25);
+    padding: 0.1rem 0.4rem;
+    border-radius: 9999px;
+    font-size: 0.72rem;
+    font-weight: 700;
+}
+
+.wb-cat-pill.active .pill-count {
+    background: rgba(0, 0, 0, 0.35);
+    color: #fef08a;
+}
+
+.wb-filter-adsense-wrap {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}

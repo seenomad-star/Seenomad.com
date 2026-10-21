@@ -337,6 +337,78 @@ const DestinationCard = ({ dest, viewMode }) => {
                                                 {dest.category === 'Waterfalls' ? '🌊 Waterfalls' : dest.category === 'Wildlife' ? '🐾 Wildlife' : dest.category === 'Historical' ? '🏛️ Ancient Shrines' : dest.category === 'Spiritual' ? '🕉️ Shaktipeeth' : dest.category === 'Tribal & Culture' ? '🏺 Tribal Arts' : `✨ ${dest.category}`}
                                             </span>
                                         )}
+                                        {dest?.category && (dest?.isOdisha || dest?.location?.toLowerCase().includes('odisha')) && (
+                                            <span
+                                                className="up-card-circuit-chip od-category-chip"
+                                                style={{
+                                                    background: dest.category === 'Spiritual'
+                                                        ? 'linear-gradient(135deg, rgba(225, 29, 72, 0.25), rgba(190, 18, 60, 0.32))'
+                                                        : dest.category === 'Historical'
+                                                        ? 'linear-gradient(135deg, rgba(217, 119, 6, 0.25), rgba(180, 83, 9, 0.32))'
+                                                        : dest.category === 'Nature'
+                                                        ? 'linear-gradient(135deg, rgba(14, 165, 233, 0.25), rgba(2, 132, 199, 0.32))'
+                                                        : dest.category === 'Wildlife'
+                                                        ? 'linear-gradient(135deg, rgba(245, 158, 11, 0.25), rgba(217, 119, 6, 0.32))'
+                                                        : dest.category === 'Waterfalls'
+                                                        ? 'linear-gradient(135deg, rgba(6, 182, 212, 0.25), rgba(14, 165, 233, 0.32))'
+                                                        : 'linear-gradient(135deg, rgba(168, 85, 247, 0.25), rgba(147, 51, 234, 0.32))',
+                                                    borderColor: dest.category === 'Spiritual' ? 'rgba(244, 63, 94, 0.5)' : dest.category === 'Historical' ? 'rgba(245, 158, 11, 0.5)' : dest.category === 'Nature' ? 'rgba(56, 189, 248, 0.5)' : dest.category === 'Wildlife' ? 'rgba(245, 158, 11, 0.5)' : dest.category === 'Waterfalls' ? 'rgba(6, 182, 212, 0.5)' : 'rgba(168, 85, 247, 0.5)',
+                                                    color: dest.category === 'Spiritual' ? '#fecdd3' : dest.category === 'Historical' ? '#fef08a' : dest.category === 'Nature' ? '#bae6fd' : dest.category === 'Wildlife' ? '#fcd34d' : dest.category === 'Waterfalls' ? '#67e8f9' : '#d8b4fe'
+                                                }}
+                                                title={`Category: ${dest.category}`}
+                                            >
+                                                {dest.category === 'Spiritual' ? '🕉️ Char Dham & Tirthas' : dest.category === 'Historical' ? '🛕 UNESCO & Heritage' : dest.category === 'Nature' ? '🌊 Lagoon & Beach' : dest.category === 'Wildlife' ? '🐾 Simlipal & Marine' : dest.category === 'Waterfalls' ? '💧 Waterfalls & Ghats' : `🏺 ${dest.category}`}
+                                            </span>
+                                        )}
+                                        {dest?.category && (dest?.isJharkhand || dest?.location?.toLowerCase().includes('jharkhand')) && (
+                                            <span
+                                                className="up-card-circuit-chip jh-category-chip"
+                                                style={{
+                                                    background: dest.category === 'Waterfalls'
+                                                        ? 'linear-gradient(135deg, rgba(6, 182, 212, 0.25), rgba(14, 165, 233, 0.32))'
+                                                        : dest.category === 'Spiritual'
+                                                        ? 'linear-gradient(135deg, rgba(225, 29, 72, 0.25), rgba(190, 18, 60, 0.32))'
+                                                        : dest.category === 'Historical'
+                                                        ? 'linear-gradient(135deg, rgba(217, 119, 6, 0.25), rgba(180, 83, 9, 0.32))'
+                                                        : dest.category === 'Nature'
+                                                        ? 'linear-gradient(135deg, rgba(16, 185, 129, 0.25), rgba(5, 150, 105, 0.32))'
+                                                        : dest.category === 'Wildlife'
+                                                        ? 'linear-gradient(135deg, rgba(245, 158, 11, 0.25), rgba(217, 119, 6, 0.32))'
+                                                        : 'linear-gradient(135deg, rgba(168, 85, 247, 0.25), rgba(147, 51, 234, 0.32))',
+                                                    borderColor: dest.category === 'Waterfalls' ? 'rgba(6, 182, 212, 0.5)' : dest.category === 'Spiritual' ? 'rgba(244, 63, 94, 0.5)' : dest.category === 'Historical' ? 'rgba(245, 158, 11, 0.5)' : dest.category === 'Nature' ? 'rgba(52, 211, 153, 0.5)' : 'rgba(168, 85, 247, 0.5)',
+                                                    color: dest.category === 'Waterfalls' ? '#67e8f9' : dest.category === 'Spiritual' ? '#fecdd3' : dest.category === 'Historical' ? '#fef08a' : dest.category === 'Nature' ? '#a7f3d0' : '#d8b4fe'
+                                                }}
+                                                title={`Category: ${dest.category}`}
+                                            >
+                                                {dest.category === 'Waterfalls' ? '💧 Waterfalls of Ranchi' : dest.category === 'Spiritual' ? '🕉️ Baidyanath & Shrines' : dest.category === 'Historical' ? '🏰 Forts & Shrines' : dest.category === 'Nature' ? '⛰️ Hills & Lakes' : dest.category === 'Wildlife' ? '🐅 Betla & Dalma' : `🏺 ${dest.category}`}
+                                            </span>
+                                        )}
+                                        {dest?.jhCircuit && (
+                                            <span
+                                                className="up-card-circuit-chip jh-circuit-chip"
+                                                style={{
+                                                    background: 'linear-gradient(135deg, rgba(6, 78, 59, 0.35), rgba(5, 150, 105, 0.45))',
+                                                    borderColor: 'rgba(52, 211, 153, 0.45)',
+                                                    color: '#a7f3d0'
+                                                }}
+                                                title={`Jharkhand Tourism Circuit: ${dest.jhCircuit}`}
+                                            >
+                                                🌲 {dest.jhCircuit}
+                                            </span>
+                                        )}
+                                        {dest?.odCircuit && (
+                                            <span
+                                                className="up-card-circuit-chip od-circuit-chip"
+                                                style={{
+                                                    background: 'linear-gradient(135deg, rgba(217, 119, 6, 0.22), rgba(180, 83, 9, 0.28))',
+                                                    borderColor: 'rgba(245, 158, 11, 0.45)',
+                                                    color: '#fef08a'
+                                                }}
+                                                title={`Odisha Tourism Circuit: ${dest.odCircuit}`}
+                                            >
+                                                🛕 {dest.odCircuit}
+                                            </span>
+                                        )}
                                         {dest?.cgCircuit && (
                                             <span
                                                 className="up-card-circuit-chip cg-circuit-chip"

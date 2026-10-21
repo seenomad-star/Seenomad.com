@@ -1,0 +1,334 @@
+/**
+ * JHDistrictIntelligenceSuite.css
+ * Distinctive styling for Jharkhand Tourism Intelligence Suite
+ * Featuring Sal Forest Emerald (#059669), Chotanagpur Ochre (#d97706), and Granite Mountain Grey
+ */
+
+.jh-intelligence-suite-container {
+    margin-top: 1.5rem;
+    background: linear-gradient(180deg, rgba(6, 78, 59, 0.45) 0%, rgba(15, 23, 42, 0.95) 100%);
+    border: 1px solid rgba(16, 185, 129, 0.35);
+    border-radius: 1.25rem;
+    padding: 1.75rem;
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.6), 0 0 25px rgba(5, 150, 105, 0.1);
+    color: #f8fafc;
+    position: relative;
+    overflow: hidden;
+}
+
+.jh-suite-hero {
+    border-bottom: 1px solid rgba(16, 185, 129, 0.25);
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.jh-suite-hero-badge-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-bottom: 0.75rem;
+}
+
+.jh-badge-division,
+.jh-badge-circuit,
+.jh-badge-gi {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.65rem;
+    border-radius: 9999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.jh-badge-division {
+    background: rgba(16, 185, 129, 0.18);
+    border: 1px solid rgba(52, 211, 153, 0.45);
+    color: #a7f3d0;
+}
+
+.jh-badge-circuit {
+    background: rgba(217, 119, 6, 0.18);
+    border: 1px solid rgba(245, 158, 11, 0.45);
+    color: #fef08a;
+}
+
+.jh-badge-gi {
+    background: rgba(14, 165, 233, 0.18);
+    border: 1px solid rgba(56, 189, 248, 0.45);
+    color: #bae6fd;
+}
+
+.jh-suite-title {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin: 0.25rem 0 0.5rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    letter-spacing: -0.02em;
+}
+
+.jh-suite-subtitle {
+    font-size: 0.92rem;
+    color: #cbd5e1;
+    margin: 0;
+    line-height: 1.5;
+    max-width: 780px;
+}
+
+/* Audio Guide Row */
+.jh-audio-guide-bar {
+    margin-top: 1.25rem;
+    padding: 0.85rem 1.25rem;
+    background: rgba(6, 78, 59, 0.3);
+    border: 1px solid rgba(52, 211, 153, 0.3);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.jh-audio-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.jh-audio-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.45rem 1rem;
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    border: 1px solid #10b981;
+    color: #ffffff;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.jh-audio-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(5, 150, 105, 0.35);
+}
+
+/* Suite Tab Navigation */
+.jh-suite-tabs {
+    display: flex;
+    gap: 0.6rem;
+    border-bottom: 1px solid rgba(16, 185, 129, 0.2);
+    padding-bottom: 0.85rem;
+    margin-bottom: 1.5rem;
+    overflow-x: auto;
+}
+
+.jh-suite-tab-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.55rem 1rem;
+    border-radius: 8px;
+    background: rgba(15, 23, 42, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #94a3b8;
+    font-size: 0.84rem;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+}
+
+.jh-suite-tab-btn:hover {
+    color: #f8fafc;
+    background: rgba(30, 41, 59, 0.8);
+    border-color: rgba(16, 185, 129, 0.4);
+}
+
+.jh-suite-tab-btn.active {
+    background: linear-gradient(135deg, rgba(5, 150, 105, 0.35) 0%, rgba(4, 120, 87, 0.5) 100%);
+    border-color: #10b981;
+    color: #ffffff;
+    box-shadow: 0 4px 15px rgba(5, 150, 105, 0.25);
+}
+
+/* Content cards */
+.jh-card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+.jh-info-card {
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(16, 185, 129, 0.25);
+    border-radius: 12px;
+    padding: 1.25rem;
+}
+
+.jh-card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.75rem;
+    color: #6ee7b7;
+    font-weight: 700;
+    font-size: 0.95rem;
+}
+
+.jh-activities-list,
+.jh-tips-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.jh-activity-item {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    background: rgba(30, 41, 59, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    transition: all 0.2s ease;
+}
+
+.jh-activity-item.is-done {
+    background: rgba(5, 150, 105, 0.15);
+    border-color: rgba(52, 211, 153, 0.3);
+}
+
+.jh-cuisine-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+}
+
+.jh-cuisine-pill {
+    background: linear-gradient(135deg, rgba(217, 119, 6, 0.15) 0%, rgba(180, 83, 9, 0.25) 100%);
+    border: 1px solid rgba(245, 158, 11, 0.35);
+    color: #fef08a;
+    padding: 0.35rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+/* 24 Districts Modal */
+.jh-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+}
+
+.jh-modal-window {
+    background: linear-gradient(180deg, #064e3b 0%, #0f172a 100%);
+    border: 1px solid rgba(52, 211, 153, 0.4);
+    border-radius: 20px;
+    width: 100%;
+    max-width: 900px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(5, 150, 105, 0.2);
+    overflow: hidden;
+}
+
+.jh-modal-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid rgba(52, 211, 153, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.jh-modal-title {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.jh-modal-filter-row {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    background: rgba(0, 0, 0, 0.25);
+}
+
+.jh-modal-search {
+    flex: 1;
+    min-width: 220px;
+    background: rgba(15, 23, 42, 0.8);
+    border: 1px solid rgba(52, 211, 153, 0.3);
+    border-radius: 8px;
+    padding: 0.55rem 0.9rem;
+    color: #ffffff;
+    font-size: 0.85rem;
+}
+
+.jh-modal-districts-grid {
+    padding: 1.5rem;
+    overflow-y: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1rem;
+}
+
+.jh-district-card {
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(52, 211, 153, 0.25);
+    border-radius: 12px;
+    padding: 1rem;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.jh-district-card:hover {
+    background: rgba(6, 78, 59, 0.4);
+    border-color: #10b981;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(5, 150, 105, 0.25);
+}
+
+.jh-district-name {
+    font-weight: 700;
+    color: #ffffff;
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+}
+
+.jh-district-meta {
+    font-size: 0.75rem;
+    color: #94a3b8;
+    margin-bottom: 0.5rem;
+}
+
+.jh-district-dest {
+    font-size: 0.78rem;
+    color: #a7f3d0;
+    font-weight: 500;
+}

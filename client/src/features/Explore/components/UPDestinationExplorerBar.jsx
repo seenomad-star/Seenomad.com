@@ -9,6 +9,11 @@ import { MP_CIRCUITS, MP_CATEGORIES, matchMPCategory } from './MPDistrictIntelli
 import { MH_CIRCUITS, MH_CATEGORIES, matchMHCategory } from './MHDistrictIntelligenceSuite';
 import { RJ_CIRCUITS, RJ_CATEGORIES, matchRJCategory } from './RJDistrictIntelligenceSuite';
 import { CG_CIRCUITS, CG_CATEGORIES, matchCGCategory } from './CGDistrictIntelligenceSuite';
+import { OD_CIRCUITS, OD_CATEGORIES, matchODCategory } from './ODDistrictIntelligenceSuite';
+import { JH_CIRCUITS, JH_CATEGORIES, matchJHCategory } from './JHDistrictIntelligenceSuite';
+import { BIHAR_CIRCUITS, BIHAR_CATEGORIES, matchBiharCategory } from './BiharDistrictIntelligenceSuite';
+import { WB_CIRCUITS, WB_CATEGORIES, matchWBCategory } from './WBDistrictIntelligenceSuite';
+import { ASSAM_CIRCUITS, ASSAM_CATEGORIES, matchAssamCategory } from './AssamDistrictIntelligenceSuite';
 import './UPDestinationExplorerBar.css';
 
 export const UP_CIRCUITS = [
@@ -22,7 +27,7 @@ export const UP_CIRCUITS = [
 ];
 
 const UPDestinationExplorerBar = ({
-    regionMode = 'up', // 'up' | 'mp' | 'mh' | 'rj' | 'cg' | 'delhi' | 'global'
+    regionMode = 'up', // 'up' | 'mp' | 'mh' | 'rj' | 'cg' | 'od' | 'jh' | 'bihar' | 'wb' | 'assam' | 'delhi' | 'global'
     onSelectRegionMode,
     selectedDistrict = 'all',
     onSelectDistrict,
@@ -36,6 +41,16 @@ const UPDestinationExplorerBar = ({
     onSelectRJCategory,
     selectedCGCategory = 'all',
     onSelectCGCategory,
+    selectedODCategory = 'all',
+    onSelectODCategory,
+    selectedJHCategory = 'all',
+    onSelectJHCategory,
+    selectedBiharCategory = 'all',
+    onSelectBiharCategory,
+    selectedWBCategory = 'all',
+    onSelectWBCategory,
+    selectedAssamCategory = 'all',
+    onSelectAssamCategory,
     upDestinations = [],
     districtsList = [],
     mpDestinations = [],
@@ -46,14 +61,154 @@ const UPDestinationExplorerBar = ({
     rjDistrictsList = [],
     cgDestinations = [],
     cgDistrictsList = [],
+    odDestinations = [],
+    odDistrictsList = [],
+    jhDestinations = [],
+    jhDistrictsList = [],
+    biharDestinations = [],
+    biharDistrictsList = [],
+    wbDestinations = [],
+    wbDistrictsList = [],
+    assamDestinations = [],
+    assamDistrictsList = [],
     totalCount = 0,
     onOpen75Districts,
     onOpen55Districts,
     onOpen36Districts,
     onOpen50Districts,
-    onOpen33Districts
+    onOpen33Districts,
+    onOpen30Districts,
+    onOpen24Districts,
+    onOpen38Districts,
+    onOpen23Districts,
+    onOpen35Districts
 }) => {
     const navigate = useNavigate();
+
+    // Compute counts per Assam category
+    const assamCategoryCounts = useMemo(() => {
+        const counts = { all: assamDestinations.length };
+        ASSAM_CATEGORIES.forEach(cat => {
+            if (cat.id !== 'all') {
+                counts[cat.id] = assamDestinations.filter(d => matchAssamCategory(d, cat.id)).length;
+            }
+        });
+        return counts;
+    }, [assamDestinations]);
+
+    // Compute counts per Assam circuit
+    const assamCircuitCounts = useMemo(() => {
+        const counts = { all: assamDestinations.length };
+        ASSAM_CIRCUITS.forEach(c => {
+            if (c.id !== 'all') counts[c.id] = 0;
+        });
+        assamDestinations.forEach(d => {
+            if (d.assamCircuit && counts[d.assamCircuit] !== undefined) {
+                counts[d.assamCircuit]++;
+            }
+        });
+        return counts;
+    }, [assamDestinations]);
+
+    // Compute counts per West Bengal category
+    const wbCategoryCounts = useMemo(() => {
+        const counts = { all: wbDestinations.length };
+        WB_CATEGORIES.forEach(cat => {
+            if (cat.id !== 'all') {
+                counts[cat.id] = wbDestinations.filter(d => matchWBCategory(d, cat.id)).length;
+            }
+        });
+        return counts;
+    }, [wbDestinations]);
+
+    // Compute counts per West Bengal circuit
+    const wbCircuitCounts = useMemo(() => {
+        const counts = { all: wbDestinations.length };
+        WB_CIRCUITS.forEach(c => {
+            if (c.id !== 'all') counts[c.id] = 0;
+        });
+        wbDestinations.forEach(d => {
+            if (d.wbCircuit && counts[d.wbCircuit] !== undefined) {
+                counts[d.wbCircuit]++;
+            }
+        });
+        return counts;
+    }, [wbDestinations]);
+
+    // Compute counts per Bihar category
+    const biharCategoryCounts = useMemo(() => {
+        const counts = { all: biharDestinations.length };
+        BIHAR_CATEGORIES.forEach(cat => {
+            if (cat.id !== 'all') {
+                counts[cat.id] = biharDestinations.filter(d => matchBiharCategory(d, cat.id)).length;
+            }
+        });
+        return counts;
+    }, [biharDestinations]);
+
+    // Compute counts per Bihar circuit
+    const biharCircuitCounts = useMemo(() => {
+        const counts = { all: biharDestinations.length };
+        BIHAR_CIRCUITS.forEach(c => {
+            if (c.id !== 'all') counts[c.id] = 0;
+        });
+        biharDestinations.forEach(d => {
+            if (d.biharCircuit && counts[d.biharCircuit] !== undefined) {
+                counts[d.biharCircuit]++;
+            }
+        });
+        return counts;
+    }, [biharDestinations]);
+
+    // Compute counts per JH category
+    const jhCategoryCounts = useMemo(() => {
+        const counts = { all: jhDestinations.length };
+        JH_CATEGORIES.forEach(cat => {
+            if (cat.id !== 'all') {
+                counts[cat.id] = jhDestinations.filter(d => matchJHCategory(d, cat.id)).length;
+            }
+        });
+        return counts;
+    }, [jhDestinations]);
+
+    // Compute counts per JH circuit
+    const jhCircuitCounts = useMemo(() => {
+        const counts = { all: jhDestinations.length };
+        JH_CIRCUITS.forEach(c => {
+            if (c.id !== 'all') counts[c.id] = 0;
+        });
+        jhDestinations.forEach(d => {
+            if (d.jhCircuit && counts[d.jhCircuit] !== undefined) {
+                counts[d.jhCircuit]++;
+            }
+        });
+        return counts;
+    }, [jhDestinations]);
+
+    // Compute counts per OD category
+    const odCategoryCounts = useMemo(() => {
+        const counts = { all: odDestinations.length };
+        OD_CATEGORIES.forEach(cat => {
+            if (cat.id !== 'all') {
+                counts[cat.id] = odDestinations.filter(d => matchODCategory(d, cat.id)).length;
+            }
+        });
+        return counts;
+    }, [odDestinations]);
+
+    // Compute counts per OD circuit
+    const odCircuitCounts = useMemo(() => {
+        const counts = { all: odDestinations.length };
+        OD_CIRCUITS.forEach(c => {
+            if (c.id !== 'all') counts[c.id] = 0;
+        });
+        odDestinations.forEach(d => {
+            if (d.odCircuit && counts[d.odCircuit] !== undefined) {
+                counts[d.odCircuit]++;
+            }
+        });
+        return counts;
+    }, [odDestinations]);
 
     // Compute counts per CG category
     const cgCategoryCounts = useMemo(() => {
@@ -226,6 +381,56 @@ const UPDestinationExplorerBar = ({
 
                     <button
                         type="button"
+                        onClick={() => onSelectRegionMode('od')}
+                        className={`region-tab-btn ${regionMode === 'od' ? 'active od-theme' : ''}`}
+                    >
+                        <span className="region-flag">🛕</span>
+                        <span className="font-bold">Odisha (30 Districts)</span>
+                        <span className="region-badge-count">{odDestinations.length}</span>
+                    </button>
+
+                    <button
+                        type="button"
+                        onClick={() => onSelectRegionMode('jh')}
+                        className={`region-tab-btn ${regionMode === 'jh' ? 'active jh-theme' : ''}`}
+                    >
+                        <span className="region-flag">🌲</span>
+                        <span className="font-bold">Jharkhand (24 Districts)</span>
+                        <span className="region-badge-count">{jhDestinations.length}</span>
+                    </button>
+
+                    <button
+                        type="button"
+                        onClick={() => onSelectRegionMode('bihar')}
+                        className={`region-tab-btn ${regionMode === 'bihar' ? 'active bihar-theme' : ''}`}
+                    >
+                        <span className="region-flag">🏛️</span>
+                        <span className="font-bold">Bihar (38 Districts)</span>
+                        <span className="region-badge-count">{biharDestinations.length}</span>
+                    </button>
+
+                    <button
+                        type="button"
+                        onClick={() => onSelectRegionMode('wb')}
+                        className={`region-tab-btn ${regionMode === 'wb' ? 'active wb-theme' : ''}`}
+                    >
+                        <span className="region-flag">🐯</span>
+                        <span className="font-bold">West Bengal (23 Districts)</span>
+                        <span className="region-badge-count">{wbDestinations.length}</span>
+                    </button>
+
+                    <button
+                        type="button"
+                        onClick={() => onSelectRegionMode('assam')}
+                        className={`region-tab-btn ${regionMode === 'assam' ? 'active assam-theme' : ''}`}
+                    >
+                        <span className="region-flag">🦏</span>
+                        <span className="font-bold">Assam (35 Districts)</span>
+                        <span className="region-badge-count">{assamDestinations.length}</span>
+                    </button>
+
+                    <button
+                        type="button"
                         onClick={() => onSelectRegionMode('delhi')}
                         className={`region-tab-btn ${regionMode === 'delhi' ? 'active delhi-theme' : ''}`}
                     >
@@ -246,7 +451,17 @@ const UPDestinationExplorerBar = ({
                 <div className="up-state-motto-tag">
                     <span className="up-seal-dot" />
                     <span>
-                        {regionMode === 'cg'
+                        {regionMode === 'assam'
+                            ? "Assam Tourism · Awesome Assam · Gateway to Northeast India · Land of the Red River & Blue Hills"
+                            : regionMode === 'wb'
+                            ? "West Bengal Tourism · Beautiful Bengal · The Sweetest Part of India · From the Himalayas to Bay of Bengal"
+                            : regionMode === 'bihar'
+                            ? "Bihar Tourism · Blissful Bihar · Cradle of Buddhism, Jainism, Nalanda & Mithila"
+                            : regionMode === 'jh'
+                            ? "Jharkhand Tourism · Land of Forests & Roaring Cascades · Chotanagpur"
+                            : regionMode === 'od'
+                            ? "Odisha Tourism · India's Best Kept Secret · Land of Jagannath"
+                            : regionMode === 'cg'
                             ? 'Chhattisgarh Tourism · Full of Surprises · The Herbal State'
                             : regionMode === 'rj'
                             ? 'Rajasthan Tourism · Padharo Mhare Desh · Incredible India'
@@ -899,7 +1114,744 @@ const UPDestinationExplorerBar = ({
                 </div>
             )}
 
-            {/* 5. When Region Mode is 'up', show District Dropdown & Circuit Pills */}
+            {/* 5. When Region Mode is 'od', show Odisha District Dropdown, Category Filters & Circuit Pills */}
+            {regionMode === 'od' && (
+                <div className="up-circuit-controls-card od-controls-card" style={{ borderColor: 'rgba(217, 119, 6, 0.35)' }}>
+                    {/* Header Banner */}
+                    <div className="up-controls-header">
+                        <div className="up-header-text-block">
+                            <h2 className="up-header-title">
+                                Explore Odisha Destinations by District, Category & Circuit
+                            </h2>
+                            <p className="up-header-desc">
+                                India's Best Kept Secret · 30 Districts: From UNESCO Konark Sun Temple and Puri Jagannath Char Dham to Asia's largest brackish Chilika Lake, Simlipal Tiger Reserve, Daringbadi, and living GI craft villages.
+                            </p>
+                        </div>
+
+                        {/* District Dropdown Selector & 30 Districts Quick Modal Trigger */}
+                        <div className="up-district-dropdown-wrap">
+                            <div className="district-dropdown-labels-row">
+                                <label htmlFor="od-district-select" className="district-dropdown-label">
+                                    <MapPin size={14} className="text-amber-400" />
+                                    <span>Filter by Odisha District:</span>
+                                </label>
+                                {onOpen30Districts && (
+                                    <button
+                                        type="button"
+                                        onClick={onOpen30Districts}
+                                        className="up-directory-quick-link"
+                                        style={{
+                                            background: 'linear-gradient(135deg, rgba(217, 119, 6, 0.22) 0%, rgba(180, 83, 9, 0.28) 100%)',
+                                            color: '#fde68a',
+                                            borderColor: 'rgba(245, 158, 11, 0.45)'
+                                        }}
+                                        title="Browse full directory of all 30 districts of Odisha"
+                                    >
+                                        <Compass size={12} />
+                                        <span>30 Districts Grid</span>
+                                    </button>
+                                )}
+                                <button
+                                    type="button"
+                                    onClick={() => navigate('/explore/itinerary-builder')}
+                                    className="up-directory-quick-link"
+                                    style={{
+                                        background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.22) 0%, rgba(217, 119, 6, 0.28) 100%)',
+                                        color: '#fbbf24',
+                                        borderColor: 'rgba(245, 158, 11, 0.45)'
+                                    }}
+                                    title="Build custom Day-by-Day Travel Plan"
+                                >
+                                    <Calendar size={12} />
+                                    <span>Build Day-by-Day Itinerary 🗓️</span>
+                                </button>
+                            </div>
+                            <div className="district-select-box">
+                                <select
+                                    id="od-district-select"
+                                    value={selectedDistrict}
+                                    onChange={(e) => onSelectDistrict(e.target.value)}
+                                    className="district-native-select"
+                                >
+                                    <option value="all">🌟 All 30 Districts ({odDistrictsList.length} Covered)</option>
+                                    {odDistrictsList.map((district) => (
+                                        <option key={district} value={district}>
+                                            📍 {district} District
+                                        </option>
+                                    ))}
+                                </select>
+                                <ChevronDown size={14} className="select-arrow-icon" />
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* OD Category / Interest Filter Row */}
+                    <div className="up-categories-filter-row">
+                        <div className="cat-filter-label-group">
+                            <Sparkles size={14} className="text-amber-400" />
+                            <span>Travel Interests & Themes:</span>
+                        </div>
+                        <div className="cat-filter-pills-wrap">
+                            {OD_CATEGORIES.map((cat) => {
+                                const count = odCategoryCounts[cat.id] || 0;
+                                const isActive = selectedODCategory === cat.id;
+                                return (
+                                    <button
+                                        key={cat.id}
+                                        type="button"
+                                        onClick={() => onSelectODCategory && onSelectODCategory(cat.id)}
+                                        className={`mp-category-pill ${isActive ? 'active' : ''}`}
+                                        style={isActive ? {
+                                            background: 'linear-gradient(135deg, rgba(217, 119, 6, 0.3) 0%, rgba(180, 83, 9, 0.45) 100%)',
+                                            borderColor: '#f59e0b',
+                                            color: '#fef08a'
+                                        } : {}}
+                                        title={cat.description}
+                                    >
+                                        <span className="cat-pill-icon">{cat.icon}</span>
+                                        <span className="cat-pill-label">{cat.label}</span>
+                                        <span className="cat-pill-count">{count}</span>
+                                    </button>
+                                );
+                            })}
+                        </div>
+                    </div>
+
+                    {/* OD Circuit Filter Pills */}
+                    <div className="up-circuit-pills-row">
+                        {OD_CIRCUITS.map((circuit) => {
+                            const count = odCircuitCounts[circuit.id] || 0;
+                            const isActive = selectedCircuit === circuit.id;
+                            return (
+                                <button
+                                    key={circuit.id}
+                                    type="button"
+                                    onClick={() => onSelectCircuit(circuit.id)}
+                                    className={`up-circuit-pill ${isActive ? 'active' : ''}`}
+                                    style={isActive ? {
+                                        background: 'linear-gradient(135deg, #d97706 0%, #b45309 100%)',
+                                        borderColor: '#f59e0b',
+                                        color: '#ffffff',
+                                        boxShadow: '0 4px 15px rgba(217, 119, 6, 0.35)'
+                                    } : {}}
+                                    title={circuit.description}
+                                >
+                                    <span className="circuit-pill-icon">{circuit.icon}</span>
+                                    <span className="circuit-pill-label">{circuit.label}</span>
+                                    <span className="circuit-pill-count">{count}</span>
+                                </button>
+                            );
+                        })}
+                    </div>
+
+                    {/* Quick Telemetry Footbar */}
+                    <div className="up-telemetry-footbar">
+                        <div className="telemetry-item">
+                            <Check size={13} className="text-emerald-400" />
+                            <span>30 Districts Represented</span>
+                        </div>
+                        <div className="telemetry-bullet">·</div>
+                        <div className="telemetry-item">
+                            <Award size={13} className="text-amber-400" />
+                            <span>UNESCO Konark Sun Temple & Puri Jagannath Char Dham</span>
+                        </div>
+                        <div className="telemetry-bullet">·</div>
+                        <div className="telemetry-item">
+                            <Sparkles size={13} className="text-cyan-400" />
+                            <span>Chilika Lake (Asia's Largest Lagoon) & Simlipal Tigers</span>
+                        </div>
+                        <div className="telemetry-bullet">·</div>
+                        <div className="telemetry-item">
+                            <ShieldCheck size={13} className="text-amber-400" />
+                            <span>Full Dedicated Intelligence Detail Pages</span>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* 5b. When Region Mode is 'jh', show Jharkhand District Dropdown, Category Filters & Circuit Pills */}
+            {regionMode === 'jh' && (
+                <div className="up-circuit-controls-card jh-controls-card" style={{ borderColor: 'rgba(16, 185, 129, 0.35)', background: 'linear-gradient(135deg, rgba(6, 78, 59, 0.22) 0%, rgba(4, 120, 87, 0.12) 100%)' }}>
+                    {/* Header Banner */}
+                    <div className="up-controls-header">
+                        <div className="up-header-text-block">
+                            <h2 className="up-header-title">
+                                Explore Jharkhand Destinations by District, Category & Circuit
+                            </h2>
+                            <p className="up-header-desc">
+                                Land of Forests & Cascades · 24 Districts: From Baba Baidyanath Jyotirlinga Dham & Maa Chhinnamasta to Netarhat Queen of Chotanagpur, Parasnath Shikharji Peak, Betla Tigers, and roaring Hundru & Lodh Falls.
+                            </p>
+                        </div>
+
+                        {/* District Dropdown Selector & 24 Districts Quick Modal Trigger */}
+                        <div className="up-district-dropdown-wrap">
+                            <div className="district-dropdown-labels-row">
+                                <label htmlFor="jh-district-select" className="district-dropdown-label">
+                                    <MapPin size={14} className="text-emerald-400" />
+                                    <span>Filter by Jharkhand District:</span>
+                                </label>
+                                {onOpen24Districts && (
+                                    <button
+                                        type="button"
+                                        onClick={onOpen24Districts}
+                                        className="up-directory-quick-link"
+                                        style={{
+                                            background: 'linear-gradient(135deg, rgba(5, 150, 105, 0.25) 0%, rgba(4, 120, 87, 0.35) 100%)',
+                                            color: '#6ee7b7',
+                                            borderColor: 'rgba(16, 185, 129, 0.45)'
+                                        }}
+                                        title="Browse full directory of all 24 districts of Jharkhand"
+                                    >
+                                        <Compass size={12} />
+                                        <span>24 Districts Grid</span>
+                                    </button>
+                                )}
+                                <button
+                                    type="button"
+                                    onClick={() => navigate('/explore/itinerary-builder')}
+                                    className="up-directory-quick-link"
+                                    style={{
+                                        background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.22) 0%, rgba(5, 150, 105, 0.28) 100%)',
+                                        color: '#34d399',
+                                        borderColor: 'rgba(16, 185, 129, 0.45)'
+                                    }}
+                                    title="Build custom Day-by-Day Travel Plan"
+                                >
+                                    <Calendar size={12} />
+                                    <span>Build Day-by-Day Itinerary 🗓️</span>
+                                </button>
+                            </div>
+                            <div className="district-select-box">
+                                <select
+                                    id="jh-district-select"
+                                    value={selectedDistrict}
+                                    onChange={(e) => onSelectDistrict(e.target.value)}
+                                    className="district-native-select"
+                                >
+                                    <option value="all">🌟 All 24 Districts ({jhDistrictsList.length} Covered)</option>
+                                    {jhDistrictsList.map((district) => (
+                                        <option key={district} value={district}>
+                                            📍 {district} District
+                                        </option>
+                                    ))}
+                                </select>
+                                <ChevronDown size={14} className="select-arrow-icon" />
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* JH Category / Interest Filter Row */}
+                    <div className="up-categories-filter-row">
+                        <div className="cat-filter-label-group">
+                            <Sparkles size={14} className="text-emerald-400" />
+                            <span>Travel Interests & Themes:</span>
+                        </div>
+                        <div className="cat-filter-pills-wrap">
+                            {JH_CATEGORIES.map((cat) => {
+                                const count = jhCategoryCounts[cat.id] || 0;
+                                const isActive = selectedJHCategory === cat.id;
+                                return (
+                                    <button
+                                        key={cat.id}
+                                        type="button"
+                                        onClick={() => onSelectJHCategory && onSelectJHCategory(cat.id)}
+                                        className={`mp-category-pill ${isActive ? 'active' : ''}`}
+                                        style={isActive ? {
+                                            background: 'linear-gradient(135deg, rgba(5, 150, 105, 0.35) 0%, rgba(4, 120, 87, 0.5) 100%)',
+                                            borderColor: '#10b981',
+                                            color: '#a7f3d0'
+                                        } : {}}
+                                        title={cat.description}
+                                    >
+                                        <span className="cat-pill-icon">{cat.icon}</span>
+                                        <span className="cat-pill-label">{cat.label}</span>
+                                        <span className="cat-pill-count">{count}</span>
+                                    </button>
+                                );
+                            })}
+                        </div>
+                    </div>
+
+                    {/* JH Circuit Filter Pills */}
+                    <div className="up-circuit-pills-row">
+                        {JH_CIRCUITS.map((circuit) => {
+                            const count = jhCircuitCounts[circuit.id] || 0;
+                            const isActive = selectedCircuit === circuit.id;
+                            return (
+                                <button
+                                    key={circuit.id}
+                                    type="button"
+                                    onClick={() => onSelectCircuit(circuit.id)}
+                                    className={`up-circuit-pill ${isActive ? 'active' : ''}`}
+                                    style={isActive ? {
+                                        background: 'linear-gradient(135deg, #059669 0%, #047857 100%)',
+                                        borderColor: '#10b981',
+                                        color: '#ffffff',
+                                        boxShadow: '0 4px 15px rgba(16, 185, 129, 0.35)'
+                                    } : {}}
+                                    title={circuit.description}
+                                >
+                                    <span className="circuit-pill-icon">{circuit.icon}</span>
+                                    <span className="circuit-pill-label">{circuit.label}</span>
+                                    <span className="circuit-pill-count">{count}</span>
+                                </button>
+                            );
+                        })}
+                    </div>
+
+                    {/* Quick Telemetry Footbar */}
+                    <div className="up-telemetry-footbar">
+                        <div className="telemetry-item">
+                            <Check size={13} className="text-emerald-400" />
+                            <span>All 24 Districts Represented</span>
+                        </div>
+                        <div className="telemetry-bullet">·</div>
+                        <div className="telemetry-item">
+                            <Award size={13} className="text-amber-400" />
+                            <span>Sacred Baba Baidyanath Dham Jyotirlinga & Rajrappa</span>
+                        </div>
+                        <div className="telemetry-bullet">·</div>
+                        <div className="telemetry-item">
+                            <Sparkles size={13} className="text-cyan-400" />
+                            <span>Lodh Falls (468ft Highest) & Hundru River Canyons</span>
+                        </div>
+                        <div className="telemetry-bullet">·</div>
+                        <div className="telemetry-item">
+                            <ShieldCheck size={13} className="text-emerald-400" />
+                            <span>Betla National Park & UNESCO Chhau Heritage</span>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* 5c. When Region Mode is 'bihar', show Bihar District Dropdown, Category Filters & Circuit Pills */}
+            {regionMode === 'bihar' && (
+                <div className="up-circuit-controls-card bihar-controls-card" style={{ borderColor: 'rgba(220, 38, 38, 0.35)', background: 'linear-gradient(135deg, rgba(153, 27, 27, 0.22) 0%, rgba(185, 28, 28, 0.12) 100%)' }}>
+                    {/* Header Banner */}
+                    <div className="up-controls-header">
+                        <div className="up-header-text-block">
+                            <h2 className="up-header-title">
+                                Explore Bihar Destinations by District, Category & Circuit
+                            </h2>
+                            <p className="up-header-desc">
+                                Cradle of Ancient Civilizations & Enlightenment · 38 Districts: From UNESCO Mahabodhi & ancient Nalanda Mahavihara to Rajgir Glass Skywalk, Vaishali Ashokan Pillar, Sher Shah Suri Tomb, and Valmiki Tiger Reserve.
+                            </p>
+                        </div>
+
+                        {/* District Dropdown Selector & 38 Districts Quick Modal Trigger */}
+                        <div className="up-district-dropdown-wrap">
+                            <div className="district-dropdown-labels-row">
+                                <label htmlFor="bihar-district-select" className="district-dropdown-label">
+                                    <MapPin size={14} className="text-red-400" />
+                                    <span>Filter by Bihar District:</span>
+                                </label>
+                                {onOpen38Districts && (
+                                    <button
+                                        type="button"
+                                        onClick={onOpen38Districts}
+                                        className="up-directory-quick-link"
+                                        style={{
+                                            background: 'linear-gradient(135deg, rgba(185, 28, 28, 0.25) 0%, rgba(153, 27, 27, 0.35) 100%)',
+                                            color: '#fca5a5',
+                                            borderColor: 'rgba(220, 38, 38, 0.45)'
+                                        }}
+                                        title="Browse full directory of all 38 districts of Bihar"
+                                    >
+                                        <Compass size={12} />
+                                        <span>38 Districts Grid</span>
+                                    </button>
+                                )}
+                                <button
+                                    type="button"
+                                    onClick={() => navigate('/explore/itinerary-builder')}
+                                    className="up-directory-quick-link"
+                                    style={{
+                                        background: 'linear-gradient(135deg, rgba(220, 38, 38, 0.22) 0%, rgba(185, 28, 28, 0.28) 100%)',
+                                        color: '#f87171',
+                                        borderColor: 'rgba(220, 38, 38, 0.45)'
+                                    }}
+                                    title="Build custom Day-by-Day Travel Plan"
+                                >
+                                    <Calendar size={12} />
+                                    <span>Build Day-by-Day Itinerary 🗓️</span>
+                                </button>
+                            </div>
+                            <div className="district-select-box">
+                                <select
+                                    id="bihar-district-select"
+                                    value={selectedDistrict}
+                                    onChange={(e) => onSelectDistrict(e.target.value)}
+                                    className="district-native-select"
+                                >
+                                    <option value="all">🌟 All 38 Districts ({biharDistrictsList.length} Covered)</option>
+                                    {biharDistrictsList.map((district) => (
+                                        <option key={district} value={district}>
+                                            📍 {district} District
+                                        </option>
+                                    ))}
+                                </select>
+                                <ChevronDown size={14} className="select-arrow-icon" />
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Bihar Category / Interest Filter Row */}
+                    <div className="up-categories-filter-row">
+                        <div className="cat-filter-label-group">
+                            <Sparkles size={14} className="text-red-400" />
+                            <span>Travel Interests & Themes:</span>
+                        </div>
+                        <div className="cat-filter-pills-wrap">
+                            {BIHAR_CATEGORIES.map((cat) => {
+                                const count = biharCategoryCounts[cat.id] || 0;
+                                const isActive = selectedBiharCategory === cat.id;
+                                return (
+                                    <button
+                                        key={cat.id}
+                                        type="button"
+                                        onClick={() => onSelectBiharCategory && onSelectBiharCategory(cat.id)}
+                                        className={`mp-category-pill ${isActive ? 'active' : ''}`}
+                                        style={isActive ? {
+                                            background: 'linear-gradient(135deg, rgba(185, 28, 28, 0.35) 0%, rgba(153, 27, 27, 0.5) 100%)',
+                                            borderColor: '#dc2626',
+                                            color: '#fecaca'
+                                        } : {}}
+                                        title={cat.description}
+                                    >
+                                        <span className="cat-pill-icon">{cat.icon}</span>
+                                        <span className="cat-pill-label">{cat.label}</span>
+                                        <span className="cat-pill-count">{count}</span>
+                                    </button>
+                                );
+                            })}
+                        </div>
+                    </div>
+
+                    {/* Bihar Circuit Filter Pills */}
+                    <div className="up-circuit-pills-row">
+                        {BIHAR_CIRCUITS.map((circuit) => {
+                            const count = biharCircuitCounts[circuit.id] || 0;
+                            const isActive = selectedCircuit === circuit.id;
+                            return (
+                                <button
+                                    key={circuit.id}
+                                    type="button"
+                                    onClick={() => onSelectCircuit(circuit.id)}
+                                    className={`up-circuit-pill ${isActive ? 'active' : ''}`}
+                                    style={isActive ? {
+                                        background: 'linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)',
+                                        borderColor: '#f87171',
+                                        color: '#ffffff',
+                                        boxShadow: '0 4px 15px rgba(220, 38, 38, 0.35)'
+                                    } : {}}
+                                    title={circuit.description}
+                                >
+                                    <span className="circuit-pill-icon">{circuit.icon}</span>
+                                    <span className="circuit-pill-label">{circuit.label}</span>
+                                    <span className="circuit-pill-count">{count}</span>
+                                </button>
+                            );
+                        })}
+                    </div>
+
+                    {/* Quick Telemetry Footbar */}
+                    <div className="up-telemetry-footbar">
+                        <div className="telemetry-item">
+                            <Check size={13} className="text-emerald-400" />
+                            <span>All 38 Districts Represented</span>
+                        </div>
+                        <div className="telemetry-bullet">·</div>
+                        <div className="telemetry-item">
+                            <Award size={13} className="text-amber-400" />
+                            <span>UNESCO World Heritage Mahabodhi Temple & Nalanda University</span>
+                        </div>
+                        <div className="telemetry-bullet">·</div>
+                        <div className="telemetry-item">
+                            <Sparkles size={13} className="text-cyan-400" />
+                            <span>Rajgir Glass Skywalk & Kakolat Falls</span>
+                        </div>
+                        <div className="telemetry-bullet">·</div>
+                        <div className="telemetry-item">
+                            <ShieldCheck size={13} className="text-red-400" />
+                            <span>Valmiki Tiger Reserve & GI Madhubani Art Villages</span>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* 5d. When Region Mode is 'wb', show West Bengal District Dropdown, Category Filters & Circuit Pills */}
+            {regionMode === 'wb' && (
+                <div className="up-circuit-controls-card wb-controls-card" style={{ borderColor: 'rgba(239, 68, 68, 0.35)', background: 'linear-gradient(135deg, rgba(185, 28, 28, 0.22) 0%, rgba(127, 29, 29, 0.12) 100%)' }}>
+                    {/* Header Banner */}
+                    <div className="up-controls-header">
+                        <div className="up-header-text-block">
+                            <h2 className="up-header-title">
+                                Explore West Bengal Destinations by District, Category & Circuit
+                            </h2>
+                            <p className="up-header-desc">
+                                From the Himalayas to Bay of Bengal · 23 Districts: From UNESCO Darjeeling Himalayan Toy Train, Tiger Hill sunrise & Sandakphu Everest vistas to Sundarbans UNESCO Mangroves & Royal Bengal Tigers, Victoria Memorial, Santiniketan, Bishnupur Terracotta Temples, and Digha & Mandarmani beaches.
+                            </p>
+                        </div>
+
+                        {/* District Dropdown Selector & 23 Districts Quick Modal Trigger */}
+                        <div className="up-district-dropdown-wrap">
+                            <div className="district-dropdown-labels-row">
+                                <label htmlFor="wb-district-select" className="district-dropdown-label">
+                                    <MapPin size={14} className="text-red-400" />
+                                    <span>Filter by West Bengal District:</span>
+                                </label>
+                                {onOpen23Districts && (
+                                    <button
+                                        type="button"
+                                        onClick={onOpen23Districts}
+                                        className="up-directory-quick-link"
+                                        style={{
+                                            background: 'linear-gradient(135deg, rgba(185, 28, 28, 0.25) 0%, rgba(127, 29, 29, 0.35) 100%)',
+                                            color: '#fca5a5',
+                                            borderColor: 'rgba(239, 68, 68, 0.45)'
+                                        }}
+                                        title="Browse full directory of all 23 districts of West Bengal"
+                                    >
+                                        <Compass size={12} />
+                                        <span>23 Districts Grid</span>
+                                    </button>
+                                )}
+                                <button
+                                    type="button"
+                                    onClick={() => navigate('/explore/itinerary-builder')}
+                                    className="up-directory-quick-link"
+                                    style={{
+                                        background: 'linear-gradient(135deg, rgba(220, 38, 38, 0.22) 0%, rgba(185, 28, 28, 0.28) 100%)',
+                                        color: '#f87171',
+                                        borderColor: 'rgba(239, 68, 68, 0.45)'
+                                    }}
+                                    title="Build custom Day-by-Day Travel Plan"
+                                >
+                                    <Calendar size={12} />
+                                    <span>Build Day-by-Day Itinerary 🗓️</span>
+                                </button>
+                            </div>
+                            <div className="district-select-box">
+                                <select
+                                    id="wb-district-select"
+                                    value={selectedDistrict}
+                                    onChange={(e) => onSelectDistrict(e.target.value)}
+                                    className="district-native-select"
+                                >
+                                    <option value="all">🌟 All 23 Districts ({wbDistrictsList.length} Covered)</option>
+                                    {wbDistrictsList.map((district) => (
+                                        <option key={district} value={district}>
+                                            📍 {district} District
+                                        </option>
+                                    ))}
+                                </select>
+                                <ChevronDown size={14} className="select-arrow-icon" />
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* West Bengal Category / Interest Filter Row */}
+                    <div className="up-categories-filter-row">
+                        <div className="cat-filter-label-group">
+                            <Sparkles size={14} className="text-red-400" />
+                            <span>Travel Interests & Themes:</span>
+                        </div>
+                        <div className="cat-filter-pills-wrap">
+                            {WB_CATEGORIES.map((cat) => {
+                                const count = wbCategoryCounts[cat.id] || 0;
+                                const isActive = selectedWBCategory === cat.id;
+
+                                return (
+                                    <button
+                                        key={cat.id}
+                                        type="button"
+                                        onClick={() => onSelectWBCategory(cat.id)}
+                                        className={`cat-filter-pill ${isActive ? 'active' : ''}`}
+                                        style={isActive ? {
+                                            background: 'linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)',
+                                            borderColor: '#ef4444',
+                                            color: '#ffffff',
+                                            boxShadow: '0 4px 14px rgba(220, 38, 38, 0.45)'
+                                        } : {}}
+                                        title={cat.description}
+                                    >
+                                        <span className="cat-pill-icon">{cat.icon}</span>
+                                        <span className="cat-pill-label">{cat.label}</span>
+                                        <span className="cat-pill-count">{count}</span>
+                                    </button>
+                                );
+                            })}
+                        </div>
+                    </div>
+
+                    {/* West Bengal Circuits Filter Strip */}
+                    <div className="up-circuit-pills-strip">
+                        {WB_CIRCUITS.map((circuit) => {
+                            const count = wbCircuitCounts[circuit.id] || 0;
+                            const isActive = selectedCircuit === circuit.id;
+
+                            return (
+                                <button
+                                    key={circuit.id}
+                                    type="button"
+                                    onClick={() => onSelectCircuit(circuit.id)}
+                                    className={`circuit-pill-btn ${isActive ? 'active' : ''}`}
+                                    style={isActive ? {
+                                        background: 'linear-gradient(135deg, #b91c1c 0%, #991b1b 100%)',
+                                        borderColor: '#f87171',
+                                        color: '#ffffff',
+                                        boxShadow: '0 4px 15px rgba(220, 38, 38, 0.35)'
+                                    } : {}}
+                                    title={circuit.description}
+                                >
+                                    <span className="circuit-pill-icon">{circuit.icon}</span>
+                                    <span className="circuit-pill-label">{circuit.label}</span>
+                                    <span className="circuit-pill-count">{count}</span>
+                                </button>
+                            );
+                        })}
+                    </div>
+
+                    {/* Quick Telemetry Footbar */}
+                    <div className="up-telemetry-footbar">
+                        <div className="telemetry-item">
+                            <Check size={13} className="text-emerald-400" />
+                            <span>All 23 Districts Represented</span>
+                        </div>
+                        <div className="telemetry-bullet">·</div>
+                        <div className="telemetry-item">
+                            <Award size={13} className="text-amber-400" />
+                            <span>UNESCO World Heritage Darjeeling Himalayan Railway & Santiniketan</span>
+                        </div>
+                        <div className="telemetry-bullet">·</div>
+                        <div className="telemetry-item">
+                            <Sparkles size={13} className="text-cyan-400" />
+                            <span>Sandakphu Everest & Kanchenjunga Vistas</span>
+                        </div>
+                        <div className="telemetry-bullet">·</div>
+                        <div className="telemetry-item">
+                            <ShieldCheck size={13} className="text-red-400" />
+                            <span>Sundarbans Tigers, Jaldapara Rhinos & Bay of Bengal Beaches</span>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* When Region Mode is 'assam', show Assam District Dropdown & Circuit Pills */}
+            {regionMode === 'assam' && (
+                <div className="up-circuit-controls-card assam-controls-card" style={{ borderColor: 'rgba(16, 185, 129, 0.45)', background: 'linear-gradient(135deg, rgba(5, 150, 105, 0.16) 0%, rgba(15, 23, 42, 0.92) 100%)' }}>
+                    {/* Header Banner */}
+                    <div className="up-controls-header">
+                        <div className="up-header-text-block">
+                            <h2 className="up-header-title">
+                                Explore Assam Destinations by District & Circuit
+                            </h2>
+                            <p className="up-header-desc">
+                                Gateway to Northeast India · 35 Districts: From Kaziranga and Manas UNESCO rhino sanctuaries to Majuli world's largest river island, sacred Kamakhya Temple, Ahom imperial monuments of Sivasagar, golden Muga silk, and colonial tea gardens.
+                            </p>
+                        </div>
+
+                        {/* District Dropdown Selector & 35 Districts Quick Modal Trigger */}
+                        <div className="up-district-dropdown-wrap">
+                            <div className="district-dropdown-labels-row">
+                                <label htmlFor="assam-district-select" className="district-dropdown-label">
+                                    <MapPin size={14} className="text-emerald-400" />
+                                    <span>Filter by Assam District:</span>
+                                </label>
+                                {onOpen35Districts && (
+                                    <button
+                                        type="button"
+                                        onClick={onOpen35Districts}
+                                        className="up-directory-quick-link"
+                                        style={{
+                                            background: 'linear-gradient(135deg, rgba(5, 150, 105, 0.22) 0%, rgba(4, 120, 87, 0.28) 100%)',
+                                            color: '#6ee7b7',
+                                            borderColor: 'rgba(16, 185, 129, 0.45)'
+                                        }}
+                                        title="Browse full directory of all 35 districts of Assam"
+                                    >
+                                        <Compass size={12} />
+                                        <span>35 Districts Grid</span>
+                                    </button>
+                                )}
+                            </div>
+                            <div className="district-select-box">
+                                <select
+                                    id="assam-district-select"
+                                    value={selectedDistrict}
+                                    onChange={(e) => onSelectDistrict(e.target.value)}
+                                    className="district-native-select"
+                                    style={{ borderColor: 'rgba(16, 185, 129, 0.45)' }}
+                                >
+                                    <option value="all">🌟 All 35 Assam Districts ({assamDestinations.length})</option>
+                                    {assamDistrictsList.map((dist) => {
+                                        const count = assamDestinations.filter(d => d.district?.toLowerCase() === dist.toLowerCase()).length;
+                                        return (
+                                            <option key={dist} value={dist}>
+                                                {dist} District {count > 0 ? `(${count})` : ''}
+                                            </option>
+                                        );
+                                    })}
+                                </select>
+                                <ChevronDown size={14} className="district-select-arrow" />
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Circuit Pills Filter */}
+                    <div className="circuit-pills-row" role="tablist" aria-label="Assam Circuits">
+                        {ASSAM_CIRCUITS.map((circuit) => {
+                            const count = assamCircuitCounts[circuit.id] || 0;
+                            const isActive = selectedCircuit === circuit.id;
+
+                            return (
+                                <button
+                                    key={circuit.id}
+                                    type="button"
+                                    onClick={() => onSelectCircuit(circuit.id)}
+                                    className={`circuit-pill-btn ${isActive ? 'active' : ''}`}
+                                    style={isActive ? {
+                                        background: 'linear-gradient(135deg, #059669 0%, #047857 100%)',
+                                        borderColor: '#10b981',
+                                        color: '#ffffff',
+                                        boxShadow: '0 4px 15px rgba(16, 185, 129, 0.35)'
+                                    } : {}}
+                                    title={circuit.description}
+                                >
+                                    <span className="circuit-pill-icon">{circuit.icon}</span>
+                                    <span className="circuit-pill-label">{circuit.label}</span>
+                                    <span className="circuit-pill-count">{count}</span>
+                                </button>
+                            );
+                        })}
+                    </div>
+
+                    {/* Quick Telemetry Footbar */}
+                    <div className="up-telemetry-footbar">
+                        <div className="telemetry-item">
+                            <Check size={13} className="text-emerald-400" />
+                            <span>All 35 Districts Represented Across 5 Divisions</span>
+                        </div>
+                        <div className="telemetry-bullet">·</div>
+                        <div className="telemetry-item">
+                            <Award size={13} className="text-amber-400" />
+                            <span>UNESCO World Heritage Kaziranga & Manas & Charaideo Maidams</span>
+                        </div>
+                        <div className="telemetry-bullet">·</div>
+                        <div className="telemetry-item">
+                            <Sparkles size={13} className="text-cyan-400" />
+                            <span>Majuli Island, Golden Muga Silk & Orthodox Tea</span>
+                        </div>
+                        <div className="telemetry-bullet">·</div>
+                        <div className="telemetry-item">
+                            <ShieldCheck size={13} className="text-emerald-400" />
+                            <span>Sacred Kamakhya, Haflong Hills & Brahmaputra Riverfront</span>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* 6. When Region Mode is 'up', show District Dropdown & Circuit Pills */}
             {regionMode === 'up' && (
                 <div className="up-circuit-controls-card">
                     {/* Header Banner */}

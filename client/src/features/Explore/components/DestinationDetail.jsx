@@ -27,7 +27,15 @@ import { MPDistrictIntelligenceSuite } from './MPDistrictIntelligenceSuite';
 import { MHDistrictIntelligenceSuite } from './MHDistrictIntelligenceSuite';
 import { RJDistrictIntelligenceSuite } from './RJDistrictIntelligenceSuite';
 import { CGDistrictIntelligenceSuite } from './CGDistrictIntelligenceSuite';
+import { ODDistrictIntelligenceSuite } from './ODDistrictIntelligenceSuite';
+import { JHDistrictIntelligenceSuite } from './JHDistrictIntelligenceSuite';
+import { BiharDistrictIntelligenceSuite } from './BiharDistrictIntelligenceSuite';
+import { WBDistrictIntelligenceSuite } from './WBDistrictIntelligenceSuite';
+import { AssamDistrictIntelligenceSuite } from './AssamDistrictIntelligenceSuite';
+import { DestinationDetailTemplate } from './DestinationDetailTemplate';
 import './DestinationDetail.css';
+
+export { DestinationDetailTemplate };
 
 const DestinationDetail = () => {
     const { id } = useParams();
@@ -96,6 +104,17 @@ const DestinationDetail = () => {
         );
     }
 
+    const isCG = Boolean(destination?.isChhattisgarh || destination?.state === 'Chhattisgarh' || destination?.location?.toLowerCase().includes('chhattisgarh'));
+    const isOD = !isCG && Boolean(destination?.isOdisha || destination?.state === 'Odisha' || destination?.location?.toLowerCase().includes('odisha'));
+    const isJH = !isCG && !isOD && Boolean(destination?.isJharkhand || destination?.state === 'Jharkhand' || destination?.location?.toLowerCase().includes('jharkhand'));
+    const isBihar = !isCG && !isOD && !isJH && Boolean(destination?.isBihar || destination?.state === 'Bihar' || destination?.location?.toLowerCase().includes('bihar'));
+    const isWB = !isCG && !isOD && !isJH && !isBihar && Boolean(destination?.isWestBengal || destination?.state === 'West Bengal' || destination?.location?.toLowerCase().includes('west bengal'));
+    const isAssam = !isCG && !isOD && !isJH && !isBihar && !isWB && Boolean(destination?.isAssam || destination?.state === 'Assam' || destination?.location?.toLowerCase().includes('assam'));
+    const isRJ = !isCG && !isOD && !isJH && !isBihar && !isWB && !isAssam && Boolean(destination?.isRajasthan || destination?.state === 'Rajasthan' || destination?.location?.toLowerCase().includes('rajasthan'));
+    const isMH = !isCG && !isOD && !isJH && !isBihar && !isWB && !isAssam && !isRJ && Boolean(destination?.isMaharashtra || destination?.state === 'Maharashtra' || destination?.location?.toLowerCase().includes('maharashtra'));
+    const isMP = !isCG && !isOD && !isJH && !isBihar && !isWB && !isAssam && !isRJ && !isMH && Boolean(destination?.isMadhyaPradesh || destination?.state === 'Madhya Pradesh' || destination?.location?.toLowerCase().includes('madhya pradesh'));
+    const isUP = !isCG && !isOD && !isJH && !isBihar && !isWB && !isAssam && !isRJ && !isMH && !isMP && Boolean(destination?.district || destination?.isUttarPradesh);
+
     const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${destination.name}, ${destination.location}`)}`;
 
     // Temperature formatting helper
@@ -146,6 +165,31 @@ const DestinationDetail = () => {
             `Transit connections: ${destination.railConnectivity || 'Nearest SECR railhead'} / ${destination.nearestAirport || 'Regional Airport'}.`,
             `Respect local traditions, sacred spaces, and seek permission before photographing in village sanctuaries.`
         ];
+
+    const bestTimeToVisit = destination.bestSeason || 'October to March (Post-monsoon freshness & pleasant winter sunshine)';
+    const mustSeeSpots = destination.highlights && destination.highlights.length > 0
+        ? destination.highlights
+        : [
+            `${destination.name} Viewpoint & Natural Formations`,
+            `Historic & Cultural Guild Sanctuaries`,
+            `Indigenous Artisan Craft Bazaars`
+        ];
+
+    const localCuisineDishes = destination.localCuisine
+        ? destination.localCuisine.split(',').map(d => d.trim()).filter(Boolean)
+        : isAssam
+        ? ['Masor Tenga (Tangy Fish Curry)', 'Duck Meat Curry with Ash Gourd', 'Omita Khar (Alkaline Papaya Prep)', 'Pork with Fermented Bamboo Shoot', 'Pitha & Laru Sweets', 'Kaji Nemu Infusions', 'Assam Orthodox Golden Tea', 'Alu Pitika with Mustard Oil']
+        : isWB
+        ? ['Macher Jhol (Fish Curry)', 'Shorshe Ilish (Hilsa in Mustard)', 'Kosha Mangsho with Luchi', 'Chingri Malai Curry', 'Mishti Doi & Rosogolla', 'Darjeeling Momos & Thukpa', 'Kolkata Biryani with Aloo & Egg', 'Sandesh (Nolen Gur)']
+        : isBihar
+        ? ['Litti Chokha with Baingan Bharta', 'Sattu Paratha & Sharbat', 'Champaran Ahuna Mutton', 'Silao Ka Khaja (GI Tag)', 'Gaya Tilkut & Anarsa', 'Thekua', 'Makhana Kheer', 'Malpua']
+        : isJH
+        ? ['Dhuska with Chana Ghugni', 'Litti Chokha with Mustard Tadka', 'Rugra (Wild Sal Mushroom) Curry', 'Chilka Roti', 'Karil (Bamboo Shoot) Fry', 'Deoghar Peda', 'Thekua']
+        : isOD
+        ? ['Puri Mahaprasad (Abhada)', 'Chhena Poda', 'Dalma', 'Khaja', 'Machha Besara', 'Chhena Gaja']
+        : isCG
+        ? ['Farra (Steamed Rice Rolls)', 'Chila with Spicy Chutney', 'Dubki Kadi', 'Angakar Roti', 'Bafauri', 'Chaprah Red Ant Chutney']
+        : ['Regional Specialty Platters', 'Heritage Breads', 'Traditional Sweets'];
 
     const toggleActivity = (idx, text) => {
         setCompletedActivities(prev => {
@@ -207,15 +251,13 @@ const DestinationDetail = () => {
             'info'
         );
     };
-
-    const isCG = Boolean(destination?.isChhattisgarh || destination?.state === 'Chhattisgarh' || destination?.location?.toLowerCase().includes('chhattisgarh'));
-    const isRJ = !isCG && Boolean(destination?.isRajasthan || destination?.state === 'Rajasthan' || destination?.location?.toLowerCase().includes('rajasthan'));
-    const isMH = !isCG && !isRJ && Boolean(destination?.isMaharashtra || destination?.state === 'Maharashtra' || destination?.location?.toLowerCase().includes('maharashtra'));
-    const isMP = !isCG && !isRJ && !isMH && Boolean(destination?.isMadhyaPradesh || destination?.state === 'Madhya Pradesh' || destination?.location?.toLowerCase().includes('madhya pradesh'));
-    const isUP = !isCG && !isRJ && !isMH && !isMP && Boolean(destination?.district || destination?.isUttarPradesh);
-
     const TABS = [
         { id: 'overview', label: 'Overview & Brief', icon: Compass },
+        ...(isAssam ? [{ id: 'district-suite', label: `${destination.district || 'Assam'} District Suite`, icon: Landmark }] : []),
+        ...(isWB ? [{ id: 'district-suite', label: `${destination.district || 'West Bengal'} District Suite`, icon: Landmark }] : []),
+        ...(isBihar ? [{ id: 'district-suite', label: `${destination.district || 'Bihar'} District Suite`, icon: Landmark }] : []),
+        ...(isJH ? [{ id: 'district-suite', label: `${destination.district || 'Jharkhand'} District Suite`, icon: Landmark }] : []),
+        ...(isOD ? [{ id: 'district-suite', label: `${destination.district || 'Odisha'} District Suite`, icon: Landmark }] : []),
         ...(isCG ? [{ id: 'district-suite', label: `${destination.district || 'Chhattisgarh'} District Suite`, icon: Landmark }] : []),
         ...(isRJ ? [{ id: 'district-suite', label: `${destination.district || 'Rajasthan'} District Suite`, icon: Landmark }] : []),
         ...(isMH ? [{ id: 'district-suite', label: `${destination.district || 'MH'} District Suite`, icon: Landmark }] : []),
@@ -405,6 +447,55 @@ const DestinationDetail = () => {
                                             </span>
                                         </button>
                                     )}
+                                    {isWB && (
+                                        <span className="dest-up-badge state" style={{ background: 'linear-gradient(135deg, rgba(185, 28, 28, 0.28), rgba(153, 27, 27, 0.35))', borderColor: 'rgba(239, 68, 68, 0.5)', color: '#fca5a5' }}>
+                                            <span>🐯 West Bengal</span>
+                                        </span>
+                                    )}
+                                    {isWB && destination.category && (
+                                        <button
+                                            type="button"
+                                            onClick={() => {
+                                                navigate(`/explore?region=wb`);
+                                            }}
+                                            className="dest-up-badge category-link-badge"
+                                            style={{
+                                                background: 'linear-gradient(135deg, rgba(185, 28, 28, 0.28), rgba(153, 27, 27, 0.35))',
+                                                borderColor: 'rgba(239, 68, 68, 0.5)',
+                                                color: '#fecaca',
+                                                cursor: 'pointer'
+                                            }}
+                                            title={`Explore all West Bengal ${destination.category} destinations`}
+                                        >
+                                            <span>🐯 {destination.category}</span>
+                                        </button>
+                                    )}
+                                    {isAssam && (
+                                        <span className="dest-up-badge state" style={{ background: 'linear-gradient(135deg, rgba(5, 150, 105, 0.28), rgba(4, 120, 87, 0.35))', borderColor: 'rgba(16, 185, 129, 0.5)', color: '#6ee7b7' }}>
+                                            <span>🦏 Assam</span>
+                                        </span>
+                                    )}
+                                    {isAssam && destination.category && (
+                                        <button
+                                            type="button"
+                                            onClick={() => {
+                                                const catParam = destination.category === 'Wildlife' ? 'wildlife' : destination.category === 'Tea & Scenic' ? 'tea' : destination.category === 'Heritage' ? 'heritage' : destination.category === 'Spiritual' ? 'spiritual' : destination.category === 'Nature' ? 'nature' : destination.category === 'Handloom & Crafts' ? 'crafts' : 'all';
+                                                navigate(`/explore?region=assam&category=${catParam}`);
+                                            }}
+                                            className="dest-up-badge category-link-badge"
+                                            style={{
+                                                background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.28), rgba(5, 150, 105, 0.35))',
+                                                borderColor: 'rgba(16, 185, 129, 0.5)',
+                                                color: '#6ee7b7',
+                                                cursor: 'pointer'
+                                            }}
+                                            title={`Explore all Assam ${destination.category} destinations`}
+                                        >
+                                            <span>
+                                                {destination.category === 'Wildlife' ? '🦏 Wildlife' : destination.category === 'Tea & Scenic' ? '🍃 Tea Trails' : destination.category === 'Heritage' ? '🏛️ Ahom Heritage' : destination.category === 'Spiritual' ? '🛕 Shrines & Satras' : destination.category === 'Nature' ? '🌊 River & Island' : destination.category === 'Handloom & Crafts' ? '🧣 Silk Crafts' : `✨ ${destination.category}`}
+                                            </span>
+                                        </button>
+                                    )}
                                     {isRJ && (
                                         <span className="dest-up-badge state" style={{ background: 'linear-gradient(135deg, rgba(217, 119, 6, 0.28), rgba(180, 83, 9, 0.35))', borderColor: 'rgba(245, 158, 11, 0.5)', color: '#fde68a' }}>
                                             <span>🐪 Rajasthan</span>
@@ -521,6 +612,16 @@ const DestinationDetail = () => {
                                     {destination.cgCircuit && (
                                         <span className="dest-up-badge circuit" style={{ background: 'linear-gradient(135deg, rgba(5, 150, 105, 0.22), rgba(4, 120, 87, 0.28))', borderColor: 'rgba(16, 185, 129, 0.45)', color: '#6ee7b7' }}>
                                             <span>🌿 {destination.cgCircuit}</span>
+                                        </span>
+                                    )}
+                                    {destination.wbCircuit && (
+                                        <span className="dest-up-badge circuit" style={{ background: 'linear-gradient(135deg, rgba(185, 28, 28, 0.22), rgba(153, 27, 27, 0.28))', borderColor: 'rgba(239, 68, 68, 0.45)', color: '#fca5a5' }}>
+                                            <span>🐯 {destination.wbCircuit}</span>
+                                        </span>
+                                    )}
+                                    {destination.assamCircuit && (
+                                        <span className="dest-up-badge circuit" style={{ background: 'linear-gradient(135deg, rgba(5, 150, 105, 0.22), rgba(4, 120, 87, 0.28))', borderColor: 'rgba(16, 185, 129, 0.45)', color: '#6ee7b7' }}>
+                                            <span>🦏 {destination.assamCircuit}</span>
                                         </span>
                                     )}
                                     {destination.rjCircuit && (
@@ -670,6 +771,86 @@ const DestinationDetail = () => {
                                         </div>
                                     </div>
 
+                                    {/* CORE PILLARS: Best time to visit, Must-see spots, and Local cuisine */}
+                                    <div className="dest-core-three-pillars-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '14px', margin: '1rem 0' }}>
+                                        {/* 1. Best Time to Visit */}
+                                        <div style={{ background: 'linear-gradient(145deg, rgba(15, 23, 42, 0.85) 0%, rgba(6, 78, 99, 0.22) 100%)', border: '1px solid rgba(6, 182, 212, 0.35)', borderRadius: '14px', padding: '16px' }}>
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                                                <span style={{ fontSize: '1.2rem' }}>☀️</span>
+                                                <div>
+                                                    <span style={{ fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.06em', color: '#67e8f9', fontWeight: 700, display: 'block' }}>
+                                                        Optimal Season
+                                                    </span>
+                                                    <h4 style={{ margin: 0, fontSize: '1rem', fontWeight: 700, color: '#ffffff' }}>
+                                                        Best Time to Visit
+                                                    </h4>
+                                                </div>
+                                            </div>
+                                            <p style={{ margin: '0 0 6px 0', fontSize: '0.92rem', fontWeight: 700, color: '#a5f3fc' }}>
+                                                🗓️ {bestTimeToVisit}
+                                            </p>
+                                            <p style={{ margin: 0, fontSize: '0.82rem', color: '#cbd5e1', lineHeight: '1.45' }}>
+                                                {isAssam
+                                                    ? 'November to April brings crisp skies, comfortable sunshine for Kaziranga & Manas wildlife safaris, and calm scenic Brahmaputra river voyages.'
+                                                    : isWB
+                                                    ? 'October to March brings crisp misty mountain mornings in North Bengal and pleasant breezes across the Gangetic delta & coastal estuaries.'
+                                                    : isCG
+                                                    ? 'Monsoons (Jul–Oct) bring roaring cascading torrents, while winters (Nov–Feb) offer crystal-clear waters, pleasant sun, and vibrant tribal haats.'
+                                                    : 'Mild temperatures and optimal visibility make this the premier window for sightseeing and outdoor exploration.'}
+                                            </p>
+                                        </div>
+
+                                        {/* 2. Must-See Spots */}
+                                        <div style={{ background: 'linear-gradient(145deg, rgba(15, 23, 42, 0.85) 0%, rgba(120, 53, 15, 0.22) 100%)', border: '1px solid rgba(245, 158, 11, 0.35)', borderRadius: '14px', padding: '16px' }}>
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                                                <span style={{ fontSize: '1.2rem' }}>✨</span>
+                                                <div>
+                                                    <span style={{ fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.06em', color: '#fcd34d', fontWeight: 700, display: 'block' }}>
+                                                        Iconic Landmarks
+                                                    </span>
+                                                    <h4 style={{ margin: 0, fontSize: '1rem', fontWeight: 700, color: '#ffffff' }}>
+                                                        Must-See Spots
+                                                    </h4>
+                                                </div>
+                                            </div>
+                                            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                                                {mustSeeSpots.slice(0, 3).map((spot, i) => (
+                                                    <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '6px' }}>
+                                                        <span style={{ fontSize: '0.72rem', fontWeight: 700, color: '#fbbf24', background: 'rgba(245, 158, 11, 0.2)', padding: '1px 5px', borderRadius: '4px', marginTop: '1px' }}>
+                                                            #{i + 1}
+                                                        </span>
+                                                        <span style={{ fontSize: '0.82rem', color: '#f1f5f9', lineHeight: '1.4' }}>{spot}</span>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+
+                                        {/* 3. Local Cuisine */}
+                                        <div style={{ background: 'linear-gradient(145deg, rgba(15, 23, 42, 0.85) 0%, rgba(4, 120, 87, 0.22) 100%)', border: '1px solid rgba(16, 185, 129, 0.35)', borderRadius: '14px', padding: '16px' }}>
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                                                <span style={{ fontSize: '1.2rem' }}>🍲</span>
+                                                <div>
+                                                    <span style={{ fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.06em', color: '#6ee7b7', fontWeight: 700, display: 'block' }}>
+                                                        Gastronomy & Fare
+                                                    </span>
+                                                    <h4 style={{ margin: 0, fontSize: '1rem', fontWeight: 700, color: '#ffffff' }}>
+                                                        Local Cuisine
+                                                    </h4>
+                                                </div>
+                                            </div>
+                                            <p style={{ margin: '0 0 8px 0', fontSize: '0.8rem', color: '#cbd5e1' }}>
+                                                {isAssam ? 'Assamese Brahmaputra valley specialties & aromatic herbs:' : isCG ? 'Chhattisgarhi Rice Bowl delicacies & forest savories:' : 'Authentic local flavors & signature recipes:'}
+                                            </p>
+                                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px' }}>
+                                                {localCuisineDishes.slice(0, 4).map((dish, i) => (
+                                                    <span key={i} style={{ fontSize: '0.74rem', background: 'rgba(16, 185, 129, 0.15)', border: '1px solid rgba(16, 185, 129, 0.35)', color: '#6ee7b7', padding: '2px 7px', borderRadius: '9999px', fontWeight: 600 }}>
+                                                        {dish}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     {/* 6-Metric Complete Telemetry Grid */}
                                     <div className="dest-kpi-matrix-grid">
                                         <div className="dest-kpi-tile" onClick={() => setActiveTab('connectivity')}>
@@ -785,11 +966,11 @@ const DestinationDetail = () => {
                                     </div>
 
                                         {/* Curated Activities & Essential Travel Tips Showcase on Overview */}
-                                        <div className="dest-panel-card dest-activities-preview-card" style={{ borderColor: isCG ? 'rgba(16, 185, 129, 0.35)' : 'rgba(56, 189, 248, 0.25)', marginTop: '1.25rem' }}>
+                                        <div className="dest-panel-card dest-activities-preview-card" style={{ borderColor: isAssam ? 'rgba(16, 185, 129, 0.35)' : isWB ? 'rgba(239, 68, 68, 0.35)' : isCG ? 'rgba(16, 185, 129, 0.35)' : 'rgba(56, 189, 248, 0.25)', marginTop: '1.25rem' }}>
                                             <div className="dest-panel-header">
                                                 <div>
-                                                    <span className="dest-section-eyebrow" style={{ color: isCG ? '#6ee7b7' : '#38bdf8' }}>
-                                                        {isCG ? '🌿 Chhattisgarh Tourism Highlights' : 'Curated Exploration & Field Advisory'}
+                                                    <span className="dest-section-eyebrow" style={{ color: isAssam ? '#6ee7b7' : isWB ? '#fca5a5' : isCG ? '#6ee7b7' : '#38bdf8' }}>
+                                                        {isAssam ? '🦏 Assam Wildlife & Heritage Highlights' : isWB ? '🐯 West Bengal Heritage & Highlights' : isCG ? '🌿 Chhattisgarh Tourism Highlights' : 'Curated Exploration & Field Advisory'}
                                                     </span>
                                                     <h3 className="dest-section-title">
                                                         Activities & Travel Tips for {destination.name}
@@ -799,7 +980,7 @@ const DestinationDetail = () => {
                                                     type="button"
                                                     className="dest-text-link-btn"
                                                     onClick={() => setActiveTab('activities-tips')}
-                                                    style={{ color: isCG ? '#6ee7b7' : '#38bdf8' }}
+                                                    style={{ color: isAssam ? '#6ee7b7' : isWB ? '#fca5a5' : isCG ? '#6ee7b7' : '#38bdf8' }}
                                                 >
                                                     Full Guide ({activitiesList.length} Activities · {travelTipsList.length} Tips) →
                                                 </button>
@@ -854,7 +1035,22 @@ const DestinationDetail = () => {
                                             </div>
                                         </div>
 
-                                        {/* Dedicated Chhattisgarh, Rajasthan, Maharashtra, Madhya Pradesh or Uttar Pradesh District Intelligence Suite */}
+                                        {/* Dedicated Assam, West Bengal, Bihar, Jharkhand, Odisha, Chhattisgarh, Rajasthan, Maharashtra, Madhya Pradesh or Uttar Pradesh District Intelligence Suite */}
+                                        {isAssam && (
+                                            <AssamDistrictIntelligenceSuite destination={destination} />
+                                        )}
+                                        {isWB && (
+                                            <WBDistrictIntelligenceSuite destination={destination} />
+                                        )}
+                                        {isBihar && (
+                                            <BiharDistrictIntelligenceSuite destination={destination} />
+                                        )}
+                                        {isJH && (
+                                            <JHDistrictIntelligenceSuite destination={destination} />
+                                        )}
+                                        {isOD && (
+                                            <ODDistrictIntelligenceSuite destination={destination} />
+                                        )}
                                         {isCG && (
                                             <CGDistrictIntelligenceSuite destination={destination} />
                                         )}
@@ -876,6 +1072,11 @@ const DestinationDetail = () => {
                                 {/* TAB: DISTRICT SUITE & HERITAGE WORKSPACE */}
                                 {activeTab === 'district-suite' && (
                                     <div className="dest-section-stack">
+                                        {isAssam && <AssamDistrictIntelligenceSuite destination={destination} />}
+                                        {isWB && <WBDistrictIntelligenceSuite destination={destination} />}
+                                        {isBihar && <BiharDistrictIntelligenceSuite destination={destination} />}
+                                        {isJH && <JHDistrictIntelligenceSuite destination={destination} />}
+                                        {isOD && <ODDistrictIntelligenceSuite destination={destination} />}
                                         {isCG && <CGDistrictIntelligenceSuite destination={destination} />}
                                         {isRJ && <RJDistrictIntelligenceSuite destination={destination} />}
                                         {isMH && <MHDistrictIntelligenceSuite destination={destination} />}
@@ -888,17 +1089,17 @@ const DestinationDetail = () => {
                                 {activeTab === 'activities-tips' && (
                                     <div className="dest-section-stack">
                                         {/* Header Banner */}
-                                        <div className="dest-panel-card" style={{ borderColor: isCG ? 'rgba(16, 185, 129, 0.45)' : 'rgba(56, 189, 248, 0.35)', background: isCG ? 'linear-gradient(135deg, rgba(5, 150, 105, 0.12) 0%, rgba(4, 120, 87, 0.2) 100%)' : 'rgba(15, 23, 42, 0.7)' }}>
+                                        <div className="dest-panel-card" style={{ borderColor: isAssam ? 'rgba(16, 185, 129, 0.45)' : isWB ? 'rgba(239, 68, 68, 0.45)' : isCG ? 'rgba(16, 185, 129, 0.45)' : 'rgba(56, 189, 248, 0.35)', background: isAssam ? 'linear-gradient(135deg, rgba(5, 150, 105, 0.15) 0%, rgba(4, 120, 87, 0.22) 100%)' : isWB ? 'linear-gradient(135deg, rgba(185, 28, 28, 0.12) 0%, rgba(153, 27, 27, 0.2) 100%)' : isCG ? 'linear-gradient(135deg, rgba(5, 150, 105, 0.12) 0%, rgba(4, 120, 87, 0.2) 100%)' : 'rgba(15, 23, 42, 0.7)' }}>
                                             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '14px' }}>
                                                 <div>
-                                                    <span className="dest-section-eyebrow" style={{ color: isCG ? '#6ee7b7' : '#38bdf8' }}>
-                                                        {isCG ? `🌿 Chhattisgarh Tourism · ${destination.district || 'Bastar'} District` : `Travel Intelligence Hub · ${destination.location}`}
+                                                    <span className="dest-section-eyebrow" style={{ color: isAssam ? '#6ee7b7' : isWB ? '#fca5a5' : isCG ? '#6ee7b7' : '#38bdf8' }}>
+                                                        {isAssam ? `🦏 Assam Tourism · ${destination.district || 'Kamrup'} District` : isWB ? `🐯 West Bengal Tourism · ${destination.district || 'Kolkata'} District` : isCG ? `🌿 Chhattisgarh Tourism · ${destination.district || 'Bastar'} District` : `Travel Intelligence Hub · ${destination.location}`}
                                                     </span>
                                                     <h2 className="dest-section-title" style={{ margin: '4px 0 6px 0' }}>
                                                         Curated Activities & Essential Travel Tips for {destination.name}
                                                     </h2>
                                                     <p style={{ margin: 0, fontSize: '0.9rem', color: '#94a3b8' }}>
-                                                        {activitiesList.length} Handpicked Experiences · {travelTipsList.length} Verified Field Tips · Circuit: {destination.cgCircuit || destination.upCircuit || destination.rjCircuit || destination.category}
+                                                        {activitiesList.length} Handpicked Experiences · {travelTipsList.length} Verified Field Tips · Circuit: {destination.assamCircuit || destination.wbCircuit || destination.cgCircuit || destination.upCircuit || destination.rjCircuit || destination.category}
                                                     </p>
                                                 </div>
 

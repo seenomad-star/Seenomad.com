@@ -3,6 +3,11 @@ import { madhyaPradeshDestinations } from './madhyaPradeshDestinationsData.js';
 import { maharashtraDestinations } from './maharashtraDestinationsData.js';
 import { rajasthanDestinations } from './rajasthanDestinationsData.js';
 import { chhattisgarhDestinations } from './chhattisgarhDestinationsData.js';
+import { odishaDestinations } from './odishaDestinationsData.js';
+import { jharkhandDestinations } from './jharkhandDestinationsData.js';
+import { biharDestinations } from './biharDestinationsData.js';
+import { westBengalDestinations } from './westBengalDestinationsData.js';
+import { assamDestinations } from './assamDestinationsData.js';
 
 const baseDestinations = [
     // BEACH (15)
@@ -799,14 +804,19 @@ const baseDestinations = [
     }
 ];
 
-export { uttarPradeshDestinations, madhyaPradeshDestinations, maharashtraDestinations, rajasthanDestinations, chhattisgarhDestinations };
+export { uttarPradeshDestinations, madhyaPradeshDestinations, maharashtraDestinations, rajasthanDestinations, chhattisgarhDestinations, odishaDestinations, jharkhandDestinations, biharDestinations, westBengalDestinations, assamDestinations };
 export const allDestinations = [
     ...baseDestinations,
     ...uttarPradeshDestinations,
     ...madhyaPradeshDestinations,
     ...maharashtraDestinations,
     ...rajasthanDestinations,
-    ...chhattisgarhDestinations
+    ...chhattisgarhDestinations,
+    ...odishaDestinations,
+    ...jharkhandDestinations,
+    ...biharDestinations,
+    ...westBengalDestinations,
+    ...assamDestinations
 ];
 
 

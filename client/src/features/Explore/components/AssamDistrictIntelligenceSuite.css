@@ -1,0 +1,497 @@
+/**
+ * AssamDistrictIntelligenceSuite.css
+ * Distinctive styling for Assam Tourism Intelligence Suite
+ * Featuring Assam Tea Emerald (#059669), Golden Muga Silk (#d97706), and Brahmaputra Cyan (#06b6d4)
+ */
+
+.assam-intelligence-suite-container {
+    margin-top: 1.5rem;
+    background: linear-gradient(180deg, rgba(5, 150, 105, 0.32) 0%, rgba(15, 23, 42, 0.95) 100%);
+    border: 1px solid rgba(16, 185, 129, 0.4);
+    border-radius: 1.25rem;
+    padding: 1.75rem;
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.6), 0 0 25px rgba(16, 185, 129, 0.15);
+    color: #f8fafc;
+    position: relative;
+    overflow: hidden;
+}
+
+.assam-suite-hero {
+    border-bottom: 1px solid rgba(16, 185, 129, 0.25);
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.assam-suite-hero-badge-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-bottom: 0.75rem;
+}
+
+.assam-badge-division,
+.assam-badge-circuit,
+.assam-badge-gi {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.65rem;
+    border-radius: 9999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.assam-badge-division {
+    background: rgba(5, 150, 105, 0.2);
+    border: 1px solid rgba(52, 211, 153, 0.45);
+    color: #a7f3d0;
+}
+
+.assam-badge-circuit {
+    background: rgba(217, 119, 6, 0.2);
+    border: 1px solid rgba(245, 158, 11, 0.45);
+    color: #fef08a;
+}
+
+.assam-badge-gi {
+    background: rgba(6, 182, 212, 0.2);
+    border: 1px solid rgba(34, 211, 238, 0.45);
+    color: #cffafe;
+}
+
+.assam-suite-title {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin: 0 0 0.5rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.assam-suite-desc {
+    color: #cbd5e1;
+    font-size: 0.95rem;
+    line-height: 1.55;
+    margin: 0;
+    max-width: 900px;
+}
+
+.assam-audio-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(16, 185, 129, 0.25);
+    border-radius: 0.85rem;
+    padding: 0.85rem 1.25rem;
+    margin-top: 1.25rem;
+}
+
+.assam-audio-left {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.assam-audio-play-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.35rem;
+    height: 2.35rem;
+    border-radius: 9999px;
+    background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.assam-audio-play-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 16px rgba(16, 185, 129, 0.55);
+}
+
+.assam-audio-text-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.assam-audio-title {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.assam-audio-sub {
+    font-size: 0.75rem;
+    color: #a7f3d0;
+}
+
+.assam-audio-right {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.assam-audio-mute-btn {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #cbd5e1;
+    border-radius: 0.5rem;
+    padding: 0.35rem 0.65rem;
+    font-size: 0.75rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    transition: background 0.15s ease;
+}
+
+.assam-audio-mute-btn:hover {
+    background: rgba(255, 255, 255, 0.16);
+    color: #ffffff;
+}
+
+/* Grids & Cards */
+.assam-suite-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+.assam-card-panel {
+    background: rgba(15, 23, 42, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 1rem;
+    padding: 1.25rem;
+    transition: border-color 0.2s ease;
+}
+
+.assam-card-panel:hover {
+    border-color: rgba(16, 185, 129, 0.35);
+}
+
+.assam-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    padding-bottom: 0.65rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.assam-card-header-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.assam-highlights-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+}
+
+.assam-highlight-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    font-size: 0.88rem;
+    line-height: 1.45;
+    color: #cbd5e1;
+}
+
+.assam-highlight-bullet {
+    width: 6px;
+    height: 6px;
+    border-radius: 9999px;
+    background: #10b981;
+    margin-top: 0.45rem;
+    flex-shrink: 0;
+}
+
+/* Activity Items */
+.assam-activities-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+}
+
+.assam-activity-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 0.65rem;
+    padding: 0.65rem 0.85rem;
+    transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.assam-activity-row.completed {
+    background: rgba(5, 150, 105, 0.16);
+    border-color: rgba(16, 185, 129, 0.45);
+}
+
+.assam-activity-text {
+    font-size: 0.84rem;
+    color: #e2e8f0;
+    line-height: 1.4;
+    flex: 1;
+}
+
+.assam-activity-row.completed .assam-activity-text {
+    text-decoration: line-through;
+    color: #a7f3d0;
+}
+
+.assam-activity-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-shrink: 0;
+}
+
+.assam-activity-plan-btn,
+.assam-activity-xp-btn {
+    border: none;
+    border-radius: 0.45rem;
+    padding: 0.3rem 0.55rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    transition: transform 0.1s ease;
+}
+
+.assam-activity-plan-btn {
+    background: rgba(245, 158, 11, 0.18);
+    border: 1px solid rgba(245, 158, 11, 0.4);
+    color: #fbbf24;
+}
+
+.assam-activity-plan-btn:hover {
+    transform: scale(1.04);
+}
+
+.assam-activity-xp-btn {
+    background: rgba(16, 185, 129, 0.18);
+    border: 1px solid rgba(16, 185, 129, 0.4);
+    color: #6ee7b7;
+}
+
+.assam-activity-xp-btn.is-done {
+    background: #10b981;
+    color: #ffffff;
+    border-color: #10b981;
+}
+
+.assam-activity-xp-btn:hover {
+    transform: scale(1.04);
+}
+
+/* Transits */
+.assam-transit-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 0.85rem;
+}
+
+.assam-transit-pill {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0.65rem;
+    padding: 0.75rem 0.85rem;
+}
+
+.assam-transit-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #94a3b8;
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.assam-transit-val {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+/* Modal styles */
+.assam-modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.78);
+    backdrop-filter: blur(8px);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.25rem;
+}
+
+.assam-modal-container {
+    background: #0f172a;
+    border: 1px solid rgba(16, 185, 129, 0.45);
+    border-radius: 1.25rem;
+    width: 100%;
+    max-width: 900px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.75), 0 0 35px rgba(16, 185, 129, 0.2);
+    overflow: hidden;
+}
+
+.assam-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    background: linear-gradient(90deg, rgba(5, 150, 105, 0.25) 0%, rgba(15, 23, 42, 0.8) 100%);
+}
+
+.assam-modal-title-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.assam-modal-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin: 0;
+}
+
+.assam-modal-badge {
+    font-size: 0.72rem;
+    font-weight: 700;
+    background: rgba(16, 185, 129, 0.22);
+    border: 1px solid rgba(52, 211, 153, 0.45);
+    color: #a7f3d0;
+    padding: 0.2rem 0.55rem;
+    border-radius: 9999px;
+}
+
+.assam-modal-close-btn {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #cbd5e1;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 9999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.assam-modal-close-btn:hover {
+    background: rgba(239, 68, 68, 0.25);
+    color: #ffffff;
+    border-color: rgba(239, 68, 68, 0.5);
+}
+
+.assam-modal-body {
+    padding: 1.25rem 1.5rem;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.assam-modal-search {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 0.75rem;
+    color: #ffffff;
+    font-size: 0.9rem;
+    margin-bottom: 1.25rem;
+}
+
+.assam-modal-search:focus {
+    outline: none;
+    border-color: #10b981;
+    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.25);
+}
+
+.assam-division-group {
+    margin-bottom: 1.5rem;
+}
+
+.assam-division-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: #a7f3d0;
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.assam-districts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.65rem;
+}
+
+.assam-district-pill {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0.65rem;
+    padding: 0.65rem 0.85rem;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.15s ease;
+}
+
+.assam-district-pill:hover {
+    background: rgba(5, 150, 105, 0.2);
+    border-color: rgba(16, 185, 129, 0.45);
+    transform: translateY(-2px);
+}
+
+.assam-district-pill.active {
+    background: linear-gradient(135deg, rgba(5, 150, 105, 0.35) 0%, rgba(4, 120, 87, 0.45) 100%);
+    border-color: #10b981;
+    box-shadow: 0 0 12px rgba(16, 185, 129, 0.35);
+}
+
+.assam-district-name {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #f1f5f9;
+}
+
+.assam-district-count {
+    font-size: 0.72rem;
+    font-weight: 700;
+    background: rgba(16, 185, 129, 0.25);
+    color: #6ee7b7;
+    padding: 0.15rem 0.45rem;
+    border-radius: 9999px;
+}
