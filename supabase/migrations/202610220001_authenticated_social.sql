@@ -91,7 +91,8 @@ drop policy if exists "Authors delete own posts" on public.social_posts;
 create policy "Authors delete own posts" on public.social_posts for delete to authenticated using ((select auth.uid()) = author_id);
 
 drop policy if exists "Reactions are publicly readable" on public.social_reactions;
-create policy "Reactions are publicly readable" on public.social_reactions for select to anon, authenticated using (true);
+drop policy if exists "Users read own reactions" on public.social_reactions;
+create policy "Users read own reactions" on public.social_reactions for select to authenticated using ((select auth.uid()) = user_id);
 drop policy if exists "Users create own reactions" on public.social_reactions;
 create policy "Users create own reactions" on public.social_reactions for insert to authenticated with check ((select auth.uid()) = user_id);
 drop policy if exists "Users update own reactions" on public.social_reactions;
@@ -124,7 +125,7 @@ grant select on public.profiles to anon, authenticated;
 grant insert, update on public.profiles to authenticated;
 grant select on public.social_posts to anon, authenticated;
 grant insert, update, delete on public.social_posts to authenticated;
-grant select on public.social_reactions to anon, authenticated;
+grant select on public.social_reactions to authenticated;
 grant insert, update, delete on public.social_reactions to authenticated;
 grant select on public.social_comments to anon, authenticated;
 grant insert, delete on public.social_comments to authenticated;
