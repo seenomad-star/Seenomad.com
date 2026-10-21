@@ -122,7 +122,7 @@ const Composer = ({ onAddPost }) => {
                     ? selectedImages
                     : (selectedVideo ? [selectedVideo.url] : []);
                 remotePost = await publishSocialPost({
-                    content: content.trim(),
+                    content: content.trim() || (hasPoll ? pollQuestion.trim() : ''),
                     location: selectedLocation,
                     feeling: selectedFeeling,
                     mediaUrls,
