@@ -29,6 +29,7 @@ import ContentMedia from './features/ContentMedia';
 import NomadBytesFeed from './features/Bytes/NomadBytesFeed';
 import DestinationDetail from './features/Explore/components/DestinationDetail';
 import TravelHub from './features/TravelHub/TravelHub';
+import JourneyWorkspace from './features/JourneyWorkspace';
 
 // Lazy load heavy features
 const Community = lazy(() => import('./features/Community'));
@@ -60,6 +61,7 @@ function App() {
           <Route element={<PageTransitionLayout />}>
             <Route path="/" element={<SocialFeed />} />
             <Route path="/travel-hub" element={<TravelHub />} />
+            <Route path="/journey-workspace" element={<JourneyWorkspace />} />
             <Route path="/bytes" element={<NomadBytesFeed />} />
             <Route path="/bytes/*" element={<NomadBytesFeed />} />
             <Route path="/byte/:id" element={<NomadBytesFeed />} />

@@ -466,6 +466,14 @@ const Sidebar = ({ isCollapsed, toggleSidebar, isMobileOpen, isMobile }) => {
                         description: 'Saved itineraries, upcoming departures & trip logs'
                     },
                     {
+                        icon: Compass,
+                        label: 'Journey Workspace',
+                        to: '/journey-workspace',
+                        badge: 'New',
+                        badgeType: 'accent',
+                        description: 'Discover destinations, save places, and add them to your itinerary'
+                    },
+                    {
                         icon: Tag,
                         label: 'Travel Deals',
                         to: '/explore/travel-deals',
