@@ -9,7 +9,9 @@ import {
     setPostReaction,
     setPostSaved,
     addSocialComment,
-    listSocialComments
+    listSocialComments,
+    getFollowState,
+    setFollowedUser
 } from '../../../lib/socialBackend';
 import {
     Heart,
@@ -38,7 +40,9 @@ import {
     ChevronRight,
     Link2,
     Bell,
-    ThumbsUp
+    ThumbsUp,
+    UserPlus,
+    UserCheck
 } from 'lucide-react';
 import { UGCImage, AvatarImage } from '../../../components/common/Image';
 import '../styles/Post.css';
@@ -112,6 +116,8 @@ const Post = ({ post }) => {
     const [showComments, setShowComments] = useState(false);
     const [newComment, setNewComment] = useState('');
     const [showShareMenu, setShowShareMenu] = useState(false);
+    const [isFollowingAuthor, setIsFollowingAuthor] = useState(false);
+    const authorId = post.authorId || post.author_id || null;
 
     useEffect(() => {
         if (!remoteSocialEnabled || !user) return undefined;
@@ -125,6 +131,32 @@ const Post = ({ post }) => {
             .catch((error) => console.warn('Unable to load saved social state:', error.message));
         return () => { active = false; };
     }, [postId, remoteSocialEnabled, user?.id, setReaction, setBookmark, post.userLiked]);
+
+    useEffect(() => {
+        if (!remoteSocialEnabled || !user || !authorId || authorId === user.id) return undefined;
+        let active = true;
+        getFollowState(authorId)
+            .then((following) => { if (active) setIsFollowingAuthor(following); })
+            .catch((error) => console.warn('Unable to load follow state:', error.message));
+        return () => { active = false; };
+    }, [remoteSocialEnabled, user?.id, authorId]);
+
+    const handleFollowAuthor = async (event) => {
+        event.stopPropagation();
+        if (!user) {
+            addToast('Sign in to follow travelers.', 'info');
+            navigate('/auth');
+            return;
+        }
+        try {
+            const nextFollowing = !isFollowingAuthor;
+            await setFollowedUser(authorId, nextFollowing);
+            setIsFollowingAuthor(nextFollowing);
+            addToast(nextFollowing ? 'You are now following this traveler.' : 'Traveler unfollowed.', 'success');
+        } catch (error) {
+            addToast(error?.message || 'Could not update follow status.', 'error');
+        }
+    };
 
     useEffect(() => {
         if (!remoteSocialEnabled || !showComments) return undefined;
@@ -386,6 +418,17 @@ const Post = ({ post }) => {
                         <span className="post-author-name">{authorName}</span>
                         <CheckCircle2 size={14} className="verified-badge text-sky-500" />
                         <span className="post-author-handle">{authorHandle}</span>
+                        {remoteSocialEnabled && authorId && user?.id !== authorId && (
+                            <button
+                                type="button"
+                                className="post-follow-author-btn"
+                                onClick={handleFollowAuthor}
+                                aria-label={isFollowingAuthor ? `Unfollow ${authorName}` : `Follow ${authorName}`}
+                            >
+                                {isFollowingAuthor ? <UserCheck size={13} /> : <UserPlus size={13} />}
+                                <span>{isFollowingAuthor ? 'Following' : 'Follow'}</span>
+                            </button>
+                        )}
                         <span className="post-dot">·</span>
                         <span className="post-time">{post.time || '2h'}</span>
 
