@@ -618,7 +618,7 @@ const Sidebar = ({ isCollapsed, toggleSidebar, isMobileOpen, isMobile }) => {
                         description: 'Educational travel, learning opportunities and voluntourism resources'
                     },
                     {
-                        icon: Globe2,
+                        icon: Palmtree,
                         label: 'Responsible Travel',
                         to: '/content-media',
                         badge: 'Impact',
