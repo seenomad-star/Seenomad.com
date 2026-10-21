@@ -24,6 +24,8 @@ import GlassDivider from '../../components/common/GlassDivider';
 import TravelFeedSkeleton, { FeedLoadMoreSkeleton } from './components/TravelFeedSkeleton';
 import { ArrowUp, Sparkles, Video, Calendar, Flame } from 'lucide-react';
 import { useToastStore } from '../../store/toastStore';
+import { useAuth } from '../../contexts/AuthContext';
+import { listSocialPosts } from '../../lib/socialBackend';
 import './styles/SocialFeed.css';
 
 const INITIAL_STORIES = [
@@ -533,6 +535,7 @@ const DISPATCH_BATCHES = [
 
 const SocialFeed = () => {
     const { addToast } = useToastStore();
+    const { configured: remoteSocialEnabled, user } = useAuth();
     const [activeTab, setActiveTab] = useState('trending');
     const [isLoading, setIsLoading] = useState(true);
     const [isRefreshing, setIsRefreshing] = useState(false);
@@ -551,6 +554,72 @@ const SocialFeed = () => {
         const timer = setTimeout(() => setIsLoading(false), 400);
         return () => clearTimeout(timer);
     }, []);
+
+    // Load real community posts when Supabase is configured. The demo feed remains intact.
+    useEffect(() => {
+        if (!remoteSocialEnabled) return undefined;
+        let active = true;
+        listSocialPosts({ limit: 30 })
+            .then((rows) => {
+                if (!active || !rows.length) return;
+                const remotePosts = rows.map((row) => {
+                    const metadata = row.metadata || {};
+                    const mediaUrls = row.media_urls || [];
+                    const pollMetadata = metadata.poll;
+                    return {
+                        id: row.id,
+                        type: row.post_type || 'standard',
+                        author: {
+                            name: 'Seenomad Traveler',
+                            handle: '@traveler',
+                            avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150',
+                            verified: false
+                        },
+                        time: new Date(row.created_at).toLocaleString(),
+                        location: row.location,
+                        feeling: row.feeling,
+                        content: row.content,
+                        images: mediaUrls.length > 1 ? mediaUrls : null,
+                        image: mediaUrls.length === 1 ? mediaUrls[0] : null,
+                        video: metadata.video ? {
+                            thumbnail: metadata.video.url,
+                            quality: '4K 60FPS',
+                            duration: '04:20',
+                            current: '00:00',
+                            chapters: []
+                        } : null,
+                        poll: pollMetadata ? {
+                            question: pollMetadata.question,
+                            options: (pollMetadata.options || []).map((option) => ({
+                                text: typeof option === 'string' ? option : option.text,
+                                votes: 0
+                            })),
+                            totalVotes: 0
+                        } : null,
+                        likes: '0',
+                        comments: [],
+                        shares: 0,
+                        views: '0',
+                        userLiked: false,
+                        source: 'supabase'
+                    };
+                });
+                setFeedPosts((previous) => {
+                    const existingIds = new Set(Object.values(previous).flat().map((post) => String(post.id)));
+                    const freshPosts = remotePosts.filter((post) => !existingIds.has(String(post.id)));
+                    if (!freshPosts.length) return previous;
+                    return {
+                        ...previous,
+                        foryou: [...freshPosts, ...(previous.foryou || [])],
+                        trending: [...freshPosts, ...(previous.trending || [])],
+                        recent: [...freshPosts, ...(previous.recent || [])],
+                        latest: [...freshPosts, ...(previous.latest || [])]
+                    };
+                });
+            })
+            .catch((error) => console.warn('Unable to load community posts:', error.message));
+        return () => { active = false; };
+    }, [remoteSocialEnabled, user?.id]);
 
     // Listen to NomadDock Vertical Pill page-specific filter and reset events
     useEffect(() => {
