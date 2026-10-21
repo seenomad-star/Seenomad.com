@@ -127,14 +127,14 @@ const Post = ({ post }) => {
     }, [postId, remoteSocialEnabled, user?.id, setReaction, setBookmark, post.userLiked]);
 
     useEffect(() => {
-        if (!remoteSocialEnabled || !user || !showComments) return undefined;
+        if (!remoteSocialEnabled || !showComments) return undefined;
         let active = true;
         listSocialComments(postId)
             .then((rows) => {
                 if (!active) return;
                 replaceComments(postId, rows.map((item) => ({
                     id: item.id,
-                    author: item.author_id === user.id ? 'You' : 'Traveler',
+                    author: item.author_id === user?.id ? 'You' : 'Traveler',
                     avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150',
                     text: item.content,
                     time: new Date(item.created_at).toLocaleString()
