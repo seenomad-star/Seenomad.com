@@ -1,7 +1,16 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useToastStore } from '../../../store/toastStore';
 import { useSocialEngagementStore } from '../../../store/socialEngagementStore';
+import { useAuth } from '../../../contexts/AuthContext';
+import {
+    getMyPostState,
+    setPostReaction,
+    setPostSaved,
+    addSocialComment,
+    listSocialComments
+} from '../../../lib/socialBackend';
 import {
     Heart,
     MessageCircle,
@@ -53,6 +62,8 @@ const DEFAULT_POST_COMMENTS = [
 
 const Post = ({ post }) => {
     const { addToast } = useToastStore();
+    const navigate = useNavigate();
+    const { user, configured: remoteSocialEnabled } = useAuth();
 
     // Helper for number parsing
     const parseCount = (val) => {
@@ -90,6 +101,8 @@ const Post = ({ post }) => {
             : Boolean(post.userBookmarked)
     );
     const toggleBookmark = useSocialEngagementStore((state) => state.toggleBookmark);
+    const setBookmark = useSocialEngagementStore((state) => state.setBookmark);
+    const replaceComments = useSocialEngagementStore((state) => state.replaceComments);
     const storedUserComments = useSocialEngagementStore((state) => state.commentsByPost[postId] || EMPTY_STORED_COMMENTS);
     const baseComments = Array.isArray(post.comments) ? post.comments : DEFAULT_POST_COMMENTS;
     const comments = [...baseComments, ...storedUserComments];
@@ -99,6 +112,37 @@ const Post = ({ post }) => {
     const [showComments, setShowComments] = useState(false);
     const [newComment, setNewComment] = useState('');
     const [showShareMenu, setShowShareMenu] = useState(false);
+
+    useEffect(() => {
+        if (!remoteSocialEnabled || !user) return undefined;
+        let active = true;
+        getMyPostState(postId)
+            .then((remoteState) => {
+                if (!active) return;
+                setReaction(postId, remoteState.reaction, post.userLiked ? 'love' : null);
+                setBookmark(postId, remoteState.saved);
+            })
+            .catch((error) => console.warn('Unable to load saved social state:', error.message));
+        return () => { active = false; };
+    }, [postId, remoteSocialEnabled, user?.id, setReaction, setBookmark, post.userLiked]);
+
+    useEffect(() => {
+        if (!remoteSocialEnabled || !user || !showComments) return undefined;
+        let active = true;
+        listSocialComments(postId)
+            .then((rows) => {
+                if (!active) return;
+                replaceComments(postId, rows.map((item) => ({
+                    id: item.id,
+                    author: item.author_id === user.id ? 'You' : 'Traveler',
+                    avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150',
+                    text: item.content,
+                    time: new Date(item.created_at).toLocaleString()
+                })));
+            })
+            .catch((error) => console.warn('Unable to load social comments:', error.message));
+        return () => { active = false; };
+    }, [postId, remoteSocialEnabled, user?.id, showComments, replaceComments]);
 
     // Instagram Carousel State
     const imagesList = post.images || (post.image ? [post.image] : (post.media?.url ? [post.media.url] : []));
@@ -120,6 +164,24 @@ const Post = ({ post }) => {
     const [pollVoted, setPollVoted] = useState(null);
     const [pollState, setPollState] = useState(post.poll);
 
+    const applyReaction = async (nextReaction) => {
+        if (remoteSocialEnabled) {
+            if (!user) {
+                addToast('Sign in to react to travel posts.', 'info');
+                navigate('/auth');
+                return false;
+            }
+            try {
+                await setPostReaction(postId, nextReaction);
+            } catch (error) {
+                addToast(error?.message || 'Could not save your reaction.', 'error');
+                return false;
+            }
+        }
+        setReaction(postId, nextReaction, post.userLiked ? 'love' : null);
+        return true;
+    };
+
     // Double Tap Like Handler (Instagram style)
     const handleDoubleTap = (e) => {
         e.stopPropagation();
@@ -127,31 +189,29 @@ const Post = ({ post }) => {
         setTimeout(() => setHeartBurst(false), 900);
 
         if (!currentReaction) {
-            setReaction(postId, 'love', post.userLiked ? 'love' : null);
-            addToast('Liked travel post! ❤️', 'success');
+            void applyReaction('love').then((saved) => {
+                if (saved) addToast('Liked travel post! ❤️', 'success');
+            });
         }
     };
 
     // Reaction Handlers
     const handleReactionSelect = (reactionId) => {
         setShowReactionsMenu(false);
-        if (currentReaction === reactionId) {
-            setReaction(postId, null, post.userLiked ? 'love' : null);
-        } else {
-            setReaction(postId, reactionId, post.userLiked ? 'love' : null);
+        const nextReaction = currentReaction === reactionId ? null : reactionId;
+        void applyReaction(nextReaction).then((saved) => {
+            if (!saved || !nextReaction) return;
             const rObj = FB_REACTIONS.find(r => r.id === reactionId);
             addToast('Reacted with ' + rObj?.icon + ' ' + rObj?.label + '!', 'success');
-        }
+        });
     };
 
     const handleSimpleLikeClick = (e) => {
         e.stopPropagation();
-        if (currentReaction) {
-            setReaction(postId, null, post.userLiked ? 'love' : null);
-        } else {
-            setReaction(postId, 'love', post.userLiked ? 'love' : null);
-            addToast('Added to travel favorites! ❤️', 'success');
-        }
+        const nextReaction = currentReaction ? null : 'love';
+        void applyReaction(nextReaction).then((saved) => {
+            if (saved && nextReaction) addToast('Added to travel favorites! ❤️', 'success');
+        });
     };
 
     const handleMouseEnterLike = () => {
@@ -179,9 +239,25 @@ const Post = ({ post }) => {
     };
 
     // Bookmark Handler
-    const handleBookmark = (e) => {
+    const handleBookmark = async (e) => {
         e.stopPropagation();
-        const nextBookmarked = toggleBookmark(postId, Boolean(post.userBookmarked));
+        const nextBookmarked = !isBookmarked;
+        if (remoteSocialEnabled) {
+            if (!user) {
+                addToast('Sign in to save travel posts.', 'info');
+                navigate('/auth');
+                return;
+            }
+            try {
+                await setPostSaved(postId, nextBookmarked);
+                setBookmark(postId, nextBookmarked);
+            } catch (error) {
+                addToast(error?.message || 'Could not update saved posts.', 'error');
+                return;
+            }
+        } else {
+            toggleBookmark(postId, Boolean(post.userBookmarked));
+        }
         addToast(nextBookmarked ? 'Saved to Travel Wishlist 🔖' : 'Removed from Wishlist', 'info');
     };
 
@@ -235,19 +311,37 @@ const Post = ({ post }) => {
     };
 
     // Add Comment
-    const handleAddComment = (e) => {
+    const handleAddComment = async (e) => {
         e.preventDefault();
         if (!newComment.trim()) return;
 
-        const newEntry = {
+        const commentText = newComment.trim();
+        let newEntry = {
             id: Date.now(),
             author: 'You',
             avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150',
-            text: newComment.trim(),
+            text: commentText,
             time: 'Just now'
         };
 
-        addStoredComment(postId, newEntry);
+        if (remoteSocialEnabled) {
+            if (!user) {
+                addToast('Sign in to comment on travel posts.', 'info');
+                navigate('/auth');
+                return;
+            }
+            try {
+                const savedComment = await addSocialComment(postId, commentText);
+                newEntry = { ...newEntry, id: savedComment.id, time: new Date(savedComment.created_at).toLocaleString() };
+                replaceComments(postId, [...storedUserComments, newEntry]);
+            } catch (error) {
+                addToast(error?.message || 'Could not publish your comment.', 'error');
+                return;
+            }
+        } else {
+            addStoredComment(postId, newEntry);
+        }
+
         setNewComment('');
         addToast('Comment published to thread! 💬', 'success');
     };
