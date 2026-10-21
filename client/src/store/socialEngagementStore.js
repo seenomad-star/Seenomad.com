@@ -45,6 +45,14 @@ export const useSocialEngagementStore = create(
         };
       }),
 
+      setBookmark: (postId, bookmarked) => set((state) => ({
+        bookmarks: { ...state.bookmarks, [postId]: Boolean(bookmarked) }
+      })),
+
+      replaceComments: (postId, comments) => set((state) => ({
+        commentsByPost: { ...state.commentsByPost, [postId]: comments }
+      })),
+
       toggleBookmark: (postId, fallbackBookmarked = false) => {
         let nextBookmarked = false;
         set((state) => {
