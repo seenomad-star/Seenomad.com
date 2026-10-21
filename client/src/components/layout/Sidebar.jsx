@@ -284,6 +284,14 @@ const Sidebar = ({ isCollapsed, toggleSidebar, isMobileOpen, isMobile }) => {
                         description: 'Discover 195+ countries, cities & nomad hubs'
                     },
                     {
+                        icon: LayoutGrid,
+                        label: 'Travel Hub',
+                        to: '/travel-hub',
+                        badge: 'New',
+                        badgeType: 'info',
+                        description: 'One place for travel discovery, planning, tools, community & tourism resources'
+                    },
+                    {
                         icon: LineArtTrendingIcon,
                         label: 'Trending & Popular',
                         to: '/popular',
