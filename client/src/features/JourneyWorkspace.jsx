@@ -32,7 +32,8 @@ const JourneyWorkspace = () => {
   const tripTitle = useItineraryStore((state) => state.tripTitle);
   const targetBudget = useItineraryStore((state) => state.targetBudget);
   const currency = useItineraryStore((state) => state.currency);
-  const addDestinationToDay = useItineraryStore((state) => state.addDestinationToDay);
+  const selectedDayIndex = useItineraryStore((state) => state.selectedDayIndex);
+  const addStop = useItineraryStore((state) => state.addStop);
   const addToast = useToastStore((state) => state.addToast);
 
   const categories = useMemo(() => {
@@ -54,8 +55,19 @@ const JourneyWorkspace = () => {
   const plannedDestinationIds = new Set(days.flatMap((day) => (day.stops || []).map((stop) => String(stop.destinationId || stop.title))));
 
   const handleAddToTrip = (destination) => {
-    const result = addDestinationToDay(destination);
-    addToast(`Added ${destination.name} to Day ${result.dayNumber} of your itinerary.`, 'success');
+    const dayNumber = days[selectedDayIndex]?.dayNumber || selectedDayIndex + 1;
+    const category = String(destination.category || '').toLowerCase();
+    const stopCategory = category.includes('food') ? 'dining' : category.includes('transport') ? 'transit' : 'culture';
+    addStop(selectedDayIndex, {
+      title: destination.name,
+      location: destination.location || destination.state || destination.name,
+      district: destination.state || destination.location || destination.name,
+      category: stopCategory,
+      cost: 0,
+      image: destination.image || '',
+      note: 'Added from Seenomad destination discovery. Confirm current opening times, transport, and costs before travel.'
+    });
+    addToast(`Added ${destination.name} to Day ${dayNumber} of your itinerary.`, 'success');
     navigate('/explore/itinerary-builder');
   };
 
