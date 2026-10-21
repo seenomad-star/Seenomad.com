@@ -15,6 +15,15 @@ export const useSocialEngagementStore = create(
       bookmarks: {},
       commentsByPost: {},
 
+      resetEngagement: () => set({
+        reactions: {},
+        likeDeltas: {},
+        reposts: {},
+        repostDeltas: {},
+        bookmarks: {},
+        commentsByPost: {}
+      }),
+
       setReaction: (postId, nextReaction, fallbackReaction = null) => set((state) => {
         const hasStoredReaction = Object.prototype.hasOwnProperty.call(state.reactions, postId);
         const previousReaction = hasStoredReaction ? state.reactions[postId] : fallbackReaction;
@@ -44,6 +53,14 @@ export const useSocialEngagementStore = create(
           }
         };
       }),
+
+      setBookmark: (postId, bookmarked) => set((state) => ({
+        bookmarks: { ...state.bookmarks, [postId]: Boolean(bookmarked) }
+      })),
+
+      replaceComments: (postId, comments) => set((state) => ({
+        commentsByPost: { ...state.commentsByPost, [postId]: comments }
+      })),
 
       toggleBookmark: (postId, fallbackBookmarked = false) => {
         let nextBookmarked = false;

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { 
     Image, 
     Video,
@@ -15,6 +16,8 @@ import {
     Check
 } from 'lucide-react';
 import { useToastStore } from '../../../store/toastStore';
+import { useAuth } from '../../../contexts/AuthContext';
+import { publishSocialPost } from '../../../lib/socialBackend';
 import '../styles/Composer.css';
 
 const PRESET_LOCATIONS = [
@@ -46,6 +49,8 @@ const PRESET_FEELINGS = [
 
 const Composer = ({ onAddPost }) => {
     const { addToast } = useToastStore();
+    const navigate = useNavigate();
+    const { user, configured: remoteSocialEnabled } = useAuth();
     const [isExpanded, setIsExpanded] = useState(false);
     const [content, setContent] = useState('');
     const [audience, setAudience] = useState('everyone');
@@ -96,7 +101,7 @@ const Composer = ({ onAddPost }) => {
         }
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         if (e) e.preventDefault();
         const hasText = content.trim().length > 0;
         const hasMedia = selectedImages.length > 0 || selectedVideo !== null;
@@ -104,9 +109,46 @@ const Composer = ({ onAddPost }) => {
 
         if (!hasText && !hasMedia && !hasPoll) return;
 
+        if (remoteSocialEnabled && !user) {
+            addToast('Sign in to publish to the Seenomad community.', 'info');
+            navigate('/auth');
+            return;
+        }
+
+        let remotePost = null;
+        if (remoteSocialEnabled) {
+            try {
+                const mediaUrls = selectedImages.length > 0
+                    ? selectedImages
+                    : (selectedVideo ? [selectedVideo.url] : []);
+                remotePost = await publishSocialPost({
+                    content: content.trim() || (hasPoll ? pollQuestion.trim() : ''),
+                    location: selectedLocation,
+                    feeling: selectedFeeling,
+                    mediaUrls,
+                    postType: selectedVideo ? 'video' : (hasPoll ? 'poll' : (selectedImages.length > 1 ? 'carousel' : 'standard')),
+                    metadata: {
+                        video: selectedVideo,
+                        poll: hasPoll ? {
+                            question: pollQuestion.trim(),
+                            options: [pollOpt1.trim(), pollOpt2.trim()]
+                        } : null
+                    }
+                });
+            } catch (error) {
+                addToast(error?.message || 'Could not publish your post. Please try again.', 'error');
+                return;
+            }
+        }
+
         const newPost = {
-            id: `user-post-${Date.now()}`,
-            author: {
+            id: remotePost?.id || `user-post-${Date.now()}`,
+            author: remotePost ? {
+                name: user.user_metadata?.display_name || user.email || 'Traveler',
+                handle: user.user_metadata?.username ? '@' + user.user_metadata.username : '@traveler',
+                avatar: user.user_metadata?.avatar_url || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150',
+                verified: false
+            } : {
                 name: 'Traveler',
                 handle: '@traveler_t',
                 avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150',
@@ -138,11 +180,11 @@ const Composer = ({ onAddPost }) => {
                 ],
                 totalVotes: 0
             } : null,
-            likes: '1',
+            likes: remotePost ? '0' : '1',
             comments: [],
             shares: 0,
             views: '1',
-            userLiked: true
+            userLiked: !remotePost
         };
 
         if (onAddPost) {
@@ -165,7 +207,7 @@ const Composer = ({ onAddPost }) => {
         setPollOpt2('');
         setIsExpanded(false);
 
-        addToast('Published to your SeeNomad Travel Feed! 🚀', 'success');
+        addToast(remotePost ? 'Published to the Seenomad community! 🚀' : 'Published to your local preview feed! 🚀', 'success');
     };
 
     const maxChars = 280;
