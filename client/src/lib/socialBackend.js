@@ -35,6 +35,19 @@ export async function listSocialPosts({ limit = 30, before = null } = {}) {
   return data ?? [];
 }
 
+export async function getMyPostState(postKey) {
+  const client = requireClient();
+  const user = await requireUser(client, 'load your post interactions');
+  const key = String(postKey);
+  const [reactionResult, savedResult] = await Promise.all([
+    client.from('social_reactions').select('reaction').eq('post_key', key).eq('user_id', user.id).maybeSingle(),
+    client.from('social_saved_posts').select('post_key').eq('post_key', key).eq('user_id', user.id).maybeSingle()
+  ]);
+  if (reactionResult.error) throw reactionResult.error;
+  if (savedResult.error) throw savedResult.error;
+  return { reaction: reactionResult.data?.reaction ?? null, saved: Boolean(savedResult.data) };
+}
+
 export async function setPostReaction(postKey, reaction) {
   const client = requireClient();
   const user = await requireUser(client, 'react to posts');
