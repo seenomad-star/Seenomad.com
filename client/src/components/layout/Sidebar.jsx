@@ -252,7 +252,7 @@ const Sidebar = ({ isCollapsed, toggleSidebar, isMobileOpen, isMobile }) => {
         () => [
             {
                 id: 'feed-explore',
-                title: 'FEED & EXPLORE',
+                title: 'SOCIAL & DISCOVER',
                 sectionIcon: LineArtExploreIcon,
                 accentTone: 'ocean',
                 items: [
@@ -320,7 +320,7 @@ const Sidebar = ({ isCollapsed, toggleSidebar, isMobileOpen, isMobile }) => {
             },
             {
                 id: 'travel-tools',
-                title: 'TRAVEL TOOLS',
+                title: 'PLAN & TRAVEL TOOLS',
                 sectionIcon: LineArtTripBuilderIcon,
                 accentTone: 'studio',
                 isFeaturedSection: true,
@@ -453,7 +453,7 @@ const Sidebar = ({ isCollapsed, toggleSidebar, isMobileOpen, isMobile }) => {
             },
             {
                 id: 'trip-planning',
-                title: 'TRIP PLANNING',
+                title: 'TRIPS & COMMUNITY',
                 sectionIcon: LineArtPlanningSectionIcon,
                 accentTone: 'emerald',
                 items: [
@@ -501,7 +501,7 @@ const Sidebar = ({ isCollapsed, toggleSidebar, isMobileOpen, isMobile }) => {
             },
             {
                 id: 'content-media',
-                title: 'CONTENT & MEDIA',
+                title: 'CREATORS & KNOWLEDGE',
                 sectionIcon: LineArtContentMediaSectionIcon,
                 accentTone: 'violet',
                 items: [
@@ -557,7 +557,7 @@ const Sidebar = ({ isCollapsed, toggleSidebar, isMobileOpen, isMobile }) => {
             },
             {
                 id: 'quests-rankings',
-                title: 'QUESTS & RANKINGS',
+                title: 'COMMUNITY & PROGRESS',
                 sectionIcon: LineArtQuestsSectionIcon,
                 accentTone: 'amber',
                 items: [
@@ -588,8 +588,56 @@ const Sidebar = ({ isCollapsed, toggleSidebar, isMobileOpen, isMobile }) => {
                 ]
             },
             {
+                id: 'travel-resources',
+                title: 'TRAVEL RESOURCES',
+                sectionIcon: BookOpen,
+                accentTone: 'studio',
+                items: [
+                    {
+                        icon: Shield,
+                        label: 'Safety & Insurance',
+                        to: '/support-utility',
+                        badge: 'Safety',
+                        badgeType: 'success',
+                        description: 'Travel safety, protection and insurance research resources'
+                    },
+                    {
+                        icon: FileText,
+                        label: 'Visa & Documents',
+                        to: '/explore/visa',
+                        badge: 'Official',
+                        badgeType: 'info',
+                        description: 'Visa and entry resources; verify requirements with official authorities'
+                    },
+                    {
+                        icon: GraduationCap,
+                        label: 'Learning & Voluntourism',
+                        to: '/learning-voluntourism',
+                        badge: 'Learn',
+                        badgeType: 'accent',
+                        description: 'Educational travel, learning opportunities and voluntourism resources'
+                    },
+                    {
+                        icon: Globe2,
+                        label: 'Responsible Travel',
+                        to: '/content-media',
+                        badge: 'Impact',
+                        badgeType: 'info',
+                        description: 'Responsible tourism, sustainability and cultural awareness resources'
+                    },
+                    {
+                        icon: BookOpen,
+                        label: 'Travel Knowledge',
+                        to: '/travel-hub',
+                        badge: 'Library',
+                        badgeType: 'info',
+                        description: 'Search the connected Seenomad travel tools and resource library'
+                    }
+                ]
+            },
+            {
                 id: 'business-hub',
-                title: 'BUSINESS',
+                title: 'TOURISM & BUSINESS',
                 sectionIcon: LineArtBusinessSectionIcon,
                 accentTone: 'ocean',
                 items: [
