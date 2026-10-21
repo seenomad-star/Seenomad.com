@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useToastStore } from '../../../store/toastStore';
+import { useSocialEngagementStore } from '../../../store/socialEngagementStore';
 import {
     Heart,
     MessageCircle,
@@ -43,6 +44,8 @@ const FB_REACTIONS = [
     { id: 'sad', label: 'Sad', icon: '😢', color: '#8b5cf6', bg: 'rgba(139, 92, 246, 0.15)' }
 ];
 
+const EMPTY_STORED_COMMENTS = [];
+
 const DEFAULT_POST_COMMENTS = [
     { id: 1, author: 'Maya Lin', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100', text: 'This spot looks incredible! Is the wifi stable for video calls?', time: '25m ago' },
     { id: 2, author: 'Leo Vance', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100', text: 'Yes, 180 Mbps fiber with backup generator. Tested it yesterday!', time: '12m ago' }
@@ -59,18 +62,41 @@ const Post = ({ post }) => {
         return parseInt(val, 10) || 0;
     };
 
-    // Engagement state
-    const [currentReaction, setCurrentReaction] = useState(post.userLiked ? 'love' : null);
-    const [likesCount, setLikesCount] = useState(parseCount(post.likes || post.stats?.likes || 248));
+    // Engagement state is persisted locally so interactions survive a page refresh.
+    const postId = String(post.id ?? post.location ?? 'unknown-post');
+    const currentReaction = useSocialEngagementStore((state) =>
+        Object.prototype.hasOwnProperty.call(state.reactions, postId)
+            ? state.reactions[postId]
+            : (post.userLiked ? 'love' : null)
+    );
+    const likesDelta = useSocialEngagementStore((state) => state.likeDeltas[postId] || 0);
+    const likesCount = Math.max(0, parseCount(post.likes || post.stats?.likes || 248) + likesDelta);
+    const setReaction = useSocialEngagementStore((state) => state.setReaction);
     const [showReactionsMenu, setShowReactionsMenu] = useState(false);
     const reactionsTimeoutRef = useRef(null);
 
-    const [isReposted, setIsReposted] = useState(post.userReposted || false);
-    const [repostsCount, setRepostsCount] = useState(parseCount(post.shares || post.stats?.reposts || 19));
+    const isReposted = useSocialEngagementStore((state) =>
+        Object.prototype.hasOwnProperty.call(state.reposts, postId)
+            ? state.reposts[postId]
+            : Boolean(post.userReposted)
+    );
+    const repostDelta = useSocialEngagementStore((state) => state.repostDeltas[postId] || 0);
+    const repostsCount = Math.max(0, parseCount(post.shares || post.stats?.reposts || 19) + repostDelta);
+    const setReposted = useSocialEngagementStore((state) => state.setReposted);
 
-    const [isBookmarked, setIsBookmarked] = useState(post.userBookmarked || false);
+    const isBookmarked = useSocialEngagementStore((state) =>
+        Object.prototype.hasOwnProperty.call(state.bookmarks, postId)
+            ? state.bookmarks[postId]
+            : Boolean(post.userBookmarked)
+    );
+    const toggleBookmark = useSocialEngagementStore((state) => state.toggleBookmark);
+    const storedUserComments = useSocialEngagementStore((state) => state.commentsByPost[postId] || EMPTY_STORED_COMMENTS);
+    const baseComments = Array.isArray(post.comments) ? post.comments : DEFAULT_POST_COMMENTS;
+    const comments = [...baseComments, ...storedUserComments];
+    const commentsCount = (typeof post.comments === 'number' ? post.comments : baseComments.length) + storedUserComments.length;
+    const addStoredComment = useSocialEngagementStore((state) => state.addComment);
+
     const [showComments, setShowComments] = useState(false);
-    const [comments, setComments] = useState(post.comments || DEFAULT_POST_COMMENTS);
     const [newComment, setNewComment] = useState('');
     const [showShareMenu, setShowShareMenu] = useState(false);
 
@@ -101,8 +127,7 @@ const Post = ({ post }) => {
         setTimeout(() => setHeartBurst(false), 900);
 
         if (!currentReaction) {
-            setCurrentReaction('love');
-            setLikesCount(prev => prev + 1);
+            setReaction(postId, 'love', post.userLiked ? 'love' : null);
             addToast('Liked travel post! ❤️', 'success');
         }
     };
@@ -111,25 +136,20 @@ const Post = ({ post }) => {
     const handleReactionSelect = (reactionId) => {
         setShowReactionsMenu(false);
         if (currentReaction === reactionId) {
-            setCurrentReaction(null);
-            setLikesCount(prev => Math.max(0, prev - 1));
+            setReaction(postId, null, post.userLiked ? 'love' : null);
         } else {
-            const isNew = !currentReaction;
-            setCurrentReaction(reactionId);
-            if (isNew) setLikesCount(prev => prev + 1);
+            setReaction(postId, reactionId, post.userLiked ? 'love' : null);
             const rObj = FB_REACTIONS.find(r => r.id === reactionId);
-            addToast(`Reacted with ${rObj?.icon} ${rObj?.label}!`, 'success');
+            addToast('Reacted with ' + rObj?.icon + ' ' + rObj?.label + '!', 'success');
         }
     };
 
     const handleSimpleLikeClick = (e) => {
         e.stopPropagation();
         if (currentReaction) {
-            setCurrentReaction(null);
-            setLikesCount(prev => Math.max(0, prev - 1));
+            setReaction(postId, null, post.userLiked ? 'love' : null);
         } else {
-            setCurrentReaction('love');
-            setLikesCount(prev => prev + 1);
+            setReaction(postId, 'love', post.userLiked ? 'love' : null);
             addToast('Added to travel favorites! ❤️', 'success');
         }
     };
@@ -150,12 +170,10 @@ const Post = ({ post }) => {
     const handleRepost = (e) => {
         e.stopPropagation();
         if (isReposted) {
-            setIsReposted(false);
-            setRepostsCount(prev => Math.max(0, prev - 1));
+            setReposted(postId, false, Boolean(post.userReposted));
             addToast('Removed repost from your profile', 'info');
         } else {
-            setIsReposted(true);
-            setRepostsCount(prev => prev + 1);
+            setReposted(postId, true, Boolean(post.userReposted));
             addToast('Reposted to your travel community! 🔄', 'success');
         }
     };
@@ -163,8 +181,8 @@ const Post = ({ post }) => {
     // Bookmark Handler
     const handleBookmark = (e) => {
         e.stopPropagation();
-        setIsBookmarked(!isBookmarked);
-        addToast(!isBookmarked ? 'Saved to Travel Wishlist 🔖' : 'Removed from Wishlist', 'info');
+        const nextBookmarked = toggleBookmark(postId, Boolean(post.userBookmarked));
+        addToast(nextBookmarked ? 'Saved to Travel Wishlist 🔖' : 'Removed from Wishlist', 'info');
     };
 
     // Share Options
@@ -229,7 +247,7 @@ const Post = ({ post }) => {
             time: 'Just now'
         };
 
-        setComments(prev => [...prev, newEntry]);
+        addStoredComment(postId, newEntry);
         setNewComment('');
         addToast('Comment published to thread! 💬', 'success');
     };
@@ -640,7 +658,7 @@ const Post = ({ post }) => {
 
                 <div className="engagement-summary-right">
                     <span onClick={() => setShowComments(true)} className="hover:underline cursor-pointer">
-                        {comments.length} comments
+                        {commentsCount} comments
                     </span>
                     <span>·</span>
                     <span>{repostsCount} reposts</span>
@@ -710,7 +728,7 @@ const Post = ({ post }) => {
                         aria-label="Comments"
                     >
                         <MessageCircle size={16} />
-                        <span className="action-count">{comments.length}</span>
+                        <span className="action-count">{commentsCount}</span>
                     </button>
 
                     {/* 3. Twitter Repost */}
