@@ -10,6 +10,7 @@ import { westBengalDestinations } from './westBengalDestinationsData.js';
 import { assamDestinations } from './assamDestinationsData.js';
 import { sriLankaDestinations } from './sriLankaDestinationsData.js';
 import { nepalDestinations } from './nepalDestinationsData.js';
+import { chinaDestinations } from './chinaDestinationsData.js';
 
 const baseDestinations = [
     // BEACH (15)
@@ -820,7 +821,8 @@ export const allDestinations = [
     ...westBengalDestinations,
     ...assamDestinations,
     ...sriLankaDestinations,
-    ...nepalDestinations
+    ...nepalDestinations,
+    ...chinaDestinations
 ];
 
 
