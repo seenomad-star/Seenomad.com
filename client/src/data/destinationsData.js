@@ -824,7 +824,8 @@ export const allDestinations = [
     ...sriLankaDestinations,
     ...nepalDestinations,
     ...chinaDestinations,
-    ...japanDestinations
+    ...japanDestinations,
+    ...bhutanDestinations
 ];
 
 
