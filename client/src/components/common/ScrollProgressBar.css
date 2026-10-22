@@ -1,35 +1,46 @@
 /* ==========================================================================
-   Subtle Viewport Scroll Progress Bar
+   Subtle Horizontal Scroll Progress Bar (Main-Content Area)
    ========================================================================== */
 
 .scroll-progress-container {
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
+    top: var(--current-header-h, 110px);
+    left: var(--current-sidebar-w, 268px);
+    right: var(--current-right-sidebar-w, 0px);
+    width: calc(100% - var(--current-sidebar-w, 268px) - var(--current-right-sidebar-w, 0px));
     height: 3px;
-    z-index: 10005;
+    z-index: 1195;
     pointer-events: none;
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(2px);
-    -webkit-backdrop-filter: blur(2px);
+    box-sizing: border-box;
+    background: rgba(255, 255, 255, 0.04);
     opacity: 0;
-    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    visibility: hidden;
+    transition: opacity 0.28s ease,
+                visibility 0.28s ease,
+                left 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+                right 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+                width 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+                top 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 :root:not(.dark) .scroll-progress-container {
-    background: rgba(0, 0, 0, 0.03);
+    background: rgba(0, 0, 0, 0.04);
 }
 
-.scroll-progress-container.has-progress {
-    opacity: 0.88;
+.scroll-progress-container.is-visible {
+    opacity: 0.85;
+    visibility: visible;
 }
 
 .scroll-progress-container.is-scrolling {
     opacity: 1;
 }
 
+.scroll-progress-container.is-completed {
+    opacity: 0.95;
+}
+
+/* Hardware-accelerated progress fill with smooth CSS transitions */
 .scroll-progress-fill {
     position: absolute;
     top: 0;
@@ -41,61 +52,85 @@
     background: linear-gradient(
         90deg,
         #2563eb 0%,
-        #3b82f6 40%,
-        #06b6d4 80%,
-        #38bdf8 100%
+        #3b82f6 30%,
+        #6366f1 65%,
+        #8b5cf6 90%,
+        #06b6d4 100%
     );
-    box-shadow: 0 1px 8px rgba(59, 130, 246, 0.45);
-    transition: transform 0.06s linear;
+    box-shadow: 0 1px 6px rgba(59, 130, 246, 0.4), 0 0 10px rgba(139, 92, 246, 0.3);
+    transition: transform 0.15s cubic-bezier(0.2, 0.8, 0.25, 1);
 }
 
 :root:not(.dark) .scroll-progress-fill {
     background: linear-gradient(
         90deg,
         #1d4ed8 0%,
-        #2563eb 45%,
-        #0284c7 85%,
-        #0ea5e9 100%
+        #2563eb 35%,
+        #4f46e5 70%,
+        #7c3aed 100%
     );
-    box-shadow: 0 1px 6px rgba(37, 99, 235, 0.35);
+    box-shadow: 0 1px 5px rgba(37, 99, 235, 0.35);
 }
 
-/* Subtle glowing bead on the leading edge */
+/* Midnight theme adaptation */
+[data-theme='midnight'] .scroll-progress-fill {
+    background: linear-gradient(
+        90deg,
+        #0284c7 0%,
+        #38bdf8 40%,
+        #818cf8 80%,
+        #c084fc 100%
+    );
+    box-shadow: 0 1px 8px rgba(56, 189, 248, 0.45);
+}
+
+/* Subtle glowing pip on the leading edge */
 .scroll-progress-glow {
     position: absolute;
     top: 50%;
     right: 0;
     transform: translateY(-50%);
-    width: 8px;
-    height: 8px;
+    width: 7px;
+    height: 7px;
     border-radius: 50%;
     background: #38bdf8;
     box-shadow: 
-        0 0 6px rgba(56, 189, 248, 0.9),
-        0 0 12px rgba(59, 130, 246, 0.7);
-    opacity: 0.9;
+        0 0 6px rgba(56, 189, 248, 0.95),
+        0 0 12px rgba(139, 92, 246, 0.7);
+    opacity: 0.85;
     transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
 :root:not(.dark) .scroll-progress-glow {
-    background: #0284c7;
+    background: #2563eb;
     box-shadow: 
-        0 0 6px rgba(2, 132, 199, 0.8),
-        0 0 10px rgba(37, 99, 235, 0.6);
+        0 0 5px rgba(37, 99, 235, 0.9),
+        0 0 10px rgba(79, 70, 229, 0.6);
 }
 
 .scroll-progress-container.is-scrolling .scroll-progress-glow {
     opacity: 1;
-    transform: translateY(-50%) scale(1.15);
+    transform: translateY(-50%) scale(1.2);
+}
+
+/* Responsive adjustments matching BaseLayout breakpoints */
+@media (max-width: 900px) {
+    .scroll-progress-container {
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        top: var(--current-header-h, 54px);
+    }
 }
 
 @media (max-width: 640px) {
     .scroll-progress-container {
+        top: 52px !important;
         height: 2.5px;
     }
-    
+
     .scroll-progress-glow {
-        width: 6px;
-        height: 6px;
+        width: 5px;
+        height: 5px;
     }
 }

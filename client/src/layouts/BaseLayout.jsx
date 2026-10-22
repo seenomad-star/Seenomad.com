@@ -165,8 +165,6 @@ const BaseLayout = ({ children }) => {
                 '--current-header-h': currentHeaderHeight
             }}
         >
-            <ScrollProgressBar />
-
             {/* 1. Left Primary Navigation Sidebar (Desktop) */}
             {!isMobile && (
                 <Sidebar
@@ -199,6 +197,9 @@ const BaseLayout = ({ children }) => {
 
             {/* 4. Main Page Content Structure */}
             <main className={mainClasses} id="main-content-region">
+                {/* Subtle horizontal progress bar at top of main-content tracking scroll depth */}
+                <ScrollProgressBar />
+
                 {/* Early Access / Demo status indicator banner */}
                 <EarlyAccessBanner />
                 <NomadDock />

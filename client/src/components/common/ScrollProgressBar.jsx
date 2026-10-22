@@ -4,8 +4,8 @@ import './ScrollProgressBar.css';
 
 /**
  * ScrollProgressBar
- * A subtle, hardware-accelerated scroll progress bar fixed at the top of the viewport
- * that tracks user reading/browsing depth on content-heavy pages.
+ * A subtle, hardware-accelerated horizontal scroll progress bar at the top of the main-content area
+ * that smoothly tracks reading/scroll depth across long pages using CSS transitions.
  */
 const ScrollProgressBar = () => {
     const location = useLocation();
@@ -18,22 +18,32 @@ const ScrollProgressBar = () => {
     const updateProgress = useCallback(() => {
         const el = document.documentElement;
         const body = document.body;
+        const mainEl = document.getElementById('main-content-region');
         const windowHeight = window.innerHeight;
-        
-        const scrollHeight = Math.max(
+
+        const windowScrollTop = window.scrollY || window.pageYOffset || el.scrollTop || body.scrollTop || 0;
+        const mainScrollTop = mainEl ? mainEl.scrollTop : 0;
+        const scrollTop = Math.max(windowScrollTop, mainScrollTop);
+
+        const windowScrollHeight = Math.max(
             el.scrollHeight,
             body.scrollHeight,
             el.offsetHeight,
             body.offsetHeight
         );
-        
-        const scrollTop = window.scrollY || el.scrollTop || body.scrollTop || 0;
-        const scrollableDistance = scrollHeight - windowHeight;
+        const mainScrollHeight = mainEl ? mainEl.scrollHeight : 0;
+        const scrollHeight = Math.max(windowScrollHeight, mainScrollHeight);
 
-        // Consider content-heavy if scrollable distance exceeds 100px
-        if (scrollableDistance > 100) {
+        const mainClientHeight = mainEl ? mainEl.clientHeight : 0;
+        const clientHeight = (mainScrollTop > windowScrollTop && mainClientHeight > 0) ? mainClientHeight : windowHeight;
+
+        const scrollableDistance = scrollHeight - clientHeight;
+
+        // Long page detection: threshold of 80px scrollable depth
+        if (scrollableDistance > 80) {
             setIsScrollable(true);
-            const currentProgress = Math.min(100, Math.max(0, (scrollTop / scrollableDistance) * 100));
+            const rawProgress = (scrollTop / scrollableDistance) * 100;
+            const currentProgress = Math.min(100, Math.max(0, rawProgress));
             setProgress(currentProgress);
         } else {
             setIsScrollable(false);
@@ -62,15 +72,21 @@ const ScrollProgressBar = () => {
         setProgress(0);
         setIsScrolling(false);
 
-        // Allow route transition/render to settle, then measure
+        // Immediate check + settled check after route transition
+        updateProgress();
         const timer = setTimeout(() => {
             updateProgress();
-        }, 120);
+        }, 150);
 
         window.addEventListener('scroll', onScroll, { passive: true });
         window.addEventListener('resize', onScroll, { passive: true });
 
-        // Observe DOM height changes (dynamic feeds, async content loads)
+        const mainEl = document.getElementById('main-content-region');
+        if (mainEl) {
+            mainEl.addEventListener('scroll', onScroll, { passive: true });
+        }
+
+        // Observe DOM height changes (dynamic lists, async loads, expanded sections)
         let observer = null;
         if (typeof ResizeObserver !== 'undefined') {
             observer = new ResizeObserver(() => {
@@ -78,6 +94,9 @@ const ScrollProgressBar = () => {
             });
             if (document.body) {
                 observer.observe(document.body);
+            }
+            if (mainEl) {
+                observer.observe(mainEl);
             }
         }
 
@@ -87,25 +106,25 @@ const ScrollProgressBar = () => {
             if (rafIdRef.current) cancelAnimationFrame(rafIdRef.current);
             window.removeEventListener('scroll', onScroll);
             window.removeEventListener('resize', onScroll);
+            if (mainEl) {
+                mainEl.removeEventListener('scroll', onScroll);
+            }
             if (observer) observer.disconnect();
         };
     }, [location.pathname, onScroll, updateProgress]);
 
-    // Only render if page has enough content to be scrollable
-    if (!isScrollable) {
-        return null;
-    }
-
+    // Determine visibility: visible on scrollable pages once scrolled or while scrolling
+    const isVisible = isScrollable && (progress > 0.5 || isScrolling);
     const scale = progress / 100;
 
     return (
         <div 
-            className={`scroll-progress-container ${isScrolling ? 'is-scrolling' : ''} ${progress > 0 ? 'has-progress' : ''}`}
+            className={`scroll-progress-container ${isVisible ? 'is-visible' : ''} ${isScrolling ? 'is-scrolling' : ''} ${progress >= 99 ? 'is-completed' : ''}`}
             role="progressbar"
             aria-valuenow={Math.round(progress)}
             aria-valuemin={0}
             aria-valuemax={100}
-            aria-label="Page scroll progress"
+            aria-label="Scroll progress"
         >
             <div 
                 className="scroll-progress-fill" 
