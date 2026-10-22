@@ -30,6 +30,7 @@ import NomadBytesFeed from './features/Bytes/NomadBytesFeed';
 import DestinationDetail from './features/Explore/components/DestinationDetail';
 import TravelHub from './features/TravelHub/TravelHub';
 import JourneyWorkspace from './features/JourneyWorkspace';
+import SavedSocialPosts from './features/Saved/SavedSocialPosts';
 import AuthPage from './features/Auth/AuthPage';
 
 // Lazy load heavy features
@@ -107,6 +108,7 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/legal" element={<LegalPolicy />} />
             <Route path="/saved" element={<SavedDestinationsHub />} />
+            <Route path="/saved-posts" element={<SavedSocialPosts />} />
             <Route path="/favorites" element={<Navigate to="/saved" replace />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/user/*" element={<UserHub />} />

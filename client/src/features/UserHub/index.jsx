@@ -16,6 +16,7 @@ import ReferralHub from './components/ReferralHub';
 import DopamineDashboard from './components/DopamineDashboard';
 import TravelMap from './components/TravelMap';
 import SavedDestinationsHub from '../Saved/SavedDestinationsHub';
+import SavedSocialPosts from '../Saved/SavedSocialPosts';
 import SavedVibesVault from './components/SavedVibesVault';
 import ViralShareModal from '../Growth/components/ViralShareModal';
 import Messaging from '../Community/components/Messaging';
@@ -63,6 +64,7 @@ const UserHub = () => {
                     <Route path="saved-vibes" element={<SavedVibesVault />} />
                     <Route path="favorites" element={<SavedDestinationsHub />} />
                     <Route path="saved" element={<SavedDestinationsHub />} />
+                    <Route path="saved-posts" element={<SavedSocialPosts />} />
                     <Route path="budget" element={<BudgetTracker />} />
                     <Route path="referrals" element={<ReferralHub />} />
                     <Route path="impact" element={<DopamineDashboard />} />

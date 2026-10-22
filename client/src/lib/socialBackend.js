@@ -134,6 +134,43 @@ export async function setFollowedUser(followingId, followed) {
   return followed;
 }
 
+
+export async function getFollowState(followingId) {
+  const client = requireClient();
+  const user = await requireUser(client, 'follow travelers');
+  if (!followingId || followingId === user.id) return false;
+  const { data, error } = await client.from('social_follows')
+    .select('following_id').eq('follower_id', user.id).eq('following_id', followingId).maybeSingle();
+  if (error) throw error;
+  return Boolean(data);
+}
+
+export async function listMySavedSocialPosts() {
+  const client = requireClient();
+  const user = await requireUser(client, 'view saved posts');
+  const { data: savedRows, error: savedError } = await client.from('social_saved_posts')
+    .select('post_key, created_at').eq('user_id', user.id).order('created_at', { ascending: false });
+  if (savedError) throw savedError;
+  const saved = savedRows ?? [];
+  const uuidKeys = saved.map((row) => row.post_key).filter((key) =>
+    /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(key)
+  );
+  if (!uuidKeys.length) return { posts: [], unresolvedKeys: saved.map((row) => row.post_key) };
+
+  const { data: posts, error: postsError } = await client.from('social_posts')
+    .select('id, author_id, content, location, feeling, media_urls, post_type, metadata, created_at')
+    .in('id', uuidKeys);
+  if (postsError) throw postsError;
+  const postById = new Map((posts ?? []).map((post) => [post.id, post]));
+  return {
+    posts: saved.map((row) => {
+      const post = postById.get(row.post_key);
+      return post ? { ...post, saved_at: row.created_at } : null;
+    }).filter(Boolean),
+    unresolvedKeys: saved.filter((row) => !postById.has(row.post_key)).map((row) => row.post_key)
+  };
+}
+
 export async function listMyFollows() {
   const client = requireClient();
   const user = await requireUser(client, 'load your follows');
