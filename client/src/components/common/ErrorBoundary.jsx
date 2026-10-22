@@ -268,6 +268,7 @@ class ErrorBoundary extends React.Component {
 
                         {this.state.error && (
                             <details
+                                open
                                 style={{
                                     width: '100%',
                                     marginTop: '0.5rem',
@@ -296,6 +297,7 @@ class ErrorBoundary extends React.Component {
                                     }}
                                 >
                                     {this.state.error?.toString()}
+                                    {this.state.error?.stack ? `\n${this.state.error.stack}` : ''}
                                     {this.state.errorInfo?.componentStack || ''}
                                 </pre>
                             </details>
