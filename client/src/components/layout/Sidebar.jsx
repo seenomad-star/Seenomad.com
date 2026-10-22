@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import {
     Home,
+    Compass,
     Map,
     Video,
     Calendar,
