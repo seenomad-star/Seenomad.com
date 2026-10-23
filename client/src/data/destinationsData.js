@@ -11,6 +11,7 @@ import { assamDestinations } from './assamDestinationsData.js';
 import { sriLankaDestinations } from './sriLankaDestinationsData.js';
 import { nepalDestinations } from './nepalDestinationsData.js';
 import { chinaDestinations } from './chinaDestinationsData.js';
+import { bhutanDestinations } from './bhutanDestinationsData.js';
 import { japanDestinations } from './japanDestinationsData.js';
 
 const baseDestinations = [
