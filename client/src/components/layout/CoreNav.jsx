@@ -1050,13 +1050,7 @@ const CoreNav = ({ toggleSidebar, toggleRightSidebar, isSidebarCollapsed = false
                         <button
                             type="button"
                             className="nav-btn hud-toggle-btn"
-                            onClick={(event) => {
-                                event.preventDefault();
-                                event.stopPropagation();
-                                // Toggle the sidebar state directly so this control still works
-                                // if an ancestor callback is stale or not wired as expected.
-                                storeToggleRightSidebar(!isRightSidebarOpen);
-                            }}
+                            onClick={toggleRightSidebar}
                             aria-expanded={isRightSidebarOpen}
                             aria-controls="global-right-sidebar"
                             aria-label={isRightSidebarOpen ? "Close Command HUD" : "Open Command HUD"}
