@@ -18,6 +18,7 @@ import { vietnamDestinations } from './vietnamDestinationsData.js';
 import { indonesiaDestinations } from './indonesiaDestinationsData.js';
 import { philippinesDestinations } from './philippinesDestinationsData.js';
 import { malaysiaDestinations } from './malaysiaDestinationsData.js';
+import { singaporeDestinations } from './singaporeDestinationsData.js';
 import { bhutanDestinations } from './bhutanDestinationsData.js';
 
 const baseDestinations = [
@@ -838,6 +839,7 @@ export const allDestinations = [
     ...indonesiaDestinations,
     ...philippinesDestinations,
     ...malaysiaDestinations,
+    ...singaporeDestinations,
     ...bhutanDestinations
 ];
 
