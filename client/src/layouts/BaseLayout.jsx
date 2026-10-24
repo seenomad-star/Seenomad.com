@@ -99,16 +99,16 @@ const BaseLayout = ({ children }) => {
     const isRightDocked = isBigScreen && isRightSidebarPinned;
 
     const handleToggleRightSidebar = () => {
-        if (isBigScreen) {
-            if (isRightDocked) {
-                toggleRightSidebarPinned(false);
-                storeToggleRightSidebar(false);
-            } else {
-                toggleRightSidebarPinned(true);
-            }
-        } else {
-            storeToggleRightSidebar(!isRightSidebarOpen);
+        // The top-right HUD button must always open/close the panel.
+        // If the panel is currently docked, switch it to floating mode and open it
+        // rather than unpinning and closing it (which made the click appear to do nothing).
+        if (isRightDocked) {
+            toggleRightSidebarPinned(false);
+            storeToggleRightSidebar(true);
+            return;
         }
+
+        storeToggleRightSidebar(!isRightSidebarOpen);
     };
 
     const handleThemeChange = (newTheme) => {
