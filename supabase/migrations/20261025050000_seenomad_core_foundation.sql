@@ -1,5 +1,7 @@
 -- Seenomad core destination and trip-planning schema.
 -- Public destination reads are limited to published records. User-owned data is protected by RLS.
+-- This helper is intended for the database event trigger, not as a callable Data API RPC.
+revoke execute on function public.rls_auto_enable() from public, anon, authenticated;
 
 alter table public.profiles add column if not exists home_country text;
 
