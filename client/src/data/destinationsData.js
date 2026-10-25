@@ -22,6 +22,7 @@ import { singaporeDestinations } from './singaporeDestinationsData.js';
 import { cambodiaDestinations } from './cambodiaDestinationsData.js';
 import { laosDestinations } from './laosDestinationsData.js';
 import { myanmarDestinations } from './myanmarDestinationsData.js';
+import { bangladeshDestinations } from './bangladeshDestinationsData.js';
 import { bhutanDestinations } from './bhutanDestinationsData.js';
 
 const baseDestinations = [
@@ -846,6 +847,7 @@ export const allDestinations = [
     ...cambodiaDestinations,
     ...laosDestinations,
     ...myanmarDestinations,
+    ...bangladeshDestinations,
     ...bhutanDestinations
 ];
 
