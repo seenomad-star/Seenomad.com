@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { allDestinations } from '../../../data/destinationsData';
+import { fetchPublishedDestinations } from '../../../lib/destinationCatalogue';
 import { useDestinationStore } from '../../../store/destinationFilterStore';
 import { useSavedStore } from '../../../store/savedStore';
 import DestinationCard from './common/DestinationCard';
@@ -35,6 +36,15 @@ import './Destinations.css';
 
 const Destinations = () => {
     const [searchParams] = useSearchParams();
+    const [databaseDestinations, setDatabaseDestinations] = useState(null);
+
+    useEffect(() => {
+        let active = true;
+        fetchPublishedDestinations().then((rows) => {
+            if (active && rows?.length) setDatabaseDestinations(rows);
+        });
+        return () => { active = false; };
+    }, []);
     const [is75DistrictsModalOpen, setIs75DistrictsModalOpen] = useState(false);
     const [is55DistrictsModalOpen, setIs55DistrictsModalOpen] = useState(false);
     const [is36DistrictsModalOpen, setIs36DistrictsModalOpen] = useState(false);
@@ -466,7 +476,10 @@ const Destinations = () => {
         const activeSearch = (searchQuery || globalSearchQuery || '').trim().toLowerCase();
         const activeFiltersList = selectedFilters.length > 0 ? selectedFilters : globalActiveFilters;
 
-        const filtered = allDestinations.filter(dest => {
+        const sourceDestinations = regionMode === 'global' && databaseDestinations?.length
+            ? databaseDestinations
+            : allDestinations;
+        const filtered = sourceDestinations.filter(dest => {
             // Regional Scope Filter ('assam' | 'wb' | 'bihar' | 'jh' | 'od' | 'cg' | 'rj' | 'mh' | 'mp' | 'up' | 'delhi' | 'global')
             if (regionMode === 'assam') {
                 const isAssam = dest.isAssam || dest.state === 'Assam' || dest.location?.toLowerCase().includes('assam');
