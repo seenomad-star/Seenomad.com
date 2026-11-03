@@ -27,6 +27,7 @@ import { jharkhandDestinations } from '../../../data/jharkhandDestinationsData';
 import { biharDestinations } from '../../../data/biharDestinationsData';
 import { westBengalDestinations } from '../../../data/westBengalDestinationsData.js';
 import { assamDestinations } from '../../../data/assamDestinationsData.js';
+import { meghalayaDestinations } from '../../../data/meghalayaDestinationsData.js';
 import { useSavedStore } from '../../../store/savedStore';
 import { useDestinationStore } from '../../../store/destinationFilterStore';
 import { useToastStore } from '../../../store/toastStore';
@@ -67,7 +68,16 @@ export const DestinationDetailTemplate = ({
 
         const decoded = decodeURIComponent(targetId).toLowerCase();
 
-        // 1. Direct Assam match for fast indexing
+        // 1. Direct Meghalaya match for fast indexing
+        const meghalayaMatch = meghalayaDestinations.find(
+            d => toSlug(d.name) === decoded ||
+                String(d.id) === decoded ||
+                (d.slug && d.slug.toLowerCase() === decoded) ||
+                toSlug(d.name).replace(/-+/g, '') === decoded.replace(/-+/g, '')
+        );
+        if (meghalayaMatch) return meghalayaMatch;
+
+        // 2. Direct Assam match for fast indexing
         const assamMatch = assamDestinations.find(
             d => toSlug(d.name) === decoded ||
                 String(d.id) === decoded ||

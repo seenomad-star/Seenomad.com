@@ -8,6 +8,7 @@ import { jharkhandDestinations } from './jharkhandDestinationsData.js';
 import { biharDestinations } from './biharDestinationsData.js';
 import { westBengalDestinations } from './westBengalDestinationsData.js';
 import { assamDestinations } from './assamDestinationsData.js';
+import { meghalayaDestinations } from './meghalayaDestinationsData.js';
 import { sriLankaDestinations } from './sriLankaDestinationsData.js';
 import { nepalDestinations } from './nepalDestinationsData.js';
 import { chinaDestinations } from './chinaDestinationsData.js';
@@ -820,7 +821,7 @@ const baseDestinations = [
     }
 ];
 
-export { uttarPradeshDestinations, madhyaPradeshDestinations, maharashtraDestinations, rajasthanDestinations, chhattisgarhDestinations, odishaDestinations, jharkhandDestinations, biharDestinations, westBengalDestinations, assamDestinations };
+export { uttarPradeshDestinations, madhyaPradeshDestinations, maharashtraDestinations, rajasthanDestinations, chhattisgarhDestinations, odishaDestinations, jharkhandDestinations, biharDestinations, westBengalDestinations, assamDestinations, meghalayaDestinations };
 export const allDestinations = [
     ...baseDestinations,
     ...uttarPradeshDestinations,
@@ -833,6 +834,7 @@ export const allDestinations = [
     ...biharDestinations,
     ...westBengalDestinations,
     ...assamDestinations,
+    ...meghalayaDestinations,
     ...sriLankaDestinations,
     ...nepalDestinations,
     ...chinaDestinations,

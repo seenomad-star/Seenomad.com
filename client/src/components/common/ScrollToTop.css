@@ -1,6 +1,7 @@
 /* ==========================================================================
    ScrollToTop Floating Action Button & Circular Progress Ring
-   Appears when user scrolls past threshold on content-rich pages.
+   Matches the aesthetic, gradient palette, and fluid transitions of the
+   horizontal scroll progress bar.
    ========================================================================== */
 
 .scroll-to-top-wrapper {
@@ -26,7 +27,7 @@
     background: rgba(15, 23, 42, 0.88);
     -webkit-backdrop-filter: blur(18px) saturate(180%);
     backdrop-filter: blur(18px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.14);
     color: #38bdf8;
     cursor: pointer;
     display: flex;
@@ -38,7 +39,7 @@
     box-shadow:
         0 8px 24px -2px rgba(0, 0, 0, 0.5),
         0 2px 8px rgba(0, 0, 0, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+        inset 0 1px 0 rgba(255, 255, 255, 0.18);
     transition:
         transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
         background 0.2s ease,
@@ -54,34 +55,35 @@
 body.theme-light .scroll-to-top-btn,
 .theme-light .scroll-to-top-btn {
     background: rgba(255, 255, 255, 0.94);
-    border-color: rgba(0, 0, 0, 0.08);
-    color: #0284c7;
+    border-color: rgba(37, 99, 235, 0.18);
+    color: #2563eb;
     box-shadow:
         0 8px 24px -2px rgba(0, 0, 0, 0.12),
-        0 2px 8px rgba(0, 0, 0, 0.06),
+        0 2px 8px rgba(37, 99, 235, 0.08),
         inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
 
 /* Button Interactions */
 .scroll-to-top-btn:hover {
-    transform: translateY(-3px) scale(1.05);
+    transform: translateY(-3px) scale(1.06);
     background: rgba(15, 23, 42, 0.96);
-    border-color: rgba(56, 189, 248, 0.4);
+    border-color: rgba(99, 102, 241, 0.5);
     color: #ffffff;
     box-shadow:
-        0 12px 30px -2px rgba(2, 132, 199, 0.45),
-        0 4px 12px rgba(0, 0, 0, 0.35);
+        0 12px 32px -2px rgba(59, 130, 246, 0.45),
+        0 4px 14px rgba(139, 92, 246, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
 
 :root:not(.dark) .scroll-to-top-btn:hover,
 body.theme-light .scroll-to-top-btn:hover,
 .theme-light .scroll-to-top-btn:hover {
     background: #ffffff;
-    border-color: rgba(2, 132, 199, 0.3);
-    color: #0284c7;
+    border-color: rgba(79, 70, 229, 0.4);
+    color: #2563eb;
     box-shadow:
-        0 10px 28px -2px rgba(2, 132, 199, 0.25),
-        0 4px 12px rgba(0, 0, 0, 0.08);
+        0 10px 28px -2px rgba(37, 99, 235, 0.28),
+        0 4px 12px rgba(124, 58, 237, 0.15);
 }
 
 .scroll-to-top-btn:active {
@@ -96,11 +98,11 @@ body.theme-light .scroll-to-top-btn:hover,
 :root:not(.dark) .scroll-to-top-btn:focus-visible,
 body.theme-light .scroll-to-top-btn:focus-visible,
 .theme-light .scroll-to-top-btn:focus-visible {
-    outline-color: #0284c7;
+    outline-color: #2563eb;
 }
 
 /* ==========================================================================
-   Circular Progress Ring SVG
+   Circular Progress Ring SVG (Matching Progress Bar Aesthetic)
    ========================================================================== */
 .scroll-progress-ring {
     position: absolute;
@@ -113,28 +115,42 @@ body.theme-light .scroll-to-top-btn:focus-visible,
 
 .progress-ring-track {
     fill: none;
-    stroke: rgba(255, 255, 255, 0.07);
+    stroke: rgba(255, 255, 255, 0.08);
 }
 
 :root:not(.dark) .progress-ring-track,
 body.theme-light .progress-ring-track,
 .theme-light .progress-ring-track {
-    stroke: rgba(0, 0, 0, 0.06);
+    stroke: rgba(0, 0, 0, 0.07);
 }
 
 .progress-ring-fill {
     fill: none;
-    stroke: #38bdf8;
+    stroke: url(#scrollToTopGradient);
     stroke-linecap: round;
-    transition: stroke-dashoffset 0.1s linear;
-    filter: drop-shadow(0 0 3px rgba(56, 189, 248, 0.6));
+    transition: stroke-dashoffset 0.14s cubic-bezier(0.2, 0.8, 0.25, 1);
+    filter: drop-shadow(0 0 4px rgba(59, 130, 246, 0.7)) drop-shadow(0 0 8px rgba(139, 92, 246, 0.4));
 }
 
 :root:not(.dark) .progress-ring-fill,
 body.theme-light .progress-ring-fill,
 .theme-light .progress-ring-fill {
-    stroke: #0284c7;
-    filter: drop-shadow(0 0 2px rgba(2, 132, 199, 0.4));
+    filter: drop-shadow(0 0 3px rgba(37, 99, 235, 0.5));
+}
+
+/* Ambient glow orb behind button */
+.scroll-btn-glow {
+    position: absolute;
+    inset: -2px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.25) 0%, rgba(139, 92, 246, 0.15) 50%, transparent 70%);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+}
+
+.scroll-to-top-btn:hover .scroll-btn-glow {
+    opacity: 1;
 }
 
 /* ==========================================================================
@@ -148,11 +164,21 @@ body.theme-light .progress-ring-fill,
 }
 
 .scroll-up-arrow {
-    transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.2s ease;
+    color: #38bdf8;
+}
+
+:root:not(.dark) .scroll-up-arrow {
+    color: #2563eb;
 }
 
 .scroll-to-top-btn:hover .scroll-up-arrow {
-    transform: translateY(-2px);
+    transform: translateY(-2.5px);
+    color: #ffffff;
+}
+
+:root:not(.dark) .scroll-to-top-btn:hover .scroll-up-arrow {
+    color: #1d4ed8;
 }
 
 /* ==========================================================================
@@ -160,22 +186,22 @@ body.theme-light .progress-ring-fill,
    ========================================================================== */
 .scroll-tooltip-pill {
     position: absolute;
-    right: calc(100% + 10px);
+    right: calc(100% + 12px);
     top: 50%;
     transform: translateY(-50%) translateX(6px);
     background: rgba(15, 23, 42, 0.92);
-    -webkit-backdrop-filter: blur(12px);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.14);
     color: #f8fafc;
     font-size: 0.72rem;
     font-weight: 700;
-    padding: 0.28rem 0.65rem;
+    padding: 0.32rem 0.7rem;
     border-radius: 20px;
     white-space: nowrap;
     opacity: 0;
     pointer-events: none;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
     transition: opacity 0.18s ease, transform 0.18s cubic-bezier(0.16, 1, 0.3, 1);
     display: flex;
     align-items: center;
@@ -204,7 +230,7 @@ body.theme-light .scroll-tooltip-pill,
 :root:not(.dark) .tooltip-percent,
 body.theme-light .tooltip-percent,
 .theme-light .tooltip-percent {
-    color: #0284c7;
+    color: #2563eb;
 }
 
 /* Accommodate pinned right sidebar on wide desktop screens */
@@ -216,42 +242,37 @@ body.theme-light .tooltip-percent,
 
 /* ==========================================================================
    Mobile & Responsive Adjustments
-   Ensure proper clearance above the Mobile Bottom Navigation Dock.
    ========================================================================== */
 @media (max-width: 900px) {
     .scroll-to-top-wrapper {
-        /* Sit cleanly above the mobile bottom nav and NomadDock filter orb */
         bottom: calc(96px + env(safe-area-inset-bottom, 0px));
-        right: 10px;
+        right: 14px;
     }
 
     .scroll-to-top-btn {
-        width: 38px;
-        height: 38px;
-        min-width: 38px;
-        min-height: 38px;
+        width: 44px;
+        height: 44px;
+        min-width: 44px;
+        min-height: 44px;
     }
 
     .scroll-progress-ring {
-        width: 38px;
-        height: 38px;
+        width: 44px;
+        height: 44px;
     }
 
-    /* Hide text tooltip on small touch devices to prevent clutter */
     .scroll-tooltip-pill {
         display: none;
     }
 }
 
-/* Extra small screens */
 @media (max-width: 380px) {
     .scroll-to-top-wrapper {
-        right: 10px;
+        right: 12px;
         bottom: calc(92px + env(safe-area-inset-bottom, 0px));
     }
 }
 
-/* Hide on print */
 @media print {
     .scroll-to-top-wrapper {
         display: none !important;

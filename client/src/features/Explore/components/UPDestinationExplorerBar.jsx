@@ -14,6 +14,7 @@ import { JH_CIRCUITS, JH_CATEGORIES, matchJHCategory } from './JHDistrictIntelli
 import { BIHAR_CIRCUITS, BIHAR_CATEGORIES, matchBiharCategory } from './BiharDistrictIntelligenceSuite';
 import { WB_CIRCUITS, WB_CATEGORIES, matchWBCategory } from './WBDistrictIntelligenceSuite';
 import { ASSAM_CIRCUITS, ASSAM_CATEGORIES, matchAssamCategory } from './AssamDistrictIntelligenceSuite';
+import { MEGHALAYA_CIRCUITS, MEGHALAYA_CATEGORIES, matchMeghalayaCategory } from './MeghalayaDistrictIntelligenceSuite';
 import './UPDestinationExplorerBar.css';
 
 export const UP_CIRCUITS = [
@@ -27,7 +28,7 @@ export const UP_CIRCUITS = [
 ];
 
 const UPDestinationExplorerBar = ({
-    regionMode = 'up', // 'up' | 'mp' | 'mh' | 'rj' | 'cg' | 'od' | 'jh' | 'bihar' | 'wb' | 'assam' | 'delhi' | 'global'
+    regionMode = 'up', // 'up' | 'mp' | 'mh' | 'rj' | 'cg' | 'od' | 'jh' | 'bihar' | 'wb' | 'assam' | 'meghalaya' | 'delhi' | 'global'
     onSelectRegionMode,
     selectedDistrict = 'all',
     onSelectDistrict,
@@ -51,6 +52,8 @@ const UPDestinationExplorerBar = ({
     onSelectWBCategory,
     selectedAssamCategory = 'all',
     onSelectAssamCategory,
+    selectedMeghalayaCategory = 'all',
+    onSelectMeghalayaCategory,
     upDestinations = [],
     districtsList = [],
     mpDestinations = [],
@@ -71,6 +74,8 @@ const UPDestinationExplorerBar = ({
     wbDistrictsList = [],
     assamDestinations = [],
     assamDistrictsList = [],
+    meghalayaDestinations = [],
+    meghalayaDistrictsList = [],
     totalCount = 0,
     onOpen75Districts,
     onOpen55Districts,
@@ -81,9 +86,35 @@ const UPDestinationExplorerBar = ({
     onOpen24Districts,
     onOpen38Districts,
     onOpen23Districts,
-    onOpen35Districts
+    onOpen35Districts,
+    onOpen12Districts
 }) => {
     const navigate = useNavigate();
+
+    // Compute counts per Meghalaya category
+    const meghalayaCategoryCounts = useMemo(() => {
+        const counts = { all: meghalayaDestinations.length };
+        MEGHALAYA_CATEGORIES.forEach(cat => {
+            if (cat.id !== 'all') {
+                counts[cat.id] = meghalayaDestinations.filter(d => matchMeghalayaCategory(d, cat.id)).length;
+            }
+        });
+        return counts;
+    }, [meghalayaDestinations]);
+
+    // Compute counts per Meghalaya circuit
+    const meghalayaCircuitCounts = useMemo(() => {
+        const counts = { all: meghalayaDestinations.length };
+        MEGHALAYA_CIRCUITS.forEach(c => {
+            if (c.id !== 'all') counts[c.id] = 0;
+        });
+        meghalayaDestinations.forEach(d => {
+            if (d.meghalayaCircuit && counts[d.meghalayaCircuit] !== undefined) {
+                counts[d.meghalayaCircuit]++;
+            }
+        });
+        return counts;
+    }, [meghalayaDestinations]);
 
     // Compute counts per Assam category
     const assamCategoryCounts = useMemo(() => {
@@ -427,6 +458,16 @@ const UPDestinationExplorerBar = ({
                         <span className="region-flag">🦏</span>
                         <span className="font-bold">Assam (35 Districts)</span>
                         <span className="region-badge-count">{assamDestinations.length}</span>
+                    </button>
+
+                    <button
+                        type="button"
+                        onClick={() => onSelectRegionMode('meghalaya')}
+                        className={`region-tab-btn ${regionMode === 'meghalaya' ? 'active meghalaya-theme' : ''}`}
+                    >
+                        <span className="region-flag">☁️</span>
+                        <span className="font-bold">Meghalaya (12 Districts)</span>
+                        <span className="region-badge-count">{meghalayaDestinations.length}</span>
                     </button>
 
                     <button
@@ -1846,6 +1887,120 @@ const UPDestinationExplorerBar = ({
                         <div className="telemetry-item">
                             <ShieldCheck size={13} className="text-emerald-400" />
                             <span>Sacred Kamakhya, Haflong Hills & Brahmaputra Riverfront</span>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* When Region Mode is 'meghalaya', show Meghalaya District Dropdown & Circuit Pills */}
+            {regionMode === 'meghalaya' && (
+                <div className="up-circuit-controls-card meghalaya-controls-card" style={{ borderColor: 'rgba(6, 182, 212, 0.45)', background: 'linear-gradient(135deg, rgba(8, 145, 178, 0.16) 0%, rgba(15, 23, 42, 0.92) 100%)' }}>
+                    {/* Header Banner */}
+                    <div className="up-controls-header">
+                        <div className="up-header-text-block">
+                            <h2 className="up-header-title">
+                                Explore Meghalaya Destinations by District & Circuit
+                            </h2>
+                            <p className="up-header-desc">
+                                The Abode of Clouds · 12 Districts: Double Decker Living Root Bridges, Nohkalakai Falls, crystal-clear Dawki Umngot river, Mawlynnong Asia's cleanest village, Laitlum canyons, Krang Suri waterfalls, UNESCO Nokrek Biosphere, and Balpakram National Park.
+                            </p>
+                        </div>
+
+                        {/* District Dropdown Selector & 12 Districts Quick Modal Trigger */}
+                        <div className="up-district-dropdown-wrap">
+                            <div className="district-dropdown-labels-row">
+                                <label htmlFor="meghalaya-district-select" className="district-dropdown-label">
+                                    <MapPin size={14} className="text-cyan-400" />
+                                    <span>Filter by Meghalaya District:</span>
+                                </label>
+                                {onOpen12Districts && (
+                                    <button
+                                        type="button"
+                                        onClick={onOpen12Districts}
+                                        className="up-directory-quick-link"
+                                        style={{
+                                            background: 'linear-gradient(135deg, rgba(8, 145, 178, 0.22) 0%, rgba(14, 116, 144, 0.28) 100%)',
+                                            color: '#67e8f9',
+                                            borderColor: 'rgba(6, 182, 212, 0.45)'
+                                        }}
+                                        title="Browse full directory of all 12 districts of Meghalaya"
+                                    >
+                                        <Compass size={12} />
+                                        <span>12 Districts Grid</span>
+                                    </button>
+                                )}
+                            </div>
+                            <div className="district-select-box">
+                                <select
+                                    id="meghalaya-district-select"
+                                    value={selectedDistrict}
+                                    onChange={(e) => onSelectDistrict(e.target.value)}
+                                    className="district-native-select"
+                                    style={{ borderColor: 'rgba(6, 182, 212, 0.45)' }}
+                                >
+                                    <option value="all">🌟 All 12 Meghalaya Districts ({meghalayaDestinations.length})</option>
+                                    {meghalayaDistrictsList.map((dist) => {
+                                        const count = meghalayaDestinations.filter(d => d.district?.toLowerCase() === dist.toLowerCase()).length;
+                                        return (
+                                            <option key={dist} value={dist}>
+                                                {dist} District {count > 0 ? `(${count})` : ''}
+                                            </option>
+                                        );
+                                    })}
+                                </select>
+                                <ChevronDown size={14} className="district-select-arrow" />
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Circuit Pills Filter */}
+                    <div className="circuit-pills-row" role="tablist" aria-label="Meghalaya Circuits">
+                        {MEGHALAYA_CIRCUITS.map((circuit) => {
+                            const count = meghalayaCircuitCounts[circuit.id] || 0;
+                            const isActive = selectedCircuit === circuit.id;
+
+                            return (
+                                <button
+                                    key={circuit.id}
+                                    type="button"
+                                    onClick={() => onSelectCircuit(circuit.id)}
+                                    className={`circuit-pill-btn ${isActive ? 'active' : ''}`}
+                                    style={isActive ? {
+                                        background: 'linear-gradient(135deg, #0891b2 0%, #0e7490 100%)',
+                                        borderColor: '#06b6d4',
+                                        color: '#ffffff',
+                                        boxShadow: '0 4px 15px rgba(6, 182, 212, 0.35)'
+                                    } : {}}
+                                    title={circuit.description}
+                                >
+                                    <span className="circuit-pill-icon">{circuit.icon}</span>
+                                    <span className="circuit-pill-label">{circuit.label}</span>
+                                    <span className="circuit-pill-count">{count}</span>
+                                </button>
+                            );
+                        })}
+                    </div>
+
+                    {/* Quick Telemetry Footbar */}
+                    <div className="up-telemetry-footbar">
+                        <div className="telemetry-item">
+                            <Check size={13} className="text-cyan-400" />
+                            <span>All 12 Districts Represented Across 4 Regions</span>
+                        </div>
+                        <div className="telemetry-bullet">·</div>
+                        <div className="telemetry-item">
+                            <Award size={13} className="text-amber-400" />
+                            <span>Living Root Bridges, Nokrek Biosphere & Balpakram Canyon</span>
+                        </div>
+                        <div className="telemetry-bullet">·</div>
+                        <div className="telemetry-item">
+                            <Sparkles size={13} className="text-cyan-300" />
+                            <span>Dawki Umngot Glass River, Mawlynnong & Kongthong Whistling</span>
+                        </div>
+                        <div className="telemetry-bullet">·</div>
+                        <div className="telemetry-item">
+                            <ShieldCheck size={13} className="text-teal-400" />
+                            <span>Krang Suri, Nohkalakai Falls & Sacred Monoliths of Nartiang</span>
                         </div>
                     </div>
                 </div>

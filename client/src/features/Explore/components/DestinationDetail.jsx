@@ -32,6 +32,7 @@ import { JHDistrictIntelligenceSuite } from './JHDistrictIntelligenceSuite';
 import { BiharDistrictIntelligenceSuite } from './BiharDistrictIntelligenceSuite';
 import { WBDistrictIntelligenceSuite } from './WBDistrictIntelligenceSuite';
 import { AssamDistrictIntelligenceSuite } from './AssamDistrictIntelligenceSuite';
+import { MeghalayaDistrictIntelligenceSuite } from './MeghalayaDistrictIntelligenceSuite';
 import { DestinationDetailTemplate } from './DestinationDetailTemplate';
 import './DestinationDetail.css';
 
@@ -110,10 +111,11 @@ const DestinationDetail = () => {
     const isBihar = !isCG && !isOD && !isJH && Boolean(destination?.isBihar || destination?.state === 'Bihar' || destination?.location?.toLowerCase().includes('bihar'));
     const isWB = !isCG && !isOD && !isJH && !isBihar && Boolean(destination?.isWestBengal || destination?.state === 'West Bengal' || destination?.location?.toLowerCase().includes('west bengal'));
     const isAssam = !isCG && !isOD && !isJH && !isBihar && !isWB && Boolean(destination?.isAssam || destination?.state === 'Assam' || destination?.location?.toLowerCase().includes('assam'));
-    const isRJ = !isCG && !isOD && !isJH && !isBihar && !isWB && !isAssam && Boolean(destination?.isRajasthan || destination?.state === 'Rajasthan' || destination?.location?.toLowerCase().includes('rajasthan'));
-    const isMH = !isCG && !isOD && !isJH && !isBihar && !isWB && !isAssam && !isRJ && Boolean(destination?.isMaharashtra || destination?.state === 'Maharashtra' || destination?.location?.toLowerCase().includes('maharashtra'));
-    const isMP = !isCG && !isOD && !isJH && !isBihar && !isWB && !isAssam && !isRJ && !isMH && Boolean(destination?.isMadhyaPradesh || destination?.state === 'Madhya Pradesh' || destination?.location?.toLowerCase().includes('madhya pradesh'));
-    const isUP = !isCG && !isOD && !isJH && !isBihar && !isWB && !isAssam && !isRJ && !isMH && !isMP && Boolean(destination?.district || destination?.isUttarPradesh);
+    const isMeghalaya = !isCG && !isOD && !isJH && !isBihar && !isWB && !isAssam && Boolean(destination?.isMeghalaya || destination?.state === 'Meghalaya' || destination?.location?.toLowerCase().includes('meghalaya'));
+    const isRJ = !isCG && !isOD && !isJH && !isBihar && !isWB && !isAssam && !isMeghalaya && Boolean(destination?.isRajasthan || destination?.state === 'Rajasthan' || destination?.location?.toLowerCase().includes('rajasthan'));
+    const isMH = !isCG && !isOD && !isJH && !isBihar && !isWB && !isAssam && !isMeghalaya && !isRJ && Boolean(destination?.isMaharashtra || destination?.state === 'Maharashtra' || destination?.location?.toLowerCase().includes('maharashtra'));
+    const isMP = !isCG && !isOD && !isJH && !isBihar && !isWB && !isAssam && !isMeghalaya && !isRJ && !isMH && Boolean(destination?.isMadhyaPradesh || destination?.state === 'Madhya Pradesh' || destination?.location?.toLowerCase().includes('madhya pradesh'));
+    const isUP = !isCG && !isOD && !isJH && !isBihar && !isWB && !isAssam && !isMeghalaya && !isRJ && !isMH && !isMP && Boolean(destination?.district || destination?.isUttarPradesh);
 
     const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${destination.name}, ${destination.location}`)}`;
 
@@ -177,6 +179,8 @@ const DestinationDetail = () => {
 
     const localCuisineDishes = destination.localCuisine
         ? destination.localCuisine.split(',').map(d => d.trim()).filter(Boolean)
+        : isMeghalaya
+        ? ['Jadoh (Rice in Meat Broth)', 'Dohkhlieh (Pork & Onion Salad)', 'Tungrymbai (Fermented Soybean)', 'Nakham Bitchi (Garo Dry Fish Soup)', 'Pumaloi (Steamed Rice Cakes)', 'Dohneiiong (Pork with Black Sesame)', 'Minil Songa (Sticky Rice in Bamboo)', 'Wild Mountain Honey Tea']
         : isAssam
         ? ['Masor Tenga (Tangy Fish Curry)', 'Duck Meat Curry with Ash Gourd', 'Omita Khar (Alkaline Papaya Prep)', 'Pork with Fermented Bamboo Shoot', 'Pitha & Laru Sweets', 'Kaji Nemu Infusions', 'Assam Orthodox Golden Tea', 'Alu Pitika with Mustard Oil']
         : isWB
@@ -253,6 +257,7 @@ const DestinationDetail = () => {
     };
     const TABS = [
         { id: 'overview', label: 'Overview & Brief', icon: Compass },
+        ...(isMeghalaya ? [{ id: 'district-suite', label: `${destination.district || 'Meghalaya'} District Suite`, icon: Landmark }] : []),
         ...(isAssam ? [{ id: 'district-suite', label: `${destination.district || 'Assam'} District Suite`, icon: Landmark }] : []),
         ...(isWB ? [{ id: 'district-suite', label: `${destination.district || 'West Bengal'} District Suite`, icon: Landmark }] : []),
         ...(isBihar ? [{ id: 'district-suite', label: `${destination.district || 'Bihar'} District Suite`, icon: Landmark }] : []),
@@ -468,6 +473,30 @@ const DestinationDetail = () => {
                                             title={`Explore all West Bengal ${destination.category} destinations`}
                                         >
                                             <span>🐯 {destination.category}</span>
+                                        </button>
+                                    )}
+                                    {isMeghalaya && (
+                                        <span className="dest-up-badge state" style={{ background: 'linear-gradient(135deg, rgba(2, 132, 199, 0.28), rgba(6, 182, 212, 0.35))', borderColor: 'rgba(6, 182, 212, 0.5)', color: '#67e8f9' }}>
+                                            <span>☁️ Meghalaya</span>
+                                        </span>
+                                    )}
+                                    {isMeghalaya && destination.category && (
+                                        <button
+                                            type="button"
+                                            onClick={() => {
+                                                const catParam = destination.category.toLowerCase().includes('waterfall') ? 'waterfalls' : destination.category.toLowerCase().includes('lake') ? 'lakes' : destination.category.toLowerCase().includes('cave') ? 'caves' : destination.category.toLowerCase().includes('wildlife') ? 'wildlife' : 'all';
+                                                navigate(`/explore?region=meghalaya&category=${catParam}`);
+                                            }}
+                                            className="dest-up-badge category-link-badge"
+                                            style={{
+                                                background: 'linear-gradient(135deg, rgba(6, 182, 212, 0.28), rgba(2, 132, 199, 0.35))',
+                                                borderColor: 'rgba(6, 182, 212, 0.5)',
+                                                color: '#67e8f9',
+                                                cursor: 'pointer'
+                                            }}
+                                            title={`Explore all Meghalaya ${destination.category} destinations`}
+                                        >
+                                            <span>☁️ {destination.category}</span>
                                         </button>
                                     )}
                                     {isAssam && (
@@ -790,7 +819,9 @@ const DestinationDetail = () => {
                                                 🗓️ {bestTimeToVisit}
                                             </p>
                                             <p style={{ margin: 0, fontSize: '0.82rem', color: '#cbd5e1', lineHeight: '1.45' }}>
-                                                {isAssam
+                                                {isMeghalaya
+                                                    ? 'October to April brings crystal-clear mountain streams, calm Dawki glass waters, sunny days for living root bridge treks, and crisp cloud canyons.'
+                                                    : isAssam
                                                     ? 'November to April brings crisp skies, comfortable sunshine for Kaziranga & Manas wildlife safaris, and calm scenic Brahmaputra river voyages.'
                                                     : isWB
                                                     ? 'October to March brings crisp misty mountain mornings in North Bengal and pleasant breezes across the Gangetic delta & coastal estuaries.'
@@ -839,7 +870,7 @@ const DestinationDetail = () => {
                                                 </div>
                                             </div>
                                             <p style={{ margin: '0 0 8px 0', fontSize: '0.8rem', color: '#cbd5e1' }}>
-                                                {isAssam ? 'Assamese Brahmaputra valley specialties & aromatic herbs:' : isCG ? 'Chhattisgarhi Rice Bowl delicacies & forest savories:' : 'Authentic local flavors & signature recipes:'}
+                                                {isMeghalaya ? 'Indigenous Khasi, Jaintia & Garo hill specialties & aromatic wild herbs:' : isAssam ? 'Assamese Brahmaputra valley specialties & aromatic herbs:' : isCG ? 'Chhattisgarhi Rice Bowl delicacies & forest savories:' : 'Authentic local flavors & signature recipes:'}
                                             </p>
                                             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px' }}>
                                                 {localCuisineDishes.slice(0, 4).map((dish, i) => (
@@ -1035,7 +1066,10 @@ const DestinationDetail = () => {
                                             </div>
                                         </div>
 
-                                        {/* Dedicated Assam, West Bengal, Bihar, Jharkhand, Odisha, Chhattisgarh, Rajasthan, Maharashtra, Madhya Pradesh or Uttar Pradesh District Intelligence Suite */}
+                                        {/* Dedicated Meghalaya, Assam, West Bengal, Bihar, Jharkhand, Odisha, Chhattisgarh, Rajasthan, Maharashtra, Madhya Pradesh or Uttar Pradesh District Intelligence Suite */}
+                                        {isMeghalaya && (
+                                            <MeghalayaDistrictIntelligenceSuite destination={destination} />
+                                        )}
                                         {isAssam && (
                                             <AssamDistrictIntelligenceSuite destination={destination} />
                                         )}
@@ -1072,6 +1106,7 @@ const DestinationDetail = () => {
                                 {/* TAB: DISTRICT SUITE & HERITAGE WORKSPACE */}
                                 {activeTab === 'district-suite' && (
                                     <div className="dest-section-stack">
+                                        {isMeghalaya && <MeghalayaDistrictIntelligenceSuite destination={destination} />}
                                         {isAssam && <AssamDistrictIntelligenceSuite destination={destination} />}
                                         {isWB && <WBDistrictIntelligenceSuite destination={destination} />}
                                         {isBihar && <BiharDistrictIntelligenceSuite destination={destination} />}

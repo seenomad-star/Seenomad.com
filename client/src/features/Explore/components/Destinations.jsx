@@ -21,11 +21,13 @@ import { JH24DistrictsModal, JH_CATEGORIES, matchJHCategory } from './JHDistrict
 import { Bihar38DistrictsModal, BIHAR_CATEGORIES, matchBiharCategory } from './BiharDistrictIntelligenceSuite';
 import { WB23DistrictsModal, WB_CATEGORIES, matchWBCategory } from './WBDistrictIntelligenceSuite';
 import { AssamDistrictsModal, ASSAM_CATEGORIES, matchAssamCategory } from './AssamDistrictIntelligenceSuite';
+import { MeghalayaDistrictsModal, MEGHALAYA_CATEGORIES, matchMeghalayaCategory } from './MeghalayaDistrictIntelligenceSuite';
 import OdishaCategoryFilterBar from './OdishaCategoryFilterBar';
 import JharkhandCategoryFilterBar from './JharkhandCategoryFilterBar';
 import BiharCategoryFilterBar from './BiharCategoryFilterBar';
 import WestBengalCategoryFilterBar from './WestBengalCategoryFilterBar';
 import AssamCategoryFilterBar from './AssamCategoryFilterBar';
+import MeghalayaCategoryFilterBar from './MeghalayaCategoryFilterBar';
 import AdSenseSlot from '../../../components/common/AdSenseSlot';
 import { useNavStore } from '../../../store/navStore';
 import { getDestinationDomainStatus } from '../../../utils/destinationDomainUtils';
@@ -45,6 +47,7 @@ const Destinations = () => {
     const [is38DistrictsModalOpen, setIs38DistrictsModalOpen] = useState(false);
     const [is23DistrictsModalOpen, setIs23DistrictsModalOpen] = useState(false);
     const [isAssamDistrictsModalOpen, setIsAssamDistrictsModalOpen] = useState(false);
+    const [isMeghalayaDistrictsModalOpen, setIsMeghalayaDistrictsModalOpen] = useState(false);
     const {
         searchQuery,
         selectedFilters,
@@ -257,10 +260,36 @@ const Destinations = () => {
         return counts;
     }, [assamDestinations]);
 
-    // Region Mode: 'assam' | 'wb' | 'bihar' | 'jh' | 'od' | 'cg' | 'rj' | 'mh' | 'mp' | 'up' | 'delhi' | 'global'
+    // Curated Meghalaya Destinations & All 12 Districts list
+    const meghalayaDestinations = useMemo(() => {
+        return allDestinations.filter(d => d.isMeghalaya || d.state === 'Meghalaya' || d.location?.toLowerCase().includes('meghalaya'));
+    }, []);
+
+    const meghalayaDistrictsList = useMemo(() => {
+        const set = new Set();
+        meghalayaDestinations.forEach(d => {
+            if (d.district) set.add(d.district);
+        });
+        return Array.from(set).sort();
+    }, [meghalayaDestinations]);
+
+    // Compute counts per Meghalaya category
+    const meghalayaCategoryCounts = useMemo(() => {
+        const counts = { all: meghalayaDestinations.length };
+        MEGHALAYA_CATEGORIES.forEach(cat => {
+            if (cat.id !== 'all') {
+                counts[cat.id] = meghalayaDestinations.filter(d => matchMeghalayaCategory(d, cat.id)).length;
+            }
+        });
+        return counts;
+    }, [meghalayaDestinations]);
+
+    // Region Mode: 'meghalaya' | 'assam' | 'wb' | 'bihar' | 'jh' | 'od' | 'cg' | 'rj' | 'mh' | 'mp' | 'up' | 'delhi' | 'global'
     const initialRegionParam = (searchParams.get('region') || searchParams.get('state') || '').toLowerCase();
     const [regionMode, setRegionMode] = useState(
-        ['assam', 'asom', 'axom'].includes(initialRegionParam)
+        ['meghalaya', 'ml', 'abode-of-clouds'].includes(initialRegionParam)
+            ? 'meghalaya'
+            : ['assam', 'asom', 'axom'].includes(initialRegionParam)
             ? 'assam'
             : ['wb', 'westbengal', 'west-bengal', 'bengal'].includes(initialRegionParam)
             ? 'wb'
@@ -286,6 +315,14 @@ const Destinations = () => {
     );
     const [selectedDistrict, setSelectedDistrict] = useState(searchParams.get('district') || 'all');
     const [selectedCircuit, setSelectedCircuit] = useState(searchParams.get('circuit') || 'all');
+
+    // Meghalaya Category / Interest Filter ('waterfalls' | 'caves' | 'rootbridges' | 'lakes' | 'nature' | 'culture' | 'all')
+    const initialMeghalayaCategoryParam = (searchParams.get('category') || searchParams.get('meghalayaCategory') || '').toLowerCase();
+    const [selectedMeghalayaCategory, setSelectedMeghalayaCategory] = useState(
+        ['waterfalls', 'caves', 'rootbridges', 'bridges', 'lakes', 'rivers', 'nature', 'viewpoints', 'culture', 'heritage', 'all'].includes(initialMeghalayaCategoryParam)
+            ? initialMeghalayaCategoryParam
+            : 'all'
+    );
 
     // Assam Category / Interest Filter ('wildlife' | 'tea' | 'heritage' | 'spiritual' | 'nature' | 'crafts' | 'all')
     const initialAssamCategoryParam = (searchParams.get('category') || searchParams.get('assamCategory') || '').toLowerCase();
@@ -467,8 +504,26 @@ const Destinations = () => {
         const activeFiltersList = selectedFilters.length > 0 ? selectedFilters : globalActiveFilters;
 
         const filtered = allDestinations.filter(dest => {
-            // Regional Scope Filter ('assam' | 'wb' | 'bihar' | 'jh' | 'od' | 'cg' | 'rj' | 'mh' | 'mp' | 'up' | 'delhi' | 'global')
-            if (regionMode === 'assam') {
+            // Regional Scope Filter ('meghalaya' | 'assam' | 'wb' | 'bihar' | 'jh' | 'od' | 'cg' | 'rj' | 'mh' | 'mp' | 'up' | 'delhi' | 'global')
+            if (regionMode === 'meghalaya') {
+                const isMeghalaya = dest.isMeghalaya || dest.state === 'Meghalaya' || dest.location?.toLowerCase().includes('meghalaya');
+                if (!isMeghalaya) return false;
+
+                // Category filter ('waterfalls', 'caves', 'rootbridges', 'lakes', 'nature', 'culture', etc.)
+                if (selectedMeghalayaCategory && selectedMeghalayaCategory !== 'all') {
+                    if (!matchMeghalayaCategory(dest, selectedMeghalayaCategory)) return false;
+                }
+
+                // District filter
+                if (selectedDistrict && selectedDistrict !== 'all') {
+                    if (dest.district?.toLowerCase() !== selectedDistrict.toLowerCase()) return false;
+                }
+
+                // Circuit filter
+                if (selectedCircuit && selectedCircuit !== 'all') {
+                    if (dest.meghalayaCircuit !== selectedCircuit) return false;
+                }
+            } else if (regionMode === 'assam') {
                 const isAssam = dest.isAssam || dest.state === 'Assam' || dest.location?.toLowerCase().includes('assam');
                 if (!isAssam) return false;
 
@@ -928,7 +983,7 @@ const Destinations = () => {
             }
             return 0; // 'featured' or default retains data order
         });
-    }, [searchQuery, globalSearchQuery, selectedFilters, globalActiveFilters, advancedFilters, domainStatus, sortBy, savedDestinations, isDelhiFocusMode, activeDelhiCategory, regionMode, selectedDistrict, selectedCircuit, selectedMPCategory, selectedMHCategory, selectedRJCategory, selectedCGCategory, selectedODCategory, selectedJHCategory, selectedBiharCategory, selectedWBCategory, selectedAssamCategory]);
+    }, [searchQuery, globalSearchQuery, selectedFilters, globalActiveFilters, advancedFilters, domainStatus, sortBy, savedDestinations, isDelhiFocusMode, activeDelhiCategory, regionMode, selectedDistrict, selectedCircuit, selectedMPCategory, selectedMHCategory, selectedRJCategory, selectedCGCategory, selectedODCategory, selectedJHCategory, selectedBiharCategory, selectedWBCategory, selectedAssamCategory, selectedMeghalayaCategory]);
 
     useEffect(() => {
         if (processedDestinations.length > 0) {
@@ -953,6 +1008,7 @@ const Destinations = () => {
         setSelectedBiharCategory('all');
         setSelectedWBCategory('all');
         setSelectedAssamCategory('all');
+        setSelectedMeghalayaCategory('all');
         setIsDelhiFocusMode(false);
         setActiveDelhiCategory('all');
     };
@@ -977,6 +1033,7 @@ const Destinations = () => {
                             setSelectedBiharCategory('all');
                             setSelectedWBCategory('all');
                             setSelectedAssamCategory('all');
+                            setSelectedMeghalayaCategory('all');
                             if (mode === 'delhi') {
                                 setIsDelhiFocusMode(true);
                             } else {
@@ -1005,6 +1062,8 @@ const Destinations = () => {
                         onSelectWBCategory={setSelectedWBCategory}
                         selectedAssamCategory={selectedAssamCategory}
                         onSelectAssamCategory={setSelectedAssamCategory}
+                        selectedMeghalayaCategory={selectedMeghalayaCategory}
+                        onSelectMeghalayaCategory={setSelectedMeghalayaCategory}
                         upDestinations={upDestinations}
                         districtsList={districtsList}
                         mpDestinations={mpDestinations}
@@ -1025,6 +1084,8 @@ const Destinations = () => {
                         wbDistrictsList={wbDistrictsList}
                         assamDestinations={assamDestinations}
                         assamDistrictsList={assamDistrictsList}
+                        meghalayaDestinations={meghalayaDestinations}
+                        meghalayaDistrictsList={meghalayaDistrictsList}
                         totalCount={processedDestinations.length}
                         onOpen75Districts={() => setIs75DistrictsModalOpen(true)}
                         onOpen55Districts={() => setIs55DistrictsModalOpen(true)}
@@ -1036,6 +1097,7 @@ const Destinations = () => {
                         onOpen38Districts={() => setIs38DistrictsModalOpen(true)}
                         onOpen23Districts={() => setIs23DistrictsModalOpen(true)}
                         onOpen35Districts={() => setIsAssamDistrictsModalOpen(true)}
+                        onOpen12Districts={() => setIsMeghalayaDistrictsModalOpen(true)}
                     />
 
                     {/* Active District Filter Banner for UP */}
@@ -1486,6 +1548,62 @@ const Destinations = () => {
                         />
                     )}
 
+                    {/* Active District Filter Banner for Meghalaya */}
+                    {regionMode === 'meghalaya' && selectedDistrict !== 'all' && (
+                        <div className="up-active-district-banner" style={{ background: 'rgba(8, 145, 178, 0.18)', borderColor: 'rgba(6, 182, 212, 0.45)', color: '#a5f3fc' }}>
+                            <div className="active-banner-info">
+                                <span className="active-banner-pin">📍</span>
+                                <span>Filtering Meghalaya by <strong>{selectedDistrict} District</strong> ({processedDestinations.length} destination{processedDestinations.length === 1 ? '' : 's'} displayed)</span>
+                            </div>
+                            <button
+                                type="button"
+                                className="active-banner-clear-btn"
+                                style={{ background: 'rgba(0, 0, 0, 0.35)', borderColor: 'rgba(6, 182, 212, 0.5)', color: '#67e8f9' }}
+                                onClick={() => setSelectedDistrict('all')}
+                            >
+                                View All 12 Districts ×
+                            </button>
+                        </div>
+                    )}
+
+                    {/* Active Category / Interest Filter Banner for Meghalaya */}
+                    {regionMode === 'meghalaya' && selectedMeghalayaCategory !== 'all' && (
+                        <div className="up-active-district-banner" style={{ background: 'linear-gradient(135deg, rgba(8, 145, 178, 0.22) 0%, rgba(14, 116, 144, 0.28) 100%)', borderColor: 'rgba(6, 182, 212, 0.45)', color: '#e0f2fe' }}>
+                            <div className="active-banner-info">
+                                <span className="active-banner-pin">
+                                    {selectedMeghalayaCategory === 'waterfalls' ? '💧' : selectedMeghalayaCategory === 'caves' ? '🕳️' : selectedMeghalayaCategory === 'rootbridges' ? '🌿' : selectedMeghalayaCategory === 'lakes' ? '🛶' : selectedMeghalayaCategory === 'nature' ? '⛰️' : selectedMeghalayaCategory === 'culture' ? '🎶' : '🌟'}
+                                </span>
+                                <span>Filtering Meghalaya by Category: <strong>{MEGHALAYA_CATEGORIES.find(c => c.id === selectedMeghalayaCategory)?.label || selectedMeghalayaCategory}</strong> ({processedDestinations.length} destination{processedDestinations.length === 1 ? '' : 's'} matched)</span>
+                            </div>
+                            <button
+                                type="button"
+                                className="active-banner-clear-btn"
+                                style={{ background: 'rgba(0, 0, 0, 0.35)', borderColor: 'rgba(6, 182, 212, 0.5)', color: '#67e8f9' }}
+                                onClick={() => setSelectedMeghalayaCategory('all')}
+                            >
+                                Clear Category Filter ×
+                            </button>
+                        </div>
+                    )}
+
+                    {/* Dedicated Meghalaya Category Filter Bar (when in Meghalaya mode) */}
+                    {regionMode === 'meghalaya' && (
+                        <MeghalayaCategoryFilterBar
+                            activeCategory={selectedMeghalayaCategory}
+                            onSelectCategory={setSelectedMeghalayaCategory}
+                            categoryCounts={meghalayaCategoryCounts}
+                            totalCount={meghalayaDestinations.length}
+                            selectedDistrict={selectedDistrict}
+                            onOpen12Districts={() => setIsMeghalayaDistrictsModalOpen(true)}
+                            onResetFilters={() => {
+                                setSelectedMeghalayaCategory('all');
+                                setSelectedDistrict('all');
+                                setSelectedCircuit('all');
+                            }}
+                            showAdSense={true}
+                        />
+                    )}
+
                     {/* Interactive Delhi Category Filter Bar (when in Delhi mode) */}
                     {regionMode === 'delhi' && (
                         <DelhiCategoryFilterBar
@@ -1587,6 +1705,23 @@ const Destinations = () => {
                                                 format="horizontal"
                                                 slot="7009876543"
                                                 label="Featured Travel Partner • Assam Tourism & Tea Trails • Google AdSense"
+                                            />
+                                        </div>
+                                    )}
+                                    {/* Google AdSense In-Feed Responsive Unit for Meghalaya section */}
+                                    {regionMode === 'meghalaya' && index === 3 && (
+                                        <div 
+                                            className="destination-card-adsense-wrap" 
+                                            style={{ 
+                                                gridColumn: '1 / -1', 
+                                                margin: '0.75rem 0 1.25rem',
+                                                width: '100%'
+                                            }}
+                                        >
+                                            <AdSenseSlot
+                                                format="horizontal"
+                                                slot="7009876543"
+                                                label="Featured Travel Partner • Meghalaya Abode of Clouds • Google AdSense"
                                             />
                                         </div>
                                     )}
@@ -1752,6 +1887,20 @@ const Destinations = () => {
                                     <button
                                         type="button"
                                         onClick={() => {
+                                            setRegionMode('meghalaya');
+                                            setSelectedDistrict('all');
+                                            setSelectedCircuit('all');
+                                            setSelectedMeghalayaCategory('all');
+                                            setSearchQuery('');
+                                        }}
+                                        className="empty-suggestion-pill"
+                                        style={{ borderColor: 'rgba(6, 182, 212, 0.45)', color: '#67e8f9' }}
+                                    >
+                                        View All Meghalaya Destinations ({meghalayaDestinations.length})
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() => {
                                             setRegionMode('delhi');
                                             setIsDelhiFocusMode(true);
                                             setActiveDelhiCategory('all');
@@ -1908,6 +2057,18 @@ const Destinations = () => {
                     setSelectedDistrict(dist);
                     setRegionMode('assam');
                     setIsAssamDistrictsModalOpen(false);
+                }}
+            />
+
+            {/* Comprehensive 12 Districts Directory Modal for Meghalaya */}
+            <MeghalayaDistrictsModal
+                isOpen={isMeghalayaDistrictsModalOpen}
+                onClose={() => setIsMeghalayaDistrictsModalOpen(false)}
+                currentDistrict={selectedDistrict}
+                onSelectDistrict={(dist) => {
+                    setSelectedDistrict(dist);
+                    setRegionMode('meghalaya');
+                    setIsMeghalayaDistrictsModalOpen(false);
                 }}
             />
         </div>

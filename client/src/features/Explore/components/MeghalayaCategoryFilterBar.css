@@ -1,0 +1,254 @@
+/**
+ * MeghalayaCategoryFilterBar.css
+ * Dedicated styling for Meghalaya Tourism category & circuit filter bar
+ * Palette: Cloud Sky (#0284c7), Waterfall Cyan (#06b6d4), Pine Mist (#0f766e)
+ */
+
+.meghalaya-filter-section {
+    background: linear-gradient(135deg, rgba(2, 132, 199, 0.2) 0%, rgba(15, 23, 42, 0.95) 100%);
+    border: 1px solid rgba(6, 182, 212, 0.35);
+    border-radius: 1.25rem;
+    padding: 1.5rem;
+    margin-bottom: 1.75rem;
+    box-shadow: 0 12px 36px -8px rgba(0, 0, 0, 0.5), 0 0 25px rgba(6, 182, 212, 0.12);
+    position: relative;
+    overflow: hidden;
+}
+
+.meghalaya-filter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    margin-bottom: 1.25rem;
+}
+
+.meghalaya-filter-title-wrap {
+    flex: 1;
+    min-width: 280px;
+}
+
+.meghalaya-filter-badge-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.65rem;
+}
+
+.meghalaya-state-badge {
+    background: linear-gradient(135deg, #0284c7 0%, #06b6d4 100%);
+    color: #ffffff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.25rem 0.65rem;
+    border-radius: 9999px;
+    box-shadow: 0 2px 8px rgba(6, 182, 212, 0.35);
+}
+
+.meghalaya-count-badge {
+    background: rgba(6, 182, 212, 0.15);
+    border: 1px solid rgba(6, 182, 212, 0.4);
+    color: #67e8f9;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.65rem;
+    border-radius: 9999px;
+}
+
+.meghalaya-adsense-badge {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #94a3b8;
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 0.25rem 0.55rem;
+    border-radius: 9999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.meghalaya-filter-title {
+    font-size: 1.55rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin: 0 0 0.4rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.meghalaya-filter-desc {
+    color: #cbd5e1;
+    font-size: 0.88rem;
+    line-height: 1.5;
+    margin: 0;
+    max-width: 850px;
+}
+
+.meghalaya-filter-action-group {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    flex-wrap: wrap;
+}
+
+.meghalaya-districts-btn {
+    background: linear-gradient(135deg, rgba(2, 132, 199, 0.3) 0%, rgba(6, 182, 212, 0.4) 100%);
+    border: 1px solid #06b6d4;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 0.82rem;
+    padding: 0.5rem 1rem;
+    border-radius: 0.65rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(6, 182, 212, 0.3);
+    transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.meghalaya-districts-btn:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, #0284c7 0%, #06b6d4 100%);
+}
+
+.meghalaya-active-dist-tag {
+    color: #fef08a;
+    font-weight: 800;
+}
+
+.meghalaya-reset-filter-btn {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #cbd5e1;
+    font-weight: 600;
+    font-size: 0.8rem;
+    padding: 0.5rem 0.85rem;
+    border-radius: 0.65rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.meghalaya-reset-filter-btn:hover {
+    background: rgba(239, 68, 68, 0.2);
+    border-color: rgba(239, 68, 68, 0.4);
+    color: #fca5a5;
+}
+
+.meghalaya-categories-strip-wrapper {
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.85rem;
+}
+
+.meghalaya-categories-strip {
+    display: flex;
+    gap: 0.55rem;
+    min-width: max-content;
+}
+
+.meghalaya-cat-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #cbd5e1;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.45rem 0.85rem;
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+}
+
+.meghalaya-cat-chip:hover {
+    background: rgba(6, 182, 212, 0.15);
+    border-color: rgba(6, 182, 212, 0.4);
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+.meghalaya-cat-chip.active {
+    background: linear-gradient(135deg, #0284c7 0%, #06b6d4 100%);
+    border-color: #38bdf8;
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(6, 182, 212, 0.4);
+}
+
+.meghalaya-cat-chip-icon {
+    font-size: 0.95rem;
+}
+
+.meghalaya-cat-chip-badge {
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 0.12rem 0.4rem;
+    border-radius: 9999px;
+    background: rgba(0, 0, 0, 0.3);
+    color: #e2e8f0;
+}
+
+.meghalaya-cat-chip.active .meghalaya-cat-chip-badge {
+    background: rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+}
+
+.meghalaya-active-category-ribbon {
+    background: rgba(6, 182, 212, 0.1);
+    border: 1px solid rgba(6, 182, 212, 0.25);
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.meghalaya-ribbon-text {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    font-size: 0.84rem;
+    color: #e2e8f0;
+    line-height: 1.45;
+}
+
+.meghalaya-ribbon-icon {
+    font-size: 1.1rem;
+}
+
+.meghalaya-ribbon-lead strong {
+    color: #67e8f9;
+}
+
+.meghalaya-adsense-container {
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0.85rem;
+    padding: 0.75rem 1rem;
+    margin-top: 1rem;
+}
+
+.meghalaya-adsense-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.68rem;
+    color: #94a3b8;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.04em;
+}
+
+.meghalaya-adsense-badge-pill {
+    background: rgba(6, 182, 212, 0.15);
+    border: 1px solid rgba(6, 182, 212, 0.3);
+    color: #67e8f9;
+    padding: 0.15rem 0.45rem;
+    border-radius: 9999px;
+    font-weight: 600;
+}

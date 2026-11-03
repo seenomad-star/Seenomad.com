@@ -6,12 +6,12 @@ import './ScrollToTop.css';
 
 /**
  * ScrollToTop
- * Floating, circular action button with a dynamic circular scroll-depth progress ring.
- * Appears only when the user scrolls past the threshold (default: 350px) on long content pages.
- * Supports smooth scrolling, keyboard accessibility, safe-area insets, and light/dark themes.
+ * Floating action button with dynamic circular scroll-depth progress ring,
+ * matching the aesthetic, gradient palette, and smooth transitions of the horizontal progress bar.
+ * Appears only when the user scrolls past the threshold (default: 300px) on long content pages.
  */
 const ScrollToTop = ({
-    threshold = 350,
+    threshold = 300,
     smooth = true,
     showProgressRing = true,
     className = ''
@@ -26,17 +26,26 @@ const ScrollToTop = ({
     const handleScroll = useCallback(() => {
         const el = document.documentElement;
         const body = document.body;
+        const mainEl = document.getElementById('main-content-region');
         const windowHeight = window.innerHeight;
 
-        const scrollHeight = Math.max(
+        const windowScrollTop = window.scrollY || window.pageYOffset || el.scrollTop || body.scrollTop || 0;
+        const mainScrollTop = mainEl ? mainEl.scrollTop : 0;
+        const scrollTop = Math.max(windowScrollTop, mainScrollTop);
+
+        const windowScrollHeight = Math.max(
             el.scrollHeight,
             body.scrollHeight,
             el.offsetHeight,
             body.offsetHeight
         );
+        const mainScrollHeight = mainEl ? mainEl.scrollHeight : 0;
+        const scrollHeight = Math.max(windowScrollHeight, mainScrollHeight);
 
-        const scrollTop = window.scrollY || el.scrollTop || body.scrollTop || 0;
-        const scrollableDistance = scrollHeight - windowHeight;
+        const mainClientHeight = mainEl ? mainEl.clientHeight : 0;
+        const clientHeight = (mainScrollTop > windowScrollTop && mainClientHeight > 0) ? mainClientHeight : windowHeight;
+
+        const scrollableDistance = scrollHeight - clientHeight;
 
         // Only appear if the page is long enough to have significant content and user passed threshold
         const isLongPage = scrollableDistance > threshold;
@@ -59,15 +68,23 @@ const ScrollToTop = ({
         rafIdRef.current = requestAnimationFrame(handleScroll);
     }, [handleScroll]);
 
-    // Listen to scroll events
+    // Listen to scroll events on both window and main content container
     useEffect(() => {
         handleScroll();
         window.addEventListener('scroll', onScrollThrottled, { passive: true });
         window.addEventListener('resize', onScrollThrottled, { passive: true });
 
+        const mainEl = document.getElementById('main-content-region');
+        if (mainEl) {
+            mainEl.addEventListener('scroll', onScrollThrottled, { passive: true });
+        }
+
         return () => {
             window.removeEventListener('scroll', onScrollThrottled);
             window.removeEventListener('resize', onScrollThrottled);
+            if (mainEl) {
+                mainEl.removeEventListener('scroll', onScrollThrottled);
+            }
             if (rafIdRef.current) {
                 cancelAnimationFrame(rafIdRef.current);
             }
@@ -76,7 +93,12 @@ const ScrollToTop = ({
 
     // Recalculate on route changes
     useEffect(() => {
-        handleScroll();
+        setIsVisible(false);
+        setScrollPercentage(0);
+        const timer = setTimeout(() => {
+            handleScroll();
+        }, 150);
+        return () => clearTimeout(timer);
     }, [location.pathname, location.search, handleScroll]);
 
     // Smooth scroll back to top
@@ -85,6 +107,13 @@ const ScrollToTop = ({
             top: 0,
             behavior: smooth ? 'smooth' : 'auto'
         });
+        const mainEl = document.getElementById('main-content-region');
+        if (mainEl && mainEl.scrollTop > 0) {
+            mainEl.scrollTo({
+                top: 0,
+                behavior: smooth ? 'smooth' : 'auto'
+            });
+        }
     };
 
     // Calculate circular stroke values (circle radius: 21, circumference: ~131.95)
@@ -97,10 +126,10 @@ const ScrollToTop = ({
             {isVisible && (
                 <motion.div
                     className={`scroll-to-top-wrapper ${className}`}
-                    initial={{ opacity: 0, scale: 0.6, y: 20 }}
+                    initial={{ opacity: 0, scale: 0.6, y: 16 }}
                     animate={{ opacity: 1, scale: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.6, y: 20 }}
-                    transition={{ type: 'spring', stiffness: 350, damping: 25 }}
+                    exit={{ opacity: 0, scale: 0.6, y: 16 }}
+                    transition={{ type: 'spring', stiffness: 380, damping: 26 }}
                     onMouseEnter={() => setIsHovered(true)}
                     onMouseLeave={() => setIsHovered(false)}
                 >
@@ -112,7 +141,7 @@ const ScrollToTop = ({
                         aria-label={`Scroll back to top. Page read: ${scrollPercentage}%`}
                         title={`Scroll to top (${scrollPercentage}% viewed)`}
                     >
-                        {/* Circular Progress Ring */}
+                        {/* Circular Progress Ring matching the horizontal progress bar gradient */}
                         {showProgressRing && (
                             <svg
                                 className="scroll-progress-ring"
@@ -121,6 +150,14 @@ const ScrollToTop = ({
                                 viewBox="0 0 48 48"
                                 aria-hidden="true"
                             >
+                                <defs>
+                                    <linearGradient id="scrollToTopGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stopColor="#3b82f6" />
+                                        <stop offset="35%" stopColor="#6366f1" />
+                                        <stop offset="70%" stopColor="#8b5cf6" />
+                                        <stop offset="100%" stopColor="#06b6d4" />
+                                    </linearGradient>
+                                </defs>
                                 {/* Background track circle */}
                                 <circle
                                     className="progress-ring-track"
@@ -129,7 +166,7 @@ const ScrollToTop = ({
                                     r={radius}
                                     strokeWidth="2.5"
                                 />
-                                {/* Dynamic progress indicator circle */}
+                                {/* Dynamic progress indicator circle with matching gradient stroke */}
                                 <circle
                                     className="progress-ring-fill"
                                     cx="24"
@@ -144,10 +181,13 @@ const ScrollToTop = ({
                             </svg>
                         )}
 
-                        {/* Central Icon / Hover Percentage */}
+                        {/* Central Icon */}
                         <div className="scroll-btn-content">
                             <ArrowUp size={19} className="scroll-up-arrow" strokeWidth={2.5} />
                         </div>
+
+                        {/* Ambient Glow Aura */}
+                        <span className="scroll-btn-glow" aria-hidden="true" />
 
                         {/* Floating Tooltip Pill */}
                         <span className={`scroll-tooltip-pill ${isHovered ? 'visible' : ''}`}>

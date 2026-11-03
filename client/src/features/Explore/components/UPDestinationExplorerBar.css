@@ -141,6 +141,13 @@
     box-shadow: 0 4px 15px rgba(16, 185, 129, 0.45);
 }
 
+.region-tab-btn.active.meghalaya-theme {
+    background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%);
+    border-color: #06b6d4;
+    color: #ffffff;
+    box-shadow: 0 4px 15px rgba(6, 182, 212, 0.45);
+}
+
 .region-tab-btn.active.delhi-theme {
     background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
     border-color: #0284c7;
